@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="续： Lecture 3-4 Soft Shadow 续： PCSS: Percentage Closer Soft Shadows A deeper look at PCF The math behind PCF: Filter&#x2F;Convolution \[ [w*f](p)&#x3D;\sum_{q\in\mathcal{N}(p)}w(p,q)f(q)\quad\quad N(p):p的邻域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-04-05-GAMES202高质量实时渲染-Lecture4-ShadowCont">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/04/05/2021-04-05-GAMES202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-Lecture4-ShadowCont/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="续： Lecture 3-4 Soft Shadow 续： PCSS: Percentage Closer Soft Shadows A deeper look at PCF The math behind PCF: Filter&#x2F;Convolution \[ [w*f](p)&#x3D;\sum_{q\in\mathcal{N}(p)}w(p,q)f(q)\quad\quad N(p):p的邻域">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://elderlyaugustus.github.io/images/games202/VSSM1.png">
+<meta property="article:published_time" content="2021-04-05T08:08:09.000Z">
+<meta property="article:modified_time" content="2021-04-05T08:09:30.491Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="高质量实时渲染">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://elderlyaugustus.github.io/images/games202/VSSM1.png">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/04/05/2021-04-05-GAMES202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-Lecture4-ShadowCont/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-04-05-GAMES202高质量实时渲染-Lecture4-ShadowCont | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%AD-lecture-3-4-soft-shadow"><span class="nav-number">1.</span> <span class="nav-text">续： Lecture 3-4 Soft Shadow</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%AD-pcss-percentage-closer-soft-shadows"><span class="nav-number">1.1.</span> <span class="nav-text">续： PCSS: Percentage Closer Soft Shadows</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a-deeper-look-at-pcf"><span class="nav-number">1.1.1.</span> <span class="nav-text">A deeper look at PCF</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#more-about-pcss"><span class="nav-number">1.1.2.</span> <span class="nav-text">More about PCSS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#variance-soft-shadow-mapping"><span class="nav-number">1.2.</span> <span class="nav-text">Variance Soft Shadow Mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mipmap-and-summed-area-variance-shadow-maps"><span class="nav-number">1.3.</span> <span class="nav-text">MIPMAP and Summed-Area Variance Shadow Maps</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#recall-mipmap"><span class="nav-number">1.3.1.</span> <span class="nav-text">Recall: MIPMAP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sat-summed-area-table"><span class="nav-number">1.3.2.</span> <span class="nav-text">SAT (Summed-Area Table)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#moment-shadow-mapping"><span class="nav-number">1.4.</span> <span class="nav-text">Moment Shadow Mapping</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/04/05/2021-04-05-GAMES202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-Lecture4-ShadowCont/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-04-05-GAMES202高质量实时渲染-Lecture4-ShadowCont
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-04-05 16:08:09 / 修改时间：16:09:30" itemprop="dateCreated datePublished" datetime="2021-04-05T16:08:09+08:00">2021-04-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="续-lecture-3-4-soft-shadow">续： Lecture 3-4 Soft Shadow</h3>
+<h4 id="续-pcss-percentage-closer-soft-shadows">续： <strong>PCSS: Percentage Closer Soft Shadows</strong></h4>
+<h5 id="a-deeper-look-at-pcf">A deeper look at PCF</h5>
+<p>The math behind PCF: <strong>Filter/Convolution</strong> <span class="math display">\[
+[w*f](p)=\sum_{q\in\mathcal{N}(p)}w(p,q)f(q)\quad\quad N(p):p的邻域
+\]</span> In PCSS <span class="math display">\[
+V(x)=\sum_{q\in\mathcal{N}(p)}w(p,q)\cdot\chi^+[D_{SM}(q)-D_{scene}(x)]\quad\quad\chi^+(A)=A&gt;0?1:0
+\]</span> 因此：</p>
+<ul>
+<li>PCF并不是对Shadow Map的滤波 <span class="math display">\[
+V(x)\neq\chi^+\{[w*D_{SM}](q)-D_{scene}(x)\}
+\]</span></li>
+<li>PCF也不是对结果图像做滤波 <span class="math display">\[
+V(x)\neq\sum_{q\in\mathcal{N}(p)}w(p,q)V(q)
+\]</span></li>
+</ul>
+<h5 id="more-about-pcss">More about PCSS</h5>
+<p>[Blocker Search] and [PCF] is slow to look at every texel.</p>
+<ul>
+<li>[Blocker Search] 随机取样 =&gt; Noise</li>
+<li>[PCF] Filter范围过大，随机采样 -&gt; <strong>图像空间降噪</strong></li>
+</ul>
+<h4 id="variance-soft-shadow-mapping">Variance Soft Shadow Mapping</h4>
+<ul>
+<li>Fast blocker search and filtering</li>
+</ul>
+<p><strong>[ Filter ]</strong> PCF：根据正态分布可估计 Percentage Closer Value 正态分布由<strong>均值mean</strong>和<strong>方差variance</strong>定义</p>
+<ul>
+<li>Mean
+<ul>
+<li>Hardware Mipmaping 但只能正方形</li>
+<li>Summed Area Tables (SAT)</li>
+</ul></li>
+<li>Variance
+<ul>
+<li><span class="math display">\[
+Var(X)=E(X^2)-E^2(X)\quad E:期望=均值
+\]</span></li>
+<li>另一张“Shadow Map”记录深度的平方，称为“Square depth map”</li>
+</ul></li>
+</ul>
+<p>由此得到正态分布图，求得<strong>CDF(x) of the Gaussian PDF</strong>即可（即0-x的积分）。 该积分没有解析解只有数值解，可通过高斯分布积分表<strong>Error Function</strong>得到CDF值。在<code>cpp</code>中使用<code>erf()</code>求数值解，但计算仍较复杂。</p>
+<p>因此引入切比雪夫不等式估计值： <span class="math display">\[
+P(x&gt;t)\le\frac{\sigma^2}{\sigma^2+(t-\mu)^2}\quad\quad\begin{aligned}\mu&amp;: mean\\\sigma^2&amp;:variance\end{aligned}
+\]</span> 对任意分布方式，通过切比雪夫不等式估得右侧积分值 <span class="math inline">\(P(x&gt;t)\)</span> ，再由 <span class="math inline">\(1-P(x&gt;t)\)</span> 得到 <span class="math inline">\(CDF(x)\)</span> 。 仅t&gt;mean时较准，但工业界往往直接用。 <img src="\images\games202\VSSM1.png" alt="VSSM1" /></p>
+<blockquote>
+<p>总结 + Shadow map generation + "Square depth map" + Runtime + Mean of depth in a range: O(1) + Mean of depth square in a range: O(1) + Chebychev: O(1) + No samples / loops needed + Perfectly ? 改变视角需要重新生成map 产生较大开销 GPU解决起来速度非常快</p>
+</blockquote>
+<p><strong>[ Block Search ]</strong></p>
+<ul>
+<li><p>Target: The average depth of <strong>blockers</strong> ( texels whose depth z &lt; t, <span class="math inline">\(z_{occ}\)</span> ) <span class="math inline">\(\Rightarrow\begin{array}{l}blocker:z_{occ}\\non-blocker:z_{unocc}\end{array}\)</span></p></li>
+<li><p><span class="math display">\[
+\displaystyle\frac{N_1}{N}z_{unocc}+\frac{N_2}{N}z_{occ}=z_{avg}
+\]</span></p></li>
+<li><p>Chebychev Approximation: <span class="math inline">\(\displaystyle\frac{N_1}{N}=P(x&gt;t)\quad\frac{N_2}{N}=1-P(x&gt;t)\)</span></p></li>
+<li><p>Approximation: <span class="math inline">\(z_{unocc}=t\)</span></p></li>
+</ul>
+<h4 id="mipmap-and-summed-area-variance-shadow-maps">MIPMAP and Summed-Area Variance Shadow Maps</h4>
+<h5 id="recall-mipmap">Recall: MIPMAP</h5>
+<ul>
+<li><strong>fast, approx., square</strong> range queries</li>
+<li>非 <span class="math inline">\(1/n^i\)</span> 方形区域，需使用线性插值</li>
+<li>不精准，限制多</li>
+</ul>
+<h5 id="sat-summed-area-table">SAT (Summed-Area Table)</h5>
+<ul>
+<li><p>in 1D: 第 <span class="math inline">\(i\)</span> 位存储 <span class="math inline">\(0-i\)</span> 的和</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SAT[<span class="number">0</span>] = Arr[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, i &lt; n, ++i) &#123;</span><br><span class="line">	SAT[i] = SAT[i<span class="number">-1</span>] + Arr[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Sum of a to b</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> SAT[b] - SAT[a<span class="number">-1</span>]; &#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>in 2D: 第 <span class="math inline">\((i,j)\)</span> 位存储 <span class="math inline">\((0,0)-(i,j)\)</span> 的矩形区域和</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// m * n</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, i &lt; n, ++i) &#123;</span><br><span class="line">	SAT[i][<span class="number">0</span>] = Arr[i][<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>, j &lt; n, ++j) &#123;</span><br><span class="line">        SAT[i][j] = SAT[i][j<span class="number">-1</span>] + Arr[i][j<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>, i &lt; n, ++i) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>, j &lt; n, ++j) &#123;</span><br><span class="line">        SAT[i][j] += SAT[i<span class="number">-1</span>][j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Sum of a to b</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123; <span class="keyword">return</span> SAT[a<span class="number">-1</span>][b] + SAT[a][b<span class="number">-1</span>] - SAT[a<span class="number">-1</span>][b<span class="number">-1</span>]; &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="moment-shadow-mapping">Moment Shadow Mapping</h4>
+<p><strong>VSSM</strong> Problem: 遮挡物简单情况下，遮挡深度分布非正态/不符合切比雪夫估计 ，估计值不准</p>
+<ul>
+<li>与实际值相比较暗：视觉无影响</li>
+<li>与实际值相比较亮：漏光（Light Leaking，工业界也有称Light Bleeding）</li>
+</ul>
+<p>解决分布描述不准方法——引入高阶<strong>矩（Moments）</strong></p>
+<ul>
+<li>简单理解为“ <span class="math inline">\(x^i\)</span> 即 <span class="math inline">\(x\)</span> 的 <span class="math inline">\(i\)</span> 阶矩”</li>
+<li>使用前 <span class="math inline">\(m\)</span> 阶矩的组合（ <span class="math inline">\(x^1,x^2,\dots,x^m\)</span> ）可以描述一个具有 <span class="math inline">\(m/2\)</span> 个“台阶”的阶跃函数</li>
+<li>可视为一种展开，将原函数展开为前 <span class="math inline">\(m\)</span> 阶矩的线性组合</li>
+<li>在MSM中，前4阶矩可较好描述遮挡深度分布，在使用VSSM的想法计算所需值（可在Blocker Search和PCF环节使用该方法）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/" rel="tag"># 高质量实时渲染</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/29/2021-03-29-GAMES202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-Lecture3-PCSS/" rel="prev" title="2021-03-29-GAMES202高质量实时渲染-Lecture3-PCSS">
+                  <i class="fa fa-chevron-left"></i> 2021-03-29-GAMES202高质量实时渲染-Lecture3-PCSS
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

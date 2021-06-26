@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y&#x3D;f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n+1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。 已知 \(f(x_k)&#x3D;y_k(k&#x3D;0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-05-数值分析-Day08-Lagrange插值-Newton插值">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/05/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day08-Lagrange%E6%8F%92%E5%80%BC-Newton%E6%8F%92%E5%80%BC/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y&#x3D;f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n+1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。 已知 \(f(x_k)&#x3D;y_k(k&#x3D;0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-05T10:56:50.000Z">
+<meta property="article:modified_time" content="2021-03-05T12:05:35.953Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/05/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day08-Lagrange%E6%8F%92%E5%80%BC-Newton%E6%8F%92%E5%80%BC/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%80%BC%E7%9A%84%E5%BC%95%E5%85%A5%E4%B8%8Elagrange%E6%8F%92%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text">5.1 - 5.3 插值的引入与Lagrange插值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%80%BC%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">插值的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lagrange%E6%8F%92%E5%80%BC"><span class="nav-number">1.2.</span> <span class="nav-text">Lagrange插值</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC"><span class="nav-number">1.2.1.</span> <span class="nav-text">线性插值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%9B%E7%89%A9%E6%8F%92%E5%80%BC"><span class="nav-number">1.2.2.</span> <span class="nav-text">抛物插值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mathbf-n-%E6%AC%A1%E6%8F%92%E5%80%BC"><span class="nav-number">1.2.3.</span> <span class="nav-text">\(\mathbf n\) 次插值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lagrange%E6%8F%92%E5%80%BC%E4%BD%99%E9%A1%B9"><span class="nav-number">1.2.4.</span> <span class="nav-text">Lagrange插值余项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E5%90%8E%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1"><span class="nav-number">1.2.5.</span> <span class="nav-text">事后误差估计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%AE%E5%95%86%E4%B8%8Enewton%E6%8F%92%E5%80%BC"><span class="nav-number">2.</span> <span class="nav-text">5.4 - 5.5 差商与Newton插值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%AE%E5%95%86%E6%88%96%E7%A7%B0%E5%9D%87%E5%B7%AE"><span class="nav-number">2.1.</span> <span class="nav-text">差商（或称均差）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#newton%E6%8F%92%E5%80%BC"><span class="nav-number">2.2.</span> <span class="nav-text">Newton插值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81lagrange%E6%8F%92%E5%80%BC"><span class="nav-number">3.</span> <span class="nav-text">代码：Lagrange插值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81newton%E6%8F%92%E5%80%BC%E5%90%AB%E7%94%9F%E6%88%90%E5%B7%AE%E5%95%86%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">代码：Newton插值（含生成差商表）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/05/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day08-Lagrange%E6%8F%92%E5%80%BC-Newton%E6%8F%92%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-05-数值分析-Day08-Lagrange插值-Newton插值
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-05 18:56:50 / 修改时间：20:05:35" itemprop="dateCreated datePublished" datetime="2021-03-05T18:56:50+08:00">2021-03-05</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="插值的引入与lagrange插值">5.1 - 5.3 插值的引入与Lagrange插值</h3>
+<h4 id="插值的定义">插值的定义</h4>
+<p>设函数 <span class="math inline">\(y=f(x)\)</span> 在区间 <span class="math inline">\([a,b]\)</span> 上连续，给定 <span class="math inline">\(n+1\)</span> 个点： <span class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\)</span> 。<br />
+已知 <span class="math inline">\(f(x_k)=y_k(k=0,1,\dots,n)\)</span> ，在函数类 <span class="math inline">\(P\)</span> 中寻找一函数 <span class="math inline">\(\varphi(x)\)</span> 作为 <span class="math inline">\(f(x)\)</span> 的近似表达式，使满足：<br />
+$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 <span class="math inline">\(y=f(x)\)</span> 为<strong>被插值函数</strong>，称 <span class="math inline">\(\varphi(x)\)</span> 为<strong>插值函数</strong>。称 <span class="math inline">\(x_0,x_1,\dots,x_n\)</span> 为<strong>插值节点</strong>； <span class="math inline">\(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\)</span> 为<strong>插值条件</strong>，寻求插值函数的方法称为<strong>插值方法</strong>。</p>
+<p>在构造插值函数时，函数类 <span class="math inline">\(P\)</span> 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即<strong>多项式插值</strong>。若用 <span class="math inline">\(P_n\)</span> 表示所有次数不超过 <span class="math inline">\(n\)</span> 的多项式函数类，则若 <span class="math inline">\(p_n(x)\in P_n\)</span> ，则 有<span class="math inline">\(p_n(x)=a_0+a_1x+\dots+a_nx^n\)</span> ，由 <span class="math inline">\(n+1\)</span> 个系数唯一确定。若 <span class="math inline">\(p_n(x)\)</span> 满足插值条件，即 <span class="math inline">\(\left\{\begin{array}{l}a_0+a_1x_1+\dots+a_nx_1^n\\a_0+a_1x_2+\dots+a_nx_2^n\\\dots\\a_0+a_1x_n+\dots+a_nx_n^n\end{array}\right.\)</span> 。令 <span class="math inline">\(\{a_0,a_1,\dots,a_n\}\)</span> 为元，则该方程系数行列式为 <span class="math inline">\(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\)</span> ，由范德蒙行列式得: <span class="math inline">\(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le n}(x_j-x_i)\neq0\)</span> ，因此该方程有解。<br />
+由此得定理：满足上述条件的插值问题， <span class="math inline">\(p_n(x)\)</span> 存在且唯一。</p>
+<h4 id="lagrange插值">Lagrange插值</h4>
+<h5 id="线性插值">线性插值</h5>
+<p>最简单的插值问题：已知两点 <span class="math inline">\((x_0,y_0)\ (x_1,y_1)\)</span> 。通过此两点的插值多项式是一条直线，即两点式： <span class="math inline">\(\displaystyle L_1(x)=\frac{x-x_1}{x_0-x_1}y_0+\frac{x-x_0}{x_1-x_0}y_1\)</span> 。称 <span class="math inline">\(L_1(x)\)</span> 为<strong>线性插值函数</strong>。<br />
+令 <span class="math inline">\(\left\{\begin{array}{l}\displaystyle l_0(x)=\frac{x-x_1}{x_0-x_1}\\\displaystyle l_1(x)=\frac{x-x_0}{x_1-x_0}\end{array}\right.\)</span> ，则有 <span class="math inline">\(\left\{\begin{array}{l}L_1(x)=y_0l_0(x)+y_1l_1(x)\\l_0(x_0)=1\quad l_0(x_1)=0\\l_1(x_0)=0\quad l_1(x_1)=1\end{array}\right.\)</span> ，称 <span class="math inline">\(l_0(x),\ l_1(x)\)</span> 为关于 <span class="math inline">\(x_0,\ x_1\)</span> 的<strong>线性插值基函数</strong>。</p>
+<h5 id="抛物插值">抛物插值</h5>
+<p>已知三点 <span class="math inline">\((x_0,y_0)\ (x_1,y_1)\ (x_2,y_2)\)</span> 。构造插值函数 <span class="math inline">\(L_2(x)\)</span> 。称 <span class="math inline">\(L_2(x)\)</span> 为<strong>抛物插值函数</strong>。<br />
+设 <span class="math inline">\(L_2(x)=y_0l_0(x)+y_1l_1(x)+y_2l_2(x)\)</span> ，则由插值条件可知 <span class="math inline">\(\left\{\begin{array}{l}l_0(x_0)=1\quad l_0(x_1)=0\quad l_2(x_2)=0\\l_0(x_0)=0\quad l_0(x_1)=1\quad l_2(x_2)=0\\l_0(x_0)=0\quad l_0(x_1)=0\quad l_2(x_2)=1\end{array}\right.\)</span> ，可解得 <span class="math inline">\(\left\{\begin{array}{l}\displaystyle l_0(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}\\\displaystyle l_1(x)=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}\\\displaystyle l_2(x)=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\end{array}\right.\)</span> ，称为<strong>二次插值基函数</strong>。<br />
+得到 <span class="math inline">\(\displaystyle L_2(x)=y_0\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}+y_1\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}+y_2\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\)</span> 。</p>
+<h5 id="mathbf-n-次插值"><span class="math inline">\(\mathbf n\)</span> 次插值</h5>
+<p>推广到一般形式：考虑已知 <span class="math inline">\(n+1\)</span> 个点 <span class="math inline">\((x_i,y_i)(i=0,1,2,\dots,n)\)</span> ，构造插值多项式 <span class="math inline">\(L_n(x)\)</span> 。<br />
+设 <span class="math inline">\(\displaystyle L_n(x)=\sum_{i=0}^{n}y_il_i(x)\)</span> ，则 <span class="math inline">\(l_i(x_j)=\left\{\begin{array}{l}1,\ j=i\\0,\ j\neq i\end{array}\right.\ i,j=0,1,\dots,n\)</span> ，解得 <span class="math inline">\(\displaystyle l_i(x)=\prod_{j=0,j\neq i}^{n}\frac{x-x_j}{x_i-x_j}\)</span> 。 &gt; 引入记号： <span class="math inline">\(\displaystyle \omega_{n+1}(x)=\prod_{i=0}^{n}(x-x_i)\)</span> 则有： <span class="math display">\[
+\begin{aligned}L_n&amp;=\displaystyle\sum_{i=0}^n\left(\prod_{j=0,j\neq i}^n\frac{x-x_j}{x_i-x_j}\right)y_i\\
+&amp;=\displaystyle\sum_{i=0}^n\frac{\omega_{n+1}(x)}{(x-x_i)\omega_{n+1}&#39;(x_i)}y_i\end{aligned}
+\]</span> 称这两式为 <span class="math inline">\(\mathbf n\)</span> <strong>次插值多项式</strong>，也称为<strong>Lagrange插值多项式</strong>。</p>
+<h5 id="lagrange插值余项">Lagrange插值余项</h5>
+<p>若在 <span class="math inline">\([a,b]\)</span> 上用 <span class="math inline">\(L_n(x)\)</span> 近似 <span class="math inline">\(f(x)\)</span> ，则其<strong>截断误差</strong>为 <span class="math inline">\(R_n(x)=f(x)-L_n(x)\)</span> ，也称其为插值多项式的<strong>余项</strong>。</p>
+<p>设 <span class="math inline">\(f^{(n)}(x)\)</span> 在 <span class="math inline">\([a,b]\)</span> 上连续， <span class="math inline">\(f^{(n+1)}(x)\)</span> 在 <span class="math inline">\((a,b)\)</span> 内存在，节点 <span class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\)</span> ， <span class="math inline">\(L_n(x)\)</span> 是插值多项式，则 <span class="math inline">\(\forall x\in [a,b],\ R_n=\displaystyle\frac{f^{(n+1)}(\xi)}{(n+1)!}\omega_{n+1}(x)\)</span> ，其中 <span class="math inline">\(a&lt;\xi&lt;b\)</span> 且依赖于 <span class="math inline">\(x\)</span> 。</p>
+<p>插值多项式 <span class="math inline">\(L_n(x)\)</span> 逼近 <span class="math inline">\(f(x)\)</span> 的截断误差限为 <span class="math inline">\(\left|R_n(x)\right|\le\displaystyle\frac{\max_{a&lt;x&lt;b}\left|f^{(n+1)}(x)\right|}{(n+1)!\left|\omega_{n+1}(x)\right|}\)</span> 。</p>
+<p>当被插值函数未知时，无法用上述插值余项估计误差。</p>
+<h5 id="事后误差估计">事后误差估计</h5>
+<p>求 <span class="math inline">\(L_n(x)\)</span> 为 <span class="math inline">\(f(x)\)</span> 以 <span class="math inline">\(x_0,x_1,\dots,x_n\)</span> 为节点的 <span class="math inline">\(n\)</span> 次插值多项式；<br />
+求 <span class="math inline">\(L_n^{(1)}(x)\)</span> 为 <span class="math inline">\(f(x)\)</span> 以 <span class="math inline">\(x_1,x_2,\dots,x_n,x_{n+1}\)</span> 为节点的 <span class="math inline">\(n\)</span> 次插值多项式；<br />
+认为两者较 <span class="math inline">\(f(x)\)</span> 误差相近，则有： <span class="math display">\[
+\begin{array}{c}
+\displaystyle\frac{f(x)-L_n(x)}{f(x)-L_n^{(1)}}\approx\frac{x-x_0}{x-x_{n+1}}\\
+\displaystyle f(x)\approx\frac{x-x_{n+1}}{x_0-x_{n+1}}L_n(x)+\frac{x-x_0}{x_{n+1}-x_0}L_n^{(1)}(x)\\
+\displaystyle f(x)-L_n(x)\approx\frac{x-x_0}{x_0-x_{n+1}}(L_n(x)-L_n^{(1)}(x))
+\end{array}
+\]</span></p>
+<p>则第三式可用于事后误差估计，第二式可用于较精确的插值多项式。</p>
+<h3 id="差商与newton插值">5.4 - 5.5 差商与Newton插值</h3>
+<blockquote>
+<h4 id="差商或称均差">差商（或称均差）</h4>
+<p><strong>定义</strong>：</p>
+<ul>
+<li>称 <span class="math inline">\(f[x_0,x_k]=\displaystyle\frac{f(x_k)-f(x_0)}{x_k-x_0}\)</span> 为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span class="math inline">\(x_0,\ x_k\)</span> 的一阶差商；</li>
+<li>称 <span class="math inline">\(f[x_0,x_1,x_k]=\displaystyle\frac{f[x_1,x_k]-f[x_0,x_1]}{x_k-x_0}\)</span> 为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span class="math inline">\(x_0,\ x_k\)</span> 的二阶差商；</li>
+<li>称 <span class="math inline">\(f[x_0,x_1,\dots,x_k]=\displaystyle\frac{f[x_1,\dots,x_{k-1},x_{k}]-f[x_0,x_1,\dots,x_{k-1}]}{x_k-x_0}\)</span> 为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span class="math inline">\(x_0,\ x_k\)</span> 的 <span class="math inline">\(k\)</span> 阶差商。</li>
+</ul>
+<p><strong>性质</strong>：</p>
+<ul>
+<li><span class="math inline">\(\displaystyle f[x_0,\dots,x_k]=\sum_{j=0}^k\frac{f(x_j)}{(x_j-x_0)\cdots(x_j-x_{j-1})(x_j-x_{j+1})\cdots(x_j-x_k)}=\sum_{j=0}^k\frac{f(x_j)}{\omega_{k+1}(x_j)}\)</span></li>
+<li>差商与节点的排列次序无关；</li>
+<li>若 <span class="math inline">\(f(x)\)</span> 在 <span class="math inline">\([a,b]\)</span> 上存在 <span class="math inline">\(n\)</span> 阶导数，且差商节点位于区间内，则：<br />
+<span class="math inline">\(f[x_0,\dots,x_n]=\displaystyle\frac{f^{(n)}(\xi)}{n!},\quad\xi\in[a,b]\)</span> 。</li>
+</ul>
+</blockquote>
+<h4 id="newton插值">Newton插值</h4>
+<ul>
+<li><p>由直线方程点斜式得到线性插值函数： <span class="math display">\[
+L_1(x)=y_0+a_1(x-x_0),\quad a_1=\frac{y_1-y_0}{x_1-x_0}
+\]</span></p></li>
+<li><p>推广至三点情况得到二次插值函数： <span class="math display">\[
+\begin{array}{c}
+L_2(x)=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)\\
+\left\{\begin{array}{l}
+a_0=y_0\\
+a_1=\displaystyle\frac{y_1-y_0}{x_1-x_0}\\
+a_2=\displaystyle\frac{\displaystyle\frac{y_2-y_0}{x_2-x_0}-\frac{y_1-y_0}{x_1-x_0}}{x_2-x_1}
+\end{array}\right.
+\end{array}
+\]</span></p></li>
+<li><p>推广至 <span class="math inline">\(n+1\)</span> 点情况得到 <span class="math inline">\(n+1\)</span> 次插值函数： <span class="math display">\[
+\begin{aligned}
+L_n(x)&amp;=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)+\dots+a_n(x-x_0)\dots(x-x_{n-1})\\
+&amp;=\displaystyle\sum_{i=0}^{n}\left[a_i\left(\prod_{j=0}^{i-1}(x-x_j)\right)\right]\end{aligned}
+\]</span> 由前面的推导和差商的定义可知 <span class="math inline">\(a_i=f[x_0,x_1,\dots,x_i]\)</span> ；或进行如下推导： <span class="math display">\[
+\begin{aligned}
+&amp;\quad\left\{\begin{array}{l}
+f(x)=f(x_0)+f[x,x_0](x-x_0)\\
+f[x,x_0]=f[x_0,x_1]+f[x,x_0,x_1])(x-x_1)\\
+f[x,x_0,\dots,x_{n-1}]=f[x_0,x_1,\dots,x_n]+f[x,x_0,\dots,x_n]\end{array}\right.\\
+&amp;\begin{aligned}\Rightarrow\ 
+f(x)&amp;=f(x_0)+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
+&amp;+\dots+f[x_0,x_1,\dots,x_n](x-x_0)\cdots(x-x_{n-1})+f[x,x_0,\dots,x_n]\omega_{n+1}(x)\\
+&amp;\equiv N_n(x) + R_n(x)\\\end{aligned}\\
+&amp;\begin{aligned}
+N_n(x)&amp;=f(x_0)+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
+&amp;+\dots+f[x_0,x_1,\dots,x_n](x-x_0)\cdots(x-x_{n-1})\\
+R_n(x)&amp;=f[x,x_0,\dots,x_n]\omega_{n+1}(x)
+\end{aligned}\end{aligned}
+\]</span> 其中 <span class="math inline">\(N_n(x)\)</span> 就称作<strong>Newton插值多项式</strong>，其与Lagrange插值多项式是等价的。 <span class="math inline">\(R_n(x)\)</span> 为Newton插值多项式的余项，它比Lagrange插值多项式的余项更具有一般性，对于离散函数 <span class="math inline">\(f\)</span> 或 <span class="math inline">\(f\)</span> 导数不存在时均适用。</p>
+<blockquote>
+<p>Lagrange插值多项式的缺陷：当节点发生改变时，所有计算需要重新计算。</p>
+</blockquote></li>
+</ul>
+<h3 id="代码lagrange插值">代码：Lagrange插值</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-05.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">L</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; xy_array, <span class="keyword">double</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; sqrt_xy &#123;&#123;<span class="number">100</span>, <span class="number">10</span>&#125;, &#123;<span class="number">121</span>, <span class="number">11</span>&#125;, &#123;<span class="number">144</span>, <span class="number">12</span>&#125;&#125;;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">L</span>(sqrt_xy, <span class="number">120</span>) &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">L</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; xy_array, <span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; xy_array.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">double</span> prod = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; xy_array.<span class="built_in">size</span>(); ++j)</span><br><span class="line">            <span class="keyword">if</span> (j != i) prod *= (x-xy_array[j][<span class="number">0</span>]) / (xy_array[i][<span class="number">0</span>]-xy_array[j][<span class="number">0</span>]);</span><br><span class="line">        sum += prod  * xy_array[i][<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码newton插值含生成差商表">代码：Newton插值（含生成差商表）</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-05.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; xy_array;</span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; DD;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshDD</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printDD</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">N</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; xy_array, <span class="keyword">double</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; sqrt_xy &#123;&#123;<span class="number">-2</span>, <span class="number">5</span>&#125;, &#123;<span class="number">-1</span>, <span class="number">3</span>&#125;, &#123;<span class="number">1</span>, <span class="number">17</span>&#125;, &#123;<span class="number">2</span>, <span class="number">21</span>&#125;&#125;;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">N</span>(sqrt_xy, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取Divided Difference 差商表</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshDD</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; tmp;</span><br><span class="line">    <span class="keyword">if</span> (DD.<span class="built_in">size</span>() &lt; <span class="number">1</span> &amp;&amp; xy_array.<span class="built_in">size</span>() &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; xy_array.<span class="built_in">size</span>()<span class="number">-1</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= DD.<span class="built_in">size</span>(); ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; <span class="number">1</span>) tmp.<span class="built_in">push_back</span>((xy_array[i][<span class="number">1</span>]-xy_array[i+<span class="number">1</span>][<span class="number">1</span>])/(xy_array[i][<span class="number">0</span>]-xy_array[i+<span class="number">1</span>][<span class="number">0</span>]));</span><br><span class="line">                <span class="keyword">else</span> tmp.<span class="built_in">push_back</span>((DD[i<span class="number">-1</span>][j<span class="number">-1</span>]-tmp[j<span class="number">-1</span>])/(xy_array[i-j][<span class="number">0</span>]-xy_array[i+<span class="number">1</span>][<span class="number">0</span>]));</span><br><span class="line">            &#125;</span><br><span class="line">            DD.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">            tmp.<span class="built_in">clear</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (DD.<span class="built_in">size</span>() &gt;= <span class="number">1</span> &amp;&amp; xy_array.<span class="built_in">size</span>() &gt;= <span class="number">2</span> &amp;&amp; xy_array.<span class="built_in">size</span>() &gt; DD.<span class="built_in">size</span>()+<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> i = xy_array.<span class="built_in">size</span>() - <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; xy_array.<span class="built_in">size</span>()<span class="number">-1</span>; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j &lt; <span class="number">1</span>) tmp.<span class="built_in">push_back</span>((xy_array[i][<span class="number">1</span>]-xy_array[i+<span class="number">1</span>][<span class="number">1</span>])/(xy_array[i][<span class="number">0</span>]-xy_array[i+<span class="number">1</span>][<span class="number">0</span>]));</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                tmp.<span class="built_in">push_back</span>((DD[i<span class="number">-1</span>][j<span class="number">-1</span>]-tmp[j<span class="number">-1</span>])/(xy_array[i-j][<span class="number">0</span>]-xy_array[i+<span class="number">1</span>][<span class="number">0</span>]));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        DD.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">        tmp.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printDD</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printDD</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;(&quot;</span> &lt;&lt; DD.<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; DD.<span class="built_in">back</span>().<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DD.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; DD[i].<span class="built_in">size</span>(); ++j)</span><br><span class="line">            std::cout &lt;&lt; DD[i][j] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">N</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; xy_array_, <span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    xy_array.<span class="built_in">assign</span>(xy_array_.<span class="built_in">begin</span>(), xy_array_.<span class="built_in">end</span>());</span><br><span class="line">    <span class="built_in">refreshDD</span>();</span><br><span class="line">    <span class="keyword">double</span> sum = xy_array[<span class="number">0</span>][<span class="number">1</span>]; <span class="keyword">double</span> prod = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; xy_array.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; ++j) prod *= x - xy_array[j][<span class="number">0</span>];</span><br><span class="line">        sum += DD[i<span class="number">-1</span>].<span class="built_in">back</span>() * prod;</span><br><span class="line">        prod = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/04/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day07-Newton%E8%BF%AD%E4%BB%A3%E6%B3%95/" rel="prev" title="2021-03-04-数值分析-Day07-Newton迭代法">
+                  <i class="fa fa-chevron-left"></i> 2021-03-04-数值分析-Day07-Newton迭代法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/06/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/" rel="next" title="2021-03-06-数值分析-Day09-分段插值-三次样条函数">
+                  2021-03-06-数值分析-Day09-分段插值-三次样条函数 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

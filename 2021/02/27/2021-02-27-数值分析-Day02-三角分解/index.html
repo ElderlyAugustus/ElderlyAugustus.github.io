@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵 若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} &#x3D; a_{i1}^{(1)}\div a_{11}^{11},\ i&#x3D;2,3,\dots,n\) ，记： \(L_{1}&#x3D;\">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-02-27-数值分析-Day02-三角分解">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵 若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} &#x3D; a_{i1}^{(1)}\div a_{11}^{11},\ i&#x3D;2,3,\dots,n\) ，记： \(L_{1}&#x3D;\">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-27T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-11T09:24:49.663Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-02-27-数值分析-Day02-三角分解 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%AD-2.1---2.4"><span class="nav-number">1.</span> <span class="nav-text">续 2.1 - 2.4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">矩阵三角分解法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2.5 - 2.6 直接三角分解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9%E6%A0%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">2.7 平方根法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%BD%E8%B5%B6%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">2.8 追赶法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81lu%E5%88%86%E8%A7%A3%E6%B3%95doolittle"><span class="nav-number">5.</span> <span class="nav-text">代码：LU分解法（Doolittle）</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-02-27-数值分析-Day02-三角分解
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-27 18:00:00" itemprop="dateCreated datePublished" datetime="2021-02-27T18:00:00+08:00">2021-02-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 17:24:49" itemprop="dateModified" datetime="2021-03-11T17:24:49+08:00">2021-03-11</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="续-2.1---2.4">续 2.1 - 2.4</h3>
+<h4 id="矩阵三角分解法">矩阵三角分解法</h4>
+<p>初等行变换 <span class="math inline">\(\Leftrightarrow\)</span> 矩阵左乘初等矩阵 消元 <span class="math inline">\(\Leftrightarrow\)</span> 矩阵左乘 <span class="math inline">\((n-1)\)</span> 个初等矩阵</p>
+<p>若 <span class="math inline">\(a_{11}^{(1)}\neq0\)</span> ，令 <span class="math inline">\(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\)</span> ，记： <span class="math inline">\(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\ -l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31} &amp;&amp;&amp;&amp; 1 \end{pmatrix}\)</span></p>
+<p>则有 <span class="math inline">\(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)</span></p>
+<p>同理进行第二步消元 <span class="math inline">\(A^{(3)}=L_{2}A^{(2)},\ \dots\)</span> 第 <span class="math inline">\((n-1)\)</span> 步得到： <span class="math inline">\(A^{(n)}=L_{n-1}A^{(n-1)}=\begin{pmatrix} a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\ &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span></p>
+<p>其中： <span class="math inline">\(L_{n-1}=\begin{pmatrix}1\\&amp;1\\&amp;&amp;\ddots\\&amp;&amp;&amp;1\\&amp;&amp;&amp;-l_{n,n-1}&amp;1\end{pmatrix}\)</span></p>
+<p>也就是： <span class="math inline">\(A^{(n)}=L_{n-1}A^{(n-1)}=L_{n-1}L_{n-2}A^{(n-2)}=\dots=L_{n-1}L_{n-2}\dots L_{2}L_{1}A^{(1)}\)</span></p>
+<p>其中： <span class="math inline">\(L_{k}=\begin{pmatrix}1\\&amp;\cdots\\&amp;&amp;1\\&amp;&amp;-l_{k+1k}&amp;1\\&amp;&amp;\vdots&amp;&amp;\ddots\\&amp;&amp;-l_{k+(n-1)k}&amp;&amp;&amp;1\end{pmatrix},\ k=1,2,\dots,n-1\)</span><br />
+<span class="math inline">\(L_{k}^{-1}=\begin{pmatrix}1\\&amp;\cdots\\&amp;&amp;1\\&amp;&amp;l_{k+1k}&amp;1\\&amp;&amp;\vdots&amp;&amp;\ddots\\&amp;&amp;l_{k+(n-1)k}&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>所以有： <span class="math inline">\(A=A^{(1)}=L_{1}^{-1}L_{2}^{-1}\dots L_{n-1}^{-1}A^{(n)}=LU\)</span> ，称为 <span class="math inline">\(A\)</span> 的 <span class="math inline">\(LU\)</span> 三角分解。</p>
+<p>其中： <span class="math inline">\(L=L_{1}^{-1}L_{2}^{-1}\dots L_{n-1}^{-1}, U=A^{(n)}\)</span> <span class="math inline">\(L=\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\\\vdots&amp;\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;l_{n3}&amp;\cdots&amp;1\end{pmatrix}\)</span> 即一个单位下三角矩阵</p>
+<p><span class="math inline">\(U=\begin{pmatrix} a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\ &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span> 为一个上三角矩阵</p>
+<h3 id="直接三角分解法">2.5 - 2.6 直接三角分解法</h3>
+<p><strong>定理1</strong>：设 <span class="math inline">\(n\)</span> 阶方阵 <span class="math inline">\(A\)</span> 的各阶顺序主子式不为零，则存在<strong>唯一</strong>单位下三角矩阵 <span class="math inline">\(L\)</span> 和上三角矩阵 <span class="math inline">\(U\)</span> 使得 <span class="math inline">\(A=LU\)</span> 。（条件与顺序Gauss消去法的执行条件一致。）</p>
+<p>由此可得： <span class="math inline">\(Ax=b \ \Rightarrow\  LUx=b\)</span> ，令 <span class="math inline">\(Ux=y\)</span> ，得 <span class="math inline">\(\left\{\begin{aligned}Ly=b\\Ux=y\end{aligned}\right.\)</span> 从而将问题转换为两个三角型方程组的求解。</p>
+<p>直接得到 <span class="math inline">\(L\ U\)</span> 两个矩阵——<strong>Doolittle分解法</strong> 设： <span class="math display">\[
+\begin{pmatrix}a_{11}&amp;a_{12}&amp;\cdots&amp;a_{1n}\\a_{21}&amp;a_{22}&amp;\cdots&amp;a_{2n}\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\a_{n1}&amp;a_{n2}&amp;\cdots&amp;a_{nn}\end{pmatrix} = 
+\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\\\vdots&amp;\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;l_{n3}&amp;\cdots&amp;1\end{pmatrix}
+\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix}
+\]</span> 则得： <span class="math display">\[
+\left\{\begin{array}{l}
+u_{1j}=a_{1j}\quad j=1,2,\dots,n\\
+l_{i1}=a_{i1}\div u_{11}\quad i=2,3,\dots,n\\\vdots\\
+对k=2,3,\dots,n,计算\\
+u_{kj}=a_{kj}-\sum_{m=1}^{k-1}{l_{km}u_{mj}}\quad j=k,k+1,\dots,n\\
+l_{ik}=(a_{ik}-\sum_{m=1}^{k-1}{l_{im}u_{mk}})\div u_{kk}\quad i=k+1,k+2,\dots,n
+\end{array}\right.
+\]</span> 应用中为节省存储空间，将矩阵 <span class="math inline">\(U\)</span> 覆盖矩阵 <span class="math inline">\(A\)</span> 的上三角进行存放，矩阵 <span class="math inline">\(L\)</span> 覆盖矩阵 <span class="math inline">\(A\)</span> 除对角线的下三角进行存放，即在原位形成矩阵： <span class="math inline">\(\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\l_{21}&amp;u_{22}&amp;\cdots&amp;u_{2n}\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\l_{n1}&amp;l_{n2}&amp;\cdots&amp;u_{nn}\end{pmatrix}\)</span></p>
+<p>回代得到： <span class="math display">\[
+\begin{array}{l}
+\left\{\begin{array}{l}
+\begin{pmatrix}1\\l_{21}&amp;1\\\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;\cdots&amp;1\end{pmatrix} \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix} = \begin{pmatrix}b_1\\b_2\\\vdots\\b_n\end{pmatrix},\\
+\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} = \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}
+\end{array}\right.\\
+解得\left\{\begin{array}{l}
+y_1=b_1\\
+y_k=b_k-\sum_{i=1}^{k-1}{l_{ki}y_i},\quad k=2,3,\dots,n\\
+x_n=y_n\div u_{nn}\\
+x_i=(y_i-\sum_{j=i+1}^{n}{u_{ij}x_j})\div u_{ii},\quad i=n-1,n-2m\dots,1
+\end{array}\right.
+\end{array}
+\]</span></p>
+<h3 id="平方根法">2.7 平方根法</h3>
+<p>针对系数矩阵 <span class="math inline">\(A\)</span> 为对称正定矩阵情况，有 <span class="math inline">\(A=LU,u_{kk}&gt;0\)</span> ，而：</p>
+<p><span class="math inline">\(\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} = \begin{pmatrix}u_{11}\\&amp;u_{22}\\&amp;&amp;\ddots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} \begin{pmatrix}1&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;1&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>令 <span class="math inline">\(D=\begin{pmatrix}u_{11}\\&amp;u_{22}\\&amp;&amp;\ddots\\&amp;&amp;&amp;u_{nn}\end{pmatrix},\ M=\begin{pmatrix}1&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;1&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>则有： <span class="math inline">\(A=LDM\)</span> ，又因为 <span class="math inline">\((LDM)^T=M^TDL^T=LDM\)</span> ，所以： <span class="math inline">\(M=L^T\)</span> ，则有： <span class="math inline">\(A=LDM=LDL^T\)</span> 。</p>
+<p>令 <span class="math inline">\(D=\begin{pmatrix}\sqrt{u_{11}}\\&amp;\sqrt{u_{22}}\\&amp;&amp;\ddots\\&amp;&amp;&amp;\sqrt{u_{nn}}\end{pmatrix}^2=(D^{\frac{1}{2}})^2\)</span></p>
+<p>则有： <span class="math inline">\(A=LD^{\frac{1}{2}}D^{\frac{1}{2}}L^T=(LD^{\frac{1}{2}})(LD^{\frac{1}{2}})^T=GG^T,\quad G=LD^{\frac{1}{2}}\)</span></p>
+<p>分解 <span class="math inline">\(A=GG^T\)</span> 称为对称正定矩阵的<strong>Cholesky分解</strong>， <span class="math inline">\(Ax=b\)</span> 则转换为 <span class="math inline">\(\left\{\begin{aligned}Gy=b\\G^Tx=y\end{aligned}\right.\)</span> ，称为<strong>平方根法</strong>。</p>
+<p>求解方法：</p>
+<p>若记 <span class="math inline">\(G=(g_{ij})\)</span> ，则对 <span class="math inline">\(k=1,2,\dots,n\)</span> 有： <span class="math inline">\(\left\{\begin{array}{l}g_{kk}=(a_{kk}-\sum_{m=1}^{k-1}{g_{km}^2})^\frac{1}{2}\\g_{ik}=(a_{ik}-\sum_{m=1}^{k-1}{g_{im}g_{km}})\div g_{kk},\ i=k+1,\dots,n\end{array}\right.\)</span></p>
+<p>同样将 <span class="math inline">\(G\)</span> 存放在 <span class="math inline">\(A\)</span> 的位置来节省存储。</p>
+<p>解三角方程 <span class="math inline">\(\left\{\begin{aligned}Gy=b\\G^Tx=y\end{aligned}\right.\)</span> 得： <span class="math inline">\(\left\{\begin{array}{l}y_k=(b_k-\sum_{m=1}^{k-1}{g_{km}y_m})\div g_{kk},\quad k=1,2,\dots,n\\x_k=(y_k-\sum_{m=k+1}^{n}g_{mk})\div g_{kk},\quad k=n,n-1,\dots,1\end{array}\right.\)</span></p>
+<h3 id="追赶法">2.8 追赶法</h3>
+<p>追赶法是求三对角线性方程组的三角分解法： <span class="math inline">\(\begin{pmatrix}a_1&amp;c_1\\d_2&amp;a_2&amp;c_2\\&amp;\ddots&amp;\ddots&amp;\ddots\\&amp;&amp;d_{n-1}&amp;a_{n-1}&amp;c_{n-1}\\&amp;&amp;&amp;d_n&amp;a_n\end{pmatrix} \begin{pmatrix}x_1\\x_2\\\vdots\\x_{n-1}\\x_n\end{pmatrix} = \begin{pmatrix}b_1\\b_2\\\vdots\\b_{n-1}\\b_n\end{pmatrix}\)</span></p>
+<p>三对角矩阵 <span class="math inline">\(A\)</span> 的各阶顺序主子式都不为零的一个充分条件是： <span class="math inline">\(|a_1|&gt;|c_1|&gt;0;\ |a_n|&gt;|d_n|&gt;0;\ |a_i|\ge|c_i|+|d_i|, c_id_i\neq0, i=2,3,\dots,n-1\)</span> 在此条件下， <span class="math inline">\(A=LDM=TM\)</span> ，称为矩阵 <span class="math inline">\(A\)</span> 的<strong>Crout分解</strong>。</p>
+<p>对三对角矩阵 <span class="math inline">\(A\)</span> 进行Crout分解，有：<span class="math inline">\(A=\begin{pmatrix}\alpha_1\\\gamma_2&amp;\alpha_2\\&amp;\ddots&amp;\ddots\\&amp;&amp;\gamma_{n-1}&amp;\alpha_{n-1}\\&amp;&amp;&amp;\gamma_n&amp;\alpha_n\end{pmatrix} \begin{pmatrix}1&amp;\beta_1\\&amp;1&amp;\beta_2\\&amp;&amp;\ddots&amp;\ddots\\&amp;&amp;&amp;1&amp;\beta_{n-1}\\&amp;&amp;&amp;&amp;1\end{pmatrix}\)</span><br />
+<span class="math inline">\(\left\{\begin{array}{l}\alpha_1=a_1,\ \beta_1=c_1\div\alpha_1,\ \gamma_i=d_i,\ i=1,2,3,\dots,n\\ \alpha_i=a_i-d_i\beta_{i-1},\ i=2,3,\dots,n\\ \beta_i=c_i\div\alpha_i,\ i=2,3,\dots,n-1 \end{array}\right.\)</span></p>
+<h3 id="代码lu分解法doolittle">代码：LU分解法（Doolittle）</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-27.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A, vector&lt;<span class="keyword">double</span>&gt; b)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_ &#123;&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">7</span>&#125;, &#123;<span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>&#125;, &#123;<span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_ &#123;<span class="number">3</span>, <span class="number">8</span>, <span class="number">6</span>&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; x = <span class="built_in">solve</span>(A_, b_);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = b[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = b[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= A[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve x</span></span><br><span class="line">    x[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / A[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += A[i][j] * x[j];</span><br><span class="line">        x[i] = (y[i] - sum) / A[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    A[k][j] -= A[k][m] * A[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += A[i][m] * A[m][k];</span><br><span class="line">            A[i][k] = (A[i][k] - sum) / A[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            std::cout &lt;&lt; A[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/26/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day01-%E9%A1%BA%E5%BA%8FGauss%E6%B6%88%E5%85%83/" rel="prev" title="2021-02-26-数值分析-Day01-顺序Gauss消元">
+                  <i class="fa fa-chevron-left"></i> 2021-02-26-数值分析-Day01-顺序Gauss消元
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/" rel="next" title="2021-02-28-数值分析-Day03-范数-迭代改善算法">
+                  2021-02-28-数值分析-Day03-范数-迭代改善算法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

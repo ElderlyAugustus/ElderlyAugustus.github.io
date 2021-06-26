@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="7.1 - 7.4 差分公式  一阶常微分方程初值问题 一阶常微分方程初值问题的一般形式为： \[ \left\{\begin{array}{l}\displaystyle\frac{dy}{dx}&#x3D;f(x,y),\quad a\le x\le b\\y(a)&#x3D;\alpha\end{array}\right. \] 其中 \(f(x,y)\) 为已知函数， \(\alpha\) 为给定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-10-数值分析-Day13-差分公式">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/10/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="7.1 - 7.4 差分公式  一阶常微分方程初值问题 一阶常微分方程初值问题的一般形式为： \[ \left\{\begin{array}{l}\displaystyle\frac{dy}{dx}&#x3D;f(x,y),\quad a\le x\le b\\y(a)&#x3D;\alpha\end{array}\right. \] 其中 \(f(x,y)\) 为已知函数， \(\alpha\) 为给定">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-10T10:55:39.000Z">
+<meta property="article:modified_time" content="2021-03-10T10:56:10.349Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/10/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-10-数值分析-Day13-差分公式 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">7.1 - 7.4 差分公式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E9%98%B6%E5%B8%B8%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E5%88%9D%E5%80%BC%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">一阶常微分方程初值问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E4%B8%80%E9%98%B6%E5%B8%B8%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E5%88%9D%E5%80%BC%E9%97%AE%E9%A2%98%E6%95%B0%E5%80%BC%E8%A7%A3%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">构造一阶常微分方程初值问题数值解法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B9%E8%BF%9Beuler%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">改进Euler方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AF%E5%B7%AE%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">误差分析</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/10/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-10-数值分析-Day13-差分公式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-10 18:55:39 / 修改时间：18:56:10" itemprop="dateCreated datePublished" datetime="2021-03-10T18:55:39+08:00">2021-03-10</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="差分公式">7.1 - 7.4 差分公式</h3>
+<blockquote>
+<h4 id="一阶常微分方程初值问题">一阶常微分方程初值问题</h4>
+<p>一阶常微分方程初值问题的一般形式为：<br />
+<span class="math display">\[
+\left\{\begin{array}{l}\displaystyle\frac{dy}{dx}=f(x,y),\quad a\le x\le b\\y(a)=\alpha\end{array}\right.
+\]</span> 其中 <span class="math inline">\(f(x,y)\)</span> 为已知函数， <span class="math inline">\(\alpha\)</span> 为给定的值。</p>
+<p>在许多数学模型中，上述方程通常以 <span class="math inline">\(x\)</span> 描述时间，而定解条件 <span class="math inline">\(y(a)=\alpha\)</span> 则给出了函数 <span class="math inline">\(y(x)\)</span> 在初始时刻的取值。因此称为<strong>初值问题</strong>。</p>
+<p><strong>问题</strong>： + 上述方程何时存在唯一解 + 如何计算 <span class="math inline">\(y(x)\)</span></p>
+<p><strong>Lipschitz条件</strong>： 若函数 <span class="math inline">\(f(x,y)\)</span> 在区域 <span class="math inline">\(\{a\le x\le b,\ m&lt;y&lt;M\}\)</span> 上连续，满足 <span class="math display">\[
+\forall y,\bar{y},\ |f(x,y)-f(x,\bar{y})|\le L|y-\bar{y}|
+\]</span> 其中 <span class="math inline">\(L&gt;0\)</span> 为Lipschitz常数（此处Lipschitz常数可以 <span class="math inline">\(\ge1\)</span> ），则初值问题在初始时刻 <span class="math inline">\(a\)</span> 的某个邻域上存在唯一解。 （不满足Lipschitz条件时，不一定存在唯一解。）</p>
+</blockquote>
+<h4 id="构造一阶常微分方程初值问题数值解法">构造一阶常微分方程初值问题数值解法</h4>
+<p>假设初值问题的解 <span class="math inline">\(y=y(x)\)</span> 唯一存在且足够光滑。对求解区域 <span class="math inline">\([a,b]\)</span> 做等距剖分 <span class="math inline">\(a=x_0&lt;x_1&lt;x_2&lt;\dots&lt;x_n&lt;\dots&lt;x_N=b\)</span> 。称 <span class="math inline">\(h=(b-a)/N\)</span> 为<strong>剖分步长</strong>， <span class="math inline">\(x_n=a+nh,\ n=0,1,\dots,N\)</span> 为<strong>剖分节点</strong>。数值解法即求精确解 <span class="math inline">\(y(x)\)</span> 在剖分节点 <span class="math inline">\(x_n\)</span> 上的值 <span class="math inline">\(y(x_n)\)</span> 的近似值 <span class="math inline">\(y_n\)</span> 。</p>
+<p><strong>差分公式</strong>：在区间 <span class="math inline">\([x_n,x_{n+1}]\)</span> 上对微分方程两端同时积分有： <span class="math display">\[
+\displaystyle y(x_{n+1})-y(x_n)=\int_{x_n}^{x_{n+1}}f(x,y(x))dx
+\]</span> 对该式右边积分部分应用不同的数值积分公式（参考前一章）做逼近，就得到相应不同的差分公式。</p>
+<ul>
+<li><strong>Euler公式</strong>：对右边积分应用左矩形公式 <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx(b-a)f(a)\)</span> ，得到Euler差分公式： <span class="math display">\[
+\left\{\begin{array}{l}y_{n+1}=y_n+hf(x_n,y_n)\\y_0=\alpha\\n=0,1,\dots,N-1\end{array}\right.
+\]</span></li>
+<li><strong>梯形公式</strong>：对右边积分应用梯形公式 <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\frac{(b-a)}{2}[f(a)+f(b)]\)</span> ，得到梯形差分公式： <span class="math display">\[
+\left\{\begin{array}{l}\displaystyle y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},y_{n+1})]\\y_0=\alpha\\n=0,1,\dots,N-1\end{array}\right.
+\]</span></li>
+<li><strong>Euler中点公式</strong>：将积分范围扩大为 <span class="math inline">\([x_{n-1},x_{n+1}]\)</span> ，有 <span class="math display">\[
+\displaystyle y(x_{n+1})-y(x_{n-1})=\int_{x_{n-1}}^{x_{n+1}}f(x,y(x))dx
+\]</span> 对右边积分应用中矩形公式 <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx(b-a)[f(\frac{a+b}{2})]\)</span> ，得到Euler中点公式（或称<strong>双步Euler公式</strong>）： <span class="math display">\[
+\left\{\begin{array}{l}\displaystyle y_{n+1}=y_{n-1}+2hf(x_n,y_n)\\y_0=\alpha\\n=0,1,\dots,N-1\end{array}\right.
+\]</span> 该公式属于多步方法，需要更多初值信息。</li>
+</ul>
+<p>其中，Euler公式和Euler中点公式为<strong>显式方法</strong>，梯形公式为<strong>隐式方法</strong>。</p>
+<h4 id="改进euler方法">改进Euler方法</h4>
+<blockquote>
+<p>梯形公式计算精度好，但属于隐式公式，不便计算。</p>
+</blockquote>
+<p>根据非线性方程迭代法的思想，进行如下近似计算： <span class="math display">\[
+\left\{\begin{aligned}
+\displaystyle&amp;y_{n+1}^{[0]}=y_n+hf(x_n)\\
+\displaystyle&amp;y_{n+1}^{[k+1]}=y_n+\frac{h}{2}[f(x_n,y_n),f(x_{n+1},y_{n+1}^{[k]})]\\
+&amp;&amp;k=0,1,\dots\\
+&amp;y_0=\alpha,\ n=0,1,\dots,N-1
+\end{aligned}\right.
+\]</span> 即首先应用Euler公式提供 <span class="math inline">\(y_{n+1}\)</span> 的初始值（<strong>预估</strong>），然后采用梯形公式框架进行关于 <span class="math inline">\(y_{n+1}\)</span> 值的迭代计算（<strong>校正</strong>）。</p>
+<blockquote>
+<p>校正过程中迭代计算是否一定收敛？</p>
+</blockquote>
+<p>考察迭代格式，迭代函数为 <span class="math display">\[
+\displaystyle\varphi(x)=y_n+\frac{h}{2}[f(x_n,y_n)+f(x_{n+1},y)]
+\]</span></p>
+<blockquote>
+<p><strong>压缩映射原理</strong>：设函数 <span class="math inline">\(f\)</span> 定义域和值域均为 <span class="math inline">\([a,b]\)</span> ，并存在一个常数 <span class="math inline">\(L\)</span> ，满足 <span class="math inline">\(0&lt;L&lt;1\)</span> ，使得对 <span class="math inline">\(\forall x,y\in[a,b]\)</span> ，都有 <span class="math inline">\(|f(x)-f(y)|\le L|x-y|\)</span> ，则称 <span class="math inline">\(f\)</span> 是 <span class="math inline">\([a,b]\)</span> 上的一个压缩映射，称常数 <span class="math inline">\(L\)</span> 为<strong>Lipschitz常数</strong>（压缩常数）。</p>
+</blockquote>
+<p>假设 <span class="math inline">\(\displaystyle\frac{\partial f}{\partial y}\)</span> 存在，则当 <span class="math inline">\(|\varphi&#39;(y)|\le L&lt;1\)</span> 也即 <span class="math inline">\(\displaystyle\frac{h}{2}\left|\frac{\partial f}{\partial y}\right|\le L&lt;1\)</span> 时，迭代必然收敛。理论上只需令剖分步长 <span class="math inline">\(h\)</span> 足够小即可满足条件。 计算中，当 <span class="math inline">\(\left|y_{n+1}^{[k+1]}-y_{n+1}^{[k]}\right|&lt;\varepsilon\)</span> ，取 <span class="math inline">\(y_{n+1}=y_{n+1}^{[k+1]}\)</span></p>
+<p>若仅迭代一步则有： <span class="math display">\[
+\left\{\begin{aligned}
+\displaystyle&amp;\bar{y}_{n+1}=y_n+hf(x_n)\\
+\displaystyle&amp;y_{n+1}=y_n+\frac{h}{2}[f(x_n,y_n),f(x_{n+1},\bar{y}_{n+1})]\\
+&amp;y_0=\alpha,\ n=0,1,\dots,N-1
+\end{aligned}\right.
+\]</span> 称之为<strong>改进Euler方法</strong>，属于单步显式方法。也可写作： <span class="math display">\[
+\left\{\begin{aligned}
+\displaystyle&amp;y_{n+1}=y_n+h(K_1+K_2)\\
+&amp;K_1=f(x_n,y_n)\\
+&amp;K_2=f(x_n+h,y_n+hK_1)\\
+&amp;y_0=\alpha,\ n=0,1,\dots,N-1
+\end{aligned}\right.
+\]</span></p>
+<h4 id="误差分析">误差分析</h4>
+<p>在节点 <span class="math inline">\(x_{n+1}\)</span> 处的误差 <span class="math inline">\(y(x_{n+1})-y_{n+1}\)</span> ，不仅与 <span class="math inline">\(y_{n+1}\)</span> 这一步计算，而且与前 <span class="math inline">\(n\)</span> 步均有关。为简化误差分析，着重研究一步计算时产生的截断误差，假设 <span class="math inline">\(y_n=y(x_n)\)</span> ，称 <span class="math inline">\(y(x_{n+1})-y_{n+1}\)</span> 为<strong>局部截断误差</strong>。</p>
+<p>若单步差分公式的局部截断误差为 <span class="math inline">\(O(h^{p+1})\)</span> （同阶无穷小），则称该公式为 <span class="math inline">\(p\)</span> 阶方法。 <span class="math inline">\(p\)</span> 为非负整数，阶数越高精度越好。</p>
+<blockquote>
+<p>由一元Taylor公式： <span class="math display">\[
+\displaystyle y(x_{n+1})=y(x_n+h)=y(x_n)+y&#39;(x_n)h+\frac{y&#39;&#39;(x_n)}{2!}h^2+\frac{y&#39;&#39;&#39;(x_n)}{3!}h^3+O(h^4)
+\]</span> 由二元Taylor公式： <span class="math display">\[
+\displaystyle\begin{aligned}f(x_n+h,y_n+k)=&amp;f(x_n,y_n)+\frac{\partial f(x_n,y_n)}{\partial x}h+\frac{\partial f(x_n,y_n)}{\partial y}k\\
+&amp;+\frac{1}{2!}\left[\frac{\partial^2f(x_n,y_n)}{\partial x^2}h^2+2\frac{\partial^2 f(x_n,y_n)}{\partial x \partial y}hk+\frac{\partial^2f(x_n,y_n)}{\partial y^2} k^2\right]\\
+&amp;+\dots+\frac{1}{k!}\left[h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right]^kf(x_n,y_n)+\dots
+\end{aligned}
+\]</span></p>
+</blockquote>
+<p><strong>常见差分公式的局部截断误差</strong> + Euler公式： <span class="math display">\[
+  \displaystyle y(x_{n+1})-y_{n+1}=\frac{y&#39;&#39;(x_n)}{2!}h^2+O(h^3)=O(h^2)
+  \]</span> 因此Euler公式为 <span class="math inline">\(1\)</span> 阶方法。 + 改进Euler公式： <span class="math display">\[
+  y(x_{n+1})-y_{n+1}=O(h^3)
+  \]</span> 因此Euler公式为 <span class="math inline">\(2\)</span> 阶方法。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/09/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/" rel="prev" title="2021-03-09-数值分析-Day12-续数值积分-数值微分">
+                  <i class="fa fa-chevron-left"></i> 2021-03-09-数值分析-Day12-续数值积分-数值微分
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/11/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day14-RungeKutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/" rel="next" title="2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法">
+                  2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

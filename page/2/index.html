@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="虽然学得半懂，好歹留点笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="xa-notes">
+<meta property="og:url" content="https://elderlyaugustus.github.io/page/2/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="虽然学得半懂，好歹留点笔记">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="xa">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/page/2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/" class="post-title-link" itemprop="url">2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-03 18:14:34" itemprop="dateCreated datePublished" datetime="2021-03-03T18:14:34+08:00">2021-03-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-05 18:58:00" itemprop="dateModified" datetime="2021-03-05T18:58:00+08:00">2021-03-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="非线性方程简介及二分法略">4.1-3 非线性方程简介及二分法：略</h3>
+<h3 id="简单迭代法的构造与收敛性">4.4 - 10 简单迭代法的构造与收敛性</h3>
+<h4 id="构造简单迭代法">构造简单迭代法</h4>
+<p><span class="math display">\[
+\begin{array}{c}\begin{aligned}
+f(x)=0\quad&amp;\Leftrightarrow\quad x=\varphi(x)\\
+f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点
+\end{aligned}\end{array}
+\]</span></p>
+<p>其中 <span class="math inline">\(x_{k+1}=\varphi(x_k),\quad (k=0,1,2,\dots)\)</span> 称为<strong>迭代格式</strong>， <span class="math inline">\(\varphi(x)\)</span> 称为<strong>迭代函数</strong>。</p>
+<h4 id="简单迭代法的收敛条件">简单迭代法的收敛条件</h4>
+<p><strong>几何解释</strong>：求方程 <span class="math inline">\(x=\varphi(x)\)</span> 的根，就是求直线 <span class="math inline">\(y=x\)</span> 和曲线 <span class="math inline">\(y=\varphi(x)\)</span> 的交点的横坐标。（图略。）</p>
+<p>如果 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 收敛，则迭代函数 <span class="math inline">\(y=\varphi(x)\)</span> 的曲线走势平坦，即 <span class="math inline">\(\left|\varphi&#39;(x)\right|&lt;1\)</span> ；<br />
+如果 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 发散，则迭代函数 <span class="math inline">\(y=\varphi(x)\)</span> 的曲线走势陡峭，即 <span class="math inline">\(\left|\varphi&#39;(x)\right|\ge1\)</span> ；</p>
+<p><strong>迭代法收敛的判定定理</strong>：设函数 <span class="math inline">\(\varphi(x)\)</span> 满足条件： <span class="math display">\[
+\begin{array}{l}(1)\quad \forall x\in[a,b],\ a\le\varphi(x)\le b;\\
+(2)\quad \exists0\le L&lt;1,\ \begin{array}{l}\forall x,y\in[a,b],\ |\varphi(x)-\varphi(y)|\le L|x-y|\\或\ |\varphi&#39;(x)\le L&lt;1|\end{array}\end{array}
+\]</span></p>
+<p>则 <span class="math inline">\(\forall x_0\in[a,b]\)</span> ，由 <span class="math inline">\(x_{k+1}=\varphi(x_K)\)</span> 得到的序列 <span class="math inline">\(\{x_k\}_{k=0}^\infty\)</span> 收敛于 <span class="math inline">\(\varphi(x)\)</span> 在 <span class="math inline">\([a,b]\)</span> 上的唯一不动点。并且由误差估计式： <span class="math inline">\(\begin{array}{l}\displaystyle\left|x^*-x_k\right|\le\frac{1}{1-L}\left|x_k-x_{k-1}\right|\\\displaystyle\left|x^*-x_k\right|\le\frac{L^k}{1-L}\left|x_1-x_0\right|\end{array}\)</span> 。由第一式分析误差；由第二式得到结论 <span class="math inline">\(L\)</span> 越小，收敛越快 。</p>
+<h4 id="局部收敛性">局部收敛性</h4>
+<p><strong>定义</strong>：若存在 <span class="math inline">\(x^*\)</span> 的某个邻域 <span class="math inline">\(S=\{|x-x^*|\le\delta\}\subset[a,b]\)</span> ，使迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 对于任一初值 <span class="math inline">\(x_0\in S\)</span> 均收敛则称迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在根 <span class="math inline">\(x^*\)</span> 邻近具有<strong>局部收敛性</strong>。</p>
+<p><strong>判定定理</strong>： <span class="math inline">\(\varphi(x)\)</span> 在方程 <span class="math inline">\(x=\varphi(x)\)</span> 的精确根 <span class="math inline">\(x^*\)</span> 的邻域连续，且 <span class="math inline">\(|\varphi&#39;(x^*)|&lt;1\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在根 <span class="math inline">\(x^*\)</span> 的邻域具有局部收敛性。</p>
+<p>不严格的准则：只要在一个不大的有根区间上， <span class="math inline">\(|\varphi&#39;(x)|&lt;1\)</span> 明显成立，则从该区间内一点 <span class="math inline">\(x_0\)</span> 出发， <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 产生的迭代序列 <span class="math inline">\(\{x_k\}\)</span> 一般是收敛的。</p>
+<h4 id="收敛阶描述收敛速度">收敛阶（描述收敛速度）</h4>
+<p>观察得到， <span class="math inline">\(|\varphi&#39;(x)|\)</span> 越小，收敛速度越快，越大越慢。</p>
+<p><strong>定义</strong>：记迭代误差 <span class="math inline">\(e_k=x^*-x_k\)</span> ，对收敛于方程 <span class="math inline">\(x=\varphi(x)\)</span> 的根 <span class="math inline">\(x^*\)</span> 的迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> ，若存在常数 <span class="math inline">\(p\ge1\)</span> 和非零常数 <span class="math inline">\(C\)</span> ，使得 <span class="math inline">\(\displaystyle\lim_{k\to\infty}\frac{|e_{k+1}|}{|e_k|^p}=C\)</span> ，则称迭代过程是 <span class="math inline">\(\mathbf{p}\)</span> <strong>阶收敛</strong>的， <span class="math inline">\(C\)</span> 是<strong>渐进误差常数</strong>。<br />
+其中， <span class="math inline">\(p=1\)</span> 时称<strong>线性收敛</strong>， <span class="math inline">\(p&gt;1\)</span> 时称<strong>超线性收敛</strong>， <span class="math inline">\(p=2\)</span> 时称<strong>平方收敛</strong>。 <span class="math inline">\(p\)</span> 越大，收敛速度越快。</p>
+<p><strong>定理</strong>：若 <span class="math inline">\(\varphi&#39;(x)\)</span> 在 <span class="math inline">\(\varphi(x)\)</span> 的不动点 <span class="math inline">\(x^*\)</span> 邻域连续，且 <span class="math inline">\(\varphi&#39;(x)\neq0\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在 <span class="math inline">\(x^*\)</span> 的邻域是线性收敛的。</p>
+<h4 id="mathbfp-阶收敛的迭代法"><span class="math inline">\(\mathbf{p}\)</span> 阶收敛的迭代法</h4>
+<p><strong>定理</strong>：若 <span class="math inline">\(x^*\)</span> 是 <span class="math inline">\(\varphi(x)\)</span> 的不动点，对于整数 <span class="math inline">\(p&gt;1\)</span> ，迭代函数 <span class="math inline">\(\varphi(x)\)</span> 及其 <span class="math inline">\(p\)</span> 阶导数在 <span class="math inline">\(x^*\)</span> 的邻域上连续，且满足： <span class="math inline">\(\varphi&#39;(x^*)=\varphi&#39;&#39;(x^*)=\dots=\varphi^{(p-1)}(x^*)=0,\quad \varphi^{(p)}(x^*)\neq0\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在 <span class="math inline">\(x^*\)</span> 的邻域是 <span class="math inline">\(p\)</span> 阶收敛的。且有： <span class="math inline">\(\displaystyle\lim_{k\to\infty}\frac{e_{k+1}}{e_k^p}=\frac{\varphi^{(p)}(x^*)}{p!}\)</span> 。</p>
+<p>因此， <span class="math inline">\(\varphi&#39;(x^*)\neq0\)</span> 时，迭代过程只可能是线性的，因此绝大部分迭代方法只能是线性收敛的。</p>
+<h4 id="aitken加速算法">Aitken加速算法</h4>
+<p>由于 <span class="math inline">\(\begin{array}{l}x_{k+1}-x^*=\varphi&#39;(\xi_1)(x_k-x^*)\\x_{k+2}-x^*=\varphi&#39;(\xi_2)(x_{k+1}-x^*)\end{array}\)</span> ，当 <span class="math inline">\(k\)</span> 较大时，假设 <span class="math inline">\(\varphi&#39;(\xi_1)\approx\varphi&#39;(\xi_2)\)</span> ，则有： <span class="math inline">\(\displaystyle\frac{x_{k+1}-x^*}{x_{k+2}-x^*}\approx\frac{x_k-x^*}{x_{k+1}-x^*}\)</span> 。然后解得 <span class="math inline">\(x^*\approx \hat x_k=x_k-\displaystyle\frac{(x_{k+1}-x_k)^2}{x_{k+2}-2x_{k+1}+x_k}\)</span> 。</p>
+<p>则序列 <span class="math inline">\(\{\hat x_k\}\)</span> 比序列 <span class="math inline">\(\{x_k\}\)</span> 更快地收敛于 <span class="math inline">\(x^*\)</span> ，可构造如下<strong>Aitken加速算法</strong>： <span class="math display">\[
+\left\{\begin{array}{l}
+y_k=\varphi(x_k)\\
+z_k=\varphi(y_k)\\
+x_{k+1}=x_k-\displaystyle\frac{(y_k-x_k)^2}{z_k-2y_k+x_k},
+\quad k=0,1,2,\dots
+\end{array}\right.
+\]</span> 若第 <span class="math inline">\(k\)</span> 步发生 <span class="math inline">\(z_k-2y_k+x_k=0\)</span> ，则中止计算，取 <span class="math inline">\(x^*\approx x_k\)</span> 。</p>
+<h3 id="代码二分法">代码：二分法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-03.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">solve</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(<span class="keyword">double</span> &amp;a, <span class="keyword">double</span> &amp;b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x = <span class="built_in">solve</span>(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;The solve in [1, 2] is : x = &quot;</span> &lt;&lt; x &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x * x * x + <span class="number">4</span> * x - <span class="number">7</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">solve</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">f</span>(a) * <span class="built_in">f</span>(b) &gt; <span class="number">0</span>) &#123; std::cout &lt;&lt; <span class="string">&quot;WRONG INTERVAL&quot;</span> &lt;&lt; std::endl; <span class="keyword">return</span> <span class="number">0</span>; &#125;</span><br><span class="line">    <span class="keyword">double</span> epsilon = <span class="number">1e-5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::<span class="built_in">abs</span>(a-b) &gt;= epsilon) &#123;</span><br><span class="line">        <span class="built_in">iterate</span>(a, b);</span><br><span class="line">        std::cout &lt;&lt; (a + b) / <span class="number">2</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(<span class="keyword">double</span> &amp;a, <span class="keyword">double</span> &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> f_a = <span class="built_in">f</span>(a);</span><br><span class="line">    <span class="keyword">double</span> f_b = <span class="built_in">f</span>(b);</span><br><span class="line">    <span class="keyword">double</span> f_c = <span class="built_in">f</span>((a + b) / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (f_c == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (f_a * f_c &lt; <span class="number">0</span>) b = (a + b) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (f_b * f_c &lt; <span class="number">0</span>) a = (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码简单迭代法与aitken加速算法比较">代码：简单迭代法与Aitken加速算法比较</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-03.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">phi</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> x_simple;</span><br><span class="line"><span class="keyword">double</span> next_x_simple;</span><br><span class="line"><span class="keyword">int</span> count_simple;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">simple</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> x_aitken;</span><br><span class="line"><span class="keyword">double</span> next_x_aitken;</span><br><span class="line"><span class="keyword">int</span> count_aitken;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aitken</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">simple</span>();</span><br><span class="line">    <span class="built_in">aitken</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">phi</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.6</span> + <span class="number">0.99</span> * <span class="built_in">cos</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">simple</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    x_simple = <span class="number">1.57</span>;</span><br><span class="line">    <span class="keyword">while</span> (x_simple = next_x_simple, ++count_simple,</span><br><span class="line">            std::cout &lt;&lt; x_simple &lt;&lt; <span class="string">&quot;; &quot;</span>) &#123;</span><br><span class="line">        next_x_simple = <span class="built_in">phi</span>(x_simple);</span><br><span class="line">        <span class="keyword">if</span> (std::<span class="built_in">abs</span>(next_x_simple - x_simple) &lt; <span class="number">1e-5</span>) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; std::endl &lt;&lt; <span class="string">&quot;The count is &quot;</span> &lt;&lt; count_simple &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aitken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    x_aitken = <span class="number">1.57</span>;</span><br><span class="line">    <span class="keyword">while</span> (x_aitken = next_x_aitken, ++count_aitken,</span><br><span class="line">            std::cout &lt;&lt; x_aitken &lt;&lt; <span class="string">&quot;; &quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">double</span> y = <span class="built_in">phi</span>(x_aitken);</span><br><span class="line">        <span class="keyword">double</span> z = <span class="built_in">phi</span>(y);</span><br><span class="line">        next_x_aitken = x_aitken</span><br><span class="line">                - (<span class="built_in">pow</span>(y - x_aitken, <span class="number">2</span>)</span><br><span class="line">                / (z - <span class="number">2</span> * y + x_aitken) );</span><br><span class="line">        <span class="keyword">if</span> (std::<span class="built_in">abs</span>(next_x_aitken - x_aitken) &lt; <span class="number">1e-5</span>) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl &lt;&lt; <span class="string">&quot;The count is &quot;</span> &lt;&lt; count_aitken &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/" class="post-title-link" itemprop="url">2021-03-02-数值分析-Day05-SOR-迭代法收敛性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-02 18:00:00" itemprop="dateCreated datePublished" datetime="2021-03-02T18:00:00+08:00">2021-03-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-05 18:58:10" itemprop="dateModified" datetime="2021-03-05T18:58:10+08:00">2021-03-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="续3.1---6-迭代法">续：3.1 - 6 迭代法</h3>
+<h4 id="逐次超松弛迭代法sor迭代法">逐次超松弛迭代法（SOR迭代法）</h4>
+<p>选取分裂矩阵 <span class="math inline">\(M\)</span> 为带参数的下三角阵： <span class="math inline">\(M=\displaystyle\frac{1}{\omega}(D-\omega L),\ B=I-M^{-1}A,\ f=M^{-1}b\)</span> ，其中 <span class="math inline">\(w&gt;0\)</span> 为可选择的<strong>松弛因子</strong>。</p>
+<p>构造迭代法，迭代矩阵为： <span class="math inline">\(L_\omega=I-\omega(D-\omega L)^{-1}A=(D-\omega L)^{-1}((1-\omega)D+\omega U)\)</span> 。</p>
+<p>则解 <span class="math inline">\(Ax=b\)</span> 的SOR方法即为： <span class="math inline">\(\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=L_\omega x^{(k)}+f\quad(k=0,1,\dots)\end{array}\right.\\其中\begin{array}{l}L_\omega=(D-\omega L)^{-1}((1-\omega)D+\omega U),\\f=\omega(D-\omega L)^{-1}b\end{array}\end{array}\)</span> 。</p>
+<p>推导得： <span class="math inline">\(\begin{array}{l}(D-\omega L)x^{(k+1)}=((1-\omega)D+\omega U)x^{(k)}+\omega b\\或Dx^{(k+1)}=Dx^{(k+1)}+\omega(b+Lx^{(k+1)}+Ux^{(k)}-Dx^{(k)})\end{array}\)</span> 。</p>
+<p>分量计算公式为： <span class="math inline">\(\displaystyle x_i^{(k+1)}=x_1^{(k)}+\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\)</span> 。</p>
+<p>可令 <span class="math inline">\(\Delta x_i=\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\)</span> ，则 <span class="math inline">\(x_i^{(k+1)}=x_i^{(k)}+\Delta x_i\)</span> 。</p>
+<p><strong>Gauss-Seidel迭代法是SOR迭代法的一个特殊形式（系数 <span class="math inline">\(\omega=1\)</span> ）。</strong></p>
+<p>当 <span class="math inline">\(\omega&lt;1\)</span> 时，称为<strong>超松弛法</strong>；当 <span class="math inline">\(\omega&gt;1\)</span> 时，称为<strong>低松弛法</strong>。</p>
+<p>计算机中，常用 <span class="math inline">\(\max\limits_{1\le i\le n}|\Delta x_i|=\max\limits_{1\le i\le n}\left|x_i^{(k+1)}-x_i^{(k)}\right|&lt;\varepsilon\)</span> 或者 <span class="math inline">\(\left\|r^{(k)}\right\|=\left\|b-Ax^{(k)}\right\|\)</span> 作为迭代终止条件。</p>
+<h4 id="迭代法的收敛性">迭代法的收敛性</h4>
+<p>设 <span class="math inline">\(Ax=b\)</span> ，其中 <span class="math inline">\(A\in R^{n\times n}\)</span> 为非奇异矩阵，记 <span class="math inline">\(x^*\)</span> 为原方程组精确解，且设有等价的方程组： <span class="math inline">\(Ax=b\Leftrightarrow x=Bx+f\)</span> ，则 <span class="math inline">\(x^*=Bx^*+f\)</span> 。设有一阶定常迭代法 <span class="math inline">\(x^{(k+1)}=Bx^{(k)}\)</span> 。引进误差向量 <span class="math inline">\(\varepsilon^{(k)}=x^{(k)}\)</span> ，得到误差向量递推公式 <span class="math inline">\(\varepsilon^{(k+1)}=B\varepsilon^{(k)}\ \Rightarrow\ \varepsilon^{(k)}=B^k\varepsilon^{(0)}\)</span> 。则研究问题从 <span class="math inline">\(\varepsilon^{(k)}\to0\)</span> 转换为 <span class="math inline">\(B^k\to0\)</span> 。</p>
+<p><strong>定理1</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=A\Leftrightarrow\lim\limits_{x\to\infty}\left\|A_k-A\right\|,\ \|\|为任一种算子范数\)</span></p>
+<p><strong>定理2</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=A\Leftrightarrow\lim\limits_{x\to\infty}A_kx=Ax,\ x\in R^n\)</span></p>
+<p><strong>定理3</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=0\Leftrightarrow\rho(A)&lt;1,\ \rho\ 谱半径\)</span></p>
+<p><strong>迭代法收敛基本定理</strong>：对方程组 <span class="math inline">\(x=Bx+f\)</span> ，及对应一阶定常迭代法 <span class="math inline">\(x^{(k+1)}=Bx^{(k)}+f\)</span> ，迭代法收敛的充要条件为矩阵 <span class="math inline">\(B\)</span> 的谱半径 <span class="math inline">\(\rho(B)&lt;1\)</span> 。</p>
+<p>由于 <span class="math inline">\(\rho(B)\le\|B\|\)</span> ，因此矩阵 <span class="math inline">\(B\)</span> 的范数也可用于判别迭代法的收敛性：<br />
+<strong>迭代法收敛充分条件</strong>： <span class="math inline">\(\exists \|B\|=q&lt;1\)</span> ，迭代法收敛，且有 <span class="math inline">\(\begin{array}{l}\left\|x^*-x^{(k)}\right\|\le q^k\left\|x^*-x^{(0)}\right\|\\\left\|x^*-x^{(k)}\right\|\le\displaystyle\frac{q}{1-q}\left\|x^k-x^{(k-1)}\right\|\\\left\|x^*-x^{(k)}\right\|\le\displaystyle\frac{q}{1-q^k}\left\|x^1-x^0\right\|\end{array}\)</span> 。根据第二式也可得到迭代法的一种终止条件参考量： <span class="math inline">\(\left\|x^k-x^{(k-1)}\right\|\)</span> 。</p>
+<h4 id="几种特殊迭代法的收敛性">几种特殊迭代法的收敛性</h4>
+<blockquote>
+<p>如果矩阵 <span class="math inline">\(A\)</span> 的元素满足： <span class="math inline">\(|a_{ii}|&gt;\displaystyle\sum_{j=1,j\neq i}^n|a_{ij}|,\ (i=1,2,\dots,n)\)</span> ，则称 <span class="math inline">\(A\)</span> 为<strong>严格对角占优阵</strong>。</p>
+<p>若 <span class="math inline">\(|a_{ii}|\ge\displaystyle\sum_{j=1,j\neq i}^n|a_{ij}|,\ (i=1,2,\dots,n)\)</span> ，且至少有一个不等式严格成立，则称 <span class="math inline">\(A\)</span> 为<strong>弱对角占优阵</strong>。</p>
+<p><strong>对角占优定理</strong>：若矩阵 <span class="math inline">\(A\)</span> 为严格对角占优矩阵，则 <span class="math inline">\(A\)</span> 为非奇异矩阵。</p>
+</blockquote>
+<p><strong>Jacobi和Gauss迭代法收敛的充分条件</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为严格对角占优阵，则解该方程的Jacobi迭代法和Gauss-Seidel迭代法均收敛。</p>
+<p><strong>SOR迭代法收敛的必要条件</strong>： <span class="math inline">\(0&lt;\omega&lt;2\)</span> 。</p>
+<p><strong>SOR迭代法收敛的充分条件1</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为对称正定矩阵， <span class="math inline">\(0&lt;\omega&lt;2\)</span> ，则解该方程的SOR迭代法收敛。</p>
+<p><strong>SOR迭代法收敛的充分条件2</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为严格对角占优矩阵（或弱对角占优不可约矩阵）， <span class="math inline">\(0&lt;\omega\le1\)</span> ，则解该方程的SOR迭代法收敛。</p>
+<h3 id="代码sor迭代与两种终止条件">代码：SOR迭代与两种终止条件</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">4</span>, <span class="number">-2</span>, <span class="number">-4</span>&#125;, &#123;<span class="number">-2</span>, <span class="number">17</span>, <span class="number">10</span>&#125;, &#123;<span class="number">-4</span>, <span class="number">10</span>, <span class="number">9</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">-7</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_, <span class="number">1.46</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;<span class="built_in">iterate</span>(A_,b_,<span class="number">1</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (omega &lt;= <span class="number">0</span> || omega &gt;= <span class="number">1</span>) &#123; std::cout &lt;&lt; <span class="string">&quot;SOR does not converge !&quot;</span> &lt;&lt; std::endl; <span class="keyword">return</span>; &#125;</span><br><span class="line"></span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line">            next_x[i] = x[i] + omega * tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">                tmp -= A[i][j] * x[j];</span><br><span class="line">            r += tmp * tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (r &lt; <span class="number">1e-10</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line">            next_x[i] = x[i] + omega * tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> maxDelta = std::<span class="built_in">abs</span>(*(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(next_x), std::<span class="built_in">end</span>(next_x))) -</span><br><span class="line">                                   *(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(x), std::<span class="built_in">end</span>(x))));</span><br><span class="line">        std::cout &lt;&lt; maxDelta &lt;&lt; <span class="string">&quot; | &quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (maxDelta &lt; <span class="number">1e-3</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/" class="post-title-link" itemprop="url">2021-03-01-数值分析-Day04-Jacobi-GaussSeidel</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-01 19:36:31 / 修改时间：20:32:20" itemprop="dateCreated datePublished" datetime="2021-03-01T19:36:31+08:00">2021-03-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="迭代法">3.1 - 6 迭代法</h3>
+<h4 id="基本思想">基本思想</h4>
+<p>对线性方程组 <span class="math inline">\(Ax=b\)</span> ，当 <span class="math inline">\(A\)</span> 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。<br />
+工程应用中 <span class="math inline">\(A\)</span> 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。</p>
+<p><strong>通法</strong>：</p>
+<ul>
+<li>将 <span class="math inline">\(Ax=b\)</span> 改写为 <span class="math inline">\(x=B_0x+f\)</span></li>
+<li>任取初始值，如 <span class="math inline">\(x^{(0)}=(0,0,0)^T\)</span> ，将其带入得到方程组解 <span class="math inline">\(x^{(1)}=B_0x^{(0)}+f\)</span></li>
+<li>依次得： <span class="math inline">\(x^{(2)}=B_0x^{(1)}+f,\ x^{(2)}=B_0x^{(1)}+f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}+f,\ \dots\)</span></li>
+<li>即得向量序列 <span class="math inline">\(x^{(0)},x^{(1)},\dots,x^{(k)}\)</span> ，迭代公式 <span class="math inline">\(x^{(k)}=B_0x^{(k-1)}+f\)</span></li>
+<li>迭代次数较高时，向量序列 <span class="math inline">\(x^{(k)}\)</span> <strong>有可能</strong>收敛至逼近精确解的值（不一定）。</li>
+</ul>
+<p>根据 <span class="math inline">\(x=Bx+f\)</span> 变形方式的不同，存在多种迭代算法。</p>
+<p><strong>定义1</strong>：<br />
+对于给定方程组 <span class="math inline">\(x=Bx+f\)</span> ，用公式 <span class="math inline">\(x^{k+1}=Bx^{(k)}+f,\ (k=0,1,2,3,\dots)\)</span> 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 <span class="math inline">\(B\)</span> 与 <span class="math inline">\(k\)</span> 无关）。<br />
+如果 <span class="math inline">\(\lim\limits_{k\to\infty}x^{(k)}=x^*\)</span> ，即向量序列<strong>收敛</strong>至精确解序列，则称此迭代法<strong>收敛</strong>，否则称<strong>发散</strong>。<br />
+由于需要研究 <span class="math inline">\(\{x^{(k)}\}\)</span> 的收敛性，引进误差向量 <span class="math inline">\(\varepsilon^{(k+1)}=x^{(k+1)}-x^*\)</span> 。易得到： <span class="math inline">\(\varepsilon^{(k+1)}=B\varepsilon^{(k)}\)</span> ，递推得： <span class="math inline">\(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\)</span> 。</p>
+<h4 id="jacobi迭代">Jacobi迭代</h4>
+<p><strong>通法细节</strong>：<br />
+将 <span class="math inline">\(A\)</span> 分裂成 <span class="math inline">\(A=M-N\)</span> ，其中 <span class="math inline">\(M\)</span> 为可选择的非奇异矩阵，使 <span class="math inline">\(Mx=d\)</span> 易解，一般选择为 <span class="math inline">\(A\)</span> 的某种近似，称 <span class="math inline">\(M\)</span> 为<strong>分裂矩阵</strong>。<br />
+则原方程 <span class="math inline">\(Ax=b\)</span> 转化为 <span class="math inline">\(Mx=Nx+b\)</span> ，即求解： <span class="math inline">\(x=M^{-1}Nx+M^{-1}b\)</span> 。<br />
+可构造一阶定常迭代法： <span class="math display">\[
+\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\ (k=0,1,\dots)\end{array}\right.\\
+B=M^{-1}N=M^{-1}(M-A)=I-M^{-1}A,\quad f=M^{-1}b
+\]</span> 称 <span class="math inline">\(B=I-M^{-1}A\)</span> 为迭代法的迭代矩阵，选取 <span class="math inline">\(M\)</span> 阵就得到 <span class="math inline">\(Ax=b\)</span> 的各种迭代法。</p>
+<p><strong>Jacobbi迭代</strong>：<br />
+设 <span class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span> ，并将 <span class="math inline">\(A\)</span> 写成三部分： <span class="math display">\[
+\begin{aligned}A&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0\\
+-a_{21}&amp;0\\
+\vdots&amp;\vdots&amp;\ddots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+&amp;&amp;\ddots&amp;\vdots&amp;\vdots\\
+&amp;&amp;&amp;0&amp;-a_{n-1,n}\\
+&amp;&amp;&amp;&amp;0
+\end{pmatrix}\\
+&amp;\equiv D-L-U
+\end{aligned}
+\]</span> 由此，当 <span class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span> 时，选取 <span class="math inline">\(M\)</span> 为 <span class="math inline">\(A\)</span> 的对角元素部分，即选取 <span class="math inline">\(M=D\)</span> ，<span class="math inline">\(A=D-N\)</span> ，即得到 <span class="math inline">\(Ax=b\)</span> 的<strong>Jacobi迭代法</strong>。 <span class="math display">\[
+\begin{aligned}&amp;\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\ (k=0,1,\dots)\end{array}\right.\\
+&amp;其中\ \begin{aligned}&amp;B=D^{-1}(L+U)\equiv J\\
+&amp;f=D^{-1}b\end{aligned}\end{aligned}
+\]</span> 称 <span class="math inline">\(J\)</span> 为Jacobi迭代法的<strong>迭代矩阵</strong>。</p>
+<p><strong>Jacobi迭代法的分量计算公式</strong>： 记 <span class="math inline">\(x^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})\)</span> ，则有： <span class="math display">\[
+\begin{array}{l}
+\begin{aligned}Dx^{k+1}&amp;=(L+U)x^{(k)}+b
+a_{ii}x_i^{k+1}\\&amp;=-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}+b_i\quad(i=1,2,\dots,n)\end{aligned}\\
+B=I-M^{-1}A,\ f=M^{-1}b
+\end{array}
+\]</span> 因此，解 <span class="math inline">\(Ax=b\)</span> 的Jacobi迭代法的计算公式为： <span class="math display">\[
+\left\{\begin{array}{l}
+x^{(0)}=(x_1^{(0)},\dots,x_i^{(0)},\dots,x_n^{(0)})^T\\
+x_i^{(k+1)}=(b_i-\sum\limits_{j=1,j\neq i}^na_{ij}x_j^{(k)})/a_{ii}\\
+i=1,2,\dots,n\\
+k=0,1,\dots\ 表示迭代次数
+\end{array}\right.
+\]</span> 矩阵表示为： <span class="math display">\[
+\begin{array}{l}
+Ax=b\Leftrightarrow(D-L-U)x=b\Leftrightarrow Dx=(L+U)x+b\\
+\begin{aligned}Dx&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}\\
+&amp;=\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+-a_{21}&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0&amp;-a_{n-1,n}\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}+b\\
+&amp;=(L+U)x+b
+\end{aligned}\end{array}
+\]</span></p>
+<h4 id="gauss-seidel迭代法">Gauss-Seidel迭代法</h4>
+<p><strong>改进Jacobi迭代法</strong>：选取分裂矩阵 <span class="math inline">\(M\)</span> 为 <span class="math inline">\(A\)</span> 的下三角部分，即 <span class="math inline">\(M=D-L\)</span> ， <span class="math inline">\(A=M-U\)</span> ，得到： <span class="math display">\[
+\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\quad初始向量\\x^{(k+1)}=Bx^{(k)}+f\quad (k=0,1,\dots)\end{array}\right.\\
+B=I-(D-L^{-1})A=(D-L)^{-1}U\equiv G,\quad f=(D-L)^{-1}b\end{array}
+\]</span> 称 <span class="math inline">\(G\)</span> 为Gauss-Seidel迭代法的迭代矩阵。</p>
+<p><strong>分量计算公式</strong>： <span class="math display">\[
+\begin{array}{l}Dx^{(k+1)}=Dx^{(k)}-(Lx^{(k+1)}+Ux^{k}-Dx^{(k)}+b)\\\\
+\left\{\begin{array}{l}
+x_1^{(k+1)}=\displaystyle-\frac{a_{12}}{a_{11}}x_2^{(k)}-\frac{a_{13}}{a_{11}}x_3^{(k)}-\dots-\frac{a_{1n}}{a_{11}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_2^{(k+1)}=\displaystyle-\frac{a_{21}}{a_{22}}x_2^{(k+1)}-\frac{a_{23}}{a_{22}}x_3^{(k)}-\dots-\frac{a_{2n}}{a_{22}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_3^{(k+1)}=\displaystyle-\frac{a_{31}}{a_{33}}x_2^{(k+1)}-\frac{a_{32}}{a_{33}}x_3^{(k+1)}-\dots-\frac{a_{3n}}{a_{33}}x_n^{(k)}+\frac{b_3}{a_{33}}\\
+\dots\\
+x_n^{(k+1)}=\displaystyle-\frac{a_{n1}}{a_{nn}}x_2^{(k+1)}-\frac{a_{n2}}{a_{nn}}x_3^{(k+1)}-\dots-\frac{a_{n,n-1}}{a_{nn}}x_n^{(k+1)}+\frac{b_n}{a_{nn}}\\
+\end{array}\right.\\
+即\ \displaystyle{x_i^{k+1}=\frac{b_n-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}}{a_{ii}}}\end{array}
+\]</span></p>
+<h3 id="代码jacobi迭代">代码：Jacobi迭代</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>&#125;, &#123;<span class="number">2</span>, <span class="number">-10</span>, <span class="number">3</span>&#125;, &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">14</span>, <span class="number">-5</span>, <span class="number">14</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">if</span> (j != i) tmp -= A[i][j] * x[j];</span><br><span class="line">            next_x[i] = tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">100</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码gauss-seidel迭代">代码：Gauss-Seidel迭代</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***区别***/</span></span><br><span class="line"><span class="comment">//Jacobi</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">    <span class="keyword">if</span> (j != i) tmp -= A[i][j] * x[j];</span><br><span class="line"><span class="comment">//Gauss-Seidel</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">    <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">    <span class="keyword">if</span> (j &gt; i) tmp -= A[i][j] * x[j];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>&#125;, &#123;<span class="number">2</span>, <span class="number">-10</span>, <span class="number">3</span>&#125;, &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">14</span>, <span class="number">-5</span>, <span class="number">14</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt; i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            next_x[i] = tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">100</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">2021-02-28-数值分析-Day03-范数-迭代改善算法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-28 20:00:00" itemprop="dateCreated datePublished" datetime="2021-02-28T20:00:00+08:00">2021-02-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 17:24:52" itemprop="dateModified" datetime="2021-03-11T17:24:52+08:00">2021-03-11</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="范数">2.9-11 范数</h3>
+<p>为研究线性方程组近似解的误差估计和迭代法的收敛性，对 <span class="math inline">\(R……n\)</span> （ <span class="math inline">\(n\)</span> 维向量空间）中的向量（ <span class="math inline">\(R^{n\times n}\)</span> 中的矩阵）的“大小”引进度量——向量（或矩阵）的<strong>范数</strong>。</p>
+<h4 id="向量的范数">向量的范数</h4>
+<p><strong>定义1</strong>：设 <span class="math inline">\(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)</span><br />
+将实数 <span class="math inline">\((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)</span>（或复数 <span class="math inline">\((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\)</span> ）称为向量x,y的数量积（内积）。<br />
+将非负实数 <span class="math inline">\(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}\)</span> 或 <span class="math inline">\(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}|x_i|^2)^{1\over2}\)</span> 称为向量 <span class="math inline">\(x\)</span> 的欧式范数。</p>
+<p><strong>引理</strong>：向量的内积运算支持交换律、分配律、与实数乘时的结合律。<br />
+Cauchy-Schwarz不等式 <span class="math inline">\(|(x,y)|\le \|x\|_2\cdot\|y\|_2\)</span> 当且仅当 <span class="math inline">\(x\)</span> 与 <span class="math inline">\(y\)</span> 线性相关时取等。<br />
+三角不等式 <span class="math inline">\(\|x+y\|_2\le\|x\|_2+\|y\|_2\)</span></p>
+<p><strong>定义2-向量的范数</strong>：若向量 <span class="math inline">\(x\in R^n\)</span> （或 <span class="math inline">\(C^n\)</span> ）的某个实值函数 <span class="math inline">\(N(x)=\|x\|\)</span> ，满足条件： <span class="math display">\[
+\begin{aligned}
+&amp; (1)\ \|x\|\ge 0\ (\|x\|=0当且仅当x=0)\quad\textbf{正定条件}\\
+&amp; (2)\ \|\alpha x\|=|\alpha|\|x\|,\ \forall\alpha\in R(或\alpha\in C)\quad\textbf{齐次性}\\
+&amp; (3)\ \|x+y\|_2\le\|x\|_2+\|y\|_2\quad\textbf{三角不等式}\\
+&amp; (3\to 4)\ \|x-y\|_2\ge\|x\|_2-\|y\|_2
+\end{aligned}
+\]</span> 则称 <span class="math inline">\(N(x)\)</span> 是 <span class="math inline">\(R^n\)</span> （或 <span class="math inline">\(C^n\)</span> ）上的一个<strong>向量范数</strong>（或<strong>模</strong>）</p>
+<p><strong>几种常用的向量范数</strong>：</p>
+<ul>
+<li>向量的 <span class="math inline">\(\infty\)</span> -范数（最大范数）： <span class="math inline">\(\displaystyle{\|x\|_\infty=\max\limits_{1\le i\le n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(1\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_1=\sum_{i=1}^{n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(2\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}}\)</span></li>
+<li>向量的 <span class="math inline">\(p\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_p=(\sum_{i=1}^{n}|x_i|^p)^{1\over p}}\)</span></li>
+<li>向量的 <span class="math inline">\(\infty\)</span> -范数（最大范数）： <span class="math inline">\(\displaystyle{\|x\|_{-\infty}=\min\limits_{1\le i\le n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(0\)</span> -范数：向量的非零元素个数</li>
+</ul>
+<p><strong>向量的收敛性</strong>：设 <span class="math inline">\(\{x^{(k)}\}\)</span> 为 <span class="math inline">\(R^n\)</span> 中的一个向量序列， <span class="math inline">\(x^*\in R^n\)</span> ，记 <span class="math inline">\(x^{(k)}=(x_1^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})^T\, x^*=(x_1^*,x_2^*,\dots,x_n^*)^T\)</span> 。 若 <span class="math inline">\(\lim\limits_{k\to\infty}x_i^{(k)}=x_i^*(i=1,2,\dots,n)\)</span> ，则称 <span class="math inline">\(x^{(k)}\)</span> 收敛于 <span class="math inline">\(x^*\)</span> ，记为 <span class="math inline">\(\lim\limits_{k\to\infty}x_i^{(k)}=x^*\)</span> 。</p>
+<p><strong>范数的连续性</strong>：设非负函数 <span class="math inline">\(N(x)=\|x\|\)</span> 为 <span class="math inline">\(R^n\)</span> 上任一向量范数，则 <span class="math inline">\(N(x)\)</span> 是 <span class="math inline">\(x\)</span> 的分量 <span class="math inline">\(x_1,x_2,\dots,x_n\)</span> 的连续函数。 <span class="math inline">\(x\)</span> 有很小变化时，同时 <span class="math inline">\(N(x)\)</span> 亦变化不大。</p>
+<p><strong>向量范数的等价性</strong>：设 <span class="math inline">\(\|x\|_s,\|x\|_t\)</span> 为 <span class="math inline">\(R^n\)</span> 上向量的任意两种范数，则存在常数 <span class="math inline">\(c_1,c_2&gt;0\)</span> ，使得对一切 <span class="math inline">\(x\in R^n\)</span> 有 <span class="math inline">\(c_1\|x\|_s\le\|x\|_t\le c_2\|x\|_s\)</span> 。</p>
+<h4 id="矩阵的范数">矩阵的范数</h4>
+<h5 id="方阵">方阵</h5>
+<p><strong>定义1</strong>：若矩阵 <span class="math inline">\(A\in R^{n\times n}\)</span> 的某个非负实值函数 <span class="math inline">\(N(A)=\|A\|\)</span> 满足条件：<br />
+<span class="math display">\[
+\begin{aligned}
+&amp; (1)\ \|A\|\ge 0\ (\|A\|=0\Leftrightarrow A=0)\quad\textbf{正定条件}\\
+&amp; (2)\ \|c A\|=|c|\|A\|,\ c为实数\quad\textbf{齐次性}\\
+&amp; (3)\ \|A+B\|\le\|A\|+\|B\|\quad\textbf{三角不等式}\\
+&amp; (4)\ \|AB\|\le\|A\|\|B\|
+\end{aligned}
+\]</span> 则称 <span class="math inline">\(N(A)\)</span> 是 <span class="math inline">\(R^{n\times n}\)</span> 上的一个<strong>矩阵范数</strong>（或<strong>模</strong>）。</p>
+<p><strong>定义2-矩阵的算子范数</strong>：设 <span class="math inline">\(x\in R^n, A\in R^{n\times n}\)</span> ，给出一种向量范数 <span class="math inline">\(\|x\|_\nu,\ (如\nu=1,2,\infty,\dots)\)</span> ，相应地定义一个矩阵的非负函数： <span class="math inline">\(\displaystyle{\|A\|_\nu=\max\limits_{x\neq0}\frac{\|Ax\|_\nu}{\|x\|_\nu}}\)</span> ，可验证该非负函数为矩阵 <span class="math inline">\(A\)</span> 的范数，称之为矩阵 <span class="math inline">\(A\)</span> 的<strong>算子范数</strong>。</p>
+<p><strong>定理</strong>： <span class="math inline">\(\|Ax\|_\nu\le\|A\|_\nu\|x\|_\nu\)</span></p>
+<p><strong>几种常用的矩阵范数</strong>：</p>
+<ul>
+<li>Frobenius范数（F范数）： <span class="math inline">\(\displaystyle{F(A)=\|A\|_F=\left(\sum\limits_{i,j=1}^{n}a_{i,j}^2\right)^{1\over2}}\)</span> ，由向量的 <span class="math inline">\(2\)</span> -范数推广而来</li>
+<li>行范数（<span class="math inline">\(\infty\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_\infty=\max\limits_{1\le i\le n}\sum\limits_{j=1}^{n}|a_{i,j}|}\)</span></li>
+<li>列范数（ <span class="math inline">\(1\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_1=\max\limits_{1\le j\le n}\sum\limits_{i=1}^{n}|a_{i,j}|}\)</span></li>
+<li>谱范数（ <span class="math inline">\(2\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_2=\sqrt{\lambda_{\max}(A^TA)},\ (\lambda为特征值)}\)</span></li>
+</ul>
+<h5 id="非方阵">非方阵</h5>
+<p>矩阵 <span class="math inline">\(A_{mn}\)</span></p>
+<ul>
+<li>Frobenius范数（F范数）： <span class="math inline">\(\displaystyle{F(A)=\|A\|_F=\left(\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{n}a_{i,j}^2\right)^{1\over2}}\)</span> ，由向量的 <span class="math inline">\(2\)</span> -范数推广而来</li>
+<li>行范数（<span class="math inline">\(\infty\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_\infty=\max\limits_{1\le i\le n}\sum\limits_{j=1}^{n}|a_{i,j}|}\)</span></li>
+<li>列范数（ <span class="math inline">\(1\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_1=\max\limits_{1\le j\le n}\sum\limits_{i=1}^{m}|a_{i,j}|}\)</span></li>
+<li>谱范数（ <span class="math inline">\(2\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_2=\sqrt{\lambda_{\max}(A^TA)},\ (\lambda为特征值)}\)</span></li>
+</ul>
+<h3 id="谱半径">2.12 谱半径</h3>
+<blockquote>
+<p><strong>特征值和特征向量</strong> <span class="math inline">\(Ax=\lambda x\)</span> 常数 <span class="math inline">\(\lambda\)</span> 为<strong>特征值</strong>，矩阵 <span class="math inline">\(A\)</span> 为<strong>特征向量</strong>，且为方阵。 计算方法： <span class="math inline">\(\det(A-\lambda I)=0\)</span></p>
+</blockquote>
+<p><strong>定义</strong>：设 <span class="math inline">\(A\in R^{n\times n}\)</span> 的特征值为 <span class="math inline">\(\lambda_i(i=1,2,\dots,n)\)</span> ，称 <span class="math inline">\(\rho(A)=\max\limits_{1\le i\le n}|\lambda_i|\)</span> 为 <span class="math inline">\(A\)</span> 的谱半径。</p>
+<p><strong>定理</strong>：</p>
+<ul>
+<li>设 <span class="math inline">\(A\in R^{n\times n}\)</span> ，则 <span class="math inline">\(\rho(A)\le\|A\|\)</span> ，即矩阵的谱半径不超过矩阵的任何一种算子范数（对F范数也成立）。</li>
+<li>若 <span class="math inline">\(A\in R^{n\times n}\)</span> 为对称矩阵，则 <span class="math inline">\(\rho(A)=\|A\|_2\)</span> 。</li>
+<li>若 <span class="math inline">\(\|B\|&lt;1\)</span> ，则 <span class="math inline">\(I+B\)</span> 为非奇异矩阵，且 <span class="math inline">\(\left\|(I\pm B)^{-1}\right\|\le\displaystyle\frac{1}{1-\|B\|}\)</span> ，此处 <span class="math inline">\(\|\ \|\)</span> 指算子范数。</li>
+</ul>
+<h3 id="方程组的条件数">2.13 - 14 方程组的条件数</h3>
+<p><strong>定义</strong>：如果矩阵 <span class="math inline">\(A\)</span> 或常数项 <span class="math inline">\(b\)</span> 的微小变化，引起方程组 <span class="math inline">\(Ax=b\)</span> 的解的巨大变化，则称该方程组为<strong>“病态”方程组</strong>，若矩阵 <span class="math inline">\(A\)</span> 为原因则称之为该方程组的<strong>“病态”矩阵</strong>。否则称<strong>“良态”</strong>。</p>
+<ol type="1">
+<li><p>设 <span class="math inline">\(A\)</span> 精确， <span class="math inline">\(b\)</span> 有误差 <span class="math inline">\(\delta b\)</span> ，解为 <span class="math inline">\(x+\delta x\)</span> ，则： <span class="math display">\[
+A(x+\delta x)=b+\delta b\ \Rightarrow\ \delta x=A^{-1}\delta b\\
+\|\delta x\|\le\|A^{-1}\|\|\delta b\|\\
+\]</span> 由 <span class="math inline">\(Ax=b\)</span> 得： <span class="math display">\[
+\|b\|\le\|A\|\|x\|,\ \frac{1}{\|x\|}\le\frac{\|A\|}{\|b\|}\ (b\neq0)
+\]</span> 两式相乘得到<strong>定理1</strong>：设 <span class="math inline">\(A\)</span> 是非奇异矩阵， <span class="math inline">\(Ax=b\neq0\)</span> ，且 <span class="math inline">\(A(x+\delta x)=b+\delta b\)</span> ，则 <span class="math inline">\(\displaystyle\frac{\|\delta x\|}{\|x\|}\le\|A^{-1}\|\|A\|\frac{\|\delta b\|}{\|b\|}\)</span> 。该定理给出解的相对误差的上街，即常数项 <span class="math inline">\(b\)</span> 的相对误差在解中至多放大 <span class="math inline">\(\|A^{-1}\|\|A\|\)</span> 倍。</p></li>
+<li><p>设 <span class="math inline">\(b\)</span> 精确， <span class="math inline">\(A\)</span> 有微小误差（扰动） <span class="math inline">\(\delta A\)</span> ，解为 <span class="math inline">\(x+\delta x\)</span> ，则： <span class="math display">\[
+(A+\delta A)(x+\delta x)=b\ \Rightarrow\ (A+\delta A)\delta x=-(\delta A)x\\
+\]</span> 若 <span class="math inline">\(\delta A\)</span> 不受限制， <span class="math inline">\(A+\delta A\)</span> 可能奇异，而： <span class="math display">\[
+(A+\delta A)=A(I+A^{-1}\delta A)
+\]</span> 当 <span class="math inline">\(\|A^{-1}\delta A\|&lt;1\)</span> 时， <span class="math inline">\((I+A^{-1}\delta A)^{-1}\)</span> 存在。则可得： <span class="math display">\[
+\delta x=-(I+A^{-1}\delta A)^{-1}A^{-1}(\delta A)x\\
+\|\delta x\|\le\frac{\|A^{-1}\|\|\delta A\|\|x\|}{1-\|A^{-1}(\delta A)\|}
+\]</span> 设 <span class="math inline">\(1-\|A^{-1}(\delta A)\|&lt;1\)</span> ，则有： <span class="math display">\[
+\frac{\|\delta x\|}{\|x\|}\le\frac{\|A^{-1}\|\|A\|\frac{\|\delta A\|}{\|A\|}}{1-\|A^{-1}\|\|A\|\frac{\|\delta A\|}{\|A\|}}
+\]</span></p></li>
+</ol>
+<p>综上， <span class="math inline">\(\|A^{-1}\|\|A\|\)</span> 刻画了方程组的“病态”程度，称之为矩阵 <span class="math inline">\(A\)</span> 的<strong>条件数</strong>： <span class="math display">\[
+cond(A)_\nu=\|A^{-1}\|_\nu\|A\|_\nu\ (\nu=1,2,\infty)
+\]</span> <span class="math inline">\(cond(A)\)</span> 过大时，方程组“病态”。（相对于矩阵中的元比较大小。）</p>
+<p><strong>通常使用的条件数</strong>： + 无穷条件数 <span class="math inline">\(cond(A)_\infty=\|A^{-1}\|_\infty\|A\|_\infty\)</span> + 谱条件数 <span class="math inline">\(cond(A)_2=\|A^{-1}\|_2\|A\|_2=\displaystyle\sqrt{\frac{\lambda_{\max}(A^TA)}{\lambda_{\min}(A^TA)}}\)</span> 当 <span class="math inline">\(A\)</span> 为对称矩阵时， <span class="math inline">\(cond(A)_2=\displaystyle\frac{\lambda_1}{\lambda_2}\)</span> ，其中 <span class="math inline">\(\lambda_1,\lambda_2\)</span> 为 <span class="math inline">\(A\)</span> 的绝对值最大和绝对值最小的特征值。</p>
+<p><strong>条件数的性质</strong>： + <span class="math inline">\(cond(A)_\nu=\|A^{-1}\|_\nu\|A\|_\nu\ge\|A^{-1}A\|=1\)</span> + <span class="math inline">\(cond(cA)_\nu=cond(A)_\nu, c为常数\)</span> + 若 <span class="math inline">\(A\)</span> 为正交矩阵（ <span class="math inline">\(A^{-1}=A^T\)</span> ），则 <span class="math inline">\(cond(A)_2=1\)</span> 若 <span class="math inline">\(A\)</span> 为非奇异矩阵， <span class="math inline">\(R\)</span> 为正交矩阵，则 <span class="math inline">\(cond(RA)_2=cond(AR)_2=cond(A)_2\)</span></p>
+<h3 id="事后误差估计与迭代改善算法">2.15 事后误差估计与迭代改善算法</h3>
+<h4 id="事后误差估计">事后误差估计</h4>
+<p>设 <span class="math inline">\(A\)</span> 为非奇异矩阵， <span class="math inline">\(x\)</span> 是 <span class="math inline">\(Ax=b\neq0\)</span> 的精确解。再设 <span class="math inline">\(\overline x\)</span> 是此方程组的近似解， <span class="math inline">\(r=b-A\overline x\)</span> ，则： <span class="math display">\[
+\frac{\|x-\overline x\|}{\|x\|}\le cond(A)\cdot\frac{\|r\|}{\|b\|}
+\]</span></p>
+<h4 id="迭代改善算法">迭代改善算法</h4>
+<p><strong>理论</strong>： 设 <span class="math inline">\(Ax=b\)</span> ，其中 <span class="math inline">\(A\in R^{n\times n}\)</span> 为非奇异矩阵，且为病态方程组（但不过分病态）。 + 用选主元三角分析法实现分解计算 <span class="math inline">\(PA=LU\)</span> ，其中 <span class="math inline">\(P\)</span> 为置换阵， <span class="math inline">\(L\)</span> 为单位下三角阵， <span class="math inline">\(U\)</span> 为上三角阵，求得方程组近似解 <span class="math inline">\(x_1\)</span> 。 + 计算剩余向量： <span class="math inline">\(r_1=b-Ax_1\)</span> + 求解 <span class="math inline">\(Ad=r_1\)</span> ，得到解 <span class="math inline">\(d_1\)</span> ，然后改善原解： <span class="math inline">\(x_2=x_1+d_1\)</span> 。 + 递归推：<span class="math inline">\(d_2,d_3,\dots,\ x_3,x_4,\dots\)</span></p>
+<p><strong>实现</strong>： + 用选主元三角分解实行分解计算 <span class="math inline">\(PA=LU\)</span> ，且求计算解 <span class="math inline">\(x_1\)</span> 。 + 对于 <span class="math inline">\(k=1,2,\dots,N_0\)</span> : + 计算 <span class="math inline">\(r_k=b-Ax_k\)</span> + 求解 <span class="math inline">\(LUd_k=Pr_k=PAd_k\)</span> ，<span class="math inline">\(\left\{\begin{array}{}Ly=Pr_k\\Ud_k=y\end{array}\right.\)</span> + 若 <span class="math inline">\(\displaystyle\frac{\|d_k\|_\infty}{\|x_k\|_\infty}\le10^{-t}\)</span> 则输出 + 改善 <span class="math inline">\(x_{k+1}=x_k+d_k\)</span></p>
+<h4 id="补充选主元三角分解法">补充：选主元三角分解法</h4>
+<p>LU分解过程中的问题：有解问题无法LU分解（主元为0）；主元过小时引入较大误差</p>
+<p>解决方法：选主元</p>
+<ul>
+<li>第 <span class="math inline">\(k\)</span> 列主元及主元所在列下方元素挑选绝对值最大的数</li>
+<li>通过初等变换使该元位于主对角线上，最终将 <span class="math inline">\(A\)</span> 转换为 <span class="math inline">\(PA\)</span></li>
+<li>则 Doolittle分解转换为 <span class="math inline">\(PA=LU\)</span></li>
+</ul>
+<h3 id="代码迭代改善算法">代码：迭代改善算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-28.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; C;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; r;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshR</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printX</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">1.0303</span>, <span class="number">0.99030</span>&#125;, &#123;<span class="number">0.99030</span>, <span class="number">0.95285</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">2.4944</span>, <span class="number">2.3988</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="built_in">getPA</span>();</span><br><span class="line">    C.<span class="built_in">assign</span>(A.<span class="built_in">begin</span>(), A.<span class="built_in">end</span>());</span><br><span class="line">    r.<span class="built_in">assign</span>(b.<span class="built_in">begin</span>(), b.<span class="built_in">end</span>());</span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line">    x.<span class="built_in">assign</span>(r.<span class="built_in">begin</span>(), r.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="built_in">refreshR</span>();</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">        <span class="keyword">if</span> (*(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(r), std::<span class="built_in">end</span>(r))) /</span><br><span class="line">            *(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(x), std::<span class="built_in">end</span>(x))) &lt;= <span class="number">1e-5</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">            x[i] += r[i];</span><br><span class="line">        <span class="built_in">printX</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">d</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = r[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = r[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= C[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// solve d</span></span><br><span class="line">    d[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / C[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += C[i][j] * r[j];</span><br><span class="line">        d[i] = (y[i] - sum) / C[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    r.<span class="built_in">assign</span>(d.<span class="built_in">begin</span>(), d.<span class="built_in">end</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">int</span> max = k;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; size; ++i)</span><br><span class="line">                <span class="keyword">if</span> (A[i][k] &gt; A[max][k]) max = i;</span><br><span class="line">            <span class="built_in">swap</span>(A[k], A[max]);</span><br><span class="line">            <span class="built_in">swap</span>(b[k],b[max]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    C[k][j] -= C[k][m] * C[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += C[i][m] * A[m][k];</span><br><span class="line">            C[i][k] = (C[i][k] - sum) / C[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshR</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        r[i] = b[i];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            r[i] -= A[i][j] * x[j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码选主元doolittle算法">代码：选主元Doolittle算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-28.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_ &#123;&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">7</span>&#125;, &#123;<span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>&#125;, &#123;<span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_ &#123;<span class="number">3</span>, <span class="number">8</span>, <span class="number">6</span>&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; x = <span class="built_in">solve</span>(A_, b_);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">getPA</span>();</span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = b[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = b[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= A[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve x</span></span><br><span class="line">    x[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / A[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += A[i][j] * x[j];</span><br><span class="line">        x[i] = (y[i] - sum) / A[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">int</span> max = k;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; size; ++i)</span><br><span class="line">                <span class="keyword">if</span> (A[i][k] &gt; A[max][k]) max = i;</span><br><span class="line">            <span class="built_in">swap</span>(A[k], A[max]);</span><br><span class="line">            <span class="built_in">swap</span>(b[k],b[max]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    A[k][j] -= A[k][m] * A[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += A[i][m] * A[m][k];</span><br><span class="line">            A[i][k] = (A[i][k] - sum) / A[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            std::cout &lt;&lt; A[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/" class="post-title-link" itemprop="url">2021-02-27-数值分析-Day02-三角分解</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-27 18:00:00" itemprop="dateCreated datePublished" datetime="2021-02-27T18:00:00+08:00">2021-02-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 17:24:49" itemprop="dateModified" datetime="2021-03-11T17:24:49+08:00">2021-03-11</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="续-2.1---2.4">续 2.1 - 2.4</h3>
+<h4 id="矩阵三角分解法">矩阵三角分解法</h4>
+<p>初等行变换 <span class="math inline">\(\Leftrightarrow\)</span> 矩阵左乘初等矩阵 消元 <span class="math inline">\(\Leftrightarrow\)</span> 矩阵左乘 <span class="math inline">\((n-1)\)</span> 个初等矩阵</p>
+<p>若 <span class="math inline">\(a_{11}^{(1)}\neq0\)</span> ，令 <span class="math inline">\(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\)</span> ，记： <span class="math inline">\(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\ -l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31} &amp;&amp;&amp;&amp; 1 \end{pmatrix}\)</span></p>
+<p>则有 <span class="math inline">\(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)</span></p>
+<p>同理进行第二步消元 <span class="math inline">\(A^{(3)}=L_{2}A^{(2)},\ \dots\)</span> 第 <span class="math inline">\((n-1)\)</span> 步得到： <span class="math inline">\(A^{(n)}=L_{n-1}A^{(n-1)}=\begin{pmatrix} a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\ &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span></p>
+<p>其中： <span class="math inline">\(L_{n-1}=\begin{pmatrix}1\\&amp;1\\&amp;&amp;\ddots\\&amp;&amp;&amp;1\\&amp;&amp;&amp;-l_{n,n-1}&amp;1\end{pmatrix}\)</span></p>
+<p>也就是： <span class="math inline">\(A^{(n)}=L_{n-1}A^{(n-1)}=L_{n-1}L_{n-2}A^{(n-2)}=\dots=L_{n-1}L_{n-2}\dots L_{2}L_{1}A^{(1)}\)</span></p>
+<p>其中： <span class="math inline">\(L_{k}=\begin{pmatrix}1\\&amp;\cdots\\&amp;&amp;1\\&amp;&amp;-l_{k+1k}&amp;1\\&amp;&amp;\vdots&amp;&amp;\ddots\\&amp;&amp;-l_{k+(n-1)k}&amp;&amp;&amp;1\end{pmatrix},\ k=1,2,\dots,n-1\)</span><br />
+<span class="math inline">\(L_{k}^{-1}=\begin{pmatrix}1\\&amp;\cdots\\&amp;&amp;1\\&amp;&amp;l_{k+1k}&amp;1\\&amp;&amp;\vdots&amp;&amp;\ddots\\&amp;&amp;l_{k+(n-1)k}&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>所以有： <span class="math inline">\(A=A^{(1)}=L_{1}^{-1}L_{2}^{-1}\dots L_{n-1}^{-1}A^{(n)}=LU\)</span> ，称为 <span class="math inline">\(A\)</span> 的 <span class="math inline">\(LU\)</span> 三角分解。</p>
+<p>其中： <span class="math inline">\(L=L_{1}^{-1}L_{2}^{-1}\dots L_{n-1}^{-1}, U=A^{(n)}\)</span> <span class="math inline">\(L=\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\\\vdots&amp;\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;l_{n3}&amp;\cdots&amp;1\end{pmatrix}\)</span> 即一个单位下三角矩阵</p>
+<p><span class="math inline">\(U=\begin{pmatrix} a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\ &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span> 为一个上三角矩阵</p>
+<h3 id="直接三角分解法">2.5 - 2.6 直接三角分解法</h3>
+<p><strong>定理1</strong>：设 <span class="math inline">\(n\)</span> 阶方阵 <span class="math inline">\(A\)</span> 的各阶顺序主子式不为零，则存在<strong>唯一</strong>单位下三角矩阵 <span class="math inline">\(L\)</span> 和上三角矩阵 <span class="math inline">\(U\)</span> 使得 <span class="math inline">\(A=LU\)</span> 。（条件与顺序Gauss消去法的执行条件一致。）</p>
+<p>由此可得： <span class="math inline">\(Ax=b \ \Rightarrow\  LUx=b\)</span> ，令 <span class="math inline">\(Ux=y\)</span> ，得 <span class="math inline">\(\left\{\begin{aligned}Ly=b\\Ux=y\end{aligned}\right.\)</span> 从而将问题转换为两个三角型方程组的求解。</p>
+<p>直接得到 <span class="math inline">\(L\ U\)</span> 两个矩阵——<strong>Doolittle分解法</strong> 设： <span class="math display">\[
+\begin{pmatrix}a_{11}&amp;a_{12}&amp;\cdots&amp;a_{1n}\\a_{21}&amp;a_{22}&amp;\cdots&amp;a_{2n}\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\a_{n1}&amp;a_{n2}&amp;\cdots&amp;a_{nn}\end{pmatrix} = 
+\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\\\vdots&amp;\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;l_{n3}&amp;\cdots&amp;1\end{pmatrix}
+\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix}
+\]</span> 则得： <span class="math display">\[
+\left\{\begin{array}{l}
+u_{1j}=a_{1j}\quad j=1,2,\dots,n\\
+l_{i1}=a_{i1}\div u_{11}\quad i=2,3,\dots,n\\\vdots\\
+对k=2,3,\dots,n,计算\\
+u_{kj}=a_{kj}-\sum_{m=1}^{k-1}{l_{km}u_{mj}}\quad j=k,k+1,\dots,n\\
+l_{ik}=(a_{ik}-\sum_{m=1}^{k-1}{l_{im}u_{mk}})\div u_{kk}\quad i=k+1,k+2,\dots,n
+\end{array}\right.
+\]</span> 应用中为节省存储空间，将矩阵 <span class="math inline">\(U\)</span> 覆盖矩阵 <span class="math inline">\(A\)</span> 的上三角进行存放，矩阵 <span class="math inline">\(L\)</span> 覆盖矩阵 <span class="math inline">\(A\)</span> 除对角线的下三角进行存放，即在原位形成矩阵： <span class="math inline">\(\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\l_{21}&amp;u_{22}&amp;\cdots&amp;u_{2n}\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\l_{n1}&amp;l_{n2}&amp;\cdots&amp;u_{nn}\end{pmatrix}\)</span></p>
+<p>回代得到： <span class="math display">\[
+\begin{array}{l}
+\left\{\begin{array}{l}
+\begin{pmatrix}1\\l_{21}&amp;1\\\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;\cdots&amp;1\end{pmatrix} \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix} = \begin{pmatrix}b_1\\b_2\\\vdots\\b_n\end{pmatrix},\\
+\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} \begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix} = \begin{pmatrix}y_1\\y_2\\\vdots\\y_n\end{pmatrix}
+\end{array}\right.\\
+解得\left\{\begin{array}{l}
+y_1=b_1\\
+y_k=b_k-\sum_{i=1}^{k-1}{l_{ki}y_i},\quad k=2,3,\dots,n\\
+x_n=y_n\div u_{nn}\\
+x_i=(y_i-\sum_{j=i+1}^{n}{u_{ij}x_j})\div u_{ii},\quad i=n-1,n-2m\dots,1
+\end{array}\right.
+\end{array}
+\]</span></p>
+<h3 id="平方根法">2.7 平方根法</h3>
+<p>针对系数矩阵 <span class="math inline">\(A\)</span> 为对称正定矩阵情况，有 <span class="math inline">\(A=LU,u_{kk}&gt;0\)</span> ，而：</p>
+<p><span class="math inline">\(\begin{pmatrix}u_{11}&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;u_{22}&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} = \begin{pmatrix}u_{11}\\&amp;u_{22}\\&amp;&amp;\ddots\\&amp;&amp;&amp;u_{nn}\end{pmatrix} \begin{pmatrix}1&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;1&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>令 <span class="math inline">\(D=\begin{pmatrix}u_{11}\\&amp;u_{22}\\&amp;&amp;\ddots\\&amp;&amp;&amp;u_{nn}\end{pmatrix},\ M=\begin{pmatrix}1&amp;u_{12}&amp;\cdots&amp;u_{1n}\\&amp;1&amp;\cdots&amp;u_{2n}\\&amp;&amp;\ddots&amp;\vdots\\&amp;&amp;&amp;1\end{pmatrix}\)</span></p>
+<p>则有： <span class="math inline">\(A=LDM\)</span> ，又因为 <span class="math inline">\((LDM)^T=M^TDL^T=LDM\)</span> ，所以： <span class="math inline">\(M=L^T\)</span> ，则有： <span class="math inline">\(A=LDM=LDL^T\)</span> 。</p>
+<p>令 <span class="math inline">\(D=\begin{pmatrix}\sqrt{u_{11}}\\&amp;\sqrt{u_{22}}\\&amp;&amp;\ddots\\&amp;&amp;&amp;\sqrt{u_{nn}}\end{pmatrix}^2=(D^{\frac{1}{2}})^2\)</span></p>
+<p>则有： <span class="math inline">\(A=LD^{\frac{1}{2}}D^{\frac{1}{2}}L^T=(LD^{\frac{1}{2}})(LD^{\frac{1}{2}})^T=GG^T,\quad G=LD^{\frac{1}{2}}\)</span></p>
+<p>分解 <span class="math inline">\(A=GG^T\)</span> 称为对称正定矩阵的<strong>Cholesky分解</strong>， <span class="math inline">\(Ax=b\)</span> 则转换为 <span class="math inline">\(\left\{\begin{aligned}Gy=b\\G^Tx=y\end{aligned}\right.\)</span> ，称为<strong>平方根法</strong>。</p>
+<p>求解方法：</p>
+<p>若记 <span class="math inline">\(G=(g_{ij})\)</span> ，则对 <span class="math inline">\(k=1,2,\dots,n\)</span> 有： <span class="math inline">\(\left\{\begin{array}{l}g_{kk}=(a_{kk}-\sum_{m=1}^{k-1}{g_{km}^2})^\frac{1}{2}\\g_{ik}=(a_{ik}-\sum_{m=1}^{k-1}{g_{im}g_{km}})\div g_{kk},\ i=k+1,\dots,n\end{array}\right.\)</span></p>
+<p>同样将 <span class="math inline">\(G\)</span> 存放在 <span class="math inline">\(A\)</span> 的位置来节省存储。</p>
+<p>解三角方程 <span class="math inline">\(\left\{\begin{aligned}Gy=b\\G^Tx=y\end{aligned}\right.\)</span> 得： <span class="math inline">\(\left\{\begin{array}{l}y_k=(b_k-\sum_{m=1}^{k-1}{g_{km}y_m})\div g_{kk},\quad k=1,2,\dots,n\\x_k=(y_k-\sum_{m=k+1}^{n}g_{mk})\div g_{kk},\quad k=n,n-1,\dots,1\end{array}\right.\)</span></p>
+<h3 id="追赶法">2.8 追赶法</h3>
+<p>追赶法是求三对角线性方程组的三角分解法： <span class="math inline">\(\begin{pmatrix}a_1&amp;c_1\\d_2&amp;a_2&amp;c_2\\&amp;\ddots&amp;\ddots&amp;\ddots\\&amp;&amp;d_{n-1}&amp;a_{n-1}&amp;c_{n-1}\\&amp;&amp;&amp;d_n&amp;a_n\end{pmatrix} \begin{pmatrix}x_1\\x_2\\\vdots\\x_{n-1}\\x_n\end{pmatrix} = \begin{pmatrix}b_1\\b_2\\\vdots\\b_{n-1}\\b_n\end{pmatrix}\)</span></p>
+<p>三对角矩阵 <span class="math inline">\(A\)</span> 的各阶顺序主子式都不为零的一个充分条件是： <span class="math inline">\(|a_1|&gt;|c_1|&gt;0;\ |a_n|&gt;|d_n|&gt;0;\ |a_i|\ge|c_i|+|d_i|, c_id_i\neq0, i=2,3,\dots,n-1\)</span> 在此条件下， <span class="math inline">\(A=LDM=TM\)</span> ，称为矩阵 <span class="math inline">\(A\)</span> 的<strong>Crout分解</strong>。</p>
+<p>对三对角矩阵 <span class="math inline">\(A\)</span> 进行Crout分解，有：<span class="math inline">\(A=\begin{pmatrix}\alpha_1\\\gamma_2&amp;\alpha_2\\&amp;\ddots&amp;\ddots\\&amp;&amp;\gamma_{n-1}&amp;\alpha_{n-1}\\&amp;&amp;&amp;\gamma_n&amp;\alpha_n\end{pmatrix} \begin{pmatrix}1&amp;\beta_1\\&amp;1&amp;\beta_2\\&amp;&amp;\ddots&amp;\ddots\\&amp;&amp;&amp;1&amp;\beta_{n-1}\\&amp;&amp;&amp;&amp;1\end{pmatrix}\)</span><br />
+<span class="math inline">\(\left\{\begin{array}{l}\alpha_1=a_1,\ \beta_1=c_1\div\alpha_1,\ \gamma_i=d_i,\ i=1,2,3,\dots,n\\ \alpha_i=a_i-d_i\beta_{i-1},\ i=2,3,\dots,n\\ \beta_i=c_i\div\alpha_i,\ i=2,3,\dots,n-1 \end{array}\right.\)</span></p>
+<h3 id="代码lu分解法doolittle">代码：LU分解法（Doolittle）</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-27.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A, vector&lt;<span class="keyword">double</span>&gt; b)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_ &#123;&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">7</span>&#125;, &#123;<span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>&#125;, &#123;<span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_ &#123;<span class="number">3</span>, <span class="number">8</span>, <span class="number">6</span>&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; x = <span class="built_in">solve</span>(A_, b_);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = b[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = b[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= A[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve x</span></span><br><span class="line">    x[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / A[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += A[i][j] * x[j];</span><br><span class="line">        x[i] = (y[i] - sum) / A[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    A[k][j] -= A[k][m] * A[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += A[i][m] * A[m][k];</span><br><span class="line">            A[i][k] = (A[i][k] - sum) / A[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            std::cout &lt;&lt; A[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/26/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day01-%E9%A1%BA%E5%BA%8FGauss%E6%B6%88%E5%85%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/26/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day01-%E9%A1%BA%E5%BA%8FGauss%E6%B6%88%E5%85%83/" class="post-title-link" itemprop="url">2021-02-26-数值分析-Day01-顺序Gauss消元</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-26 18:00:00" itemprop="dateCreated datePublished" datetime="2021-02-26T18:00:00+08:00">2021-02-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 17:24:46" itemprop="dateModified" datetime="2021-03-11T17:24:46+08:00">2021-03-11</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="section">1.1 - 1.2</h3>
+<h4 id="数值分析的算法要求">数值分析的算法要求</h4>
+<ul>
+<li>结构简单，易于计算机实现</li>
+<li>理论上保证方法的收敛性和数值稳定性</li>
+<li>计算效率高：速度快，内存开销小</li>
+<li>经过数值实验验证</li>
+</ul>
+<h4 id="误差的来源和分类">误差的来源和分类</h4>
+<ul>
+<li><ul>
+<li>模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免</li>
+<li>观测误差：观测实验得到的参数带来的误差</li>
+<li><strong>截断误差</strong>：近似方法产生的误差</li>
+<li><strong>舍入误差</strong>：计算机有限位计算产生的误差</li>
+</ul>
+<p>（后两者为本课程主要研究对象）</p></li>
+<li><p>绝对误差和相对误差</p>
+<p>设 <span class="math inline">\(x\)</span> 是精确值 <span class="math inline">\(x^{*}\)</span> 的一个近似值，则 <span class="math inline">\(e=x^{*}-x\)</span> 为近似值 <span class="math inline">\(x\)</span> 的<strong>绝对误差</strong>，简称<strong>误差</strong>。</p>
+<p>若 <span class="math inline">\(\varepsilon\)</span> 满足 <span class="math inline">\(|e|\le\varepsilon\)</span> ，则称 <span class="math inline">\(\varepsilon\)</span> 为 <span class="math inline">\(x\)</span> 的<strong>绝对误差限</strong>，简称<strong>误差限</strong>，有量纲。则满足 <span class="math inline">\(x-\varepsilon \le x^{*} \le x+\varepsilon\)</span> ，简写为 <span class="math inline">\(x^{*} = x\pm\varepsilon\)</span> 。</p>
+<p><span class="math inline">\(e_{r} = \displaystyle\frac{e}{x^{*}} = \frac{x^{*}-x}{x^{*}}\)</span> 称<strong>相对误差</strong>。</p>
+<p><span class="math inline">\(\varepsilon_{r} = \displaystyle\frac{\varepsilon}{|x|}\)</span> 称<strong>相对误差限</strong>， <span class="math inline">\(|e_{r}| \le \varepsilon_{r}\)</span> ，无量纲。</p>
+<p>（其中误差与相对误差用于理论分析，误差限与相对误差限用于实际应用。）</p></li>
+</ul>
+<h3 id="有效数字">1.3 有效数字</h3>
+<p><strong>定义1</strong>：设数 <span class="math inline">\(x\)</span> 是数 <span class="math inline">\(x^{*}\)</span> 的近似值，如果 <span class="math inline">\(x\)</span> 的绝对误差限是它的某一数位的半个单位，并且从 <span class="math inline">\(x\)</span> 左起第一个非零数到该数位共有 <span class="math inline">\(n\)</span> 位，则称这 <span class="math inline">\(n\)</span> 个数字为 <span class="math inline">\(x\)</span> 的有效数字，也称用 <span class="math inline">\(x\)</span> 近似 <span class="math inline">\(x*\)</span> 时具有 <span class="math inline">\(n\)</span> 位有效数字。</p>
+<p><strong>有效数字与绝对误差限的关系</strong>： <span class="math inline">\(x\)</span> 作为 <span class="math inline">\(x^{*}\)</span> 的近似值，具有 <span class="math inline">\(n\)</span> 位（ <span class="math inline">\(n \le k\)</span> ）有效数字当且仅当：</p>
+<p><span class="math display">\[
+\left|x^{*}-x\right| \le \frac{1}{2}\times10 ^{m-n}
+\]</span></p>
+<p>近似值的有效数字越多，其绝对误差越小。</p>
+<p>（PS：精确值的有效数字可认为有无限多位。）</p>
+<p><strong>有效数字与相对误差限的关系</strong>：若 <span class="math inline">\(x\)</span> 有 <span class="math inline">\(n\)</span> 位有效数字，则其相对误差限为： <span class="math display">\[
+\varepsilon_{r} \le \frac{1}{2 a_{1}}\times10^{-n+1}
+\]</span> 反之，若 <span class="math inline">\(x\)</span> 的相对误差限： <span class="math display">\[
+\varepsilon_{r} \le \frac{1}{2(a_{1}+1)}\times10^{-n+1}
+\]</span> 则 <span class="math inline">\(x\)</span> 至少有 <span class="math inline">\(n\)</span> 位有效数字。</p>
+<h3 id="数值计算中的若干原则">1.4 - 1.6 数值计算中的若干原则</h3>
+<p>为减少舍入误差</p>
+<ul>
+<li><p>避免两个相近的数相减</p>
+<p>利用对数计算法则将减法转换为除法、利用三角函数和差化积公式转换为乘除、倒用分母有理化将减法转换为分母上的乘法等方法。</p></li>
+<li><p>防止大数“吃掉”小数</p>
+<p>指参与计算的数数量级差很大时，则加减运算中，绝对值小的数往往被绝对值大的数“吃掉”（如被计算机存储位数限制舍去）。</p>
+<p>改变计算顺序，在求和差过程中由小到大进行计算。</p></li>
+<li><p>绝对值太小的数不宜作除数</p></li>
+<li><p>注意简化计算程序，减少计算次数</p></li>
+<li><p>选用数值稳定性好的算法</p>
+<p>计算舍入误差积累是可控制的。</p></li>
+</ul>
+<h3 id="gauss消去法">2.1 - 2.4 Gauss消去法</h3>
+<p>求解线性方程组 <span class="math display">\[
+\left\{
+\begin{aligned}
+a_{11}x_{1} + a_{12}x_{2} + ... + a_{1n}x_{n} = b_{1}\\
+a_{21}x_{1} + a_{22}x_{2} + ... + a_{2n}x_{n} = b_{2}\\
+\dots\\
+a_{n1}x_{1} + a_{n2}x_{2} + ... + a_{nn}x_{n} = b_{n}\\
+\end{aligned}
+\right.
+(1)
+\]</span> 矩阵形式 <span class="math inline">\(Ax = b\)</span> <span class="math display">\[
+A=  
+\begin{pmatrix}  
+  a_{11}&amp; a_{12}&amp; \cdots  &amp; a_{1n} \\  
+  a_{21}&amp; a_{22}&amp; \cdots  &amp; a_{2n} \\  
+  \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\  
+  a_{n1}&amp; a_{n2}&amp; \cdots  &amp; a_{nn} 
+\end{pmatrix},
+x=
+\begin{pmatrix}  
+  x_{1} \\
+  x_{2} \\
+  \cdots \\
+  x_{n} \\
+\end{pmatrix},
+b=
+\begin{pmatrix}  
+  b_{1} \\
+  b_{2} \\
+  \cdots \\
+  b_{n} \\
+\end{pmatrix} \\
+矩阵A奇异，det(A)\neq0
+\]</span></p>
+<p>Cramer法则：直接方法，计算量过大，不适合实际应用</p>
+<p><strong>Gauss消去法</strong>：直接方法，逐次消元，转换为上三角方程组。</p>
+<h4 id="顺序gauss消去法">顺序Gauss消去法</h4>
+<p>顺序Gauss消去法求解线性方程组 <span class="math inline">\((1)\)</span>：</p>
+<p>记 <span class="math inline">\(A^{(1)}=A, b^{(1)}=b, a_{ij}^{(1)}=a_{ij}, b_{i}*{(1)}=b_{i}\)</span></p>
+<p>则，线性方程组 <span class="math inline">\((1)\)</span> 的增广矩阵为： <span class="math display">\[
+(A^{(1)},b^{(1)})=  
+\begin{pmatrix}  
+  a_{11}^{(1)}&amp; a_{12}^{(1)}&amp; a_{13}^{(1)}&amp; \dots  &amp; a_{1n}^{(1)}&amp; b_{1}^{(1)} \\
+  a_{21}^{(1)}&amp; a_{22}^{(1)}&amp; a_{23}^{(1)}&amp; \dots  &amp; a_{2n}^{(1)}&amp; b_{2}^{(1)} \\
+  a_{31}^{(1)}&amp; a_{32}^{(1)}&amp; a_{33}^{(1)}&amp; \dots  &amp; a_{3n}^{(1)}&amp; b_{3}^{(1)} \\
+  \dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots \\
+  a_{n1}^{(1)}&amp; a_{n2}^{(1)}&amp; a_{n3}^{(1)}&amp; \dots  &amp; a_{nn}^{(1)}&amp; b_{n}^{(1)} \\
+\end{pmatrix},
+\]</span></p>
+<ul>
+<li><p>第 <span class="math inline">\(1\)</span> 步：设 <span class="math inline">\(a_{11}^{(1)}\neq0\)</span> ，依次用 <span class="math inline">\(-l_{i1}=-\displaystyle\frac{a_{i1}^{(1)}}{a_{11}^{(1)}}, (i=2,3,\dots,n)\)</span> 乘以矩阵的第 <span class="math inline">\(1\)</span> 行加到第 <span class="math inline">\(i\)</span> 行，得到矩阵： <span class="math display">\[
+\begin{array}{l}
+(A^{(2)},b^{(2)})=  
+\begin{pmatrix}  
+a_{11}^{(1)}&amp; a_{12}^{(1)}&amp; a_{13}^{(1)}&amp; \dots  &amp; a_{1n}^{(1)}&amp; b_{1}^{(1)} \\
+0&amp; a_{22}^{(2)}&amp; a_{23}^{(2)}&amp; \dots  &amp; a_{2n}^{(2)}&amp; b_{2}^{(2)} \\
+0&amp; a_{32}^{(2)}&amp; a_{33}^{(2)}&amp; \dots  &amp; a_{3n}^{(2)}&amp; b_{3}^{(2)} \\
+\dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots \\
+0&amp; a_{n2}^{(2)}&amp; a_{n3}^{(2)}&amp; \dots  &amp; a_{nn}^{(2)}&amp; b_{n}^{(2)} \\
+\end{pmatrix},\\
+其中：\begin{aligned}
+a_{ij}^{(2)} = a_{ij}^{(1)} - l_{i1}a_{1j}^{(1)},\quad i,j=2,3,\dots,n \\
+b_{i}^{(2)} = b_{i}^{(1)} - l_{i1}b_{1}^{(1)},\qquad i=2,3,\dots,n
+\end{aligned}
+\end{array}
+\]</span></p></li>
+<li><p>第 <span class="math inline">\(2\)</span> 步：设 <span class="math inline">\(a_{22}^{(2)}\neq0\)</span> ，依次用 <span class="math inline">\(-l_{i2}=-\displaystyle\frac{a_{i2}^{(2)}}{a_{22}^{(2)}}, (i=3,4,\dots,n)\)</span> 乘以矩阵的第 <span class="math inline">\(2\)</span> 行加到第 <span class="math inline">\(i\)</span> 行，得到矩阵： <span class="math display">\[
+\begin{array}{l}
+(A^{(2)},b^{(2)})=  
+\begin{pmatrix}  
+a_{11}^{(1)}&amp; a_{12}^{(1)}&amp; a_{13}^{(1)}&amp; \dots  &amp; a_{1n}^{(1)}&amp; b_{1}^{(1)} \\
+0&amp; a_{22}^{(2)}&amp; a_{23}^{(2)}&amp; \dots  &amp; a_{2n}^{(2)}&amp; b_{2}^{(2)} \\
+0&amp; 0&amp; a_{33}^{(3)}&amp; \dots  &amp; a_{3n}^{(3)}&amp; b_{3}^{(3)} \\
+\dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots \\
+0&amp; 0&amp; a_{n3}^{(3)}&amp; \dots  &amp; a_{nn}^{(3)}&amp; b_{n}^{(3)} \\
+\end{pmatrix},\\
+其中：\begin{aligned}
+a_{ij}^{(3)} = a_{ij}^{(2)} - l_{i2}a_{2j}^{(2)},\quad i,j=3,4,\dots,n \\
+b_{i}^{(3)} = b_{i}^{(2)} - l_{i2}b_{2}^{(2)},\qquad i=3,4,\dots,n
+\end{aligned}
+\end{array}
+\]</span></p></li>
+<li><p>第 <span class="math inline">\(3\)</span> 步，第 <span class="math inline">\(4\)</span> 步， <span class="math inline">\(\dots\)</span> ，第 <span class="math inline">\((n-1)\)</span> 步后得到矩阵： <span class="math display">\[
+(A^{(n)},b^{(n)})=  
+\begin{pmatrix}  
+a_{11}^{(1)}&amp; a_{12}^{(1)}&amp; a_{13}^{(1)}&amp; \dots  &amp; a_{1n}^{(1)}&amp; b_{1}^{(1)} \\
+0&amp; a_{22}^{(2)}&amp; a_{23}^{(2)}&amp; \dots  &amp; a_{2n}^{(2)}&amp; b_{2}^{(2)} \\
+0&amp; 0&amp; a_{33}^{(3)}&amp; \dots  &amp; a_{3n}^{(3)}&amp; b_{3}^{(3)} \\
+\dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots&amp; \dots \\
+0&amp; 0&amp; 0&amp; \dots  &amp; a_{nn}^{(n)}&amp; b_{n}^{(n)} \\
+\end{pmatrix}
+\]</span></p></li>
+<li><p>对应的方程组则变成： <span class="math display">\[
+\left\{
+\begin{aligned}
+a_{11}^{(1)}x_{1} + a_{12}^{(1)}x_{2} + ... + a_{1n}^{(1)}x_{n} = b_{1}^{(1)}\\
+a_{22}^{(2)}x_{2} + ... + a_{2n}^{(2)}x_{n} = b_{2}^{(2)}\\
+\dots\\
+a_{nn}^{(n)}x_{n} = b_{n}^{(n)}\\
+\end{aligned}
+\right.
+\]</span></p></li>
+<li><p>对此方程组进行回代，就可求出方程组的解</p></li>
+</ul>
+<p>顺序Gauss消去法的乘除计算量：<span class="math inline">\(\displaystyle\sum_{k=1}^{n}(k^{2}-1)\ +\ \displaystyle\sum_{k=1}^{n}k\ =\ \displaystyle\frac{1}{3}(n^{3}+3n^{2}-n)\)</span></p>
+<p><strong>顺序Gauss消去法</strong>也简称为<strong>Gauss消去法</strong>，其中 <span class="math inline">\(a_{kk}^{(k)}(k=1,2,\dots,n)\)</span> 也称为<strong>主元素</strong>，且主元素不为零（使用顺序Gauss消去法的充要条件）。</p>
+<h4 id="列主元gauss消去法">列主元Gauss消去法</h4>
+<p>顺序Gauss消去法的局限性：主元素过小时出现“大数吃小数”情况，舍入误差较大。常采用<strong>列主元Gauss消去法</strong>和<strong>全主元Gauss消去法</strong>解决。</p>
+<p>线性方程组 <span class="math inline">\(Ax=b\)</span>，记 <span class="math inline">\(A^{(1)}=A, b^{(1)}=b,\)</span> 列主元Gauss消去法过程如下： + 在增广矩阵 <span class="math inline">\(B^{(1)}=(A^{(1)},b^{(1)})\)</span> 的第一列元素中，取： <span class="math inline">\(\left|a_{k1}^{(1)}\right| = \max\limits_{1\le i\le n}{\left|a_{i1}^{(1)}\right|}\)</span> 为主元素， <span class="math inline">\(r_{k}\leftrightarrow r_{1}\)</span> 。 然后进行第 <span class="math inline">\(1\)</span> 步消元得到增广矩阵 <span class="math inline">\(B^{2}=(A^{(2), b^{(2)}})\)</span> 。 + 再在矩阵 <span class="math inline">\(B^{(2)}=(A^{(2)},b^{(2)})\)</span> 的第二列元素中，取： <span class="math inline">\(\left|a_{k2}^{(2)}\right| = \max\limits_{2\le i\le n}{\left|a_{i2}^{(2)}\right|}\)</span> 为主元素， <span class="math inline">\(r_{k}\leftrightarrow r_{2}\)</span> 。 然后进行第二步消元得到增广矩阵 <span class="math inline">\(B^{3}=(A^{(3), b^{(3)}})\)</span> 。 + 依此类推，经过 <span class="math inline">\((n-1)\)</span> 步选主元和消元运算，得到增广矩阵 <span class="math inline">\(B^{n}=(A^{(n), b^{(n)}})\)</span> 。则方程组 <span class="math inline">\(A^{(n)}x=b^{(n)}\)</span> 是与原方程组等价的上三角方程组，回代求解。 + <strong>易证：只要 <span class="math inline">\(|A|\neq 0\)</span> 列主元Gauss消去法就可顺利进行。</strong></p>
+<h4 id="全主元gauss消去法">全主元Gauss消去法</h4>
+<p>在每一步消元前，在所有元素中选取绝对值最大的元素作为主元素。但由于运算量大增，实际应用中不经常使用。</p>
+<h3 id="代码顺序gauss消去法">代码：顺序Gauss消去法</h3>
+<p>在每一步消元前，在所有元素中选取绝对值最大的元素作为主元素。但由于运算量大增，实际应用中不经常使用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-26.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; matrix;</span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; input)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">upperTriangular</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swapRow</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">gauss</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T* a, T* b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrix</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; test &#123;&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">3</span>&#125;, &#123;<span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">8</span>&#125;, &#123;<span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; ans = <span class="built_in">solve</span>(test);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ans.<span class="built_in">size</span>(); ++i)</span><br><span class="line">        std::cout &lt;&lt; ans[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; input)</span> </span>&#123;</span><br><span class="line">    matrix.<span class="built_in">assign</span>(input.<span class="built_in">begin</span>(), input.<span class="built_in">end</span>());</span><br><span class="line">    size = matrix.<span class="built_in">size</span>();</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solution</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="built_in">upperTriangular</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (matrix[size<span class="number">-1</span>][size<span class="number">-1</span>] == <span class="number">0</span>) std::cout &lt;&lt; <span class="string">&quot;No Solution.&quot;</span>;</span><br><span class="line"></span><br><span class="line">    solution[size<span class="number">-1</span>] = matrix[size<span class="number">-1</span>][size]/matrix[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> tmp = matrix[i][size];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            tmp -= matrix[i][j] * solution[j];</span><br><span class="line">        solution[i] = tmp/matrix[i][i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> solution;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">upperTriangular</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="built_in">swapRow</span>(i);</span><br><span class="line">        <span class="built_in">gauss</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printMatrix</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swapRow</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> max = index;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; size - <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &lt; size; ++i)</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][index] &gt; matrix[max][index]) max = i;</span><br><span class="line">        <span class="built_in">swap</span>(matrix[index], matrix[max]);</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;swap&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="built_in">printMatrix</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">gauss</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = index + <span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">double</span> l = matrix[i][index] / matrix[index][index];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size + <span class="number">1</span>; ++j) &#123;</span><br><span class="line">            matrix[i][j] -= l * matrix[index][j];</span><br><span class="line">            <span class="keyword">if</span> (matrix[i][j] &lt; <span class="number">1e-16</span> &amp;&amp; matrix[i][j] &gt; <span class="number">-1e-10</span>) matrix[i][j] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;gauss&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    <span class="built_in">printMatrix</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T* a, T* b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printMatrix</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size + <span class="number">1</span>; ++j)</span><br><span class="line">            std::cout &lt;&lt; matrix[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/25/2021-02-25-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AC%94%E8%AE%B0%E9%93%BE%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/25/2021-02-25-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AC%94%E8%AE%B0%E9%93%BE%E6%8E%A5/" class="post-title-link" itemprop="url">之前的笔记链接</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-25 19:00:00" itemprop="dateCreated datePublished" datetime="2021-02-25T19:00:00+08:00">2021-02-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-28 11:17:58" itemprop="dateModified" datetime="2021-02-28T11:17:58+08:00">2021-02-28</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="信号与系统-上-中-下">信号与系统 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg">上</a> <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw">中</a> <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA">下</a></h3>
+<p>傅予力<br />
+2020寒假<br />
+https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg<br />
+https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw<br />
+https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA</p>
+<h3 id="games101现代计算机图形学入门"><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw">GAMES101现代计算机图形学入门</a></h3>
+<p>闫令琪<br />
+2020上半年-疫情在家<br />
+https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/25/About/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/25/About/" class="post-title-link" itemprop="url">About</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-25 18:00:00" itemprop="dateCreated datePublished" datetime="2021-02-25T18:00:00+08:00">2021-02-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-28 11:18:08" itemprop="dateModified" datetime="2021-02-28T11:18:08+08:00">2021-02-28</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>关于本网页：主要存放一些课余学习的、自以为比较重要的课外课程笔记，偶尔可能也会有其他奇怪的东西。<br />
+关于作者：xa，（也许）BFA为数不多的理工菜鸟？见到OldAugutus/ElderlyAugustus/xalpha等id也可能是我。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

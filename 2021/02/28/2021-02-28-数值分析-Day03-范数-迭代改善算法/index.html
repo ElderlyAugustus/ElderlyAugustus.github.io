@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。 向量的范数 定义1：设 \(x&#x3D;(x_1,x_2,\dots,x_n)^T,y&#x3D;(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\) 将实数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-02-28-数值分析-Day03-范数-迭代改善算法">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。 向量的范数 定义1：设 \(x&#x3D;(x_1,x_2,\dots,x_n)^T,y&#x3D;(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\) 将实数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-28T12:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-11T09:24:52.623Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-02-28-数值分析-Day03-范数-迭代改善算法 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8C%83%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">2.9-11 范数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E8%8C%83%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">向量的范数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">矩阵的范数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E9%98%B5"><span class="nav-number">1.2.1.</span> <span class="nav-text">方阵</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%9E%E6%96%B9%E9%98%B5"><span class="nav-number">1.2.2.</span> <span class="nav-text">非方阵</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%B1%E5%8D%8A%E5%BE%84"><span class="nav-number">2.</span> <span class="nav-text">2.12 谱半径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E7%A8%8B%E7%BB%84%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">2.13 - 14 方程组的条件数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%90%8E%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1%E4%B8%8E%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">2.15 事后误差估计与迭代改善算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%90%8E%E8%AF%AF%E5%B7%AE%E4%BC%B0%E8%AE%A1"><span class="nav-number">4.1.</span> <span class="nav-text">事后误差估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">迭代改善算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E9%80%89%E4%B8%BB%E5%85%83%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text">补充：选主元三角分解法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">代码：迭代改善算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%80%89%E4%B8%BB%E5%85%83doolittle%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">代码：选主元Doolittle算法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-02-28-数值分析-Day03-范数-迭代改善算法
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-28 20:00:00" itemprop="dateCreated datePublished" datetime="2021-02-28T20:00:00+08:00">2021-02-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 17:24:52" itemprop="dateModified" datetime="2021-03-11T17:24:52+08:00">2021-03-11</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="范数">2.9-11 范数</h3>
+<p>为研究线性方程组近似解的误差估计和迭代法的收敛性，对 <span class="math inline">\(R……n\)</span> （ <span class="math inline">\(n\)</span> 维向量空间）中的向量（ <span class="math inline">\(R^{n\times n}\)</span> 中的矩阵）的“大小”引进度量——向量（或矩阵）的<strong>范数</strong>。</p>
+<h4 id="向量的范数">向量的范数</h4>
+<p><strong>定义1</strong>：设 <span class="math inline">\(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)</span><br />
+将实数 <span class="math inline">\((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)</span>（或复数 <span class="math inline">\((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\)</span> ）称为向量x,y的数量积（内积）。<br />
+将非负实数 <span class="math inline">\(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}\)</span> 或 <span class="math inline">\(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}|x_i|^2)^{1\over2}\)</span> 称为向量 <span class="math inline">\(x\)</span> 的欧式范数。</p>
+<p><strong>引理</strong>：向量的内积运算支持交换律、分配律、与实数乘时的结合律。<br />
+Cauchy-Schwarz不等式 <span class="math inline">\(|(x,y)|\le \|x\|_2\cdot\|y\|_2\)</span> 当且仅当 <span class="math inline">\(x\)</span> 与 <span class="math inline">\(y\)</span> 线性相关时取等。<br />
+三角不等式 <span class="math inline">\(\|x+y\|_2\le\|x\|_2+\|y\|_2\)</span></p>
+<p><strong>定义2-向量的范数</strong>：若向量 <span class="math inline">\(x\in R^n\)</span> （或 <span class="math inline">\(C^n\)</span> ）的某个实值函数 <span class="math inline">\(N(x)=\|x\|\)</span> ，满足条件： <span class="math display">\[
+\begin{aligned}
+&amp; (1)\ \|x\|\ge 0\ (\|x\|=0当且仅当x=0)\quad\textbf{正定条件}\\
+&amp; (2)\ \|\alpha x\|=|\alpha|\|x\|,\ \forall\alpha\in R(或\alpha\in C)\quad\textbf{齐次性}\\
+&amp; (3)\ \|x+y\|_2\le\|x\|_2+\|y\|_2\quad\textbf{三角不等式}\\
+&amp; (3\to 4)\ \|x-y\|_2\ge\|x\|_2-\|y\|_2
+\end{aligned}
+\]</span> 则称 <span class="math inline">\(N(x)\)</span> 是 <span class="math inline">\(R^n\)</span> （或 <span class="math inline">\(C^n\)</span> ）上的一个<strong>向量范数</strong>（或<strong>模</strong>）</p>
+<p><strong>几种常用的向量范数</strong>：</p>
+<ul>
+<li>向量的 <span class="math inline">\(\infty\)</span> -范数（最大范数）： <span class="math inline">\(\displaystyle{\|x\|_\infty=\max\limits_{1\le i\le n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(1\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_1=\sum_{i=1}^{n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(2\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}}\)</span></li>
+<li>向量的 <span class="math inline">\(p\)</span> -范数： <span class="math inline">\(\displaystyle{\|x\|_p=(\sum_{i=1}^{n}|x_i|^p)^{1\over p}}\)</span></li>
+<li>向量的 <span class="math inline">\(\infty\)</span> -范数（最大范数）： <span class="math inline">\(\displaystyle{\|x\|_{-\infty}=\min\limits_{1\le i\le n}|x_i|}\)</span></li>
+<li>向量的 <span class="math inline">\(0\)</span> -范数：向量的非零元素个数</li>
+</ul>
+<p><strong>向量的收敛性</strong>：设 <span class="math inline">\(\{x^{(k)}\}\)</span> 为 <span class="math inline">\(R^n\)</span> 中的一个向量序列， <span class="math inline">\(x^*\in R^n\)</span> ，记 <span class="math inline">\(x^{(k)}=(x_1^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})^T\, x^*=(x_1^*,x_2^*,\dots,x_n^*)^T\)</span> 。 若 <span class="math inline">\(\lim\limits_{k\to\infty}x_i^{(k)}=x_i^*(i=1,2,\dots,n)\)</span> ，则称 <span class="math inline">\(x^{(k)}\)</span> 收敛于 <span class="math inline">\(x^*\)</span> ，记为 <span class="math inline">\(\lim\limits_{k\to\infty}x_i^{(k)}=x^*\)</span> 。</p>
+<p><strong>范数的连续性</strong>：设非负函数 <span class="math inline">\(N(x)=\|x\|\)</span> 为 <span class="math inline">\(R^n\)</span> 上任一向量范数，则 <span class="math inline">\(N(x)\)</span> 是 <span class="math inline">\(x\)</span> 的分量 <span class="math inline">\(x_1,x_2,\dots,x_n\)</span> 的连续函数。 <span class="math inline">\(x\)</span> 有很小变化时，同时 <span class="math inline">\(N(x)\)</span> 亦变化不大。</p>
+<p><strong>向量范数的等价性</strong>：设 <span class="math inline">\(\|x\|_s,\|x\|_t\)</span> 为 <span class="math inline">\(R^n\)</span> 上向量的任意两种范数，则存在常数 <span class="math inline">\(c_1,c_2&gt;0\)</span> ，使得对一切 <span class="math inline">\(x\in R^n\)</span> 有 <span class="math inline">\(c_1\|x\|_s\le\|x\|_t\le c_2\|x\|_s\)</span> 。</p>
+<h4 id="矩阵的范数">矩阵的范数</h4>
+<h5 id="方阵">方阵</h5>
+<p><strong>定义1</strong>：若矩阵 <span class="math inline">\(A\in R^{n\times n}\)</span> 的某个非负实值函数 <span class="math inline">\(N(A)=\|A\|\)</span> 满足条件：<br />
+<span class="math display">\[
+\begin{aligned}
+&amp; (1)\ \|A\|\ge 0\ (\|A\|=0\Leftrightarrow A=0)\quad\textbf{正定条件}\\
+&amp; (2)\ \|c A\|=|c|\|A\|,\ c为实数\quad\textbf{齐次性}\\
+&amp; (3)\ \|A+B\|\le\|A\|+\|B\|\quad\textbf{三角不等式}\\
+&amp; (4)\ \|AB\|\le\|A\|\|B\|
+\end{aligned}
+\]</span> 则称 <span class="math inline">\(N(A)\)</span> 是 <span class="math inline">\(R^{n\times n}\)</span> 上的一个<strong>矩阵范数</strong>（或<strong>模</strong>）。</p>
+<p><strong>定义2-矩阵的算子范数</strong>：设 <span class="math inline">\(x\in R^n, A\in R^{n\times n}\)</span> ，给出一种向量范数 <span class="math inline">\(\|x\|_\nu,\ (如\nu=1,2,\infty,\dots)\)</span> ，相应地定义一个矩阵的非负函数： <span class="math inline">\(\displaystyle{\|A\|_\nu=\max\limits_{x\neq0}\frac{\|Ax\|_\nu}{\|x\|_\nu}}\)</span> ，可验证该非负函数为矩阵 <span class="math inline">\(A\)</span> 的范数，称之为矩阵 <span class="math inline">\(A\)</span> 的<strong>算子范数</strong>。</p>
+<p><strong>定理</strong>： <span class="math inline">\(\|Ax\|_\nu\le\|A\|_\nu\|x\|_\nu\)</span></p>
+<p><strong>几种常用的矩阵范数</strong>：</p>
+<ul>
+<li>Frobenius范数（F范数）： <span class="math inline">\(\displaystyle{F(A)=\|A\|_F=\left(\sum\limits_{i,j=1}^{n}a_{i,j}^2\right)^{1\over2}}\)</span> ，由向量的 <span class="math inline">\(2\)</span> -范数推广而来</li>
+<li>行范数（<span class="math inline">\(\infty\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_\infty=\max\limits_{1\le i\le n}\sum\limits_{j=1}^{n}|a_{i,j}|}\)</span></li>
+<li>列范数（ <span class="math inline">\(1\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_1=\max\limits_{1\le j\le n}\sum\limits_{i=1}^{n}|a_{i,j}|}\)</span></li>
+<li>谱范数（ <span class="math inline">\(2\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_2=\sqrt{\lambda_{\max}(A^TA)},\ (\lambda为特征值)}\)</span></li>
+</ul>
+<h5 id="非方阵">非方阵</h5>
+<p>矩阵 <span class="math inline">\(A_{mn}\)</span></p>
+<ul>
+<li>Frobenius范数（F范数）： <span class="math inline">\(\displaystyle{F(A)=\|A\|_F=\left(\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{n}a_{i,j}^2\right)^{1\over2}}\)</span> ，由向量的 <span class="math inline">\(2\)</span> -范数推广而来</li>
+<li>行范数（<span class="math inline">\(\infty\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_\infty=\max\limits_{1\le i\le n}\sum\limits_{j=1}^{n}|a_{i,j}|}\)</span></li>
+<li>列范数（ <span class="math inline">\(1\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_1=\max\limits_{1\le j\le n}\sum\limits_{i=1}^{m}|a_{i,j}|}\)</span></li>
+<li>谱范数（ <span class="math inline">\(2\)</span> -范数）： <span class="math inline">\(\displaystyle{\|A\|_2=\sqrt{\lambda_{\max}(A^TA)},\ (\lambda为特征值)}\)</span></li>
+</ul>
+<h3 id="谱半径">2.12 谱半径</h3>
+<blockquote>
+<p><strong>特征值和特征向量</strong> <span class="math inline">\(Ax=\lambda x\)</span> 常数 <span class="math inline">\(\lambda\)</span> 为<strong>特征值</strong>，矩阵 <span class="math inline">\(A\)</span> 为<strong>特征向量</strong>，且为方阵。 计算方法： <span class="math inline">\(\det(A-\lambda I)=0\)</span></p>
+</blockquote>
+<p><strong>定义</strong>：设 <span class="math inline">\(A\in R^{n\times n}\)</span> 的特征值为 <span class="math inline">\(\lambda_i(i=1,2,\dots,n)\)</span> ，称 <span class="math inline">\(\rho(A)=\max\limits_{1\le i\le n}|\lambda_i|\)</span> 为 <span class="math inline">\(A\)</span> 的谱半径。</p>
+<p><strong>定理</strong>：</p>
+<ul>
+<li>设 <span class="math inline">\(A\in R^{n\times n}\)</span> ，则 <span class="math inline">\(\rho(A)\le\|A\|\)</span> ，即矩阵的谱半径不超过矩阵的任何一种算子范数（对F范数也成立）。</li>
+<li>若 <span class="math inline">\(A\in R^{n\times n}\)</span> 为对称矩阵，则 <span class="math inline">\(\rho(A)=\|A\|_2\)</span> 。</li>
+<li>若 <span class="math inline">\(\|B\|&lt;1\)</span> ，则 <span class="math inline">\(I+B\)</span> 为非奇异矩阵，且 <span class="math inline">\(\left\|(I\pm B)^{-1}\right\|\le\displaystyle\frac{1}{1-\|B\|}\)</span> ，此处 <span class="math inline">\(\|\ \|\)</span> 指算子范数。</li>
+</ul>
+<h3 id="方程组的条件数">2.13 - 14 方程组的条件数</h3>
+<p><strong>定义</strong>：如果矩阵 <span class="math inline">\(A\)</span> 或常数项 <span class="math inline">\(b\)</span> 的微小变化，引起方程组 <span class="math inline">\(Ax=b\)</span> 的解的巨大变化，则称该方程组为<strong>“病态”方程组</strong>，若矩阵 <span class="math inline">\(A\)</span> 为原因则称之为该方程组的<strong>“病态”矩阵</strong>。否则称<strong>“良态”</strong>。</p>
+<ol type="1">
+<li><p>设 <span class="math inline">\(A\)</span> 精确， <span class="math inline">\(b\)</span> 有误差 <span class="math inline">\(\delta b\)</span> ，解为 <span class="math inline">\(x+\delta x\)</span> ，则： <span class="math display">\[
+A(x+\delta x)=b+\delta b\ \Rightarrow\ \delta x=A^{-1}\delta b\\
+\|\delta x\|\le\|A^{-1}\|\|\delta b\|\\
+\]</span> 由 <span class="math inline">\(Ax=b\)</span> 得： <span class="math display">\[
+\|b\|\le\|A\|\|x\|,\ \frac{1}{\|x\|}\le\frac{\|A\|}{\|b\|}\ (b\neq0)
+\]</span> 两式相乘得到<strong>定理1</strong>：设 <span class="math inline">\(A\)</span> 是非奇异矩阵， <span class="math inline">\(Ax=b\neq0\)</span> ，且 <span class="math inline">\(A(x+\delta x)=b+\delta b\)</span> ，则 <span class="math inline">\(\displaystyle\frac{\|\delta x\|}{\|x\|}\le\|A^{-1}\|\|A\|\frac{\|\delta b\|}{\|b\|}\)</span> 。该定理给出解的相对误差的上街，即常数项 <span class="math inline">\(b\)</span> 的相对误差在解中至多放大 <span class="math inline">\(\|A^{-1}\|\|A\|\)</span> 倍。</p></li>
+<li><p>设 <span class="math inline">\(b\)</span> 精确， <span class="math inline">\(A\)</span> 有微小误差（扰动） <span class="math inline">\(\delta A\)</span> ，解为 <span class="math inline">\(x+\delta x\)</span> ，则： <span class="math display">\[
+(A+\delta A)(x+\delta x)=b\ \Rightarrow\ (A+\delta A)\delta x=-(\delta A)x\\
+\]</span> 若 <span class="math inline">\(\delta A\)</span> 不受限制， <span class="math inline">\(A+\delta A\)</span> 可能奇异，而： <span class="math display">\[
+(A+\delta A)=A(I+A^{-1}\delta A)
+\]</span> 当 <span class="math inline">\(\|A^{-1}\delta A\|&lt;1\)</span> 时， <span class="math inline">\((I+A^{-1}\delta A)^{-1}\)</span> 存在。则可得： <span class="math display">\[
+\delta x=-(I+A^{-1}\delta A)^{-1}A^{-1}(\delta A)x\\
+\|\delta x\|\le\frac{\|A^{-1}\|\|\delta A\|\|x\|}{1-\|A^{-1}(\delta A)\|}
+\]</span> 设 <span class="math inline">\(1-\|A^{-1}(\delta A)\|&lt;1\)</span> ，则有： <span class="math display">\[
+\frac{\|\delta x\|}{\|x\|}\le\frac{\|A^{-1}\|\|A\|\frac{\|\delta A\|}{\|A\|}}{1-\|A^{-1}\|\|A\|\frac{\|\delta A\|}{\|A\|}}
+\]</span></p></li>
+</ol>
+<p>综上， <span class="math inline">\(\|A^{-1}\|\|A\|\)</span> 刻画了方程组的“病态”程度，称之为矩阵 <span class="math inline">\(A\)</span> 的<strong>条件数</strong>： <span class="math display">\[
+cond(A)_\nu=\|A^{-1}\|_\nu\|A\|_\nu\ (\nu=1,2,\infty)
+\]</span> <span class="math inline">\(cond(A)\)</span> 过大时，方程组“病态”。（相对于矩阵中的元比较大小。）</p>
+<p><strong>通常使用的条件数</strong>： + 无穷条件数 <span class="math inline">\(cond(A)_\infty=\|A^{-1}\|_\infty\|A\|_\infty\)</span> + 谱条件数 <span class="math inline">\(cond(A)_2=\|A^{-1}\|_2\|A\|_2=\displaystyle\sqrt{\frac{\lambda_{\max}(A^TA)}{\lambda_{\min}(A^TA)}}\)</span> 当 <span class="math inline">\(A\)</span> 为对称矩阵时， <span class="math inline">\(cond(A)_2=\displaystyle\frac{\lambda_1}{\lambda_2}\)</span> ，其中 <span class="math inline">\(\lambda_1,\lambda_2\)</span> 为 <span class="math inline">\(A\)</span> 的绝对值最大和绝对值最小的特征值。</p>
+<p><strong>条件数的性质</strong>： + <span class="math inline">\(cond(A)_\nu=\|A^{-1}\|_\nu\|A\|_\nu\ge\|A^{-1}A\|=1\)</span> + <span class="math inline">\(cond(cA)_\nu=cond(A)_\nu, c为常数\)</span> + 若 <span class="math inline">\(A\)</span> 为正交矩阵（ <span class="math inline">\(A^{-1}=A^T\)</span> ），则 <span class="math inline">\(cond(A)_2=1\)</span> 若 <span class="math inline">\(A\)</span> 为非奇异矩阵， <span class="math inline">\(R\)</span> 为正交矩阵，则 <span class="math inline">\(cond(RA)_2=cond(AR)_2=cond(A)_2\)</span></p>
+<h3 id="事后误差估计与迭代改善算法">2.15 事后误差估计与迭代改善算法</h3>
+<h4 id="事后误差估计">事后误差估计</h4>
+<p>设 <span class="math inline">\(A\)</span> 为非奇异矩阵， <span class="math inline">\(x\)</span> 是 <span class="math inline">\(Ax=b\neq0\)</span> 的精确解。再设 <span class="math inline">\(\overline x\)</span> 是此方程组的近似解， <span class="math inline">\(r=b-A\overline x\)</span> ，则： <span class="math display">\[
+\frac{\|x-\overline x\|}{\|x\|}\le cond(A)\cdot\frac{\|r\|}{\|b\|}
+\]</span></p>
+<h4 id="迭代改善算法">迭代改善算法</h4>
+<p><strong>理论</strong>： 设 <span class="math inline">\(Ax=b\)</span> ，其中 <span class="math inline">\(A\in R^{n\times n}\)</span> 为非奇异矩阵，且为病态方程组（但不过分病态）。 + 用选主元三角分析法实现分解计算 <span class="math inline">\(PA=LU\)</span> ，其中 <span class="math inline">\(P\)</span> 为置换阵， <span class="math inline">\(L\)</span> 为单位下三角阵， <span class="math inline">\(U\)</span> 为上三角阵，求得方程组近似解 <span class="math inline">\(x_1\)</span> 。 + 计算剩余向量： <span class="math inline">\(r_1=b-Ax_1\)</span> + 求解 <span class="math inline">\(Ad=r_1\)</span> ，得到解 <span class="math inline">\(d_1\)</span> ，然后改善原解： <span class="math inline">\(x_2=x_1+d_1\)</span> 。 + 递归推：<span class="math inline">\(d_2,d_3,\dots,\ x_3,x_4,\dots\)</span></p>
+<p><strong>实现</strong>： + 用选主元三角分解实行分解计算 <span class="math inline">\(PA=LU\)</span> ，且求计算解 <span class="math inline">\(x_1\)</span> 。 + 对于 <span class="math inline">\(k=1,2,\dots,N_0\)</span> : + 计算 <span class="math inline">\(r_k=b-Ax_k\)</span> + 求解 <span class="math inline">\(LUd_k=Pr_k=PAd_k\)</span> ，<span class="math inline">\(\left\{\begin{array}{}Ly=Pr_k\\Ud_k=y\end{array}\right.\)</span> + 若 <span class="math inline">\(\displaystyle\frac{\|d_k\|_\infty}{\|x_k\|_\infty}\le10^{-t}\)</span> 则输出 + 改善 <span class="math inline">\(x_{k+1}=x_k+d_k\)</span></p>
+<h4 id="补充选主元三角分解法">补充：选主元三角分解法</h4>
+<p>LU分解过程中的问题：有解问题无法LU分解（主元为0）；主元过小时引入较大误差</p>
+<p>解决方法：选主元</p>
+<ul>
+<li>第 <span class="math inline">\(k\)</span> 列主元及主元所在列下方元素挑选绝对值最大的数</li>
+<li>通过初等变换使该元位于主对角线上，最终将 <span class="math inline">\(A\)</span> 转换为 <span class="math inline">\(PA\)</span></li>
+<li>则 Doolittle分解转换为 <span class="math inline">\(PA=LU\)</span></li>
+</ul>
+<h3 id="代码迭代改善算法">代码：迭代改善算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-28.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; C;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; r;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshR</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printX</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">1.0303</span>, <span class="number">0.99030</span>&#125;, &#123;<span class="number">0.99030</span>, <span class="number">0.95285</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">2.4944</span>, <span class="number">2.3988</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="built_in">getPA</span>();</span><br><span class="line">    C.<span class="built_in">assign</span>(A.<span class="built_in">begin</span>(), A.<span class="built_in">end</span>());</span><br><span class="line">    r.<span class="built_in">assign</span>(b.<span class="built_in">begin</span>(), b.<span class="built_in">end</span>());</span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line">    <span class="built_in">solve</span>();</span><br><span class="line">    x.<span class="built_in">assign</span>(r.<span class="built_in">begin</span>(), r.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="built_in">refreshR</span>();</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">        <span class="keyword">if</span> (*(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(r), std::<span class="built_in">end</span>(r))) /</span><br><span class="line">            *(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(x), std::<span class="built_in">end</span>(x))) &lt;= <span class="number">1e-5</span>)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">            x[i] += r[i];</span><br><span class="line">        <span class="built_in">printX</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">d</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = r[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = r[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= C[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// solve d</span></span><br><span class="line">    d[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / C[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += C[i][j] * r[j];</span><br><span class="line">        d[i] = (y[i] - sum) / C[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    r.<span class="built_in">assign</span>(d.<span class="built_in">begin</span>(), d.<span class="built_in">end</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">int</span> max = k;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; size; ++i)</span><br><span class="line">                <span class="keyword">if</span> (A[i][k] &gt; A[max][k]) max = i;</span><br><span class="line">            <span class="built_in">swap</span>(A[k], A[max]);</span><br><span class="line">            <span class="built_in">swap</span>(b[k],b[max]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    C[k][j] -= C[k][m] * C[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += C[i][m] * A[m][k];</span><br><span class="line">            C[i][k] = (C[i][k] - sum) / C[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">refreshR</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        r[i] = b[i];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            r[i] -= A[i][j] * x[j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码选主元doolittle算法">代码：选主元Doolittle算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-02-28.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_ &#123;&#123;<span class="number">8</span>, <span class="number">1</span>, <span class="number">7</span>&#125;, &#123;<span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>&#125;, &#123;<span class="number">9</span>, <span class="number">1</span>, <span class="number">5</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_ &#123;<span class="number">3</span>, <span class="number">8</span>, <span class="number">6</span>&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; x = <span class="built_in">solve</span>(A_, b_);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i)</span><br><span class="line">        std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">solve</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">y</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">getPA</span>();</span><br><span class="line">    <span class="built_in">getLU</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve y</span></span><br><span class="line">    y[<span class="number">0</span>] = b[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">1</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        y[k] = b[k];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            y[k] -= A[k][i] * y[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// solve x</span></span><br><span class="line">    x[size<span class="number">-1</span>] = y[size<span class="number">-1</span>] / A[size<span class="number">-1</span>][size<span class="number">-1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = size<span class="number">-2</span>; i &gt;= <span class="number">0</span>; --i) &#123;</span><br><span class="line">        <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; size; ++j)</span><br><span class="line">            sum += A[i][j] * x[j];</span><br><span class="line">        x[i] = (y[i] - sum) / A[i][i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getPA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">int</span> max = k;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; size; ++i)</span><br><span class="line">                <span class="keyword">if</span> (A[i][k] &gt; A[max][k]) max = i;</span><br><span class="line">            <span class="built_in">swap</span>(A[k], A[max]);</span><br><span class="line">            <span class="built_in">swap</span>(b[k],b[max]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">getLU</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; size; ++k) &#123;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">0</span>) <span class="keyword">for</span> (<span class="keyword">int</span> j = k; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m) &#123;</span><br><span class="line">                    A[k][j] -= A[k][m] * A[m][j];</span><br><span class="line">                &#125;</span><br><span class="line">        <span class="keyword">if</span> (k &lt; size<span class="number">-1</span>) <span class="keyword">for</span> (<span class="keyword">int</span> i = k+<span class="number">1</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> sum = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; k; ++m)</span><br><span class="line">                sum += A[i][m] * A[m][k];</span><br><span class="line">            A[i][k] = (A[i][k] - sum) / A[k][k];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printA</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(T&amp; a, T&amp; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> tmp = a;</span><br><span class="line">    a = b;</span><br><span class="line">    b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">            std::cout &lt;&lt; A[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        std::cout &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/27/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/" rel="prev" title="2021-02-27-数值分析-Day02-三角分解">
+                  <i class="fa fa-chevron-left"></i> 2021-02-27-数值分析-Day02-三角分解
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/" rel="next" title="2021-03-01-数值分析-Day04-Jacobi-GaussSeidel">
+                  2021-03-01-数值分析-Day04-Jacobi-GaussSeidel <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

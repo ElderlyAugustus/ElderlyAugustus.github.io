@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax&#x3D;b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去&#x2F;Doolittle分解均为有效方法。 工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。 通法：  将 \(Ax&#x3D;b\) 改写为 \(x&#x3D;B_0x+f\) 任取初始值，如 \(x^{(0)}&#x3D;(0,0,0)^T\) ，将其带入得到方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-01-数值分析-Day04-Jacobi-GaussSeidel">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax&#x3D;b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去&#x2F;Doolittle分解均为有效方法。 工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。 通法：  将 \(Ax&#x3D;b\) 改写为 \(x&#x3D;B_0x+f\) 任取初始值，如 \(x^{(0)}&#x3D;(0,0,0)^T\) ，将其带入得到方">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-01T11:36:31.000Z">
+<meta property="article:modified_time" content="2021-03-01T12:32:20.084Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">3.1 - 6 迭代法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">1.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jacobi%E8%BF%AD%E4%BB%A3"><span class="nav-number">1.2.</span> <span class="nav-text">Jacobi迭代</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gauss-seidel%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">Gauss-Seidel迭代法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81jacobi%E8%BF%AD%E4%BB%A3"><span class="nav-number">2.</span> <span class="nav-text">代码：Jacobi迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81gauss-seidel%E8%BF%AD%E4%BB%A3"><span class="nav-number">3.</span> <span class="nav-text">代码：Gauss-Seidel迭代</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-01-数值分析-Day04-Jacobi-GaussSeidel
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-01 19:36:31 / 修改时间：20:32:20" itemprop="dateCreated datePublished" datetime="2021-03-01T19:36:31+08:00">2021-03-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="迭代法">3.1 - 6 迭代法</h3>
+<h4 id="基本思想">基本思想</h4>
+<p>对线性方程组 <span class="math inline">\(Ax=b\)</span> ，当 <span class="math inline">\(A\)</span> 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。<br />
+工程应用中 <span class="math inline">\(A\)</span> 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。</p>
+<p><strong>通法</strong>：</p>
+<ul>
+<li>将 <span class="math inline">\(Ax=b\)</span> 改写为 <span class="math inline">\(x=B_0x+f\)</span></li>
+<li>任取初始值，如 <span class="math inline">\(x^{(0)}=(0,0,0)^T\)</span> ，将其带入得到方程组解 <span class="math inline">\(x^{(1)}=B_0x^{(0)}+f\)</span></li>
+<li>依次得： <span class="math inline">\(x^{(2)}=B_0x^{(1)}+f,\ x^{(2)}=B_0x^{(1)}+f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}+f,\ \dots\)</span></li>
+<li>即得向量序列 <span class="math inline">\(x^{(0)},x^{(1)},\dots,x^{(k)}\)</span> ，迭代公式 <span class="math inline">\(x^{(k)}=B_0x^{(k-1)}+f\)</span></li>
+<li>迭代次数较高时，向量序列 <span class="math inline">\(x^{(k)}\)</span> <strong>有可能</strong>收敛至逼近精确解的值（不一定）。</li>
+</ul>
+<p>根据 <span class="math inline">\(x=Bx+f\)</span> 变形方式的不同，存在多种迭代算法。</p>
+<p><strong>定义1</strong>：<br />
+对于给定方程组 <span class="math inline">\(x=Bx+f\)</span> ，用公式 <span class="math inline">\(x^{k+1}=Bx^{(k)}+f,\ (k=0,1,2,3,\dots)\)</span> 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 <span class="math inline">\(B\)</span> 与 <span class="math inline">\(k\)</span> 无关）。<br />
+如果 <span class="math inline">\(\lim\limits_{k\to\infty}x^{(k)}=x^*\)</span> ，即向量序列<strong>收敛</strong>至精确解序列，则称此迭代法<strong>收敛</strong>，否则称<strong>发散</strong>。<br />
+由于需要研究 <span class="math inline">\(\{x^{(k)}\}\)</span> 的收敛性，引进误差向量 <span class="math inline">\(\varepsilon^{(k+1)}=x^{(k+1)}-x^*\)</span> 。易得到： <span class="math inline">\(\varepsilon^{(k+1)}=B\varepsilon^{(k)}\)</span> ，递推得： <span class="math inline">\(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\)</span> 。</p>
+<h4 id="jacobi迭代">Jacobi迭代</h4>
+<p><strong>通法细节</strong>：<br />
+将 <span class="math inline">\(A\)</span> 分裂成 <span class="math inline">\(A=M-N\)</span> ，其中 <span class="math inline">\(M\)</span> 为可选择的非奇异矩阵，使 <span class="math inline">\(Mx=d\)</span> 易解，一般选择为 <span class="math inline">\(A\)</span> 的某种近似，称 <span class="math inline">\(M\)</span> 为<strong>分裂矩阵</strong>。<br />
+则原方程 <span class="math inline">\(Ax=b\)</span> 转化为 <span class="math inline">\(Mx=Nx+b\)</span> ，即求解： <span class="math inline">\(x=M^{-1}Nx+M^{-1}b\)</span> 。<br />
+可构造一阶定常迭代法： <span class="math display">\[
+\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\ (k=0,1,\dots)\end{array}\right.\\
+B=M^{-1}N=M^{-1}(M-A)=I-M^{-1}A,\quad f=M^{-1}b
+\]</span> 称 <span class="math inline">\(B=I-M^{-1}A\)</span> 为迭代法的迭代矩阵，选取 <span class="math inline">\(M\)</span> 阵就得到 <span class="math inline">\(Ax=b\)</span> 的各种迭代法。</p>
+<p><strong>Jacobbi迭代</strong>：<br />
+设 <span class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span> ，并将 <span class="math inline">\(A\)</span> 写成三部分： <span class="math display">\[
+\begin{aligned}A&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0\\
+-a_{21}&amp;0\\
+\vdots&amp;\vdots&amp;\ddots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+&amp;&amp;\ddots&amp;\vdots&amp;\vdots\\
+&amp;&amp;&amp;0&amp;-a_{n-1,n}\\
+&amp;&amp;&amp;&amp;0
+\end{pmatrix}\\
+&amp;\equiv D-L-U
+\end{aligned}
+\]</span> 由此，当 <span class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span> 时，选取 <span class="math inline">\(M\)</span> 为 <span class="math inline">\(A\)</span> 的对角元素部分，即选取 <span class="math inline">\(M=D\)</span> ，<span class="math inline">\(A=D-N\)</span> ，即得到 <span class="math inline">\(Ax=b\)</span> 的<strong>Jacobi迭代法</strong>。 <span class="math display">\[
+\begin{aligned}&amp;\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\ (k=0,1,\dots)\end{array}\right.\\
+&amp;其中\ \begin{aligned}&amp;B=D^{-1}(L+U)\equiv J\\
+&amp;f=D^{-1}b\end{aligned}\end{aligned}
+\]</span> 称 <span class="math inline">\(J\)</span> 为Jacobi迭代法的<strong>迭代矩阵</strong>。</p>
+<p><strong>Jacobi迭代法的分量计算公式</strong>： 记 <span class="math inline">\(x^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})\)</span> ，则有： <span class="math display">\[
+\begin{array}{l}
+\begin{aligned}Dx^{k+1}&amp;=(L+U)x^{(k)}+b
+a_{ii}x_i^{k+1}\\&amp;=-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}+b_i\quad(i=1,2,\dots,n)\end{aligned}\\
+B=I-M^{-1}A,\ f=M^{-1}b
+\end{array}
+\]</span> 因此，解 <span class="math inline">\(Ax=b\)</span> 的Jacobi迭代法的计算公式为： <span class="math display">\[
+\left\{\begin{array}{l}
+x^{(0)}=(x_1^{(0)},\dots,x_i^{(0)},\dots,x_n^{(0)})^T\\
+x_i^{(k+1)}=(b_i-\sum\limits_{j=1,j\neq i}^na_{ij}x_j^{(k)})/a_{ii}\\
+i=1,2,\dots,n\\
+k=0,1,\dots\ 表示迭代次数
+\end{array}\right.
+\]</span> 矩阵表示为： <span class="math display">\[
+\begin{array}{l}
+Ax=b\Leftrightarrow(D-L-U)x=b\Leftrightarrow Dx=(L+U)x+b\\
+\begin{aligned}Dx&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}\\
+&amp;=\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+-a_{21}&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0&amp;-a_{n-1,n}\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}+b\\
+&amp;=(L+U)x+b
+\end{aligned}\end{array}
+\]</span></p>
+<h4 id="gauss-seidel迭代法">Gauss-Seidel迭代法</h4>
+<p><strong>改进Jacobi迭代法</strong>：选取分裂矩阵 <span class="math inline">\(M\)</span> 为 <span class="math inline">\(A\)</span> 的下三角部分，即 <span class="math inline">\(M=D-L\)</span> ， <span class="math inline">\(A=M-U\)</span> ，得到： <span class="math display">\[
+\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\quad初始向量\\x^{(k+1)}=Bx^{(k)}+f\quad (k=0,1,\dots)\end{array}\right.\\
+B=I-(D-L^{-1})A=(D-L)^{-1}U\equiv G,\quad f=(D-L)^{-1}b\end{array}
+\]</span> 称 <span class="math inline">\(G\)</span> 为Gauss-Seidel迭代法的迭代矩阵。</p>
+<p><strong>分量计算公式</strong>： <span class="math display">\[
+\begin{array}{l}Dx^{(k+1)}=Dx^{(k)}-(Lx^{(k+1)}+Ux^{k}-Dx^{(k)}+b)\\\\
+\left\{\begin{array}{l}
+x_1^{(k+1)}=\displaystyle-\frac{a_{12}}{a_{11}}x_2^{(k)}-\frac{a_{13}}{a_{11}}x_3^{(k)}-\dots-\frac{a_{1n}}{a_{11}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_2^{(k+1)}=\displaystyle-\frac{a_{21}}{a_{22}}x_2^{(k+1)}-\frac{a_{23}}{a_{22}}x_3^{(k)}-\dots-\frac{a_{2n}}{a_{22}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_3^{(k+1)}=\displaystyle-\frac{a_{31}}{a_{33}}x_2^{(k+1)}-\frac{a_{32}}{a_{33}}x_3^{(k+1)}-\dots-\frac{a_{3n}}{a_{33}}x_n^{(k)}+\frac{b_3}{a_{33}}\\
+\dots\\
+x_n^{(k+1)}=\displaystyle-\frac{a_{n1}}{a_{nn}}x_2^{(k+1)}-\frac{a_{n2}}{a_{nn}}x_3^{(k+1)}-\dots-\frac{a_{n,n-1}}{a_{nn}}x_n^{(k+1)}+\frac{b_n}{a_{nn}}\\
+\end{array}\right.\\
+即\ \displaystyle{x_i^{k+1}=\frac{b_n-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}}{a_{ii}}}\end{array}
+\]</span></p>
+<h3 id="代码jacobi迭代">代码：Jacobi迭代</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>&#125;, &#123;<span class="number">2</span>, <span class="number">-10</span>, <span class="number">3</span>&#125;, &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">14</span>, <span class="number">-5</span>, <span class="number">14</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">                <span class="keyword">if</span> (j != i) tmp -= A[i][j] * x[j];</span><br><span class="line">            next_x[i] = tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">100</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码gauss-seidel迭代">代码：Gauss-Seidel迭代</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***区别***/</span></span><br><span class="line"><span class="comment">//Jacobi</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">    <span class="keyword">if</span> (j != i) tmp -= A[i][j] * x[j];</span><br><span class="line"><span class="comment">//Gauss-Seidel</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">    <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">    <span class="keyword">if</span> (j &gt; i) tmp -= A[i][j] * x[j];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">1</span>&#125;, &#123;<span class="number">2</span>, <span class="number">-10</span>, <span class="number">3</span>&#125;, &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">10</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">14</span>, <span class="number">-5</span>, <span class="number">14</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt; i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            next_x[i] = tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">if</span> (k &gt; <span class="number">100</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/28/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/" rel="prev" title="2021-02-28-数值分析-Day03-范数-迭代改善算法">
+                  <i class="fa fa-chevron-left"></i> 2021-02-28-数值分析-Day03-范数-迭代改善算法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/" rel="next" title="2021-03-02-数值分析-Day05-SOR-迭代法收敛性">
+                  2021-03-02-数值分析-Day05-SOR-迭代法收敛性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

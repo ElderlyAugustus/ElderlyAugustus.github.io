@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)&#x3D;0\quad&amp;\Leftrightarrow\quad x&#x3D;\varphi(x)\\ f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)&#x3D;0\quad&amp;\Leftrightarrow\quad x&#x3D;\varphi(x)\\ f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-03T10:14:34.000Z">
+<meta property="article:modified_time" content="2021-03-05T10:58:00.088Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%AE%80%E4%BB%8B%E5%8F%8A%E4%BA%8C%E5%88%86%E6%B3%95%E7%95%A5"><span class="nav-number">1.</span> <span class="nav-text">4.1-3 非线性方程简介及二分法：略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%BF%AD%E4%BB%A3%E6%B3%95%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">4.4 - 10 简单迭代法的构造与收敛性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E7%AE%80%E5%8D%95%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">构造简单迭代法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%BF%AD%E4%BB%A3%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">简单迭代法的收敛条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">2.3.</span> <span class="nav-text">局部收敛性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E9%98%B6%E6%8F%8F%E8%BF%B0%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6"><span class="nav-number">2.4.</span> <span class="nav-text">收敛阶（描述收敛速度）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mathbfp-%E9%98%B6%E6%94%B6%E6%95%9B%E7%9A%84%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">\(\mathbf{p}\) 阶收敛的迭代法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aitken%E5%8A%A0%E9%80%9F%E7%AE%97%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">Aitken加速算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E4%BA%8C%E5%88%86%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">代码：二分法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E7%AE%80%E5%8D%95%E8%BF%AD%E4%BB%A3%E6%B3%95%E4%B8%8Eaitken%E5%8A%A0%E9%80%9F%E7%AE%97%E6%B3%95%E6%AF%94%E8%BE%83"><span class="nav-number">4.</span> <span class="nav-text">代码：简单迭代法与Aitken加速算法比较</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-03 18:14:34" itemprop="dateCreated datePublished" datetime="2021-03-03T18:14:34+08:00">2021-03-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-05 18:58:00" itemprop="dateModified" datetime="2021-03-05T18:58:00+08:00">2021-03-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="非线性方程简介及二分法略">4.1-3 非线性方程简介及二分法：略</h3>
+<h3 id="简单迭代法的构造与收敛性">4.4 - 10 简单迭代法的构造与收敛性</h3>
+<h4 id="构造简单迭代法">构造简单迭代法</h4>
+<p><span class="math display">\[
+\begin{array}{c}\begin{aligned}
+f(x)=0\quad&amp;\Leftrightarrow\quad x=\varphi(x)\\
+f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点
+\end{aligned}\end{array}
+\]</span></p>
+<p>其中 <span class="math inline">\(x_{k+1}=\varphi(x_k),\quad (k=0,1,2,\dots)\)</span> 称为<strong>迭代格式</strong>， <span class="math inline">\(\varphi(x)\)</span> 称为<strong>迭代函数</strong>。</p>
+<h4 id="简单迭代法的收敛条件">简单迭代法的收敛条件</h4>
+<p><strong>几何解释</strong>：求方程 <span class="math inline">\(x=\varphi(x)\)</span> 的根，就是求直线 <span class="math inline">\(y=x\)</span> 和曲线 <span class="math inline">\(y=\varphi(x)\)</span> 的交点的横坐标。（图略。）</p>
+<p>如果 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 收敛，则迭代函数 <span class="math inline">\(y=\varphi(x)\)</span> 的曲线走势平坦，即 <span class="math inline">\(\left|\varphi&#39;(x)\right|&lt;1\)</span> ；<br />
+如果 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 发散，则迭代函数 <span class="math inline">\(y=\varphi(x)\)</span> 的曲线走势陡峭，即 <span class="math inline">\(\left|\varphi&#39;(x)\right|\ge1\)</span> ；</p>
+<p><strong>迭代法收敛的判定定理</strong>：设函数 <span class="math inline">\(\varphi(x)\)</span> 满足条件： <span class="math display">\[
+\begin{array}{l}(1)\quad \forall x\in[a,b],\ a\le\varphi(x)\le b;\\
+(2)\quad \exists0\le L&lt;1,\ \begin{array}{l}\forall x,y\in[a,b],\ |\varphi(x)-\varphi(y)|\le L|x-y|\\或\ |\varphi&#39;(x)\le L&lt;1|\end{array}\end{array}
+\]</span></p>
+<p>则 <span class="math inline">\(\forall x_0\in[a,b]\)</span> ，由 <span class="math inline">\(x_{k+1}=\varphi(x_K)\)</span> 得到的序列 <span class="math inline">\(\{x_k\}_{k=0}^\infty\)</span> 收敛于 <span class="math inline">\(\varphi(x)\)</span> 在 <span class="math inline">\([a,b]\)</span> 上的唯一不动点。并且由误差估计式： <span class="math inline">\(\begin{array}{l}\displaystyle\left|x^*-x_k\right|\le\frac{1}{1-L}\left|x_k-x_{k-1}\right|\\\displaystyle\left|x^*-x_k\right|\le\frac{L^k}{1-L}\left|x_1-x_0\right|\end{array}\)</span> 。由第一式分析误差；由第二式得到结论 <span class="math inline">\(L\)</span> 越小，收敛越快 。</p>
+<h4 id="局部收敛性">局部收敛性</h4>
+<p><strong>定义</strong>：若存在 <span class="math inline">\(x^*\)</span> 的某个邻域 <span class="math inline">\(S=\{|x-x^*|\le\delta\}\subset[a,b]\)</span> ，使迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 对于任一初值 <span class="math inline">\(x_0\in S\)</span> 均收敛则称迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在根 <span class="math inline">\(x^*\)</span> 邻近具有<strong>局部收敛性</strong>。</p>
+<p><strong>判定定理</strong>： <span class="math inline">\(\varphi(x)\)</span> 在方程 <span class="math inline">\(x=\varphi(x)\)</span> 的精确根 <span class="math inline">\(x^*\)</span> 的邻域连续，且 <span class="math inline">\(|\varphi&#39;(x^*)|&lt;1\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在根 <span class="math inline">\(x^*\)</span> 的邻域具有局部收敛性。</p>
+<p>不严格的准则：只要在一个不大的有根区间上， <span class="math inline">\(|\varphi&#39;(x)|&lt;1\)</span> 明显成立，则从该区间内一点 <span class="math inline">\(x_0\)</span> 出发， <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 产生的迭代序列 <span class="math inline">\(\{x_k\}\)</span> 一般是收敛的。</p>
+<h4 id="收敛阶描述收敛速度">收敛阶（描述收敛速度）</h4>
+<p>观察得到， <span class="math inline">\(|\varphi&#39;(x)|\)</span> 越小，收敛速度越快，越大越慢。</p>
+<p><strong>定义</strong>：记迭代误差 <span class="math inline">\(e_k=x^*-x_k\)</span> ，对收敛于方程 <span class="math inline">\(x=\varphi(x)\)</span> 的根 <span class="math inline">\(x^*\)</span> 的迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> ，若存在常数 <span class="math inline">\(p\ge1\)</span> 和非零常数 <span class="math inline">\(C\)</span> ，使得 <span class="math inline">\(\displaystyle\lim_{k\to\infty}\frac{|e_{k+1}|}{|e_k|^p}=C\)</span> ，则称迭代过程是 <span class="math inline">\(\mathbf{p}\)</span> <strong>阶收敛</strong>的， <span class="math inline">\(C\)</span> 是<strong>渐进误差常数</strong>。<br />
+其中， <span class="math inline">\(p=1\)</span> 时称<strong>线性收敛</strong>， <span class="math inline">\(p&gt;1\)</span> 时称<strong>超线性收敛</strong>， <span class="math inline">\(p=2\)</span> 时称<strong>平方收敛</strong>。 <span class="math inline">\(p\)</span> 越大，收敛速度越快。</p>
+<p><strong>定理</strong>：若 <span class="math inline">\(\varphi&#39;(x)\)</span> 在 <span class="math inline">\(\varphi(x)\)</span> 的不动点 <span class="math inline">\(x^*\)</span> 邻域连续，且 <span class="math inline">\(\varphi&#39;(x)\neq0\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在 <span class="math inline">\(x^*\)</span> 的邻域是线性收敛的。</p>
+<h4 id="mathbfp-阶收敛的迭代法"><span class="math inline">\(\mathbf{p}\)</span> 阶收敛的迭代法</h4>
+<p><strong>定理</strong>：若 <span class="math inline">\(x^*\)</span> 是 <span class="math inline">\(\varphi(x)\)</span> 的不动点，对于整数 <span class="math inline">\(p&gt;1\)</span> ，迭代函数 <span class="math inline">\(\varphi(x)\)</span> 及其 <span class="math inline">\(p\)</span> 阶导数在 <span class="math inline">\(x^*\)</span> 的邻域上连续，且满足： <span class="math inline">\(\varphi&#39;(x^*)=\varphi&#39;&#39;(x^*)=\dots=\varphi^{(p-1)}(x^*)=0,\quad \varphi^{(p)}(x^*)\neq0\)</span> ，则迭代过程 <span class="math inline">\(x_{k+1}=\varphi(x_k)\)</span> 在 <span class="math inline">\(x^*\)</span> 的邻域是 <span class="math inline">\(p\)</span> 阶收敛的。且有： <span class="math inline">\(\displaystyle\lim_{k\to\infty}\frac{e_{k+1}}{e_k^p}=\frac{\varphi^{(p)}(x^*)}{p!}\)</span> 。</p>
+<p>因此， <span class="math inline">\(\varphi&#39;(x^*)\neq0\)</span> 时，迭代过程只可能是线性的，因此绝大部分迭代方法只能是线性收敛的。</p>
+<h4 id="aitken加速算法">Aitken加速算法</h4>
+<p>由于 <span class="math inline">\(\begin{array}{l}x_{k+1}-x^*=\varphi&#39;(\xi_1)(x_k-x^*)\\x_{k+2}-x^*=\varphi&#39;(\xi_2)(x_{k+1}-x^*)\end{array}\)</span> ，当 <span class="math inline">\(k\)</span> 较大时，假设 <span class="math inline">\(\varphi&#39;(\xi_1)\approx\varphi&#39;(\xi_2)\)</span> ，则有： <span class="math inline">\(\displaystyle\frac{x_{k+1}-x^*}{x_{k+2}-x^*}\approx\frac{x_k-x^*}{x_{k+1}-x^*}\)</span> 。然后解得 <span class="math inline">\(x^*\approx \hat x_k=x_k-\displaystyle\frac{(x_{k+1}-x_k)^2}{x_{k+2}-2x_{k+1}+x_k}\)</span> 。</p>
+<p>则序列 <span class="math inline">\(\{\hat x_k\}\)</span> 比序列 <span class="math inline">\(\{x_k\}\)</span> 更快地收敛于 <span class="math inline">\(x^*\)</span> ，可构造如下<strong>Aitken加速算法</strong>： <span class="math display">\[
+\left\{\begin{array}{l}
+y_k=\varphi(x_k)\\
+z_k=\varphi(y_k)\\
+x_{k+1}=x_k-\displaystyle\frac{(y_k-x_k)^2}{z_k-2y_k+x_k},
+\quad k=0,1,2,\dots
+\end{array}\right.
+\]</span> 若第 <span class="math inline">\(k\)</span> 步发生 <span class="math inline">\(z_k-2y_k+x_k=0\)</span> ，则中止计算，取 <span class="math inline">\(x^*\approx x_k\)</span> 。</p>
+<h3 id="代码二分法">代码：二分法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-03.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">solve</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(<span class="keyword">double</span> &amp;a, <span class="keyword">double</span> &amp;b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> x = <span class="built_in">solve</span>(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;The solve in [1, 2] is : x = &quot;</span> &lt;&lt; x &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">f</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x * x * x + <span class="number">4</span> * x - <span class="number">7</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">solve</span><span class="params">(<span class="keyword">double</span> a, <span class="keyword">double</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">f</span>(a) * <span class="built_in">f</span>(b) &gt; <span class="number">0</span>) &#123; std::cout &lt;&lt; <span class="string">&quot;WRONG INTERVAL&quot;</span> &lt;&lt; std::endl; <span class="keyword">return</span> <span class="number">0</span>; &#125;</span><br><span class="line">    <span class="keyword">double</span> epsilon = <span class="number">1e-5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (std::<span class="built_in">abs</span>(a-b) &gt;= epsilon) &#123;</span><br><span class="line">        <span class="built_in">iterate</span>(a, b);</span><br><span class="line">        std::cout &lt;&lt; (a + b) / <span class="number">2</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(<span class="keyword">double</span> &amp;a, <span class="keyword">double</span> &amp;b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> f_a = <span class="built_in">f</span>(a);</span><br><span class="line">    <span class="keyword">double</span> f_b = <span class="built_in">f</span>(b);</span><br><span class="line">    <span class="keyword">double</span> f_c = <span class="built_in">f</span>((a + b) / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span> (f_c == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (f_a * f_c &lt; <span class="number">0</span>) b = (a + b) / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (f_b * f_c &lt; <span class="number">0</span>) a = (a + b) / <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码简单迭代法与aitken加速算法比较">代码：简单迭代法与Aitken加速算法比较</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-03.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">phi</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> x_simple;</span><br><span class="line"><span class="keyword">double</span> next_x_simple;</span><br><span class="line"><span class="keyword">int</span> count_simple;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">simple</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> x_aitken;</span><br><span class="line"><span class="keyword">double</span> next_x_aitken;</span><br><span class="line"><span class="keyword">int</span> count_aitken;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aitken</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">simple</span>();</span><br><span class="line">    <span class="built_in">aitken</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">phi</span><span class="params">(<span class="keyword">double</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1.6</span> + <span class="number">0.99</span> * <span class="built_in">cos</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">simple</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    x_simple = <span class="number">1.57</span>;</span><br><span class="line">    <span class="keyword">while</span> (x_simple = next_x_simple, ++count_simple,</span><br><span class="line">            std::cout &lt;&lt; x_simple &lt;&lt; <span class="string">&quot;; &quot;</span>) &#123;</span><br><span class="line">        next_x_simple = <span class="built_in">phi</span>(x_simple);</span><br><span class="line">        <span class="keyword">if</span> (std::<span class="built_in">abs</span>(next_x_simple - x_simple) &lt; <span class="number">1e-5</span>) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; std::endl &lt;&lt; <span class="string">&quot;The count is &quot;</span> &lt;&lt; count_simple &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">aitken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    x_aitken = <span class="number">1.57</span>;</span><br><span class="line">    <span class="keyword">while</span> (x_aitken = next_x_aitken, ++count_aitken,</span><br><span class="line">            std::cout &lt;&lt; x_aitken &lt;&lt; <span class="string">&quot;; &quot;</span>) &#123;</span><br><span class="line">        <span class="keyword">double</span> y = <span class="built_in">phi</span>(x_aitken);</span><br><span class="line">        <span class="keyword">double</span> z = <span class="built_in">phi</span>(y);</span><br><span class="line">        next_x_aitken = x_aitken</span><br><span class="line">                - (<span class="built_in">pow</span>(y - x_aitken, <span class="number">2</span>)</span><br><span class="line">                / (z - <span class="number">2</span> * y + x_aitken) );</span><br><span class="line">        <span class="keyword">if</span> (std::<span class="built_in">abs</span>(next_x_aitken - x_aitken) &lt; <span class="number">1e-5</span>) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; std::endl &lt;&lt; <span class="string">&quot;The count is &quot;</span> &lt;&lt; count_aitken &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/" rel="prev" title="2021-03-02-数值分析-Day05-SOR-迭代法收敛性">
+                  <i class="fa fa-chevron-left"></i> 2021-03-02-数值分析-Day05-SOR-迭代法收敛性
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/04/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day07-Newton%E8%BF%AD%E4%BB%A3%E6%B3%95/" rel="next" title="2021-03-04-数值分析-Day07-Newton迭代法">
+                  2021-03-04-数值分析-Day07-Newton迭代法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

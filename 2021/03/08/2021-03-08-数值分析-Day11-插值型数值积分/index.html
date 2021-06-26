@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="6.1 - 6.11 数值积分  牛顿-莱布尼茨公式： \(\displaystyle\int_a^bf(x)dx&#x3D;F(b)-F(a)\) 问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。 【例】弧长积分： \(L&#x3D;\displaystyle\int_a^b\sqrt{1+(f&#39;(x))^2}dx\)  由定积分的定义 \(\displaystyle I&#x3D;\in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-08-数值分析-Day11-插值型数值积分">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/08/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="6.1 - 6.11 数值积分  牛顿-莱布尼茨公式： \(\displaystyle\int_a^bf(x)dx&#x3D;F(b)-F(a)\) 问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。 【例】弧长积分： \(L&#x3D;\displaystyle\int_a^b\sqrt{1+(f&#39;(x))^2}dx\)  由定积分的定义 \(\displaystyle I&#x3D;\in">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-08T10:50:00.000Z">
+<meta property="article:modified_time" content="2021-03-08T10:51:42.426Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/08/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-08-数值分析-Day11-插值型数值积分 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">6.1 - 6.11 数值积分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E6%95%B0%E7%B2%BE%E5%BA%A6"><span class="nav-number">1.1.</span> <span class="nav-text">代数精度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E6%B1%82%E7%A7%AF%E5%85%AC%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">插值型数值求积公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#newton-cotes%E5%85%AC%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">Newton-Cotes公式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/08/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-08-数值分析-Day11-插值型数值积分
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-08 18:50:00 / 修改时间：18:51:42" itemprop="dateCreated datePublished" datetime="2021-03-08T18:50:00+08:00">2021-03-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="数值积分">6.1 - 6.11 数值积分</h3>
+<blockquote>
+<p>牛顿-莱布尼茨公式： <span class="math inline">\(\displaystyle\int_a^bf(x)dx=F(b)-F(a)\)</span></p>
+<p>问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。</p>
+<p>【例】弧长积分： <span class="math inline">\(L=\displaystyle\int_a^b\sqrt{1+(f&#39;(x))^2}dx\)</span></p>
+</blockquote>
+<p>由定积分的定义 <span class="math inline">\(\displaystyle I=\int_a^bf(x)dx=F(b)-F(a)=\lim_{\Delta x\to0}\sum_{i=0}^nf(x_i)\Delta x_i\)</span> ，可以想到利用被积函数在区间 <span class="math inline">\([a,b]\)</span> 上一些离散节点 <span class="math inline">\(x_k\)</span> 处的函数值 <span class="math inline">\(f(x_k)\)</span> 的线性组合来得到近似积分值： <span class="math inline">\(\displaystyle I=\sum_{k=0}^nA_kf(x_k)\)</span> 。则得<strong>求积公式</strong>的一般形式： <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\sum_{k=0}^nA_kf(x_k)\)</span> ，其中 <span class="math inline">\(\{x_k\}\)</span> 为<strong>求积点</strong>， <span class="math inline">\(A_k\)</span> 为<strong>求积系数</strong>。或表示为 <span class="math inline">\(\displaystyle\int_a^bf(x)dx=\sum_{k=0}^nA_kf(x_k)+R[f]\)</span> ，其中 <span class="math inline">\(R[f]\)</span> 为求积公式的<strong>误差</strong>或<strong>余项</strong>。</p>
+<blockquote>
+<p>积分中值定理：在 <span class="math inline">\([a,b]\)</span> 内存在一点 <span class="math inline">\(\xi\)</span> ，有 <span class="math inline">\(\displaystyle\int_a^bf(x)dx=(b-a)f(\xi)\)</span> 。</p>
+<p>问题： <span class="math inline">\(\xi\)</span> 未知</p>
+</blockquote>
+<p>取特殊点为 <span class="math inline">\(\xi\)</span> 求近似解：</p>
+<ul>
+<li><p><strong>左矩形求积公式</strong>： <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx f(a)(b-a),\quad R[f]=\frac{(b-a)^2}{2}f&#39;(\xi)\ (\xi\in(a,b))\)</span></p></li>
+<li><p><strong>右矩形求积公式</strong>： <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx f(b)(b-a),\quad R[f]=-\frac{(b-a)^2}{2}f&#39;(\eta)\ (\eta\in(a,b))\)</span></p></li>
+<li><p><strong>中矩形求积公式</strong>： <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx f(\frac{a+b}{2})(b-a),\quad R[f]=-\frac{(b-a)^3}{24}f&#39;&#39;(\eta)\ (\eta\in(a,b))\)</span></p></li>
+</ul>
+<h4 id="代数精度">代数精度</h4>
+<p>若求积公式 <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\sum_{k=0}^nA_kf(x_k)\)</span> 对 <span class="math inline">\(f(x)=x^j\ (j=0,1,\dots,m)\)</span> 都精确成立，但对 <span class="math inline">\(f(x)=x^{m+1}\)</span> 不精确成立。即： <span class="math inline">\(\left\{\begin{array}{l}\displaystyle\int_a^bx^jdx=\sum_{k=0}^nA_kx_k^j\quad j=0,1,\dots,m\\\displaystyle\int_a^bx^{m+1}dx\approx\sum_{k=0}^nA_kx_k^{m+1}\end{array}\right.\)</span> ，则称此公式具有 <span class="math inline">\(\mathbf m\)</span> <strong>次代数精度</strong>。</p>
+<p>可见，具有 <span class="math inline">\(m\)</span> 次代数精度的求积公式对最高次 <span class="math inline">\(\le m\)</span> 的多项式函数均是精确成立的。由由于，所有函数均可由多项式函数逼近，因此代数精度越高，求积公式的精度就越高。</p>
+<p><strong>利用代数精度求求积公式</strong>：若求积公式 <span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\sum_{k=0}^nA_kf(x_k)\)</span> 具有 <span class="math inline">\(n\)</span> 次代数精度，则： <span class="math display">\[
+\begin{array}{c}\left\{\begin{array}{l}A_0+A_1+\dots+A_n=b-a\\
+\displaystyle x_0A_0+x_1A_1+\dots+x_nA_n=\frac{b^2-a^2}{2}\\
+\dots\\\displaystyle x_0^n+x_1^n+\dots+x_n^nA_n=\frac{b^{n+1}-a^{n+1}}{n+1}
+\end{array}\right.\\
+即\begin{pmatrix}
+1  &amp;1  &amp;\cdots  &amp;1 \\
+x_0  &amp;x_1  &amp;\cdots  &amp;x_n \\
+\vdots  &amp;\vdots  &amp;\ddots  &amp;\vdots \\
+x_0^n  &amp;x_1^n  &amp;\cdots  &amp;x_n^n
+\end{pmatrix}
+\begin{pmatrix}
+A_0 \\
+A_1 \\
+\vdots \\
+A_n
+\end{pmatrix}=
+\begin{pmatrix}
+b-a \\
+(b^2-a^2)/2 \\
+\vdots \\
+(b^{n+1}-a^{n+1})/(n+1)
+\end{pmatrix}\\
+D=\begin{vmatrix}
+1  &amp;1  &amp;\cdots  &amp;1 \\
+x_0  &amp;x_1  &amp;\cdots  &amp;x_n \\
+\vdots  &amp;\vdots  &amp;\ddots  &amp;\vdots \\
+x_0^n  &amp;x_1^n  &amp;\cdots  &amp;x_n^n
+\end{vmatrix}=\displaystyle\prod_{0\le i&lt;j\le n}(x_j-x_i)\neq0
+\end{array}
+\]</span> 因此该方程组有唯一解。</p>
+<h4 id="插值型数值求积公式">插值型数值求积公式</h4>
+<p><strong>定义</strong>：已知定积分 <span class="math inline">\(I=\displaystyle \int_a^bf(x)dx\)</span> 的被积函数 <span class="math inline">\(f(x)\)</span> 在节点 <span class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\)</span> 上的函数值 <span class="math inline">\(y_k=f(x_k),\ k=0,1,\dots,n\)</span> 。则可构造 <span class="math inline">\(n\)</span> 次Lagrange插值多项式 <span class="math inline">\(L_n(x)=\displaystyle\sum_{k=0}^nf(x_k)l_k(x)\)</span> ，其中 <span class="math inline">\(l_k(x)\)</span> 为Lagrange插值的基函数。因此<br />
+<span class="math inline">\(\displaystyle I_n=\int_a^bf(x)dx\approx\int_a^bL_n(x)dx=\int_a^b\left[\sum_{k=0}^nf(x_k)l_k(x)\right]dx=\sum_{k=0}^n\left[\int_a^bl_k(x)dx\right]f(x_k)\)</span> 。<br />
+记 <span class="math inline">\(A_k=\displaystyle\int_a^bl_k(x)dx\)</span> ，称之为<strong>求积系数</strong>，则有 <span class="math inline">\(\int_a^bL_n(x)dx=\sum_{k=0}^nA_kf(x_k)\)</span> ，称之为<strong>插值型求积公式</strong>。</p>
+<p><strong>误差</strong>：若 <span class="math inline">\(f(x)\)</span> 在 <span class="math inline">\([a,b]\)</span> 有 <span class="math inline">\(n+1\)</span> 阶连续导数，则Lagrange插值余项为：<br />
+<span class="math inline">\(\displaystyle f(x)-L_n(x)=\frac{f^{(n+1)}(\xi_x)}{(n+1)!}\omega_{n+1}(x),\ \xi_x\in(a,b)\)</span><br />
+从而得到插值型求积公式的误差如下 <span class="math inline">\(\displaystyle R[f]=\int_a^b[f(x)-L_n(x)]dx=\frac{1}{(n+1)!}\int_a^bf^{n+1}(\xi_x)\omega_{n+1}(x)dx,\ \xi_x\in(a,b)\)</span></p>
+<p>加入权函数项非负连续函数 <span class="math inline">\(\rho(x)\)</span> （物理意义为密度函数），则求积系数 <span class="math inline">\(\displaystyle A_k=\int_a^b\rho(x)l_k(x)dx\)</span> ，误差表达式 <span class="math inline">\(\displaystyle R[f]=\frac{1}{(n+1)!}\int_a^b\rho(x)f^{n+1}(\xi_x)\omega_{n+1}(x)dx,\ \xi_x\in(a,b)\)</span> 。</p>
+<h4 id="newton-cotes公式">Newton-Cotes公式</h4>
+<p><strong>定义</strong>：为简化计算，取等距节点 <span class="math inline">\(x_k=a+kh\ (k=0,1,\dots,n,\ h=(b-a)/n)\)</span> ，则： <span class="math display">\[
+\begin{array}{c}
+\displaystyle A_k=\int_a^bl_k(x)dx=\int_a^b\left[\prod_{i=0,i\neq k}^n\right]dx\xlongequal{令x=a+th}\frac{(-1)^{n-k}h}{k!(n-k)!}\int_0^n\left[\prod_{i=0,i\neq k}^n(t-i)\right]dt\\
+令\ C_k^{(n)}=\displaystyle\frac{1}{b-a}A_k=\frac{(-1)^{n-k}}{nk!(n-k)!}\int_0^n\left[\prod_{i=0,i\neq k}^n(t-i)\right]dt,\quad k=0,1,\dots,n\\
+则有\ \displaystyle\int_a^bf(x)dx\approx(b-a)\sum_{k=0}^nC_k^{(n)}f(x_k)
+\end{array}
+\]</span> 称最后一行式为<strong>Newton-Cotes公式</strong>， <span class="math inline">\(C_k^{(n)}\)</span> 为<strong>Cotes系数</strong>。</p>
+<ul>
+<li>设 <span class="math inline">\(f(x)\in C^2[a,b]\)</span> ，则 <span class="math inline">\(n=1\)</span> 时，Newton-Cotes公式为：<br />
+<span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\frac{b-a}{2}[f(a)+f(b)]\)</span> ，<br />
+误差为 <span class="math inline">\(R[f]=\displaystyle-\frac{(b-a)^3}{12}f&#39;&#39;(\eta)\le\frac{\max\limits_{a\le x\le b}|f&#39;&#39;(x)|}{12}(b-a)^3,\ \eta\in(a,b)\)</span> 。<br />
+由于图像为梯形，称为<strong>梯形公式</strong>，记为 <span class="math inline">\(\mathbf T\)</span> 。</li>
+<li>设 <span class="math inline">\(f(x)\in C^4[a,b]\)</span> ，则 <span class="math inline">\(n=2\)</span> 时，Newton-Cotes公式为：<br />
+<span class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\frac{b-a}{6}\left[f(a)+4f\left(\frac{a+b}{2}\right)+f(b)\right]\)</span> ，<br />
+误差为 <span class="math inline">\(R[f]=\displaystyle-\frac{(b-a)^5}{2880}f^{(4)}(\eta)\le\frac{\max\limits_{a\le x\le b}|f^{(4)}(x)|}{2880}(b-a)^5,\ \eta\in(a,b)\)</span> 。<br />
+由于图像为抛物线，称为<strong>抛物线公式</strong>或<strong>Simpson公式</strong>，记为 <span class="math inline">\(\mathbf S\)</span> 。其代数精度为 <span class="math inline">\(3\)</span> 。</li>
+<li>依次，Cotes系数可查<strong>【Cotes系数表】</strong>。当Cotes系数出现相反数时，公式数值不稳定，因此高次Newton-Cotes公式没有实用价值。</li>
+</ul>
+<p>Newton-Cotes公式的截断误差为： <span class="math inline">\(\begin{array}{r}R[f]=\left\{\begin{array}{l}\displaystyle\frac{f^{(n+1)}(\eta)}{(n+1)!}\int_a^b\omega_{n+1}(x)dx\quad n为奇数\\\displaystyle\frac{f^{(n+2)}(\eta)}{(n+2)!}\int_a^b\omega_{n+1}(x)dx\quad n为偶数\end{array}\right.\\\eta\in(a,b)\end{array}\)</span> 。</p>
+<p><span class="math inline">\(n+1\)</span> 个节点的插值型求积公式至少具有 <span class="math inline">\(n\)</span> 次代数精度， <span class="math inline">\(n\)</span> 是偶数时Newton-Cotes公式具有 <span class="math inline">\(n+1\)</span> 次代数精度。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/07/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/" rel="prev" title="2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合">
+                  <i class="fa fa-chevron-left"></i> 2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/09/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/" rel="next" title="2021-03-09-数值分析-Day12-续数值积分-数值微分">
+                  2021-03-09-数值分析-Day12-续数值积分-数值微分 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

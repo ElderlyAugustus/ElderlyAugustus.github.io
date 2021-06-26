@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="续：3.1 - 6 迭代法 逐次超松弛迭代法（SOR迭代法） 选取分裂矩阵 \(M\) 为带参数的下三角阵： \(M&#x3D;\displaystyle\frac{1}{\omega}(D-\omega L),\ B&#x3D;I-M^{-1}A,\ f&#x3D;M^{-1}b\) ，其中 \(w&gt;0\) 为可选择的松弛因子。 构造迭代法，迭代矩阵为： \(L_\omega&#x3D;I-\omega(D-\omega">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-02-数值分析-Day05-SOR-迭代法收敛性">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="续：3.1 - 6 迭代法 逐次超松弛迭代法（SOR迭代法） 选取分裂矩阵 \(M\) 为带参数的下三角阵： \(M&#x3D;\displaystyle\frac{1}{\omega}(D-\omega L),\ B&#x3D;I-M^{-1}A,\ f&#x3D;M^{-1}b\) ，其中 \(w&gt;0\) 为可选择的松弛因子。 构造迭代法，迭代矩阵为： \(L_\omega&#x3D;I-\omega(D-\omega">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-02T10:00:00.000Z">
+<meta property="article:modified_time" content="2021-03-05T10:58:10.464Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-02-数值分析-Day05-SOR-迭代法收敛性 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%AD3.1---6-%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">续：3.1 - 6 迭代法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%90%E6%AC%A1%E8%B6%85%E6%9D%BE%E5%BC%9B%E8%BF%AD%E4%BB%A3%E6%B3%95sor%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">逐次超松弛迭代法（SOR迭代法）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">迭代法的收敛性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%A0%E7%A7%8D%E7%89%B9%E6%AE%8A%E8%BF%AD%E4%BB%A3%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">几种特殊迭代法的收敛性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81sor%E8%BF%AD%E4%BB%A3%E4%B8%8E%E4%B8%A4%E7%A7%8D%E7%BB%88%E6%AD%A2%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">代码：SOR迭代与两种终止条件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/02/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day05-SOR-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-02-数值分析-Day05-SOR-迭代法收敛性
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-03-02 18:00:00" itemprop="dateCreated datePublished" datetime="2021-03-02T18:00:00+08:00">2021-03-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-05 18:58:10" itemprop="dateModified" datetime="2021-03-05T18:58:10+08:00">2021-03-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="续3.1---6-迭代法">续：3.1 - 6 迭代法</h3>
+<h4 id="逐次超松弛迭代法sor迭代法">逐次超松弛迭代法（SOR迭代法）</h4>
+<p>选取分裂矩阵 <span class="math inline">\(M\)</span> 为带参数的下三角阵： <span class="math inline">\(M=\displaystyle\frac{1}{\omega}(D-\omega L),\ B=I-M^{-1}A,\ f=M^{-1}b\)</span> ，其中 <span class="math inline">\(w&gt;0\)</span> 为可选择的<strong>松弛因子</strong>。</p>
+<p>构造迭代法，迭代矩阵为： <span class="math inline">\(L_\omega=I-\omega(D-\omega L)^{-1}A=(D-\omega L)^{-1}((1-\omega)D+\omega U)\)</span> 。</p>
+<p>则解 <span class="math inline">\(Ax=b\)</span> 的SOR方法即为： <span class="math inline">\(\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=L_\omega x^{(k)}+f\quad(k=0,1,\dots)\end{array}\right.\\其中\begin{array}{l}L_\omega=(D-\omega L)^{-1}((1-\omega)D+\omega U),\\f=\omega(D-\omega L)^{-1}b\end{array}\end{array}\)</span> 。</p>
+<p>推导得： <span class="math inline">\(\begin{array}{l}(D-\omega L)x^{(k+1)}=((1-\omega)D+\omega U)x^{(k)}+\omega b\\或Dx^{(k+1)}=Dx^{(k+1)}+\omega(b+Lx^{(k+1)}+Ux^{(k)}-Dx^{(k)})\end{array}\)</span> 。</p>
+<p>分量计算公式为： <span class="math inline">\(\displaystyle x_i^{(k+1)}=x_1^{(k)}+\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\)</span> 。</p>
+<p>可令 <span class="math inline">\(\Delta x_i=\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\)</span> ，则 <span class="math inline">\(x_i^{(k+1)}=x_i^{(k)}+\Delta x_i\)</span> 。</p>
+<p><strong>Gauss-Seidel迭代法是SOR迭代法的一个特殊形式（系数 <span class="math inline">\(\omega=1\)</span> ）。</strong></p>
+<p>当 <span class="math inline">\(\omega&lt;1\)</span> 时，称为<strong>超松弛法</strong>；当 <span class="math inline">\(\omega&gt;1\)</span> 时，称为<strong>低松弛法</strong>。</p>
+<p>计算机中，常用 <span class="math inline">\(\max\limits_{1\le i\le n}|\Delta x_i|=\max\limits_{1\le i\le n}\left|x_i^{(k+1)}-x_i^{(k)}\right|&lt;\varepsilon\)</span> 或者 <span class="math inline">\(\left\|r^{(k)}\right\|=\left\|b-Ax^{(k)}\right\|\)</span> 作为迭代终止条件。</p>
+<h4 id="迭代法的收敛性">迭代法的收敛性</h4>
+<p>设 <span class="math inline">\(Ax=b\)</span> ，其中 <span class="math inline">\(A\in R^{n\times n}\)</span> 为非奇异矩阵，记 <span class="math inline">\(x^*\)</span> 为原方程组精确解，且设有等价的方程组： <span class="math inline">\(Ax=b\Leftrightarrow x=Bx+f\)</span> ，则 <span class="math inline">\(x^*=Bx^*+f\)</span> 。设有一阶定常迭代法 <span class="math inline">\(x^{(k+1)}=Bx^{(k)}\)</span> 。引进误差向量 <span class="math inline">\(\varepsilon^{(k)}=x^{(k)}\)</span> ，得到误差向量递推公式 <span class="math inline">\(\varepsilon^{(k+1)}=B\varepsilon^{(k)}\ \Rightarrow\ \varepsilon^{(k)}=B^k\varepsilon^{(0)}\)</span> 。则研究问题从 <span class="math inline">\(\varepsilon^{(k)}\to0\)</span> 转换为 <span class="math inline">\(B^k\to0\)</span> 。</p>
+<p><strong>定理1</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=A\Leftrightarrow\lim\limits_{x\to\infty}\left\|A_k-A\right\|,\ \|\|为任一种算子范数\)</span></p>
+<p><strong>定理2</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=A\Leftrightarrow\lim\limits_{x\to\infty}A_kx=Ax,\ x\in R^n\)</span></p>
+<p><strong>定理3</strong>： <span class="math inline">\(\lim\limits_{x\to\infty}A_k=0\Leftrightarrow\rho(A)&lt;1,\ \rho\ 谱半径\)</span></p>
+<p><strong>迭代法收敛基本定理</strong>：对方程组 <span class="math inline">\(x=Bx+f\)</span> ，及对应一阶定常迭代法 <span class="math inline">\(x^{(k+1)}=Bx^{(k)}+f\)</span> ，迭代法收敛的充要条件为矩阵 <span class="math inline">\(B\)</span> 的谱半径 <span class="math inline">\(\rho(B)&lt;1\)</span> 。</p>
+<p>由于 <span class="math inline">\(\rho(B)\le\|B\|\)</span> ，因此矩阵 <span class="math inline">\(B\)</span> 的范数也可用于判别迭代法的收敛性：<br />
+<strong>迭代法收敛充分条件</strong>： <span class="math inline">\(\exists \|B\|=q&lt;1\)</span> ，迭代法收敛，且有 <span class="math inline">\(\begin{array}{l}\left\|x^*-x^{(k)}\right\|\le q^k\left\|x^*-x^{(0)}\right\|\\\left\|x^*-x^{(k)}\right\|\le\displaystyle\frac{q}{1-q}\left\|x^k-x^{(k-1)}\right\|\\\left\|x^*-x^{(k)}\right\|\le\displaystyle\frac{q}{1-q^k}\left\|x^1-x^0\right\|\end{array}\)</span> 。根据第二式也可得到迭代法的一种终止条件参考量： <span class="math inline">\(\left\|x^k-x^{(k-1)}\right\|\)</span> 。</p>
+<h4 id="几种特殊迭代法的收敛性">几种特殊迭代法的收敛性</h4>
+<blockquote>
+<p>如果矩阵 <span class="math inline">\(A\)</span> 的元素满足： <span class="math inline">\(|a_{ii}|&gt;\displaystyle\sum_{j=1,j\neq i}^n|a_{ij}|,\ (i=1,2,\dots,n)\)</span> ，则称 <span class="math inline">\(A\)</span> 为<strong>严格对角占优阵</strong>。</p>
+<p>若 <span class="math inline">\(|a_{ii}|\ge\displaystyle\sum_{j=1,j\neq i}^n|a_{ij}|,\ (i=1,2,\dots,n)\)</span> ，且至少有一个不等式严格成立，则称 <span class="math inline">\(A\)</span> 为<strong>弱对角占优阵</strong>。</p>
+<p><strong>对角占优定理</strong>：若矩阵 <span class="math inline">\(A\)</span> 为严格对角占优矩阵，则 <span class="math inline">\(A\)</span> 为非奇异矩阵。</p>
+</blockquote>
+<p><strong>Jacobi和Gauss迭代法收敛的充分条件</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为严格对角占优阵，则解该方程的Jacobi迭代法和Gauss-Seidel迭代法均收敛。</p>
+<p><strong>SOR迭代法收敛的必要条件</strong>： <span class="math inline">\(0&lt;\omega&lt;2\)</span> 。</p>
+<p><strong>SOR迭代法收敛的充分条件1</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为对称正定矩阵， <span class="math inline">\(0&lt;\omega&lt;2\)</span> ，则解该方程的SOR迭代法收敛。</p>
+<p><strong>SOR迭代法收敛的充分条件2</strong>：对方程 <span class="math inline">\(Ax=b\)</span> ，如果 <span class="math inline">\(A\)</span> 为严格对角占优矩阵（或弱对角占优不可约矩阵）， <span class="math inline">\(0&lt;\omega\le1\)</span> ，则解该方程的SOR迭代法收敛。</p>
+<h3 id="代码sor迭代与两种终止条件">代码：SOR迭代与两种终止条件</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Created by xa on 2021-03-01.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> std::vector;</span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; b;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; x;</span><br><span class="line">vector&lt;<span class="keyword">double</span>&gt; next_x;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_&#123;&#123;<span class="number">4</span>, <span class="number">-2</span>, <span class="number">-4</span>&#125;, &#123;<span class="number">-2</span>, <span class="number">17</span>, <span class="number">10</span>&#125;, &#123;<span class="number">-4</span>, <span class="number">10</span>, <span class="number">9</span>&#125;&#125;;</span><br><span class="line">    vector&lt;<span class="keyword">double</span>&gt; b_&#123;<span class="number">10</span>, <span class="number">3</span>, <span class="number">-7</span>&#125;;</span><br><span class="line">    <span class="built_in">iterate</span>(A_, b_, <span class="number">1.46</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_)</span> </span>&#123;<span class="built_in">iterate</span>(A_,b_,<span class="number">1</span>);&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (omega &lt;= <span class="number">0</span> || omega &gt;= <span class="number">1</span>) &#123; std::cout &lt;&lt; <span class="string">&quot;SOR does not converge !&quot;</span> &lt;&lt; std::endl; <span class="keyword">return</span>; &#125;</span><br><span class="line"></span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line">            next_x[i] = x[i] + omega * tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> r = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j)</span><br><span class="line">                tmp -= A[i][j] * x[j];</span><br><span class="line">            r += tmp * tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (r &lt; <span class="number">1e-10</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">iterate</span><span class="params">(vector&lt;vector&lt;<span class="keyword">double</span>&gt;&gt; A_, vector&lt;<span class="keyword">double</span>&gt; b_, <span class="keyword">double</span> omega)</span> </span>&#123;</span><br><span class="line">    A.<span class="built_in">assign</span>(A_.<span class="built_in">begin</span>(), A_.<span class="built_in">end</span>());</span><br><span class="line">    b.<span class="built_in">assign</span>(b_.<span class="built_in">begin</span>(), b_.<span class="built_in">end</span>());</span><br><span class="line">    size = A.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">x</span><span class="params">(size)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">double</span>&gt; <span class="title">next_x</span><span class="params">(size)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            <span class="keyword">double</span> tmp = b[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &lt; i) tmp -= A[i][j] * next_x[j];</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= i) tmp -= A[i][j] * x[j];</span><br><span class="line">            &#125;</span><br><span class="line">            next_x[i] = x[i] + omega * tmp / A[i][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">double</span> maxDelta = std::<span class="built_in">abs</span>(*(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(next_x), std::<span class="built_in">end</span>(next_x))) -</span><br><span class="line">                                   *(std::<span class="built_in">max_element</span>(std::<span class="built_in">begin</span>(x), std::<span class="built_in">end</span>(x))));</span><br><span class="line">        std::cout &lt;&lt; maxDelta &lt;&lt; <span class="string">&quot; | &quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">            x[i] = next_x[i];</span><br><span class="line">            std::cout &lt;&lt; x[i] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot; 第&quot;</span>&lt;&lt; k &lt;&lt; <span class="string">&quot;次&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (maxDelta &lt; <span class="number">1e-3</span>) <span class="keyword">break</span>;</span><br><span class="line">        ++k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/01/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day04-Jacobi-GaussSeidel/" rel="prev" title="2021-03-01-数值分析-Day04-Jacobi-GaussSeidel">
+                  <i class="fa fa-chevron-left"></i> 2021-03-01-数值分析-Day04-Jacobi-GaussSeidel
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/03/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/" rel="next" title="2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性">
+                  2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

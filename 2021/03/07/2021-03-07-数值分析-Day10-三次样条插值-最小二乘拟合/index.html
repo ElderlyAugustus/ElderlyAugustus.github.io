@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"elderlyaugustus.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"gitalk","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="续：5.8 - 5.10 三次样条插值 三转角方法 考虑第一种一般边界条件： \(S&#39;(x_0)&#x3D;f_0&#39;,\ S&#39;(x_n)&#x3D;f_n&#39;\) ，即已知两端点一阶导数值。 令 \(m_i&#x3D;S&#39;(x_i),\ i&#x3D;0,1,\dots,n\) ，利用三次Hermite插值，得到 \(S(x)&#x3D;\displaystyle \sum_{j&#x3D;0}^n[y_j\al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合">
+<meta property="og:url" content="https://elderlyaugustus.github.io/2021/03/07/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/index.html">
+<meta property="og:site_name" content="xa-notes">
+<meta property="og:description" content="续：5.8 - 5.10 三次样条插值 三转角方法 考虑第一种一般边界条件： \(S&#39;(x_0)&#x3D;f_0&#39;,\ S&#39;(x_n)&#x3D;f_n&#39;\) ，即已知两端点一阶导数值。 令 \(m_i&#x3D;S&#39;(x_i),\ i&#x3D;0,1,\dots,n\) ，利用三次Hermite插值，得到 \(S(x)&#x3D;\displaystyle \sum_{j&#x3D;0}^n[y_j\al">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-03-07T07:01:27.000Z">
+<meta property="article:modified_time" content="2021-03-07T07:04:40.813Z">
+<meta property="article:author" content="xa">
+<meta property="article:tag" content="数值分析">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://elderlyaugustus.github.io/2021/03/07/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合 | xa-notes</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><link rel="alternate" href="/atom.xml" title="xa-notes" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">xa-notes</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">OldAugutus/ElderlyAugustus</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%AD5.8---5.10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text">续：5.8 - 5.10 三次样条插值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E8%BD%AC%E8%A7%92%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">三转角方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%BC%AF%E7%9F%A9%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">三弯矩方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">最小二乘法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8B%9F%E5%90%88%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">数据拟合问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E5%87%BD%E6%95%B0%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">取函数类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%9C%AC%E8%8A%82%E8%AE%A1%E7%AE%97%E4%B8%BB%E8%A6%81%E8%BF%87%E7%A8%8B%E4%B8%BA%E8%A7%A3%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E5%88%97%E5%87%BA%E5%AF%B9%E5%BA%94%E5%85%83%E8%AE%A1%E7%AE%97%E5%BC%8F%E8%B0%83%E7%94%A8%E5%AF%B9%E5%BA%94%E5%87%BD%E6%95%B0%E5%8D%B3%E5%8F%AF%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84%E8%A7%A3%E6%B3%95%E5%9C%A8%E4%B9%8B%E5%89%8D%E7%AB%A0%E8%8A%82%E5%B7%B2%E7%BB%99%E5%87%BA%E4%B8%8D%E5%86%8D%E9%87%8D%E5%A4%8D"><span class="nav-number">3.</span> <span class="nav-text">代码：本节计算主要过程为解线性方程组，列出对应元计算式，调用对应函数即可。线性方程组解法在之前章节已给出，不再重复。</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xa"
+      src="/images/xa.jpg">
+  <p class="site-author-name" itemprop="name">xa</p>
+  <div class="site-description" itemprop="description">虽然学得半懂，好歹留点笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://elderlyaugustus.github.io/2021/03/07/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xa.jpg">
+      <meta itemprop="name" content="xa">
+      <meta itemprop="description" content="虽然学得半懂，好歹留点笔记">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xa-notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-03-07 15:01:27 / 修改时间：15:04:40" itemprop="dateCreated datePublished" datetime="2021-03-07T15:01:27+08:00">2021-03-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="续5.8---5.10-三次样条插值">续：5.8 - 5.10 三次样条插值</h3>
+<h4 id="三转角方法">三转角方法</h4>
+<p>考虑第一种一般边界条件： <span class="math inline">\(S&#39;(x_0)=f_0&#39;,\ S&#39;(x_n)=f_n&#39;\)</span> ，即已知两端点一阶导数值。</p>
+<p>令 <span class="math inline">\(m_i=S&#39;(x_i),\ i=0,1,\dots,n\)</span> ，利用三次Hermite插值，得到 <span class="math inline">\(S(x)=\displaystyle \sum_{j=0}^n[y_j\alpha_j(x)+m_j\beta_j(x)]\)</span> ，其中 <span class="math inline">\(\alpha_j(x),\ \beta_j(x)\)</span> 为分段三次Hermite插值的基函数。再由边界条件得 <span class="math inline">\(S&#39;(x_0)=f_0&#39;,\ S&#39;(x_n)=f_n&#39;\)</span> 即可解出 <span class="math inline">\(m_i\)</span> 在各插值点的取值。记<br />
+<span class="math inline">\(\displaystyle \lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}},\ \mu_i=1-\lambda_i=\frac{h_i}{h_i+h_{i+1}},\ g_i=3(\lambda_if[x_{i-1},x_i]+\mu_if[x_i,x_{i+1}])\)</span> ，<br />
+最终解得： <span class="math display">\[
+\begin{array}{c}\lambda_im_{i-1}+2m_i+\mu_im_{i+1}=g_i\\
+\begin{pmatrix}
+2  &amp;\mu_1  &amp;  &amp;  &amp;  &amp; \\
+\lambda_2  &amp;2  &amp;\mu_2  &amp;  &amp;  &amp; \\
+  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp;  &amp; \\
+  &amp;  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp; \\
+  &amp;  &amp;  &amp;\lambda_{n-2}  &amp;2  &amp;\mu_{n-2} \\
+  &amp;  &amp;  &amp;  &amp;\lambda_{n-1}  &amp;2
+\end{pmatrix}
+\begin{pmatrix}
+m_1 \\
+m_2 \\
+\vdots \\
+\vdots \\
+m_{n-2} \\
+m_{n-1}
+\end{pmatrix}=
+\begin{pmatrix}
+g_1-\lambda_iy_0&#39; \\
+g_2 \\
+\vdots \\
+\vdots \\
+g_{n-2} \\
+g_{n-1}-\mu_{n-1}y_n&#39;
+\end{pmatrix}
+\end{array}
+\]</span> 利用大型稀疏矩阵线性方程数值解法，解出 <span class="math inline">\(m_i\)</span> ，即解得 <span class="math inline">\(x\in[x_{i-1},x_i]\)</span> 时，有：<br />
+<span class="math inline">\(\begin{aligned}\displaystyle S(x)&amp;=\frac{ (2x-3x_{i-1}+x_i)(x-x_i)^2y_{i-1}+(-2x-x_{i-1}+3x_i)(x-x_{i-1})^2y_i }{h_i^3}\\ &amp;+\frac{ (x-x_{i-1})(x-x_i)[(x-x_i)m_{i-1}+(x-x_{i-1})m_i] }{h_i^2} \end{aligned}\)</span></p>
+<p>其他边界条件也可用类似方法解得，计算方法较复杂。</p>
+<h4 id="三弯矩方法">三弯矩方法</h4>
+<blockquote>
+<p>二阶导数 <span class="math inline">\(S&#39;&#39;(x)=M_j\ (j=0,1,\dots,n)\)</span> 在力学上解释为细梁在 <span class="math inline">\(x_j\)</span> 截面处的<strong>弯矩</strong>。</p>
+</blockquote>
+<p>令 <span class="math inline">\(M_i=S&#39;&#39;(x_i),\ i=0,1,\dots,n\)</span> ，则对 <span class="math inline">\(x\in[x_{i-1},x_i]\)</span> ，有：<br />
+<span class="math inline">\(\displaystyle S&#39;&#39;(x)=\frac{x-x_i}{x_{i-1}-x_i}M_{i-1}+\frac{x-x_{i-1}}{x_i-x_{i-1}}M_i\)</span> ，对此连续积分两次，记 <span class="math inline">\(S(x_i)=y_i\)</span> ，得：<br />
+<span class="math inline">\(\begin{aligned}\displaystyle S(x)&amp;=\frac{1}{6h_i}\left[(x_i-x)^3M_{i-1}+(x-x_{i-1})^3M_i\right]\\&amp;+\left(\frac{y_{i-1}}{h_i}-\frac{h_iM_{i-1}}{6}\right)(x_i-x)+\left(\frac{y_i}{h_i}-\frac{h_iM_i}{6}\right)(x-x_{i-1})\\&amp;=\frac{(x_i-x)^3M_{i-1}+(x-x_{i-1})^3M_i+(6y_{i-1}-h_i^2M_{i-1})(x_i-x)+(6y_i-h_i^2M_i)(x-x_{i-1})}{6h_i}\end{aligned}\)</span><br />
+利用 <span class="math inline">\(S&#39;(x_i-0)=S&#39;(x_i+0)\)</span> 求出 <span class="math inline">\(M_i\)</span> ，记<br />
+<span class="math inline">\(\displaystyle \lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}}=,\ \mu_i=\frac{h_i}{h_i+h_{i+1}},\ d_i=6f[x_{i-1},x_i,x_{i+1}]\)</span> ，<br />
+则有： <span class="math inline">\(\mu_iM_{i-1}+2M_i+\lambda_iM_{i+1}=d_i\)</span><br />
+结合边界条件 <span class="math inline">\(M_0=S&#39;&#39;(x_0)=y&#39;&#39;_0,\ M_n=S&#39;&#39;(x_n)=y&#39;&#39;_n\)</span> ，可得： <span class="math display">\[
+\begin{array}{c}\mu_iM_{i-1}+2M_i+\lambda_iM_{i+1}=d_i\\
+\begin{pmatrix}
+2  &amp;\mu_1  &amp;  &amp;  &amp;  &amp; \\
+\mu_2  &amp;2  &amp;\lambda_2  &amp;  &amp;  &amp; \\
+  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp;  &amp; \\
+  &amp;  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp; \\
+  &amp;  &amp;  &amp;\mu_{n-2}  &amp;2  &amp;\lambda_{n-2} \\
+  &amp;  &amp;  &amp;  &amp;\mu_{n-1}  &amp;2
+\end{pmatrix}
+\begin{pmatrix}
+M_1 \\
+M_2 \\
+\vdots \\
+\vdots \\
+M_{n-2} \\
+M_{n-1}
+\end{pmatrix}=
+\begin{pmatrix}
+d_1-\mu_iy_0&#39; \\
+d_2 \\
+\vdots \\
+\vdots \\
+d_{n-2} \\
+d_{n-1}-\lambda_{n-1}y_n&#39;&#39;
+\end{pmatrix}
+\end{array}
+\]</span> 或结合边界条件 <span class="math inline">\(S&#39;(x_0)=y_0&#39;,\ S&#39;(x_n)=y_n&#39;\)</span> ，得： <span class="math display">\[
+\begin{array}{c}\mu_iM_{i-1}+2M_i+\lambda_iM_{i+1}=d_i\\2M_0+M_1=d+0\\M_{n-1}+2M_n=d_n\\
+\begin{pmatrix}
+2  &amp;_1  &amp;  &amp;  &amp;  &amp; \\
+\mu_1  &amp;2  &amp;\lambda_1  &amp;  &amp;  &amp; \\
+  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp;  &amp; \\
+  &amp;  &amp;\ddots  &amp;\ddots  &amp;\ddots  &amp; \\
+  &amp;  &amp;  &amp;\mu_{n-1}  &amp;2  &amp;\lambda_{n-1} \\
+  &amp;  &amp;  &amp;  &amp;1  &amp;2
+\end{pmatrix}
+\begin{pmatrix}
+M_1 \\
+M_2 \\
+\vdots \\
+\vdots \\
+M_{n-2} \\
+M_{n-1}
+\end{pmatrix}=
+\begin{pmatrix}
+d_0 \\
+d_1 \\
+\vdots \\
+\vdots \\
+d_{n-1} \\
+d_n
+\end{pmatrix}
+\end{array}
+\]</span> 或结合周期边界条件 <span class="math inline">\(S&#39;(x_0)=S&#39;(x_n),\ S&#39;&#39;(x_0)=S&#39;&#39;(x_n)\)</span> ，同样得到稀疏矩阵线性方程。 采用稀疏矩阵线性方程解法即可。</p>
+<p><strong>综上</strong>，当边界条件为第一类（已知一阶导数值）时，适合采用三转角方法；当边界条件为第二类（已知二阶导数值）时适合采用三弯矩方法；对周期边界条件，两种方法计算量一致。</p>
+<h3 id="最小二乘法">最小二乘法</h3>
+<h4 id="数据拟合问题">数据拟合问题</h4>
+<p>经由观察或测试得到 <span class="math inline">\(y(x)\)</span> 的一组离散数据，在给定的函数类 <span class="math inline">\(\Phi\)</span> 上根据这组离散数据做出逼近曲线，要求逼近曲线在 <span class="math inline">\(x_i\)</span> 处与离散数据尽可能接近。</p>
+<p>对函数 <span class="math inline">\(\varphi(x)\in\Phi\)</span> ，要求以 <span class="math inline">\(\varphi(x)\)</span> 在离散点的误差 <span class="math inline">\(\delta_i=\phi(x_i)-y_i,\ i=0,1,\dots,m\)</span> 为分量的误差向量 <span class="math inline">\(\delta=(\delta_0,\delta_1,\dots,\delta_m)^T\)</span> ，使某一向量范数 <span class="math inline">\(\|\delta\|\)</span> 达到最小。对不同的范数，可以构造出不同意义下的拟合函数。</p>
+<p>函数类 <span class="math inline">\(\Phi\)</span> 通常取为 <span class="math inline">\(\Phi=Span\{\varphi_0(x),\varphi_1(x),\dots,\varphi_n(x)\}\)</span> ，其中函数系 <span class="math inline">\(\varphi_0(x),\varphi_1(x),\dots,\varphi_n(x)\)</span> 在包含节点 <span class="math inline">\(\{x_i\}\)</span> 的区间 <span class="math inline">\([a,b]\)</span> 上线性无关， <span class="math inline">\(\Phi\)</span> 中任一函数 <span class="math inline">\(\varphi(x)\)</span> 可表示为： <span class="math inline">\(\varphi(x)=a_0\varphi_0(x)+a_1\varphi_1(x)+\dots+a_n\varphi_n(x)\)</span> 。</p>
+<p>常用函数系包括幂函数系 <span class="math inline">\(\{x^j\}\)</span> ，三角函数系 <span class="math inline">\(\{\sin jx\}\ \{\cos jx\}\)</span> ，指数函数系 <span class="math inline">\(\{e^{\lambda_jx}\}\)</span> ，正交函数系等。</p>
+<p>在求误差向量 <span class="math inline">\(\delta\)</span> 的范数时，常用 <span class="math inline">\(2\)</span> -范数，对应的曲线拟合方法就称为<strong>最小二乘法</strong>。</p>
+<p><strong>推导</strong>：在函数类 <span class="math inline">\(\Phi\)</span> 中找到函数 <span class="math inline">\(y=\varphi^*(x)\)</span> ，使误差向量 <span class="math inline">\(\delta\)</span> 的 <span class="math inline">\(2\)</span> -范数达到最小值。（通常取误差向量的加权形式 <span class="math inline">\(\rho(x)\varphi(x)\)</span> 求 <span class="math inline">\(2\)</span> -范数的平方 <span class="math inline">\(\|\delta\|_2^2\)</span> ）。该范数为关于 <span class="math inline">\((a_0,a_1,\dots,a_n)\)</span> 的函数，记其为 <span class="math inline">\(G(a_0,a_1,\dots,a_n)\)</span> ，则问题转换为求该函数最小值问题。<br />
+记 <span class="math inline">\(\left\{\begin{array}{l}\varphi_j=(\varphi_j(x_0),\varphi_j(x_1),\dots,\varphi_j(x_m))^T,\ j=0,1,2,\dots,n\\f=(y_0,y_1,\dots,y_m)^T\\(\varphi_j,\varphi_k)=\displaystyle\sum_{i=0}^m\rho(x_i)\varphi_j(x_i)\varphi_k(x_i)\\(f,\varphi_k)=\displaystyle\sum_{i=0}^m\rho(x_i)y_i\varphi_k(x_i)\end{array}\\\right.\)</span><br />
+得到关于系数向量 <span class="math inline">\((a_0,a_1,\dots,a_n)^T\)</span> 的线性方程组： <span class="math display">\[
+\begin{array}{c}\displaystyle\sum_{j=0}^n(\varphi_j,\varphi_k)a_j=(f,\varphi_k)\quad k=0,1,\dots,n\\ 
+\begin{pmatrix}
+(\varphi_0,\varphi_0)  &amp;(\varphi_0,\varphi_1)  &amp;\cdots  &amp;(\varphi_j,\varphi_k) \\
+(\varphi_1,\varphi_0)  &amp;(\varphi_1,\varphi_1)  &amp;\cdots  &amp;(\varphi_1,\varphi_n) \\
+\vdots  &amp;\vdots  &amp;\ddots  &amp;\vdots \\
+(\varphi_n,\varphi_0)  &amp;(\varphi_n,\varphi_1)  &amp;\cdots  &amp;(\varphi_n,\varphi_n)
+\end{pmatrix}
+\begin{pmatrix}
+a_0 \\
+a_1 \\
+\vdots \\
+a_n
+\end{pmatrix}
+=\begin{pmatrix}
+(f,\varphi_0) \\
+(f,\varphi_1) \\
+\vdots \\
+(f,\varphi_n)
+\end{pmatrix}\end{array}
+\]</span> 称之为<strong>正则方程组</strong>或<strong>法方程组</strong>。<br />
+正则方程组的系数矩阵为对称矩阵。若向量组 <span class="math inline">\(\varphi_0,\varphi_1,\dots,\varphi_n\)</span> 线性无关，则其为对称正定矩阵，可以通过迭代法求得唯一解 <span class="math inline">\(a_j^*\)</span> ，从而得到拟合函数 <span class="math inline">\(\varphi^*(x)\)</span> 。</p>
+<h4 id="取函数类">取函数类</h4>
+<p>取函数类为幂函数系，则正则方程组为：<br />
+<span class="math display">\[
+\begin{pmatrix}
+\sum\rho_i  &amp;\sum\rho_i x_i  &amp;\cdots  &amp;\sum\rho_i x_i^n \\
+\sum\rho_i x_i  &amp;\sum\rho_i x_i^2  &amp;\cdots  &amp;\sum\rho_i x_i^{n+1} \\
+\vdots  &amp;\vdots  &amp;\ddots  &amp;\vdots \\
+\sum\rho_i x_i^n  &amp;\sum\rho_i x_i^{n+1}  &amp;\cdots  &amp;\sum\rho_i x_i^{2n}
+\end{pmatrix}
+\begin{pmatrix}
+a_0 \\
+a_1 \\
+\vdots \\
+a_n
+\end{pmatrix}
+=\begin{pmatrix}
+\sum\rho_iy_i \\
+\sum\rho_ix_iy_i \\
+\vdots \\
+\sum\rho_ix_i^ny_i
+\end{pmatrix}
+\]</span> 其中 <span class="math inline">\(\rho_i=\rho(x_i),\ \sum=\sum\limits_{i=0}^m\)</span> 。此时拟合曲线 <span class="math inline">\(\varphi^*(x)=p_n^*(x)=a_0^*+a_1^*x+\dots+a_n^*x^n\)</span> ，称之为<strong>多项式拟合曲线</strong>。</p>
+<p>取函数类为正交函数系，则 <span class="math inline">\((\varphi_i,\varphi_j)=0,\ (i\neq j)\)</span> ，正则方程组的系数矩阵为对角矩阵， <span class="math inline">\(a_k^*=(f,\varphi_k)/(\varphi_k,\varphi_k),\ k=0,1,\dots,n\)</span> 。</p>
+<h3 id="代码本节计算主要过程为解线性方程组列出对应元计算式调用对应函数即可线性方程组解法在之前章节已给出不再重复">代码：本节计算主要过程为解线性方程组，列出对应元计算式，调用对应函数即可。线性方程组解法在之前章节已给出，不再重复。</h3>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/" rel="tag"># 数值分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/06/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/" rel="prev" title="2021-03-06-数值分析-Day09-分段插值-三次样条函数">
+                  <i class="fa fa-chevron-left"></i> 2021-03-06-数值分析-Day09-分段插值-三次样条函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/08/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-Day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/" rel="next" title="2021-03-08-数值分析-Day11-插值型数值积分">
+                  2021-03-08-数值分析-Day11-插值型数值积分 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xa</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>
