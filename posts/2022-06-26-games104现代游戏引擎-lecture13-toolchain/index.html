@@ -11,10 +11,10 @@
 用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
 存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg.">
 <meta name="author" content="xα">
-<link rel="canonical" href="http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
-<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains | xα&#39;s blog" />
 <meta name="twitter:description" content="Lecture13 Tool Chains 游戏引擎工具链的地位：
@@ -25,8 +25,8 @@
 用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
 存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/" />
-    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-06-26T14:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-06-26T14:00:00&#43;08:00" />
@@ -36,18 +36,18 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains",
-      "item": "http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
+      "item": "https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
     }
   ]
 }
@@ -72,14 +72,14 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
+    "@id": "https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -195,7 +195,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -221,22 +221,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -247,12 +247,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2022-06-26</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="http://localhost:1313/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
       
       
@@ -485,13 +485,13 @@ you get “所见即所得”</h4>
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic</span>
   </a>
-  <a class="next" href="http://localhost:1313/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -504,7 +504,7 @@ you get “所见即所得”</h4>
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

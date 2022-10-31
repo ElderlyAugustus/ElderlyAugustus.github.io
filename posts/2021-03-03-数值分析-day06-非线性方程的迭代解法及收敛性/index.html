@@ -15,10 +15,10 @@
 迭代法收敛的判定定理：设函数 \(\varphi(x)\) 满足条件： \[ \begin{array}{l}(1)\quad \forall x\in[a,b],\ a\le\varphi(x)\le b;\\ (2)\quad \exists0\le L&lt;1,\ \begin{array}{l}\forall x,y\in[a,b],\ |\varphi(x)-\varphi(y)|\le L|x-y|\\或\ |\varphi&#39;(x)\le L&lt;1|\end{array}\end{array} \]
 则 \(\forall x_0\in[a,b]\) ，由 \(x_{k&#43;1}=\varphi(x_K)\) 得到的序列 \(\{x_k\}_{k=0}^\infty\) 收敛于 \(\varphi(x)\) 在 \([a,b]\) 上的唯一不动点。并且由误差估计式： \(\begin{array}{l}\displaystyle\left|x^*-x_k\right|\le\frac{1}{1-L}\left|x_k-x_{k-1}\right|\\\displaystyle\left|x^*-x_k\right|\le\frac{L^k}{1-L}\left|x_1-x_0\right|\end{array}\) 。由第一式分析误差；由第二式得到结论 \(L\) 越小，收敛越快 。">
 <meta name="author" content="xα">
-<link rel="canonical" href="http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
-<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性 | xα&#39;s blog" />
 <meta name="twitter:description" content="4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)=0\quad&amp;\Leftrightarrow\quad x=\varphi(x)\\ f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{aligned}\end{array} \]
@@ -37,8 +37,8 @@
 迭代法收敛的判定定理：设函数 \(\varphi(x)\) 满足条件： \[ \begin{array}{l}(1)\quad \forall x\in[a,b],\ a\le\varphi(x)\le b;\\ (2)\quad \exists0\le L&lt;1,\ \begin{array}{l}\forall x,y\in[a,b],\ |\varphi(x)-\varphi(y)|\le L|x-y|\\或\ |\varphi&#39;(x)\le L&lt;1|\end{array}\end{array} \]
 则 \(\forall x_0\in[a,b]\) ，由 \(x_{k&#43;1}=\varphi(x_K)\) 得到的序列 \(\{x_k\}_{k=0}^\infty\) 收敛于 \(\varphi(x)\) 在 \([a,b]\) 上的唯一不动点。并且由误差估计式： \(\begin{array}{l}\displaystyle\left|x^*-x_k\right|\le\frac{1}{1-L}\left|x_k-x_{k-1}\right|\\\displaystyle\left|x^*-x_k\right|\le\frac{L^k}{1-L}\left|x_1-x_0\right|\end{array}\) 。由第一式分析误差；由第二式得到结论 \(L\) 越小，收敛越快 。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/" />
-    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-03T18:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-03T18:00:00&#43;08:00" />
@@ -48,18 +48,18 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性",
-      "item": "http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/"
+      "item": "https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/"
     }
   ]
 }
@@ -84,14 +84,14 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/"
+    "@id": "https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -207,7 +207,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -233,22 +233,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -259,12 +259,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-03-03</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
       
       
@@ -535,13 +535,13 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2021-03-04-数值分析-Day07-Newton迭代法</span>
   </a>
-  <a class="next" href="http://localhost:1313/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -554,7 +554,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

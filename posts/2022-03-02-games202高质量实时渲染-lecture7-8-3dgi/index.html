@@ -14,10 +14,10 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 被直接光照照亮的表面有哪些？ / 哪些是次级光源？ 借助Shadow Map 每一个次级光源的“贡献”是多少？ 求和 每一个次级光源作为一个Area Light Reflective Shadow Maps (RSM) 获得光源的Shadow Map，存储光源“可见”的深度/世界坐标/法线/Flux等（即Reflective Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow Maps为512*512，则有512*512个点光源。 次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse） Recall 一个Patch（Reflective Shadow Maps的一个像素）的“贡献
 \[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]">
 <meta name="author" content="xα">
-<link rel="canonical" href="http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
-<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI | xα&#39;s blog" />
 <meta name="twitter:description" content="Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
@@ -34,8 +34,8 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 被直接光照照亮的表面有哪些？ / 哪些是次级光源？ 借助Shadow Map 每一个次级光源的“贡献”是多少？ 求和 每一个次级光源作为一个Area Light Reflective Shadow Maps (RSM) 获得光源的Shadow Map，存储光源“可见”的深度/世界坐标/法线/Flux等（即Reflective Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow Maps为512*512，则有512*512个点光源。 次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse） Recall 一个Patch（Reflective Shadow Maps的一个像素）的“贡献
 \[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/" />
-    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-02T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-02T15:00:00&#43;08:00" />
@@ -45,18 +45,18 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [, 
+  "itemListElement": [
     {
       "@type": "ListItem",
-      "position":  2 ,
+      "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
-      "position":  3 ,
+      "position":  2 ,
       "name": "2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI",
-      "item": "http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"
+      "item": "https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"
     }
   ]
 }
@@ -81,14 +81,14 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"
+    "@id": "https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "http://localhost:1313/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -204,7 +204,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -230,22 +230,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -256,12 +256,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-03-02</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="http://localhost:1313/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 
       
       
@@ -438,13 +438,13 @@ trace（eg.8个，空隙可忽略）
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2021-03-02-数值分析-Day05-SOR-迭代法收敛性</span>
   </a>
-  <a class="next" href="http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -457,7 +457,7 @@ trace（eg.8个，空隙可忽略）
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

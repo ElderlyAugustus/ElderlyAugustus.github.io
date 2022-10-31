@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>基于物理的动画 on xα&#39;s blog</title>
-    <link>http://localhost:1313/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/</link>
+    <link>https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/</link>
     <description>Recent content in 基于物理的动画 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sat, 25 Dec 2021 00:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 25 Dec 2021 00:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY</title>
-      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</link>
       <pubDate>Sat, 25 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</guid>
       <description>注：本篇由同组同学LLY编写，本人代完成格式化
 电影制作流程中的物理模拟 视效制作流程 在了解物理模拟在视效中的流程之前，我们需要先了解一下整个视效制作的大框架。
 FXPipeline 特效（FX）部门简述 动力学和模拟技术是数字特效的核心组成部分。从广义上讲，它们试图在数字领域复制真实世界的物理特征，这样就可以通过让软件计算适当的结果而不需要关键帧动画来实现真实的行为和交互。
@@ -77,10 +77,10 @@ alt="FX部门流程" />
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY</title>
-      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</guid>
       <description>注：本篇由同组同学LLY编写，本人代完成格式化
 刚体 在物理学里，刚体是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。
 刚体属性与表达 为了表示一个刚体，我们首先需要知道刚体的质心。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标 \(\mathbf x\) 和速度 \(\mathbf v\) 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为局部坐标系。刚体及模拟的其他对象被放置在世界坐标系中。
@@ -500,10 +500,10 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用</title>
-      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</guid>
       <description>影视制作中的最新进展与应用 学术界发展动向 在讨论影视工业中物理模拟的最新方向之前，我们先看看学界这两年都在做什么——技术的发展顺序大部分情况下都是先从学术界开始的。
 我整理出了近三年国际图形学顶级学术会议Siggraph发表的论文中，基于物理的动画方向的所有论文：
 Siggraph 2021 Revisiting Integration in the Material Point Method: A Scheme for Easier Separation and Less Dissipation 重新审视物质点法（MPM）：更易分离、更少耗散的方法 Mechanics-Aware Deformation of Yarn Pattern Geometry 纱织物几何体的力学感知变形 Kelvin Transformations for Simulations on Infinite Domains 无限域模拟的开尔文变换 QuanTaichi: A Compiler for Quantized Simulations QuanTaichi：一种量化模拟编译器 A Unified Second-Order Accurate in Time MPM Formulation for Simulating Viscoelastic Liquids with Phase Change 相变粘弹性液体模拟的统一二阶时间精确MPM公式 Bijective and Coarse High-Order Tetrahedral Meshes 双射和粗高阶四面体网格 Physical validation of simulators in Computer Graphics: A new framework dedicated to slender elastic structures and frictional contact 计算机图形学模拟器的物理验证：一种细长弹性结构和摩擦接触的新型框架 Stream-Guided Smoke Simulations 流向烟雾模拟 Solid-Fluid Interaction with Surface-Tension-Dominant Contact 表面张力主导接触的固液相互作用 Fire in Paradise: Mesoscale Simulation of Wildfires 天堂之火：野火尺度模拟 Systematically Differentiating Parametric Discontinuities 系统区分参数不连续性 Thin-Film Smoothed Particle Hydrodynamics Fluid 薄膜平滑粒子流体动力学（SPH）流体 Clebsch Gauge Fluid Clebsch规范流体 Incompressible Flow Simulation on Vortex Segment Clouds 涡段云上的不可压缩流体 Codimensional Incremental Potential Contact 共维增量潜在接触（C-IPC） Intersection-free Rigid Body Dynamics 无交点刚体动力学 Medial IPC: Accelerated Incremental Potential Contact With Medial Elastics Medial IPC：结合Medial Elastics的IPC方法 High-order Differentiable Autoencoder for Nonlinear Model Reduction 非线性模型重建的高阶可微自动编码器 Fast Linking Numbers for Topology Verification 拓扑验证的快速链接数 of Loopy Structures 环状结构 Learning Contact Corrections for Handle-Based Subspace Dynamics 基于句柄的子空间动力学的接触修正学习 The Shape Matching Element Method: Direct Animation of Curved Surface Models 形状匹配元素方法：曲面模型的直接动画 GPU-Based Simulation of Cloth Wrinkles at Submillimeter Levels 基于 GPU 的亚毫米级布料皱纹模拟 Multiscale Cholesky Preconditioning for Ill-conditioned Problems 病态问题的多尺度Cholesky预处理 A Momentum-Conserving Implicit Material Point Method for Surface Tension with Contact Angles and Spatial Gradients 具有接触角和空间梯度的表面张力动量守恒隐式材料点法 SANM: A Symbolic Asymptotic Numerical Solver with Applications in Mesh Deformation SANM：网格变形中应用的符号渐近数值求解器 Learning Meaningful Controls for Fluids 流体有意义控制学习 Unified Particle System for Multiple-fluid Flow and Porous Material 多流体流动和多孔材料的统一粒子系统 Constrained Projective Dynamics: Real-time Simulation of Deformable Objects With Energy-momentum Conservation 约束投影动力学：能量-动量守恒的可形变物体的实时模拟 TOG:</description>
@@ -812,10 +812,10 @@ Previz的基础上，我们将实时渲染的场景通过mapping的方式投影�
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-流体系统</title>
-      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</guid>
       <description>流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
 流体与流体力学 首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。
 所有液体 所有气体 具备流动特征的固体：如沙丘 流体主要具备以下性质：
@@ -1312,10 +1312,10 @@ material point method for snow simulation</p>
     
     <item>
       <title>2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型</title>
-      <link>http://localhost:1313/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Tue, 23 Nov 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</guid>
       <description>这节课开始我们将花两节课的时间从粒子、刚体、流体三种系统，来简要介绍一些基于物理的动画的基本原理与实现，并给大家展示一些具体的制作方法和成果。
 粒子系统 基于粒子的模型是基于物理的动画的一个基础模型，是拉格朗日方法中最典型的一种。这里的粒子系统个人认为广义地来说就是基于粒子的模型，是以粒子视点对物理现象做点采样的所有动画系统，但业界我们往往狭义地认为其典型就是特指由发射器发射大规模粒子、通过外力驱动运动、渲染成具体的无定形形象的系统。我们这一章的陈述主要还是以典型的粒子系统为主，会拓展些基于粒子的、但并不一定称为粒子系统的模型。
 粒子系统一般用来表现雨、雪、火、烟、尘、沙尘暴、烟花、水花、喷雾等等“无定形现象（Amorphous Phenomena[1]）”，当然也包括我们常见的一些“非物理现象”，诸如哥斯拉的吐息、猩红女巫的魔法光效等等，这些非物理现象同样要通过我们的物理系统去驱动粒子来产生这些效果。
@@ -1579,10 +1579,10 @@ simple rules</p>
     
     <item>
       <title>2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念</title>
-      <link>http://localhost:1313/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</link>
       <pubDate>Thu, 18 Nov 2021 00:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</guid>
       <description>基于物理的动画/物理模拟 Physically Based Animation
 今天我和李乐游给大家讲一下基于物理的动画这个题目。首先我们来解释一下这个题目，这个动画指的不是一部动画片的那个动画，是指在动画片/视效制作中的一个环节，也是计算机图形学的三个大方向之一：建模Modeling、动画Animation、渲染Rendering。也就是驱动我们的模型动起来的过程——那么怎样驱动我们的模型动起来呢。大家最熟悉的一种方式就是Key关键帧，比如大家建了一个肖翱的模型，要驱动我去运动，那自然是要把我绑定到骨骼上，对每个关节去打关键帧，比如把我的手十秒后挪到这里。但是呢，不是所有的动画都适合用关键帧来驱动，比如窗外雪花飘飘、一辆车跌落悬崖、瀑布飞流直下，这样的镜头如果用Key关键帧的方法去完成，那就不是Key我身上的几十个关节这么“容易”的事了。但这种物理现象往往是遵循物理规律的，我们想让他看起来真实，那么我们就可以用物理规律去驱动它运动；又或者是一个非自然的物理现象，我们也可以创造非自然的物理规律去驱动它运动。这样的动画方法我们称之为基于物理的动画，也称为物理模拟，也有人将模拟Simulation单独作为图形学的第四个方向。下面我们说到这两个词大家知道都是指同一个东西就行了。
 那么基于物理的动画，在我们的电影中能做出什么样的效果呢，我们剪了一段经典影片中的Showreel给大家欣赏一下。然后我们将从发展历史、基本概念出发，介绍影视制作中的物理模拟制作流程、几种系统的算法原理与实现、展示一些我们自己制作的和经典影片中的基于物理的动画镜头，最后对物理模拟这项技术的未来再做一个分析和展望。
