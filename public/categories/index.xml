@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Categories on xα&#39;s blog</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>https://elderlyaugustus.github.io/categories/</link>
     <description>Recent content in Categories on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 31 Oct 2022 12:02:25 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Oct 2022 12:02:25 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Misc</title>
-      <link>http://localhost:1313/categories/misc/</link>
+      <link>https://elderlyaugustus.github.io/categories/misc/</link>
       <pubDate>Mon, 31 Oct 2022 12:02:25 +0800</pubDate>
       
-      <guid>http://localhost:1313/categories/misc/</guid>
+      <guid>https://elderlyaugustus.github.io/categories/misc/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>图形</title>
-      <link>http://localhost:1313/categories/%E5%9B%BE%E5%BD%A2/</link>
+      <link>https://elderlyaugustus.github.io/categories/%E5%9B%BE%E5%BD%A2/</link>
       <pubDate>Sun, 23 Oct 2022 09:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/categories/%E5%9B%BE%E5%BD%A2/</guid>
+      <guid>https://elderlyaugustus.github.io/categories/%E5%9B%BE%E5%BD%A2/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>数学</title>
-      <link>http://localhost:1313/categories/%E6%95%B0%E5%AD%A6/</link>
+      <link>https://elderlyaugustus.github.io/categories/%E6%95%B0%E5%AD%A6/</link>
       <pubDate>Thu, 11 Mar 2021 17:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/categories/%E6%95%B0%E5%AD%A6/</guid>
+      <guid>https://elderlyaugustus.github.io/categories/%E6%95%B0%E5%AD%A6/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

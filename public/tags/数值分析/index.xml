@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>数值分析 on xα&#39;s blog</title>
-    <link>http://localhost:1313/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/</link>
+    <link>https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/</link>
     <description>Recent content in 数值分析 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Thu, 11 Mar 2021 17:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 11 Mar 2021 17:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</title>
-      <link>http://localhost:1313/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</link>
       <pubDate>Thu, 11 Mar 2021 17:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</guid>
       <description>7.5 - 7.7 Runge-Kutta方法 单步高阶方法构造思路 设 \(y(x)\) 是一阶常微分方程初值问题的精确解，Taylor展开得： \[ \begin{aligned} \displaystyle y(x_{n+1})&amp;amp;=y(x_n)+y&amp;#39;(x_n)h+\frac{y&amp;#39;&amp;#39;(x_n)}{2!}h^2+\dots+\frac{y^{(p)}(x_n)}{p!}h^p+\frac{y^{({p+1})}(x_n)}{(p+1)!}h^{p+1}\\ &amp;amp;=y(x_n)+hf(x_n,y(x_n))+\frac{h^2}{2!}f^{(1)}(x_n,y(x_n))+\dots+\frac{h^p}{p!}f^{(p-1)}(x_n,y(x_n))+O(h^{p+1})\end{aligned} \] 因此可建立节点处近似值 \(y_n\) 满足的差分公式： \[ \left\{\begin{array}{l}\displaystyle y_{n+1}=y_n+hf(x_n,y_n)+\frac{h^2}{2!}f^{(1)}(x_n,y_n)+\dots+\frac{h^p}{p!}f^{(p-1)}(x_n,y_n)\\y_0=\alpha,\quad n=0,1,\dots,N-1\end{array}\right. \] 称之为 \(\mathbf p\) 阶Taylor展开方法。 其中： \(\begin{array}{l}\displaystyle f^{(1)}(x,y)=\frac{\partial f(x,y)}{\partial x}+\frac{\partial f(x,y)}{\partial y}f(x,y)\\\displaystyle f^{(2)}(x,y)=\frac{\partial^2f}{\partial x^2}+2\frac{\partial^2f}{\partial x\partial y}f+\frac{\partial^2 f}{\partial y^2}f^2+\frac{\partial f}{\partial x}\frac{\partial f}{\partial y}+\left(\frac{\partial f}{\partial y}\right)^2f\\\dots\end{array}\)
 计算过于复杂，很少直接使用
 减少Taylor展开次数得： \[ y(x_{n+1})=y(x_n)+hy&amp;#39;(\xi)=y(x_n)+hf(\xi,y(\xi)),\quad x_n\le\xi\le x_{n+1} \] 构造差分方法即利用适当的函数值来近似计算 \(f(\xi,y(\xi))\) 。
@@ -325,10 +325,10 @@ class="math inline">\(r\)</span> 相等）。</p>
     
     <item>
       <title>2021-03-10-数值分析-Day13-差分公式</title>
-      <link>http://localhost:1313/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</link>
       <pubDate>Wed, 10 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</guid>
       <description>7.1 - 7.4 差分公式 一阶常微分方程初值问题 一阶常微分方程初值问题的一般形式为：
 \[ \left\{\begin{array}{l}\displaystyle\frac{dy}{dx}=f(x,y),\quad a\le x\le b\\y(a)=\alpha\end{array}\right. \] 其中 \(f(x,y)\) 为已知函数， \(\alpha\) 为给定的值。
 在许多数学模型中，上述方程通常以 \(x\) 描述时间，而定解条件 \(y(a)=\alpha\) 则给出了函数 \(y(x)\) 在初始时刻的取值。因此称为初值问题。
@@ -509,10 +509,10 @@ y(x_{n+1})-y_{n+1}=\frac{y&#39;&#39;(x_n)}{2!}h^2+O(h^3)=O(h^2)
     
     <item>
       <title>2021-03-09-数值分析-Day12-续数值积分-数值微分</title>
-      <link>http://localhost:1313/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</link>
       <pubDate>Tue, 09 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</guid>
       <description>续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
 在区间 \([a,b]\) 上，取等距节点 \(x_k=a+kh,\ k=0,1,\dots,n\) ，
 由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
@@ -970,10 +970,10 @@ L_2&#39;&#39;(x)=\frac{1}{h^2}[f(x_0)-2f(x_1)+f(x_2)]\)</span></p></li>
     
     <item>
       <title>2021-03-08-数值分析-Day11-插值型数值积分</title>
-      <link>http://localhost:1313/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</link>
       <pubDate>Mon, 08 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</guid>
       <description>6.1 - 6.11 数值积分 牛顿-莱布尼茨公式： \(\displaystyle\int_a^bf(x)dx=F(b)-F(a)\)
 问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。
 【例】弧长积分： \(L=\displaystyle\int_a^b\sqrt{1+(f&amp;#39;(x))^2}dx\)
@@ -1166,10 +1166,10 @@ n为偶数\end{array}\right.\\\eta\in(a,b)\end{array}\)</span> 。</p>
     
     <item>
       <title>2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合</title>
-      <link>http://localhost:1313/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</link>
       <pubDate>Sun, 07 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</guid>
       <description>续：5.8 - 5.10 三次样条插值 三转角方法 考虑第一种一般边界条件： \(S&amp;#39;(x_0)=f_0&amp;#39;,\ S&amp;#39;(x_n)=f_n&amp;#39;\) ，即已知两端点一阶导数值。
 令 \(m_i=S&amp;#39;(x_i),\ i=0,1,\dots,n\) ，利用三次Hermite插值，得到 \(S(x)=\displaystyle \sum_{j=0}^n[y_j\alpha_j(x)+m_j\beta_j(x)]\) ，其中 \(\alpha_j(x),\ \beta_j(x)\) 为分段三次Hermite插值的基函数。再由边界条件得 \(S&amp;#39;(x_0)=f_0&amp;#39;,\ S&amp;#39;(x_n)=f_n&amp;#39;\) 即可解出 \(m_i\) 在各插值点的取值。记
 \(\displaystyle \lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}},\ \mu_i=1-\lambda_i=\frac{h_i}{h_i+h_{i+1}},\ g_i=3(\lambda_if[x_{i-1},x_i]+\mu_if[x_i,x_{i+1}])\) ，
@@ -1431,10 +1431,10 @@ id="代码本节计算主要过程为解线性方程组列出对应元计算式�
     
     <item>
       <title>2021-03-06-数值分析-Day09-分段插值-三次样条函数</title>
-      <link>http://localhost:1313/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</link>
       <pubDate>Sat, 06 Mar 2021 17:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</guid>
       <description>5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
 分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&amp;lt;x_1&amp;lt;\dots&amp;lt;x_n=b\) ，记 \(h_k=x_{k+1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
 余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&amp;#39;&amp;#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
@@ -1606,10 +1606,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值</title>
-      <link>http://localhost:1313/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</link>
       <pubDate>Fri, 05 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</guid>
       <description>5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n+1\) 个点： \(a\le x_0&amp;lt;x_1&amp;lt;\dots&amp;lt;x_n\le b\) 。
 已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
 $(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
@@ -1934,10 +1934,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-03-04-数值分析-Day07-Newton迭代法</title>
-      <link>http://localhost:1313/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</link>
       <pubDate>Thu, 04 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</guid>
       <description>4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \(\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)
 泰勒展开公式： \(\displaystyle f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n+R_n(x)\)
 皮亚诺型余项： \(R_n(x)=o[(x-a)^n]\) ，即当 \(x\to a\) 时，余项为 \((x-a)^n\) 的高阶无穷小 拉格朗日型余项： \(R_n(x)=\displaystyle\frac{f^{(n+1)}(\theta)}{(n+1)!}(x-a)^{(n+1)},\ \theta\in(a,x)\)
@@ -2164,10 +2164,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</title>
-      <link>http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</link>
       <pubDate>Wed, 03 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
       <description>4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)=0\quad&amp;amp;\Leftrightarrow\quad x=\varphi(x)\\ f(x)的根\quad&amp;amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{aligned}\end{array} \]
 其中 \(x_{k+1}=\varphi(x_k),\quad (k=0,1,2,\dots)\) 称为迭代格式， \(\varphi(x)\) 称为迭代函数。
 简单迭代法的收敛条件 几何解释：求方程 \(x=\varphi(x)\) 的根，就是求直线 \(y=x\) 和曲线 \(y=\varphi(x)\) 的交点的横坐标。（图略。）
@@ -2410,10 +2410,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-03-02-数值分析-Day05-SOR-迭代法收敛性</title>
-      <link>http://localhost:1313/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</link>
       <pubDate>Tue, 02 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
       <description>续：3.1 - 6 迭代法 逐次超松弛迭代法（SOR迭代法） 选取分裂矩阵 \(M\) 为带参数的下三角阵： \(M=\displaystyle\frac{1}{\omega}(D-\omega L),\ B=I-M^{-1}A,\ f=M^{-1}b\) ，其中 \(w&amp;gt;0\) 为可选择的松弛因子。
 构造迭代法，迭代矩阵为： \(L_\omega=I-\omega(D-\omega L)^{-1}A=(D-\omega L)^{-1}((1-\omega)D+\omega U)\) 。
 则解 \(Ax=b\) 的SOR方法即为： \(\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=L_\omega x^{(k)}+f\quad(k=0,1,\dots)\end{array}\right.\\其中\begin{array}{l}L_\omega=(D-\omega L)^{-1}((1-\omega)D+\omega U),\\f=\omega(D-\omega L)^{-1}b\end{array}\end{array}\) 。
@@ -2638,10 +2638,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel</title>
-      <link>http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</link>
       <pubDate>Mon, 01 Mar 2021 20:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</guid>
       <description>3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
 工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
 通法：
@@ -2933,10 +2933,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
     
     <item>
       <title>2021-02-28-数值分析-Day03-范数-迭代改善算法</title>
-      <link>http://localhost:1313/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sun, 28 Feb 2021 20:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</guid>
       <description>2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。
 向量的范数 定义1：设 \(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)
 将实数 \((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)（或复数 \((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\) ）称为向量x,y的数量积（内积）。
@@ -3483,10 +3483,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-02-27-数值分析-Day02-三角分解</title>
-      <link>http://localhost:1313/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</link>
       <pubDate>Sat, 27 Feb 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</guid>
       <description>续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵
 若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\) ，记： \(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp;amp; 1 \\ -l_{31} &amp;amp;&amp;amp; 1 \\ \vdots &amp;amp;&amp;amp;&amp;amp; \ddots \\ -l_{31} &amp;amp;&amp;amp;&amp;amp;&amp;amp; 1 \end{pmatrix}\)
 则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp;amp; a_{12}^{(1)} &amp;amp; \cdots &amp;amp; a_{1n}^{(1)} \\ 0 &amp;amp; a_{22}^{(2)} &amp;amp; \cdots &amp;amp; a_{2n}^{(2)} \\ \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots \\ 0 &amp;amp; a_{n2}^{(2)} &amp;amp; \cdots &amp;amp; a_{nn}^{(2)} \end{pmatrix}\)</description>
@@ -3733,10 +3733,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-02-26-数值分析-Day01-顺序Gauss消元</title>
-      <link>http://localhost:1313/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</link>
       <pubDate>Fri, 26 Feb 2021 18:00:00 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</guid>
       <description>1.1 - 1.2 数值分析的算法要求 结构简单，易于计算机实现 理论上保证方法的收敛性和数值稳定性 计算效率高：速度快，内存开销小 经过数值实验验证 误差的来源和分类 模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免 观测误差：观测实验得到的参数带来的误差 截断误差：近似方法产生的误差 舍入误差：计算机有限位计算产生的误差 （后两者为本课程主要研究对象）
 绝对误差和相对误差
 设 \(x\) 是精确值 \(x^{*}\) 的一个近似值，则 \(e=x^{*}-x\) 为近似值 \(x\) 的绝对误差，简称误差。
