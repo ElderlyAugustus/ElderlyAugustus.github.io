@@ -46,6 +46,8 @@ enableEmoji = true
 
 
 [params]
+  math = true
+  
   env = "production"
   description = '''xα's blog'''
   author = [ "xα" ]
