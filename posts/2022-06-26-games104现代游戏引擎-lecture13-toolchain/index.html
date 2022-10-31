@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="Lecture13 Tool Chains 游戏引擎工具链的地位：
+用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
+存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg.">
+<meta name="author" content="xα">
+<link rel="canonical" href="http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
+<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture13 Tool Chains 游戏引擎工具链的地位：
+用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
+存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg." />
+<meta property="og:title" content="2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains | xα&#39;s blog" />
+<meta property="og:description" content="Lecture13 Tool Chains 游戏引擎工具链的地位：
+用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
+存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/" />
+    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2022-06-26T14:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2022-06-26T14:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains",
+      "item": "http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains | xα's blog",
+  "name": "2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains",
+  "description": "Lecture13 Tool Chains 游戏引擎工具链的地位：\n用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换\n存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -\u0026gt; 结构化 eg. XML/… -\u0026gt; 更简单的结构 eg. json/… eg.",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "213",
+  "inLanguage": "en",
+  "datePublished": "2022-06-26T14:00:00+08:00",
+  "dateModified": "2022-06-26T14:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2022-06-26</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="http://localhost:1313/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#lecture13-tool-chains" aria-label="Lecture13 Tool Chains">Lecture13 Tool Chains</a><ul>
+                        
+                <li>
+                    <a href="#gui" aria-label="GUI">GUI</a><ul>
+                        
+                <li>
+                    <a href="#immediate-mode" aria-label="Immediate Mode">Immediate Mode</a></li>
+                <li>
+                    <a href="#retained-mode" aria-label="Retained Mode">Retained Mode</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%95%b0%e6%8d%ae%e5%a4%84%e7%90%86" aria-label="数据处理">数据处理</a><ul>
+                        
+                <li>
+                    <a href="#%e5%ad%98%e5%82%a8%e6%95%b0%e6%8d%ae---serialization" aria-label="存储数据 - Serialization">存储数据 - Serialization</a></li>
+                <li>
+                    <a href="#%e5%8a%a0%e8%bd%bd%e6%95%b0%e6%8d%ae---deserialization" aria-label="加载数据 - Deserialization">加载数据 - Deserialization</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%a6%82%e4%bd%95%e5%a2%9e%e5%bc%ba%e5%b7%a5%e5%85%b7%e9%93%be%e9%b2%81%e6%a3%92%e6%80%a7" aria-label="如何增强工具链鲁棒性">如何增强工具链鲁棒性</a></li>
+                <li>
+                    <a href="#%e5%a6%82%e4%bd%95%e5%bd%a2%e6%88%90%e5%b7%a5%e5%85%b7%e9%93%be" aria-label="如何形成工具链">如何形成工具链</a></li>
+                <li>
+                    <a href="#plugin" aria-label="Plugin">Plugin</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture13-tool-chains">Lecture13 Tool Chains</h3>
+<p><strong>游戏引擎工具链的地位</strong>：</p>
+<ul>
+<li>用户和引擎Runtime层的桥梁</li>
+<li>引擎和DCC软件的桥梁：Asset Conditioning Pipeline</li>
+<li>调和不同思维方式的平台：策划 / 美术 / 程序</li>
+</ul>
+<h4 id="gui">GUI</h4>
+<h5 id="immediate-mode">Immediate Mode</h5>
+<ul>
+<li>逐帧直接绘制，由引擎逻辑绘制，简单轻量直接</li>
+<li>扩展性有限，性能有限，将业务压力交给了引擎逻辑</li>
+<li>eg. Unity UGUI / Omniverse GUI / Piccolo GUI</li>
+</ul>
+<h5 id="retained-mode">Retained Mode</h5>
+<ul>
+<li>将需要绘制的图形内容存储成Buffer，再交由GUI绘制</li>
+<li>将引擎逻辑和GUI工具隔离，扩展性强，性能表现好</li>
+<li>对开发者来说相对复杂</li>
+<li>eg. Unreal UMG / WPF GUI / QT GUI</li>
+<li><strong>Design Pattern</strong>
+<ul>
+<li>MVC
+<img src="/images/games104/L13_MVC.png" alt="L13_MVC" style="zoom: 25%;" /></li>
+<li>MVP：在MVC基础上的变化，View进一步与Model分离
+<img src="/images/games104/L13_MVP.jpg" alt="L13_MVP" style="zoom: 50%;" /></li>
+<li>MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View
+<img src="/images/games104/L13_MVVM1.jpg" alt="L13_MVVM1" style="zoom: 67%;" />
+<img src="/images/games104/L13_MVVM2.png" alt="L13_MVVM2" style="zoom: 33%;" />
+<ul>
+<li>平台兼容性问题，eg. 在Windows下WPF表现较好</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="数据处理">数据处理</h4>
+<h5 id="serialization-and-deserialization">Serialization and
+Deserialization</h5>
+<p>序列化与反序列化：文件、数据库、内存、网络之间的数据转换</p>
+<h5 id="存储数据---serialization">存储数据 - Serialization</h5>
+<ul>
+<li><strong>文件格式</strong>
+<ul>
+<li>最简单的数据格式：文本文件
+<ul>
+<li>易读易处理，但缺乏安全性</li>
+<li>纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构
+eg. json/…</li>
+<li>eg. Unity YAML / Piccolo json / Cryengine XML json</li>
+</ul></li>
+<li>二进制文件
+<ul>
+<li>体积小，读取时无需语义处理，加载速度快</li>
+</ul></li>
+</ul></li>
+<li><strong>Asset Reference</strong>
+<ul>
+<li>大量重用的资产 -&gt; 多个Instance引用同一个Asset</li>
+<li>Object Instance Variance：为Asset提供各种可变性，例如更换贴图
+<ul>
+<li>低效方法：copy一份直接修改</li>
+<li>Data Inheritance，数据继承，override修改部分</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="加载数据---deserialization">加载数据 - Deserialization</h5>
+<ul>
+<li>Parse Asset File
+<img src="/images/games104/L13_ParseAssetFile.png" alt="L13_ParseAssetFile" style="zoom: 20%;" />
+<ul>
+<li>语义解析，生成 &lt;field-value&gt; tree
+<ul>
+<li>文本格式需要较为复杂的parse得到树</li>
+<li>二进制文件则一般直接按树的顺序，field name + field data
+存成表格</li>
+<li>二进制文件需要考虑 Endianness，大端小端序
+<ul>
+<li>引擎本身保持同一字节序</li>
+<li>根据不同平台判断提前处理</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Asset Version Compatibility
+<ul>
+<li>eg. 增删field
+<ul>
+<li>强制判断version number，将缺失field设为默认值</li>
+<li>Protocol buffer：要求在增删field时标记UID，UID按新增顺序增加</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="如何增强工具链鲁棒性">如何增强工具链鲁棒性</h4>
+<ul>
+<li>Undo &amp; Redo
+<ul>
+<li>Command Pattern
+<ul>
+<li>原子化操作，存储用户command，Undo/Redo时重新加载command</li>
+<li>Command类设计
+<ul>
+<li>UID（及get/set）</li>
+<li>Data（及get/set）</li>
+<li>Invoke()</li>
+<li>Revoke()</li>
+<li>Serialize()</li>
+<li>Deserialize()</li>
+</ul></li>
+<li>三类Command
+<ul>
+<li>增加对象
+<ul>
+<li>数据：通常使用runtime instance的拷贝</li>
+<li>Invoke：根据数据创建runtime instance</li>
+<li>Revoke：删除runtime instance</li>
+</ul></li>
+<li>删除对象
+<ul>
+<li>数据：通常使用runtime instance的拷贝</li>
+<li>Invoke：删除runtime instance</li>
+<li>Revoke：根据数据创建runtime instance</li>
+</ul></li>
+<li>更新对象
+<ul>
+<li>数据：通常使用对runtime instance的修改属性的属性名和新值旧值</li>
+<li>Invoke：设置runtime instance的属性为新值</li>
+<li>Revoke：设置runtime instance的属性为旧值</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="如何形成工具链">如何形成工具链</h4>
+<ul>
+<li>Building Blocks —— 从不同数据中找出共性，原子化</li>
+<li>Schema —— 一种描述结构，描述Building Blocks的组合
+<ul>
+<li>用Schema构建各种高级数据</li>
+<li>Schema需要支持继承
+<img src="/images/games104/L13_SchemaInheritance.jpg" alt="L13_SchemaInheritance" style="zoom: 50%;" /></li>
+<li>两种Schema的定义方式
+<ul>
+<li>用独立的Schema定义文件
+<ul>
+<li>解耦性好，易于理解</li>
+<li>需要用parser创建代码，难以debug</li>
+</ul></li>
+<li>在代码中直接定义</li>
+</ul></li>
+</ul></li>
+<li>引擎数据的三种视角
+<ul>
+<li>Runtime内存：强调性能</li>
+<li>硬盘：强调节约空间</li>
+<li>用户视角/工具视角：强调易于理解</li>
+</ul></li>
+</ul>
+<h4 id="what-you-sees-is-what-you-get-所见即所得">What you sees is what
+you get “所见即所得”</h4>
+<ul>
+<li>创作视图和运行时一致</li>
+<li>Stand-alone Tools 工具层和runtime层分开，难以实现所见即所得</li>
+<li>In Game Tools
+工具层直接架在runtime层之上，直接使用runtime层运行创作窗口</li>
+<li>Play in Editor, PIE
+<ul>
+<li>直接在Editor World内运行
+<ul>
+<li>简单</li>
+<li>会污染runtime层模式</li>
+<li>编译成游戏Release版本时可能会出bug</li>
+</ul></li>
+<li>拷贝所有数据运行单独的PIE World
+<ul>
+<li>复杂度高，内存开销大</li>
+<li>可以较好地保证编译结果一致</li>
+<li>eg. Unreal Engine</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="plugin">Plugin</h4>
+<ul>
+<li>提供大量的API</li>
+<li>尽可能把各种功能API化，自己实现引擎工具链时也使用API实现</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-06-18-GAMES104现代游戏引擎-Lecture12-Effects</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="/js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

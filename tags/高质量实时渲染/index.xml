@@ -1,0 +1,1761 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>高质量实时渲染 on xα&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link>
+    <description>Recent content in 高质量实时渲染 on xα&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 16 Apr 2021 16:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light</title>
+      <link>http://localhost:1313/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</link>
+      <pubDate>Fri, 16 Apr 2021 16:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</guid>
+      <description>Lecture 5-6 Environment Lighting Recap
+环境光贴图 球面贴图 Spherical Map / 立方体贴图 Cube Map Shading from Environment Lighting / Image-Based Lighting (IBL) 解渲染方程（不考虑阴影） \[ L_o(\mathrm p,\omega_o)=\int_{\Omega^+}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\xcancel{V(\mathrm p,\omega_i)}\,\mathrm d\omega_i \]
+蒙特卡洛积分——数值解、大量采样，非常慢 PS: 一旦涉及采样，就很难实时，近年开始有一些进展 观察：
+glossy BRDF : BRDF覆盖很小 diffuse BRDF : BRDF覆盖大，但是平滑 因此考虑近似方法 \[ \int_\Omega f(x)g(x)\,\mathrm dx\approx\dfrac{\int_{\Omega_G}f(x)\,\mathrm dx}{\int_{\Omega_G}\,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm dx \] （该式在 \(g(x)\) 范围小/结果平滑时较为准确）
+则有 \[ L_o(\mathrm p,\omega_o)\approx\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm d\omega_i}\int_{\Omega^+}f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\,\mathrm d\omega_i \]
+\(\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm d\omega_i}\) 表示对环境光贴图做模糊化处理，即滤波</description>
+      <content:encoded><![CDATA[<h3 id="lecture-5-6-environment-lighting">Lecture 5-6 Environment
+Lighting</h3>
+<blockquote>
+<p>Recap</p>
+<ul>
+<li>环境光贴图</li>
+<li>球面贴图 Spherical Map / 立方体贴图 Cube Map</li>
+</ul>
+</blockquote>
+<h4
+id="shading-from-environment-lighting-image-based-lighting-ibl">Shading
+from Environment Lighting / Image-Based Lighting (IBL)</h4>
+<ul>
+<li><p>解渲染方程（不考虑阴影） <span class="math display">\[
+L_o(\mathrm p,\omega_o)=\int_{\Omega^+}L_i(\mathrm
+p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_o)\cos\theta_i\xcancel{V(\mathrm p,\omega_i)}\,\mathrm
+d\omega_i
+\]</span></p>
+<ul>
+<li>蒙特卡洛积分——数值解、大量采样，非常慢 PS:
+一旦涉及采样，就很难实时，近年开始有一些进展</li>
+</ul></li>
+<li><p>观察：</p>
+<ul>
+<li>glossy BRDF : BRDF覆盖很小</li>
+<li>diffuse BRDF : BRDF覆盖大，但是平滑</li>
+</ul>
+<p><img src="/images/games202/IBL1.jpg" alt="IBL1" style="zoom:30%;" /></p></li>
+<li><p>因此考虑近似方法 <span class="math display">\[
+\int_\Omega f(x)g(x)\,\mathrm
+dx\approx\dfrac{\int_{\Omega_G}f(x)\,\mathrm
+dx}{\int_{\Omega_G}\,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm dx
+\]</span> （该式在 <span class="math inline">\(g(x)\)</span>
+范围小/结果平滑时较为准确）</p>
+<p>则有 <span class="math display">\[
+L_o(\mathrm p,\omega_o)\approx\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm
+p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm
+d\omega_i}\int_{\Omega^+}f_r(\mathrm
+p,\omega_i,\omega_o)\cos\theta_i\,\mathrm d\omega_i
+\]</span></p></li>
+<li><p><span class="math inline">\(\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm
+p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm
+d\omega_i}\)</span> 表示对环境光贴图做模糊化处理，即滤波</p>
+<ul>
+<li><strong>Prefiltering</strong>：在渲染之前就做好滤波</li>
+<li>多种大小滤波核的结果，类似MIPMAP，计算时再做查询插值
+【积分某区域的结果 = 先做区域的求和再取值】</li>
+</ul>
+<p><img src="/images/games202/IBL2.jpg" alt="IBL2" style="zoom:30%;" /></p></li>
+<li><p><span class="math inline">\(\int_{\Omega^+}f_r(\mathrm
+p,\omega_i,\omega_o)\cos\theta_i\,\mathrm d\omega_i\)</span>
+部分则做预计算</p>
+<ul>
+<li><p>eg. Microfacet BRDF : <strong>Fresnel</strong> +
+<strong>NDF</strong> + Shadowing-Masking
+需要一个巨大的表（至少五维参数）</p></li>
+<li><p>Fresnel : Schlick’s approximation <span class="math display">\[
+R(\theta)=R_0+(1-R_0)(1-\cos\theta)^5\\
+R_0=\left(\dfrac{n_1-n_2}{n_1+n_2}\right)^2
+\]</span></p></li>
+<li><p>NDF : eg. Beckmann distribution <span class="math display">\[
+D(h)=\dfrac{e^{-\frac{\tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2\cos^4\theta_h}\quad\text{$\alpha$:Roughness}
+\]</span></p></li>
+<li><p>将半程向量与入射出射光夹角、法线与入射出射光夹角、入射出射光夹角的一半都近似认为是
+<span class="math inline">\(\theta\)</span>
+，则减少至三维参数表</p></li>
+<li><p>将Fresnel项写在原式中作近似： <span class="math display">\[
+\begin{aligned}&amp;\int_{\Omega^+}f_r(\mathrm
+p,\omega_i,\omega_o)\cos\theta_i\,\mathrm d\omega_i\\
+\approx&amp;
+R_0\int_{\Omega^+}\dfrac{f_r}{F}(1-(1-\cos\theta_i)^5)\cos\theta_i\,\mathrm
+d\omega_i\\
++&amp;\int_{\Omega^+}\dfrac{f_r}{F}(1-\cos\theta_i)^5\cos\theta_i\,\mathrm
+d\omega_i\end{aligned}
+\]</span> 将基础反射率 <span class="math inline">\(R_0\)</span> （Base
+Color）解放出来 -&gt; 二维参数表</p></li>
+<li><p>二维参数表：<span class="math inline">\(\text{Roughness}(\alpha)
+- \cos\theta\)</span>
+<img src="/images/games202/IBL3.jpg" alt="IBL3" style="zoom:50%;" /></p></li>
+</ul></li>
+<li><p>这一方法称为 <strong>Split Sum</strong> （积分 -&gt;
+求和）</p></li>
+</ul>
+<h4 id="precomputed-radiance-transfer-prt">Precomputed Radiance
+Transfer, PRT</h4>
+<p>实时渲染中很难做到环境光下的阴影</p>
+<ul>
+<li>把环境光看作大量光源：需要大量的shadow map</li>
+<li>把问题看成一个采样问题：有不同的遮挡情况、不同的Visibility，Visibility项也不能用近似方法分离出来</li>
+<li>一个解决思路：从最亮的光源下生成阴影（例如太阳）</li>
+<li>相关工作
+<ul>
+<li>Imperfect shadow maps</li>
+<li>Light cuts</li>
+<li>RTRT (might be the Ultimate Solution)</li>
+<li><strong>PRT</strong></li>
+</ul></li>
+</ul>
+<h5 id="spherical-harmonics-sh-球面谐波函数">Spherical Harmonics, SH
+球面谐波函数</h5>
+<blockquote>
+<ul>
+<li>傅里叶级数：把一个函数拆成无数sin/cos函数（基函数）之和</li>
+<li>Filtering 滤波</li>
+<li>形如 <span class="math inline">\(\int_{\Omega}f(x)g(x)\,\mathrm
+dx\)</span> 可以视作滤波操作
+<ul>
+<li>低频信息 == 平滑的函数</li>
+<li>积分后频率是两个相乘的函数中较低的那个</li>
+</ul></li>
+<li><strong>基函数</strong>：<span
+class="math inline">\(f(x)=\sum_ic_i\cdot B_i(x)\)</span> ，则 <span
+class="math inline">\(B_i(x)\)</span> 称基函数</li>
+</ul>
+</blockquote>
+<p><strong>SH</strong>：定义在球面上的一系列二维的基函数（理解为关于方向的函数，球面上的方向用
+<span class="math inline">\(\theta\,\phi\)</span> 描述）</p>
+<ul>
+<li><p>很像一维的傅里叶级数
+<img src="/images/games202/SH.png" alt="SH1" style="zoom:50%;" />
+（颜色深度表示值，黄蓝表示正负？；l：阶数）</p></li>
+<li><p>SH的基函数，用勒让德多项式表示（这里不必写出公式）</p></li>
+<li><p>用基函数 <span class="math inline">\(B_i(\omega)\)</span>
+的线性组合，即可表示二维函数</p></li>
+<li><p>基函数 <span class="math inline">\(B_i(\omega)\)</span> 的系数用
+<span class="math inline">\(f(\omega)\)</span> 表示，则有 <span
+class="math display">\[
+c_i=\int_\Omega f(\omega)B_i(\omega)\,\mathrm d\omega
+\]</span> （求系数的过程数学上称为“投影”）</p></li>
+<li><p>用前 <span class="math inline">\(n\)</span>
+阶系数可恢复出近似的原函数， <span class="math inline">\(n\)</span>
+越大，保留系数越多</p></li>
+</ul>
+<h5 id="对diffuse材质应用sh">对Diffuse材质应用SH</h5>
+<ul>
+<li><p><strong>Recall</strong> : Prefiltering of Envirnment Light
+Prefiltering + single query == No filtering + Multiple queries</p></li>
+<li><p>Diffuse BRDF
+很像低通滤波器（光照与BRDF做逐点相乘再积分，即Product Integrate）</p>
+<p>考虑用少量SH来描述Diffuse BRDF（例如前3阶）</p></li>
+<li><p>高频函数与低频函数Product Integrate，频率由低频函数决定 -&gt;
+既然Diffuse BRDF是低频的，那么光照也无需记录高频</p>
+<p>考虑也用SH来描述来描述光照（例如前3阶）</p></li>
+<li><p>非常简单的实现</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>surface float1 <span class="fu">irradmat</span><span class="op">(</span>matrix4 M<span class="op">,</span> float3 v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  float4 n <span class="op">=</span> <span class="op">{</span>v<span class="op">,</span> <span class="dv">1</span><span class="op">};</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> <span class="bu">dot</span><span class="op">(</span>n<span class="op">,</span> M<span class="op">*</span>n<span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div></li>
+</ul>
+<h5
+id="解决阴影不限制diffuse的方法prt">解决阴影、不限制Diffuse的方法：PRT</h5>
+<p><span class="math display">\[
+L_o(\mathrm p,\omega_o)=\int_{\Omega^+}L_i(\mathrm p,\omega_i)V(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\,\mathrm
+d\omega_i
+\]</span></p>
+<ul>
+<li><p>Light、Visibility、BRDF三项均描述成球面函数</p></li>
+<li><p>eg. 用Cubemap存时，每个shading point的计算量过大</p></li>
+<li><p>考虑用SH来预计算部分内容</p>
+<ul>
+<li>认为Light在场景中可变；Visibility、BRDF等无关项认为是Light
+Transport，不可变</li>
+<li>Light：用SH近似 <span class="math inline">\(L_i\approx\sum
+l_iB_i\)</span></li>
+<li>Light Transport：渲染之前做预计算</li>
+</ul></li>
+<li><p><strong>Diffuse情况</strong>
+<img src="/images/games202/PRT1.png" alt="PRT1" style="zoom:50%;" /></p>
+<ul>
+<li><p>运行时则只需要算点乘</p></li>
+<li><p>但是Visibility项固定意味着场景不能动</p></li>
+<li><p>Light：光源本身旋转不可用（后面会说可以计算）</p></li>
+<li><p>重新理解</p>
+<ul>
+<li>Light : <span
+class="math inline">\(L(\omega_i)\approx\sum_pc_pB_p(\omega_i)\)</span>
+Light Transport : <span
+class="math inline">\(T(\omega_i)\approx\sum_qc_qB_q(\omega_i)\)</span></li>
+<li>则渲染方程 <span class="math display">\[
+L_o(\mathrm
+p,\omega_o)=\sum_p\sum_qc_pc_q\int_{\Omega^+}B_p(\omega_i)B_q(\omega_i)\,\mathrm
+d\omega_i
+\]</span> 由于SH基函数正交，则仅当 <span
+class="math inline">\(p=q\)</span>
+时，右边积分结果有意义，否则为零。复杂度 <span
+class="math inline">\(O(n^2)\)</span> 降低至 <span
+class="math inline">\(O(n)\)</span> 。</li>
+</ul></li>
+</ul></li>
+<li><p>SH的性质</p>
+<ul>
+<li>基函数相互正交</li>
+<li>易于计算投影（函数与任一基函数做Product Integrate即可）</li>
+<li>易于计算旋转
+<ul>
+<li>相当于旋转每一个SH基函数</li>
+<li>SH基函数的旋转可以用同阶基函数的线性组合表示</li>
+<li>打表格</li>
+</ul></li>
+<li>易于卷积</li>
+<li>少量基函数代表低频</li>
+</ul></li>
+<li><p>把多次Bounce的过程也视作Light
+Transport，预计算，可实现GI</p></li>
+<li><p><strong>Glossy情况</strong></p>
+<ul>
+<li><p>Light Transport 包含Visibility和BRDF，对于给定的出射方向 <span
+class="math inline">\(\mathrm o\)</span> ，BRDF都不一样 -&gt; <span
+class="math inline">\(T_i(\mathrm o)\)</span></p></li>
+<li><p><span class="math display">\[
+T_i(\mathbf o)=\sum t_{ij}B_j(\mathbf o)\\
+L_o\approx\sum l_iT_i(\mathbf o)\approx\sum\left(\sum l_i
+t_{ij}\right)B_j(\mathbf o)
+\]</span></p></li>
+<li><p>对于不同的出射方向 <span class="math inline">\(\mathrm o\)</span>
+，得到一个Transport matrix。</p></li>
+</ul>
+<p><img src="/images/games202/PRT2.png" alt="PRT2" style="zoom:50%;" /></p>
+<ul>
+<li>代价：存储的Transport
+matrix，且一般用五阶SH，因此存储量大；且渲染需要计算向量与矩阵乘，相对复杂。</li>
+</ul></li>
+<li><p>Transport Paths</p>
+<ul>
+<li><span class="math inline">\(LE\)</span> : Light -&gt; Eye</li>
+<li><span class="math inline">\(LGE\)</span> : Light -&gt; Glossy -&gt;
+Eye</li>
+<li><span class="math inline">\(L(D|G)^*E\)</span></li>
+<li><span class="math inline">\(LS^*(D|G)^*E\)</span> <span
+class="math inline">\(LSDE\)</span> Caustics “焦散”（翻译不好）</li>
+<li>可以预计算任意复杂的Light Transport</li>
+</ul></li>
+<li><p>另一种理解 <span
+class="math inline">\(T_i\approx\int_{\Omega}B_i(\mathbf i)V(\mathbf
+i)\max(0,\mathbf n\cdot\mathbf i)\,\mathrm d\mathbf i\)</span> 中，将
+<span class="math inline">\(B_i(\mathbf i)\)</span>
+视作入射光，预计算过程就相当于用这些“奇怪”的光照渲染场景。</p>
+<p><img src="/images/games202/PRT3.png" alt="PRT3" style="zoom:50%;" /></p></li>
+<li><p>限制</p>
+<ul>
+<li>SH只适合描述低频信息（镜面反射）</li>
+<li>固定场景</li>
+<li>大量的预计算和存储</li>
+</ul></li>
+<li><p>进一步的工作</p>
+<ul>
+<li>新型基函数</li>
+<li>两项点乘 -&gt; 三项相乘</li>
+<li>动态场景</li>
+<li>动态材质</li>
+<li>透明材质、头发、…</li>
+<li>预计算 -&gt; 不做预计算的解析解</li>
+<li>…</li>
+</ul></li>
+<li><p>其他基函数</p>
+<ul>
+<li>小波 Wavelet
+<ul>
+<li>二维小波
+<img src="/images/games202/Wavelet1.png" alt="Wavelet1" style="zoom: 20%;" /></li>
+<li>投影
+<ul>
+<li>小波变换</li>
+<li>大量系数为零 -&gt; 用于压缩</li>
+</ul></li>
+<li>全频率的表示</li>
+<li>用Cubemap存储光照，6张图每张做小波变换</li>
+<li>把低频存在图左上1/4，剩下3/4存高频，对低频的1/4图递归地做这样的操作
+-&gt; 发现高频信息很少，非常适合压缩 <img
+src="/images/games202/Wavelet2.jpg" alt="Wavelet2" /></li>
+<li>问题：不支持快速旋转</li>
+</ul></li>
+<li>Zonal Harmonics</li>
+<li>Spherical Gaussian</li>
+<li>Piecewise Constant</li>
+</ul></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions</title>
+      <link>http://localhost:1313/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</link>
+      <pubDate>Wed, 14 Apr 2021 12:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</guid>
+      <description>Lecture 14 Practical Industrial Solutions Temporal Anti-Aliasing, TAA Recall: why aliasing
+光栅化的采样数不够 终极解决方案：加样本（MSAA） TAA：应用Temporal信息，与RTRT的降噪思路一致
+每四帧复用：
+（如果不是4个固定位置而是是随机生成，引入了其他高频信息，效果并不好）
+Notes on AA
+MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开销大 MSAA：对SSAA的效率改进 对一个像素内的一个Primitive，只采样一次（取中心或其他代表点） 空间上的Sample Reuse：样本分布上的Trick 基于图像的反走样方法 SMAA, Enhanced Subpixel Morphological AA FXAA -&amp;gt; MLAA(Morphological AA) -&amp;gt; SMAA G-Buffer一定不能反走样！（信息会出错） Temporal Super Resolution Super resolution == Super sampling
+提升分辨率 eg. DLSS DLSS 1.0 全靠猜，每个游戏/场景单独训练一个网络 DLSS 2.0 利用Temporal信息 应用类似TAA的思路 重用Samples 问题：Temporal failure时不能clamp——因为每一个像素需要一个明确的值 DL不输出图像，而是输出关于上一帧的Temporal信息如何利用 Deferred Shading 延迟渲染 提高Shading效率 传统管线 Triangles -&amp;gt; Fragments -&amp;gt; Depth Test -&amp;gt; Shading -&amp;gt; Pixel 每一个Fragment都需要做Shading 复杂度：\(O(\text{\#Fragment}*\text{\#Light})\) 关键想法：有很多Fragment不会被看到 -&amp;gt; 只对被看到的Fragment做Shading 修改管线 光栅化两次场景 Pass 1 : 不做Shading，更新Depth Buffer Pass 2 : 对可见的Fragment做Shading 复杂度：\(O(\text{\#Vis.</description>
+      <content:encoded><![CDATA[<h3 id="lecture-14-practical-industrial-solutions">Lecture 14 Practical
+Industrial Solutions</h3>
+<h4 id="temporal-anti-aliasing-taa">Temporal Anti-Aliasing, TAA</h4>
+<p>Recall: why aliasing</p>
+<ul>
+<li>光栅化的采样数不够</li>
+<li>终极解决方案：加样本（MSAA）</li>
+</ul>
+<p>TAA：应用Temporal信息，与RTRT的降噪思路一致</p>
+<p>每四帧复用：</p>
+<p><img src="/images/games202/TAA.png" alt="TAA" style="zoom:30%;" /></p>
+<p>（如果不是4个固定位置而是是随机生成，引入了其他高频信息，效果并不好）</p>
+<p>Notes on AA</p>
+<ul>
+<li>MSAA vs SSAA
+<ul>
+<li>SSAA：按几倍分辨率渲染场景，再下变换，效果好开销大</li>
+<li>MSAA：对SSAA的效率改进
+<ul>
+<li>对一个像素内的一个Primitive，只采样一次（取中心或其他代表点）
+<img src="/images/games202/MSAA1.jpg" alt="MSAA1" style="zoom: 50%;" /></li>
+<li>空间上的Sample Reuse：样本分布上的Trick
+<img src="/images/games202/MSAA2.png" alt="MSAA2" style="zoom: 20%;" /></li>
+</ul></li>
+</ul></li>
+<li>基于图像的反走样方法
+<ul>
+<li>SMAA, Enhanced Subpixel Morphological AA</li>
+<li>FXAA -&gt; MLAA(Morphological AA) -&gt; SMAA
+<img src="/images/games202/ImageBasedAA.png" alt="ImageBasedAA" style="zoom:25%;" /></li>
+</ul></li>
+<li><strong>G-Buffer一定不能反走样！</strong>（信息会出错）</li>
+</ul>
+<h4 id="temporal-super-resolution">Temporal Super Resolution</h4>
+<p>Super resolution == Super sampling</p>
+<ul>
+<li>提升分辨率</li>
+<li>eg. <strong>DLSS</strong>
+<ul>
+<li><strong>DLSS 1.0</strong> 全靠猜，每个游戏/场景单独训练一个网络</li>
+<li><strong>DLSS 2.0</strong> 利用Temporal信息
+<ul>
+<li>应用类似TAA的思路</li>
+<li>重用Samples</li>
+<li>问题：Temporal
+failure时不能clamp——因为每一个像素需要一个明确的值</li>
+<li>DL不输出图像，而是输出<strong>关于上一帧的Temporal信息如何利用</strong></li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="deferred-shading-延迟渲染">Deferred Shading 延迟渲染</h4>
+<ul>
+<li>提高Shading效率</li>
+<li>传统管线
+<ul>
+<li>Triangles -&gt; Fragments -&gt; Depth Test -&gt; Shading -&gt;
+Pixel</li>
+<li>每一个Fragment都需要做Shading</li>
+<li>复杂度：<span
+class="math inline">\(O(\text{\#Fragment}*\text{\#Light})\)</span></li>
+</ul></li>
+<li>关键想法：有很多Fragment不会被看到 -&gt;
+只对被看到的Fragment做Shading</li>
+<li>修改管线
+<ul>
+<li>光栅化两次场景</li>
+<li>Pass 1 : 不做Shading，更新Depth Buffer</li>
+<li>Pass 2 : 对可见的Fragment做Shading</li>
+<li>复杂度：<span
+class="math inline">\(O(\text{\#Vis.Fragment}*\text{\#Light})\)</span></li>
+<li>问题：难以做AA，可以用TAA/图像AA</li>
+</ul></li>
+<li>【疑惑：延迟渲染更广义地应该是指两次光栅化，一次记录G-Buffer，一次着色的渲染方式？这里闫老师只讲了深度Buffer的应用。】</li>
+</ul>
+<h4 id="tiled-shading">Tiled Shading</h4>
+<ul>
+<li>在Deferred Shading基础上，考虑减少光源的复杂度</li>
+<li>把屏幕分成Tile
+减少了每一个Tile中光源的数量：光源强度距离平方衰减（设定半径范围内有效）</li>
+<li>复杂度：<span
+class="math inline">\(O(\text{\#Vis.Fragment}*\text{avg(\#Light per
+tile)})\)</span></li>
+</ul>
+<p><img src="/images/games202/TiledShading.png" alt="TiledShading" style="zoom:25%;" /></p>
+<h4 id="clustered-shading">Clustered Shading</h4>
+<ul>
+<li>在Tiled Shading基础上，把空间分成网格</li>
+<li>进一步减少了需要计算的光源数量</li>
+<li>复杂度：<span
+class="math inline">\(O(\text{\#Vis.Fragment}*\text{avg(\#Light per
+cluster)})\)</span></li>
+</ul>
+<p><img src="/images/games202/ClusteredShading.png" alt="ClusteredShading" style="zoom:25%;" /></p>
+<h4 id="lod-level-of-detail-solutions">LoD, Level of Detail
+Solutions</h4>
+<ul>
+<li>在工业界，也称这种思路为“Cascaded”</li>
+<li>eg. Cascaded Shadow Maps 离Camera越远的，用更粗糙的Shadow Map
+<img src="/images/games202/CSM.jpg" alt="CSM" style="zoom:25%;" /></li>
+<li>eg. Cascaded LPV 传播越远，用更粗的格子传播
+<img src="/images/games202/CascadedLPV.png" alt="CascadedLPV" style="zoom:25%;" /></li>
+<li>Geometric LoD</li>
+<li>困难：过渡的Blending，可以用TAA</li>
+<li>eg. <strong>Nanite</strong> in UE5</li>
+</ul>
+<h4 id="global-illumination-solutions">Global Illumination
+Solutions</h4>
+<ul>
+<li>SSR的问题（参考相关章节）</li>
+<li>用Ray Tracing解决
+<ul>
+<li>软件Tracing
+<ul>
+<li><strong>SDF Trace, HQ for individual obj, SQ for
+global</strong></li>
+<li><strong>RSM 方向性/点光源</strong></li>
+<li>空间网格中存储Irradiance的Probe（DDGI, Dynamic Diffuse GI）</li>
+</ul></li>
+<li>硬件Tracing
+<ul>
+<li><strong>用简化模型Tracing</strong></li>
+<li>RTXGI</li>
+</ul></li>
+<li>eg. <strong>Lumen</strong> in UE5：加粗条</li>
+</ul></li>
+</ul>
+<blockquote>
+<h4 id="more-topics">More Topics</h4>
+<ul>
+<li>Texturing an SDF</li>
+<li>透明材质，透明材质的渲染顺序</li>
+<li>Particle Rendering</li>
+<li>Post Processing</li>
+<li>随机数/蓝噪声</li>
+<li>Foveated Rendering</li>
+<li>Probe based GI (DDGI/RTXGI…)</li>
+<li>ReSTIR, Neural Radiance Caching …</li>
+<li>多光源理论，Light Cuts</li>
+<li>Participating Media, SSSSS</li>
+<li>Hair</li>
+<li>…</li>
+</ul>
+</blockquote>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing</title>
+      <link>http://localhost:1313/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</link>
+      <pubDate>Mon, 12 Apr 2021 15:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</guid>
+      <description>Lecture 12-13 Real-Time Ray-Tracing RTX : 10G rays per second == 1 sample per pixel
+1 SPP path tracing == 1 rasterization (primary) + 1 ray (primary visibility) + 1 ray (primary bounce) + 1 ray (primary vis.) +
+1 SPP is Extremely Noisy
+Key Tech : Denosing
+Goals : + Quality (no overblur, no artifacts, keep all details) + Speed (&amp;lt; 2ms to denoise per frame)
+==&amp;gt; Temporal !</description>
+      <content:encoded><![CDATA[<h3 id="lecture-12-13-real-time-ray-tracing">Lecture 12-13 Real-Time
+Ray-Tracing</h3>
+<p>RTX : 10G rays per second == 1 sample per pixel</p>
+<p>1 SPP path tracing == 1 rasterization (primary) + 1 ray (primary
+visibility) + 1 ray (primary bounce) + 1 ray (primary vis.) +</p>
+<p>1 SPP is <strong>Extremely Noisy</strong></p>
+<p>Key Tech : <strong>Denosing</strong></p>
+<p>Goals : + Quality (no overblur, no artifacts, keep all details) +
+Speed (&lt; 2ms to denoise per frame)</p>
+<p>==&gt; <strong>Temporal !</strong></p>
+<h4 id="temporal-filtering">Temporal Filtering</h4>
+<p>Key idea ：</p>
+<ul>
+<li>假定前一帧已完成降噪，直接使用</li>
+<li>使用<strong>motion vectors</strong>找前一位置</li>
+<li>增加了SPP（引用前一帧的SPP，前一帧又引用了前两帧……）</li>
+</ul>
+<p><strong>Geometry buffer</strong></p>
+<ul>
+<li>渲染时生成的附加信息，消耗较少</li>
+<li>像素深度、法线、世界坐标等</li>
+<li>屏幕空间的信息</li>
+</ul>
+<p><strong>Back Projection</strong></p>
+<ul>
+<li>找到同一像素在上一帧的位置</li>
+<li>直接使用G-Buffer： <span
+class="math inline">\(s=M^{-1}V^{-1}P^{-1}E^{-1}x\ ({\rm Still\ with\
+}z{\rm \ value})\)</span></li>
+<li>Motion : <span
+class="math inline">\(s^{&#39;}\xrightarrow{T}s\quad\Rightarrow\quad
+s^{&#39;}=T^{-1}s\)</span></li>
+<li>前一帧的屏幕坐标： <span
+class="math inline">\(x^{&#39;}=E^{&#39;}P^{&#39;}V^{&#39;}M^{&#39;}s^{&#39;}\)</span></li>
+</ul>
+<p><strong>Temporal Accum. / Denoising</strong> <span
+class="math display">\[
+\overline{C}^{(i)}={\rm SpatialFilter}(\widetilde{C}^{(1)})\\
+C^{(i)}=\alpha\overline{C}^{(i)}+(1-\alpha)C^{(i-1)}\quad
+\alpha\approx0.1\sim0.2
+\]</span></p>
+<blockquote>
+<p>滤波不会使画面改变亮度，低SPP的“暗”来源于超亮噪声被削波</p>
+</blockquote>
+<p><strong>Temporal Failure</strong></p>
+<ul>
+<li>切换场景/镜头：Burn-in period 黑帧预热</li>
+<li>Dolly out / Zoom out，几何信息不断增多：尽量避免这种情况</li>
+<li>突然出现被遮挡的物体，出现残影：
+<ul>
+<li>Clamping：把前一帧的结果“拉”近当前帧，减小残影</li>
+<li>Detection：
+<ul>
+<li>使用Object ID检测Temporal failure（判断前后帧motion
+vector对应的物体是否相同）</li>
+<li>改变 <span class="math inline">\(\alpha\)</span> ，在Temporal
+failure时减少对前一帧的依赖</li>
+<li>增强Spatial filtering</li>
+</ul></li>
+<li>问题：重新带来了噪声</li>
+</ul></li>
+<li>光源移动时，阴影“拖影”</li>
+<li>物体移动时，镜面反射“延迟”（Glossy材质）</li>
+</ul>
+<h4 id="spatial-filtering">Spatial Filtering</h4>
+<p><strong>Low-pass
+filter</strong>：减少高频噪声，但可能会导致高频信号丢失、低频噪声保留</p>
+<p><strong>Gaussian filtering</strong></p>
+<pre class="pseudocode"><code>For each pixel i
+    sum_of_weights = sum_of_weighted_values = 0.0
+    For each pixel j around i
+        Calculate the weight w_ij = G(|i - j|, sigma)
+        sum_of_weighted_values += w_ij * C^{input}[j]
+        sum_of_weights += w_ij
+    C^{output}[I] = sum_of_weighted_values / sum_of_weights</code></pre>
+<p>*高斯模糊理论范围是无限远，但往往限制在周围一圈像素计算（远处权重极低，直接忽略）</p>
+<h5 id="bilateral-filtering-双边滤波">Bilateral filtering 双边滤波</h5>
+<p>Problem of Gaussian filtering：边界也被模糊，高频信息丢失</p>
+<p>边界：颜色突变</p>
+<p>做法：不让颜色突变的像素参与贡献</p>
+<p>权重函数： <span class="math display">\[
+\displaystyle w(i,j,k,l)={\rm
+exp}\left(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2}-\frac{\|I(i,j)-I(k,l)\|^2}{2\sigma_r^2}\right)\\
+(i,j)为某一像素，(k,l)为其周边一像素
+\]</span> Problem：如何区分边界/噪声？ 参考SVGF</p>
+<p>==&gt; <strong>key
+idea</strong>：增加滤波的条件——渲染过程中的G-Buffer
+<strong>联合双边滤波</strong></p>
+<p><strong>大滤波核计算方法</strong></p>
+<ul>
+<li><strong>Separate Passes</strong>：先做横向滤波、再做纵向滤波 <span
+class="math inline">\(O(n^2)\to O(n+n)=O(n)\)</span>
+<ul>
+<li>二维高斯函数的定义 <span
+class="math inline">\(G_{2D}(x,y)=G_{1D}(x)\cdot G_{1D}(y)\)</span></li>
+<li>Filtering == convolution <span
+class="math inline">\(\displaystyle\iint
+F(x_0,y_0)G_{2D}(x_0-x,y_0-y)\,\mathrm dx\mathrm dy=\int\left(\int
+F(x_0,y_0)G_{1D}(x_0-x)\,\mathrm dx\right)G_{1D}(y_0-y)\,\mathrm
+dy\)</span></li>
+<li>理论上复杂的双边滤波不能这么计算，但近似强行如此计算</li>
+</ul></li>
+<li><strong>Progressively Growing Sizes</strong>
+<ul>
+<li>多次滤波，逐渐增加大小</li>
+<li>eg. <strong>a-trous wavelet</strong>
+<ul>
+<li>多次pass，每次都是 <span class="math inline">\(5\times 5\)</span>
+大小</li>
+<li>每次pass，采样间隔为 <span class="math inline">\(2^{i-1}\)</span>
+<img src="/images/games202/A-Trous_Wavelet.jpg" alt="A-Trous_Wavelet" style="zoom: 33%;" /></li>
+<li>eg. <span class="math inline">\(64^2\to5^2\times5\)</span></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>在Filter之前去除超亮/超暗像素（Outlier）</p>
+<ul>
+<li>Outlier detection
+<ul>
+<li>对 <span class="math inline">\(7\times7\)</span>
+网格计算均值和方差</li>
+<li>超出 <span class="math inline">\([\mu-k\sigma,\mu+k\sigma]\)</span>
+-&gt; Outlier</li>
+</ul></li>
+<li>Outlier removal
+<ul>
+<li>clamp to <span
+class="math inline">\([\mu-k\sigma,\mu+k\sigma]\)</span></li>
+</ul></li>
+</ul>
+<h4 id="specific-filtering-approaches-for-rtrt">Specific Filtering
+Approaches for RTRT</h4>
+<h5 id="svgf-spatiotemporal-variance-guided-filtering">SVGF,
+Spatiotemporal Variance-Guided Filtering</h5>
+<ul>
+<li><p>与前文基本时空降噪方法相似，多了一些Trick和Variance分析方法</p></li>
+<li><p>联合双边滤波 - 3个因素</p>
+<ul>
+<li><p>深度 <span class="math display">\[
+w_z=\exp\left(-\dfrac{|z(p)-z(q)|}{\sigma_z|\nabla
+z(p)\cdot(p-q)|+\epsilon}\right)\quad \text{$z$为深度}
+\]</span></p>
+<ul>
+<li><p>只要是衰减函数就可以，这里不是高斯函数</p></li>
+<li><p><span class="math inline">\(\epsilon\)</span>
+为了防止分母为零，一般为很小的值</p></li>
+<li><p><span class="math inline">\(\nabla z(p)\)</span>
+深度的梯度，为了防止如图AB点情况，斜侧面深度差异过大时出现误差，用关于垂直法线方向/切平面的深度变化（如图AB的物理空间距离即所在面上法线垂直方向的深度变化）
+<img src="/images/games202/SVGF1.png" alt="SVGF1" style="zoom: 33%;" /></p></li>
+</ul></li>
+<li><p>法线 <span class="math display">\[
+w_n=\max(0,n(p)\cdot n(q))^{\sigma_n}
+\]</span> <span class="math inline">\(\sigma_n\)</span>
+控制衰减快慢，即法线之间的差异要求是否严格
+<img src="/images/games202/SVGF2.png" alt="SVGF2" style="zoom: 33%;" />
+PS:
+使用应用法线贴图之前的法线（应用法线贴图后表面凹凸不平，难以判断）</p></li>
+<li><p>Luminance (gray scale) <span class="math display">\[
+w_l=\exp\left(-\dfrac{|l_i(p)-l_i(q)|}{\sigma_l\sqrt{g_{3\times 3}({\rm
+Var}(l_i(p)))+\epsilon}}\right)
+\]</span>
+<img src="/images/games202/SVGF3.png" alt="SVGF3" style="zoom: 33%;" /></p>
+<p>亮度差异大的点不参与贡献——但单个像素亮度受噪声影响，故除以附近区域标准差（例如<span
+class="math inline">\(7\times7\)</span>区域）（使用Temporal累计标准差，再进行一次<span
+class="math inline">\(3\times3\)</span>滤波平均）。</p></li>
+</ul></li>
+<li><p>Tradeoff：相比较noise，宁愿选择overblur
+改进：ASVGF，优化overblur的问题（也可以理解为选择noise）</p></li>
+<li><p>问题：动态光源阴影残影</p></li>
+</ul>
+<h5 id="rae-recurrent-autoencoder">RAE, Recurrent AutoEncoder</h5>
+<ul>
+<li><p>基本想法：用Recurrent denoising AutoEncoder对Path
+Tracing结果降噪，神经网络方法。</p>
+<ul>
+<li><p>后处理方法</p></li>
+<li><p>利用部分G-Buffer信息（作为神经网络输入）</p></li>
+<li><p>神经网络自动累计Temporal信息</p>
+<ul>
+<li><strong>AutoEncoder</strong> (U-Net)
+<img src="/images/games202/RAE1.jpg" alt="RAE1" style="zoom:50%;" /></li>
+<li><strong>Recurrent</strong>：每一层神经网络不止连接下一层，还要连接自身（Temporal）
+<img src="/images/games202/RAE2.jpg" alt="RAE2" style="zoom: 50%;" /></li>
+</ul></li>
+</ul></li>
+<li><p>问题：暗、存在边缘错误、overblur</p></li>
+<li><p>优势：对于不同的spp数输入，结果稳定</p></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</title>
+      <link>http://localhost:1313/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</link>
+      <pubDate>Mon, 05 Apr 2021 16:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</guid>
+      <description>Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
+基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
+Self occlusion 自遮挡
+Shadow Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。 解决方案：在反射表面邻近区域不计算遮挡。不计算区域Light长度（Bias）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。
+Detached shadow 由解决自遮挡的Bias不计算带来的阴影残缺问题。
+工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。
+学术解决方案：Second-depth shadow mapping
+存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。 存在问题：要求所有物体watertight（有正反面）；计算量过大。 实时渲染不相信复杂度，只相信绝对速度！因此工业界不适用。 Aliasing 采样
+The math behind shadow mapping 微积分中常见的不等式： \[ \begin{array}{c} Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d x\\ Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)+g(x)\right]^2\,\mathrm d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d x\right\}^\frac{1}{2}+\left\{\int_a^bg^2(x)\,\mathrm d x\right\}^\frac{1}{2} \end{array} \] Approximation in RTR: But we care more about “approximately equal”.</description>
+      <content:encoded><![CDATA[<h3 id="lecture-3-4-soft-shadow">Lecture 3-4 Soft Shadow</h3>
+<h4 id="recap-of-shadow-mapping---点光源">Recap of Shadow Mapping -
+点光源</h4>
+<ol type="1">
+<li>从“Light”处看向场景，生成场景关于光源的深度图，即<strong>Shadow
+Map</strong>；</li>
+<li>从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。</li>
+</ol>
+<p><strong>Feature</strong>：</p>
+<ul>
+<li>基于二维图像的算法，而不需要三维几何场景</li>
+<li>使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow
+Map与阴影生成时的深度判定方式一致即可</li>
+</ul>
+<p><strong>Problem</strong></p>
+<ul>
+<li><p><strong>Self occlusion 自遮挡</strong></p>
+<p>Shadow
+Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。
+<img src="/images/games202/SelfOcclusion1.png" alt="SelfOcclusion1" style="zoom:25%;" /></p>
+<p><strong>解决方案</strong>：在反射表面邻近区域不计算遮挡。不计算区域Light长度（<strong>Bias</strong>）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。<img src="/images/games202/SelfOcclusion2.png" alt="SelfOcclusion2" style="zoom:25%;" /></p></li>
+<li><p><strong>Detached shadow</strong>
+由解决自遮挡的Bias不计算带来的阴影残缺问题。</p>
+<p>工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。</p>
+<p>学术解决方案：<strong>Second-depth shadow mapping</strong></p>
+<ul>
+<li>存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。</li>
+<li>存在问题：要求所有物体watertight（有正反面）；计算量过大。</li>
+<li><strong>实时渲染不相信复杂度，只相信绝对速度！</strong>因此工业界不适用。</li>
+</ul>
+<p><img src="/images/games202/SecondDepthSM1.png" alt="SecondDepthSM" style="zoom:25%;" /></p></li>
+<li><p><strong>Aliasing 采样</strong></p></li>
+</ul>
+<h4 id="the-math-behind-shadow-mapping">The math behind shadow
+mapping</h4>
+<p>微积分中常见的不等式： <span class="math display">\[
+\begin{array}{c}
+Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d
+x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d
+x\\
+Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)+g(x)\right]^2\,\mathrm
+d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d
+x\right\}^\frac{1}{2}+\left\{\int_a^bg^2(x)\,\mathrm d
+x\right\}^\frac{1}{2}
+\end{array}
+\]</span> <strong>Approximation in RTR</strong>: But we care more about
+“approximately equal”. 实时渲染中常将不等式当作约等式使用。</p>
+<p><strong>An important approximation</strong>: <span
+class="math display">\[
+\displaystyle\int_\Omega f(x)g(x)\,\mathrm d x\approx\frac{\int_\Omega
+f(x)\,\mathrm d x}{\int_\Omega \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x
+\]</span></p>
+<p>其中 <span class="math inline">\(\int_\Omega \,\mathrm d x\)</span>
+为归一化常数。</p>
+<p>该式何时较准确：</p>
+<ul>
+<li>积分域较小时</li>
+<li><span class="math inline">\(g(x)\)</span>
+在积分域内变化不大（Smooth）</li>
+</ul>
+<p>Recall：<strong>Rendering Equation with Explicit Visibility</strong>
+<span class="math display">\[
+L_o(p,\omega_o)=\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)\cos\theta_iV(p,\omega_i)\,\mathrm
+d \omega_i
+\]</span> Approximated as: <span class="math display">\[
+L_o(p,\omega_o)\approx\frac{\int_{\Omega+}V(p,\omega_i)d\omega_i}{\int_{\Omega+}d\omega_i}\cdot\int_{\Omega+}L_i(p,L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)\cos\theta_i\,\mathrm
+d \omega_i
+\]</span> 即将Visibility部分 <span
+class="math inline">\(V(p,\omega_i)\)</span>
+单独计算。则非Visibility部分为纯Shading部分，Visibility近似部分为“Shadow
+Mapping”部分。</p>
+<p>何时准确：</p>
+<ul>
+<li>点光源/方向光源（积分域小）</li>
+<li>Diffuse/面光源（其中一个积分函数平滑）</li>
+</ul>
+<p><strong>Ambient Occlusion
+环境光遮蔽</strong>中将再次用到类似的约等式</p>
+<h4 id="pcss-percentage-closer-soft-shadows"><strong>PCSS: Percentage
+Closer Soft Shadows</strong></h4>
+<h5 id="pcf-percentage-closer-filtering">PCF: Percentage Closer
+Filtering</h5>
+<ul>
+<li>[ For <strong>anti-aliasing</strong> at shadows’ edges - Not for
+soft shadows ]</li>
+<li>Filtering the result of shadow comparisons</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<ul>
+<li>根据Shadow
+Map判断像素是否在阴影中：不判断一个像素，判断对应像素周围的一圈像素（如7*7网格）</li>
+<li>得到该组像素判断的<strong>平均值</strong>，赋给中心像素（原判断像素）</li>
+<li>计算量？PCSS时一并解决</li>
+<li>将Filter范围再放大得到软阴影？！</li>
+</ul>
+<h5 id="pcss">PCSS</h5>
+<ul>
+<li><p>软阴影：近处锐利，远处模糊 —— Filter Size &lt;-&gt; Blocker
+Distance</p></li>
+<li><p><span
+class="math inline">\(w_{Penumbra}=(d_{recevier}-d_{Blocker})\cdot
+w_{Light}/d_{Blocker}\)</span>
+<img src="/images/games202/PCSS1.png" alt="PCSS1" style="zoom:20%;" /></p></li>
+<li><p>Block Depth: Average block depth 在一定范围内，一个Shading
+Point被遮挡的平均深度值</p></li>
+<li><p>Complete algorithm</p>
+<ol type="1">
+<li>Blocker search : Getting the average depth <strong>in a certain
+region</strong> （视面光源中心为点光源生成Shadow Map）</li>
+<li>Penumbra estimation : Use the average blocker depth to determine
+filter size</li>
+<li>Percentage Closer Filtering</li>
+</ol></li>
+<li><p>Blocker search的范围（得到Average block
+depth的方式）如何确定？</p>
+<ul>
+<li><p>取固定范围，如5*5</p></li>
+<li><p>[Better]
+取决于<strong>光源面积</strong>和<strong>光照接收面到光源的距离</strong>
+<img src="/images/games202/PCSS2.png" alt="PCSS2" style="zoom:20%;" />
+<span class="math display">\[
+\rm
+size_{Blocker}=distance_{ShadowMap2Scene}/distance_{Light2Scene}\cdot
+size_{Light}
+\]</span></p></li>
+</ul></li>
+<li><p>开销巨大：下节课解决</p></li>
+</ul>
+<h5 id="a-deeper-look-at-pcf">A deeper look at PCF</h5>
+<p>The math behind PCF: <strong>Filter/Convolution</strong> <span
+class="math display">\[
+[w*f](p)=\sum_{q\in\mathcal{N}(p)}w(p,q)f(q)\quad\quad N(p):p的邻域
+\]</span> In PCSS <span class="math display">\[
+V(x)=\sum_{q\in\mathcal{N}(p)}w(p,q)\cdot\chi^+[D_{SM}(q)-D_{scene}(x)]\quad\quad\chi^+(A)=A&gt;0?1:0
+\]</span> 因此：</p>
+<ul>
+<li>PCF并不是对Shadow Map的滤波 <span class="math display">\[
+V(x)\neq\chi^+\{[w*D_{SM}](q)-D_{scene}(x)\}
+\]</span></li>
+<li>PCF也不是对结果图像做滤波 <span class="math display">\[
+V(x)\neq\sum_{q\in\mathcal{N}(p)}w(p,q)V(q)
+\]</span></li>
+</ul>
+<h5 id="more-about-pcss">More about PCSS</h5>
+<p>[Blocker Search] and [PCF] is slow to look at every texel.</p>
+<ul>
+<li>[Blocker Search] 随机取样 =&gt; Noise</li>
+<li>[PCF] Filter范围过大，随机采样 -&gt;
+<strong>图像空间降噪</strong></li>
+</ul>
+<h4 id="variance-soft-shadow-mapping">Variance Soft Shadow Mapping</h4>
+<ul>
+<li>Fast blocker search and filtering</li>
+</ul>
+<p><strong>[ Filter ]</strong> PCF：根据正态分布可估计 Percentage Closer
+Value
+正态分布由<strong>均值mean</strong>和<strong>方差variance</strong>定义</p>
+<ul>
+<li>Mean
+<ul>
+<li>Hardware Mipmaping 但只能正方形</li>
+<li>Summed Area Tables (SAT)</li>
+</ul></li>
+<li>Variance
+<ul>
+<li><span class="math display">\[
+Var(X)=E(X^2)-E^2(X)\quad E:期望=均值
+\]</span></li>
+<li>另一张“Shadow Map”记录深度的平方，称为“Square depth map”</li>
+</ul></li>
+</ul>
+<p>由此得到正态分布图，求得<strong>CDF(x) of the Gaussian
+PDF</strong>即可（即0-x的积分）。
+该积分没有解析解只有数值解，可通过高斯分布积分表<strong>Error
+Function</strong>得到CDF值。在<code>cpp</code>中使用<code>erf()</code>求数值解，但计算仍较复杂。</p>
+<p>因此引入切比雪夫不等式估计值： <span class="math display">\[
+P(x&gt;t)\le\frac{\sigma^2}{\sigma^2+(t-\mu)^2}\quad\quad\begin{aligned}\mu&amp;:
+mean\\\sigma^2&amp;:variance\end{aligned}
+\]</span> 对任意分布方式，通过切比雪夫不等式估得右侧积分值 <span
+class="math inline">\(P(x&gt;t)\)</span> ，再由 <span
+class="math inline">\(1-P(x&gt;t)\)</span> 得到 <span
+class="math inline">\(CDF(x)\)</span> 。
+仅t&gt;mean时较准，但工业界往往直接用。</p>
+<p><img src="/images/games202/VSSM1.png" alt="VSSM1" style="zoom:33%;" /></p>
+<blockquote>
+<p>总结 + Shadow map generation + “Square depth map” + Runtime + Mean of
+depth in a range: O(1) + Mean of depth square in a range: O(1) +
+Chebychev: O(1) + No samples / loops needed + Perfectly ?
+改变视角需要重新生成map 产生较大开销 GPU解决起来速度非常快</p>
+</blockquote>
+<p><strong>[ Block Search ]</strong></p>
+<ul>
+<li><p>Target: The average depth of <strong>blockers</strong> ( texels
+whose depth z &lt; t, <span class="math inline">\(z_{occ}\)</span> )
+<span
+class="math inline">\(\Rightarrow\begin{array}{l}blocker:z_{occ}\\non-blocker:z_{unocc}\end{array}\)</span></p></li>
+<li><p><span class="math display">\[
+\displaystyle\frac{N_1}{N}z_{unocc}+\frac{N_2}{N}z_{occ}=z_{avg}
+\]</span></p></li>
+<li><p>Chebychev Approximation: <span
+class="math inline">\(\displaystyle\frac{N_1}{N}=P(x&gt;t)\quad\frac{N_2}{N}=1-P(x&gt;t)\)</span></p></li>
+<li><p>Approximation: <span
+class="math inline">\(z_{unocc}=t\)</span></p></li>
+</ul>
+<h4 id="mipmap-and-summed-area-variance-shadow-maps">MIPMAP and
+Summed-Area Variance Shadow Maps</h4>
+<h5 id="recall-mipmap">Recall: MIPMAP</h5>
+<ul>
+<li><strong>fast, approx., square</strong> range queries</li>
+<li>非 <span class="math inline">\(1/n^i\)</span>
+方形区域，需使用线性插值</li>
+<li>不精准，限制多</li>
+</ul>
+<h5 id="sat-summed-area-table">SAT (Summed-Area Table)</h5>
+<ul>
+<li><p>in 1D: 第 <span class="math inline">\(i\)</span> 位存储 <span
+class="math inline">\(0-i\)</span> 的和</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SAT<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> Arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  SAT<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> SAT<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> Arr<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">//Sum of a to b</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> SAT<span class="op">[</span>b<span class="op">]</span> <span class="op">-</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">];</span> <span class="op">}</span></span></code></pre></div></li>
+<li><p>in 2D: 第 <span class="math inline">\((i,j)\)</span> 位存储 <span
+class="math inline">\((0,0)-(i,j)\)</span> 的矩形区域和</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// m * n</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  SAT<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> Arr<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> j <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> Arr<span class="op">[</span>i<span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> j <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">+=</span> SAT<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">//Sum of a to b</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">][</span>b<span class="op">]</span> <span class="op">+</span> SAT<span class="op">[</span>a<span class="op">][</span>b<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">-</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">][</span>b<span class="op">-</span><span class="dv">1</span><span class="op">];</span> <span class="op">}</span></span></code></pre></div></li>
+</ul>
+<h4 id="moment-shadow-mapping">Moment Shadow Mapping</h4>
+<p><strong>VSSM</strong> Problem:
+遮挡物简单情况下，遮挡深度分布非正态/不符合切比雪夫估计 ，估计值不准</p>
+<ul>
+<li>与实际值相比较暗：视觉无影响</li>
+<li>与实际值相比较亮：漏光（Light Leaking，工业界也有称Light
+Bleeding）</li>
+</ul>
+<p>解决分布描述不准方法——引入高阶<strong>矩（Moments）</strong></p>
+<ul>
+<li>简单理解为“ <span class="math inline">\(x^i\)</span> 即 <span
+class="math inline">\(x\)</span> 的 <span
+class="math inline">\(i\)</span> 阶矩”</li>
+<li>使用前 <span class="math inline">\(m\)</span> 阶矩的组合（ <span
+class="math inline">\(x^1,x^2,\dots,x^m\)</span> ）可以描述一个具有
+<span class="math inline">\(m/2\)</span> 个“台阶”的阶跃函数</li>
+<li>可视为一种展开，将原函数展开为前 <span
+class="math inline">\(m\)</span> 阶矩的线性组合</li>
+<li>在MSM中，前4阶矩可较好描述遮挡深度分布，在使用VSSM的想法计算所需值（可在Blocker
+Search和PCF环节使用该方法）</li>
+</ul>
+<h4 id="distance-field-soft-shadows">Distance Field Soft Shadows</h4>
+<p><strong>Distance Field / Distance Function</strong>: Minimum distance
+to the closet location on an object SDF(Signed Distance Field)
+是较好的混合方式，比线性插值得到结果更平滑连续——<strong>[ 最优传输理论
+]</strong></p>
+<p>Usages:</p>
+<ul>
+<li><p>Ray marching (Sphere Tracing)
+在某一点，作SDF值（距离物体的最小距离）为半径的球，则球体内任意方向发射光线均不与物体相交，将该半径定义为“安全距离”（safe
+distance）。则光线可以朝原方向走该半径长度的距离，得到新的点和SDF值，同理迭代。直到沿着同一方向与物体距离足够小，或光线路径过长（认为无物体与之相交）时停止追踪。
+<img src="/images/games202/SDF1.png" alt="SDF1" style="zoom:33%;" /></p></li>
+<li><p>Soft Shadows 类Ray Marching，对每一根光线，算出”安全角度”（safe
+angle）。（光线上所有点的SDF值的最小值为半径，该点为圆心作圆，与光线发射点两条切线的夹角）
+<span class="math inline">\(\text{smaller safe
+angle}\Rightarrow\text{less visibility}\)</span>
+<img src="/images/games202/SDF2.png" alt="SDF2" style="zoom:33%;" />
+<img src="/images/games202/SDF3.png" alt="SDF3" style="zoom:33%;" />
+<span class="math display">\[
+\begin{array}{l}
+\displaystyle V=\arcsin\frac{SDF(p)}{\|p-o\|}\quad \arcsin 计算量过大\\
+\displaystyle V\approx \min\left\{\frac{k\dot
+SDF(p)}{\|p-o\|},1.0\right\}\quad
+直接使用比值近似，其中k值决定过渡带宽度，即阴影软硬程度\\
+\end{array}
+\]</span></p></li>
+<li><p>优势：快</p></li>
+<li><p>局限性：SDF的计算量、存储量，以及物体运动后重新计算的复杂度。（对多个物体的SDF，取最小值即可。）and
+some artifact</p></li>
+<li><p>misc：<a
+href="https://github.com/protectwise/troika/tree/master/packages/troika-3d-text">利用SDF在实时渲染中生成矢量字符</a></p></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</title>
+      <link>http://localhost:1313/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</link>
+      <pubDate>Fri, 02 Apr 2021 15:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</guid>
+      <description>Lecture 10-11 Physically-Based Material Content
+Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
+Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR</description>
+      <content:encoded><![CDATA[<h3 id="lecture-10-11-physically-based-material">Lecture 10-11
+Physically-Based Material</h3>
+<p><strong>Content</strong></p>
+<ul>
+<li>Real-Time Physically-Based Materials
+<ul>
+<li>Microfacet BRDF</li>
+<li>Disney principled BRDF</li>
+</ul></li>
+<li>Shading with microfacet BRDFs under polygonal lighting
+<ul>
+<li>Linearly Transformed Cosines (LTC)</li>
+</ul></li>
+</ul>
+<p><strong>Concept</strong></p>
+<ul>
+<li>Physically-Based Rendering (PBR)
+<ul>
+<li>Everything in rendering should be physically based</li>
+<li>Materials, lighting, camera, light transport, etc.</li>
+<li>Not just materials, but usually referred to as materials</li>
+</ul></li>
+<li>PBR materials in RTR
+<ul>
+<li>The RTR community is much behind the offline community</li>
+<li>“PB” in RTR is usually not actually physically based</li>
+</ul></li>
+</ul>
+<p><strong>PBR materials in RTR</strong></p>
+<ul>
+<li><p>For surfaces</p>
+<ul>
+<li>Microfacet models (used wrong so not “PBR”)</li>
+<li>Disney principled BRDFs (artist friendly but still not “PBR”)</li>
+</ul></li>
+<li><p>For volumes (cloud, hair, skin, etc.)</p>
+<p>focused on fast and approximate single scattering and multiple
+scattering</p></li>
+</ul>
+<h4 id="recap-microfacet-brdf">Recap: Microfacet BRDF</h4>
+<p><img src="/images/games202/MicrofacetBRDF.png" alt="MicrofacetBRDF" style="zoom: 25%;" /></p>
+<h5 id="fresnel-term">Fresnel term</h5>
+<ul>
+<li><p>精确表达非常复杂，需要考虑S/P极化
+<img src="/images/games202/FresnelTerm.png" alt="FresnelTerm" style="zoom:30%;" /></p></li>
+<li><p>Schlick’s approximation 近似为基础反射率 <span
+class="math inline">\(R_0\)</span> 的变化 <span class="math display">\[
+R(\theta)=R_0+(1-R_0)(1-\cos\theta)^5\\
+R_0=\left(\dfrac{n_1-n_2}{n_1+n_2}\right)^2
+\]</span></p></li>
+</ul>
+<h5 id="normal-distribution-function-ndf">Normal Distribution Function
+(NDF)</h5>
+<blockquote>
+<p>此处NDF中的Normal为“法线”，须与表示“正态分布”的“Normal
+Distribution”中的Normal区分</p>
+</blockquote>
+<ul>
+<li><p>法线分布集中 ==&gt; glossy
+<img src="/images/games202/NDF1.png" alt="NDF1" style="zoom: 33%;" /></p>
+<p>法线分布分散 ==&gt; diffuse
+<img src="/images/games202/NDF2.png" alt="NDF2" style="zoom:33%;" /></p>
+<p>（diffuse的微表面可以视作specular的微表面纵向scale而得到，而纵向scale使得diffuse的微表面“沟壑”较深）</p></li>
+<li><p>描述NDF的模型</p>
+<ul>
+<li><p>Beckmann NDF <span class="math display">\[
+D(h)=\dfrac{e^{-\frac{\tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2\cos^4\theta_h}\\
+\alpha:\text{roughness of the surface}\\
+\theta_h:\text{angle between half vector }h\text{ and normal }n
+\]</span></p>
+<ul>
+<li>类似Gaussian</li>
+<li>在slope space（坡度空间）上定义 如图即定义在 <span
+class="math inline">\(\tan\theta\)</span>
+所在平面上（可以保证不出现面朝下的微表面，但较难解决反射光朝下的情况）
+<img src="/images/games202/NDF3.png" alt="NDF3" style="zoom: 25%;" /></li>
+<li>在project solid angle上积分为1</li>
+</ul></li>
+<li><p>GGX （or Trowbridge-Reitz） <span class="math display">\[
+D_{\rm GGX}(\theta_h) = \frac{\alpha^2}{\pi\cos^4\theta_ m(\alpha^2 +
+\tan^2\theta_h)^2}\\
+\alpha:\text{roughness}^2
+\]</span></p>
+<ul>
+<li>特征：long tail 长尾巴
+衰减到一定程度后非常慢，可使Specular出现“光晕”
+<img src="/images/games202/NDF4.jpg" alt="NDF4" style="zoom: 50%;" /></li>
+<li>对比
+<img src="/images/games202/NDF5.png" alt="NDF5" style="zoom: 25%;" /></li>
+</ul></li>
+<li><p>Extending GGX</p>
+<ul>
+<li>GTR (Generalized Trowbridge-Reitz) （<span
+class="math inline">\(\gamma\)</span>
+较大时，接近Beckmann，相当于统一了两种model）
+<img src="/images/games202/NDF6.jpg" alt="NDF6" style="zoom:50%;" /></li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="shadowing-masking-term">Shadowing-Masking Term</h5>
+<p>Or <strong>Geometry Term</strong> : <strong>G</strong></p>
+<ul>
+<li><p>解决微表面之间的自遮挡问题</p></li>
+<li><p>Shadowing 光线照射到微表面 <img
+src="/images/games202/ShadowingMaskingTerm1.jpg"
+alt="ShadowingMaskingTerm1" /></p>
+<p>Masking 光线反射进入眼睛 <img
+src="/images/games202/ShadowingMaskingTerm2.jpg"
+alt="ShadowingMaskingTerm2" /></p></li>
+<li><p>变暗操作，靠近垂直方向时几乎不变暗（G值为1），Grazing
+angle（掠视）时变暗（G值减小，直至接近0）</p></li>
+<li><p>常用的Shadowing-Masking Term</p>
+<ul>
+<li><p>Smith Shadowing-Masking Term</p></li>
+<li><p>把Shadowing和Masking拆开（假定两者无关，事实上有关） <span
+class="math display">\[
+G(i,o,m)\approx G_1(i,m)G_1(o,m)
+\]</span></p></li>
+<li><p>Beckmann（绿）和GGX（红）分别的Shadowing-Masking项
+<img src="/images/games202/ShadowingMaskingTerm3.jpg" alt="ShadowingMaskingTerm3" style="zoom: 40%;" /></p></li>
+<li><p>eg. 与GGX法线分布匹配的Smith模型 <span class="math display">\[
+G_{\rm Smith}(\mathbf{i},\mathbf{o},\mathbf{h})=G_{\rm
+Schlick}(\mathbf{l},\mathbf{h})G_{\rm Schlick}(\mathbf{v},\mathbf{h})\\
+k=\dfrac{({\rm roughness}+1)^2}{8}\\
+G_{\rm Schlick}(\mathbf{v},\mathbf{n})=\dfrac{\mathbf{n}\cdot
+\mathbf{v}}{\mathbf{n}\cdot \mathbf{v}(1-k)+k}
+\]</span></p></li>
+</ul></li>
+</ul>
+<h5 id="问题能量损失">问题：能量损失</h5>
+<blockquote>
+<p><strong>白炉测试 White Furnace
+Test</strong>：在完全均匀的全局环境光下渲染物体，若物体与背景同色，说明不存在能量损失，若变暗说明存在能量损失。</p>
+</blockquote>
+<ul>
+<li><p>发现，Roughness值增大会导致能量损失（图2为白炉测试）
+<img src="/images/games202/MissingEnergy1.jpg" alt="MissingEnergy1" style="zoom: 50%;" />
+<img src="/images/games202/MissingEnergy2.jpg" alt="MissingEnergy2" style="zoom: 50%;" /></p></li>
+<li><p>Roughness越大，微表面沟壑越多，越容易自遮挡（Shadowing-Masking程度大）
+——而现实中，自遮挡的光线经过多次弹射最终会反射出来，不会损失能量，此时Microfacet模型中只考虑了一次弹射</p></li>
+<li><p>精确地还原损失的能量（Heitz et
+al. 2016）对实时渲染来说开销过大</p></li>
+<li><p><strong>Kulla-County Approximation</strong></p>
+<ul>
+<li><p>被遮挡 ==
+发生下次弹射，从而有该经验性补全多次反射丢失能量的方法</p></li>
+<li><p>考虑一次反射时有多少能量能够保留：假定入射光 <span
+class="math inline">\(L_i=1\)</span> ，BRDF项为 <span
+class="math inline">\(f(\mu_o,\mu_i,\phi)\)</span>
+，则出射能量（BRDF、cosine、Lighting乘积）的积分为： <span
+class="math display">\[
+E(\mu_0)=\int_0^{2\pi}\int_0^1f(\mu_o,\mu_i,\phi)\mu_i\,\mathrm d
+\mu_i\mathrm d\phi\\\mu=\sin\theta\quad(\text{用}\ \theta,\phi\
+\text{定义立体角，换元积分})
+\]</span></p></li>
+<li><p>则损失能量为 <span class="math inline">\(1-E(\mu_o)\)</span>
+，则只需补上这部分能量</p></li>
+<li><p><span class="math inline">\(E(\mu_o)\)</span>
+的积分值与观察方向有关</p></li>
+<li><p>由于BRDF的可逆性（入射出射互相可逆），则其表示应具有对称性，因此损失能量的形式为：
+<span class="math display">\[
+c(1-E(\mu_i))(1-E(\mu_o))
+\]</span> （凑积分简化的一种思路）</p></li>
+<li><p>可得： <span class="math display">\[
+f_{\rm ms}(\mu_o,\mu_i)=\dfrac{(1-E(\mu_i))(1-E(\mu_o))}{\pi(1-E_{\rm
+avg})},\quad E_{\rm avg}=2\int_0^1E(\mu)\mu\,\mathrm d \mu
+\]</span> （推导略）</p></li>
+<li><p>此时将 <span class="math inline">\(f_{\rm
+ms}(\mu_o,\mu_i)\)</span>
+作为<strong>补全BRDF</strong>加入到渲染方程的积分中，就能够补全丢失的能量</p></li>
+<li><p><strong>总结：设计一个function，即“补充的BRDF”，使得其积分等于丢失能量</strong></p></li>
+<li><p>问题1： <span class="math inline">\(E_{\rm
+avg}=2\int_0^1E(\mu)\mu\,\mathrm d \mu\)</span> 未知且计算困难</p>
+<ul>
+<li>预计算/打表</li>
+<li>维度/依赖的参数 —— <span class="math inline">\(\mu_o\)</span>
+和roughness</li>
+<li>形成一张二维的表在渲染时直接查询</li>
+</ul></li>
+<li><p>效果
+<img src="/images/games202/MissingEnergy3.jpg" alt="MissingEnergy3" style="zoom:50%;" /></p></li>
+<li><p>问题2：若BRDF含有颜色</p>
+<ul>
+<li><p>颜色意味着有额外的能量损失（属于应该损失的）</p></li>
+<li><p>先考虑没有颜色的全局能量损失，求出补全BRDF，再考虑由于颜色造成的能量损失</p></li>
+<li><p><strong>Average
+Fresnel</strong>：不管入射角大小平均反射的能量占比 <span
+class="math display">\[
+F_{\rm avg}=\dfrac{\int_0^1F(\mu)\mu\,\mathrm d\mu}{\int_0^1\mu\,\mathrm
+d\mu}=2\int_0^1F(\mu)\mu\,\mathrm d\mu
+\]</span></p></li>
+<li><p><span class="math inline">\(E_{\rm avg}\)</span>
+不参与后续弹射，因此将能量逐步计算</p></li>
+<li><p>可以直接看到的 <span class="math inline">\(F_{\rm avg}E_{\rm
+avg}\)</span></p></li>
+<li><p>1次弹射后可以看到 <span class="math inline">\(F_{\rm
+avg}(1-E_{\rm avg})\cdot F_{\rm avg}E_{\rm avg}\)</span></p></li>
+<li><p>k次弹射后可以看到 <span class="math inline">\(F_{\rm
+avg}^k(1-E_{\rm avg})^k\cdot F_{\rm avg}E_{\rm avg}\)</span></p></li>
+<li><p>求和求级数得<strong>Color Term</strong> <span
+class="math inline">\(\dfrac{F_{\rm avg}E_{\rm avg}}{1-F_{\rm
+avg}(1-E_{\rm avg})}\)</span></p></li>
+<li><p>将Color
+Term乘到没有考虑颜色的补全BRDF上，得到最终的补全BRDF，加入渲染方程积分</p></li>
+<li><p>结果
+<img src="/images/games202/MissingEnergy4.jpg" alt="MissingEnergy4" style="zoom:50%;" />
+↓
+<img src="/images/games202/MissingEnergy5.jpg" alt="MissingEnergy5" style="zoom:50%;" /></p></li>
+</ul></li>
+</ul></li>
+<li><p>近年出现的不用Kulla-County方法的、不好的Hack： 直接对Microfacet
+BRDF增加一个diffuse lobe</p>
+<ul>
+<li>eg. 在CV领域作材质识别时</li>
+<li>“完全错误” “不能更糟糕” “我从来没有这么教过你”</li>
+<li>物理错误，无法保证能量守恒</li>
+</ul></li>
+</ul>
+<h4
+id="shading-with-microfacet-brdfs-under-polygonal-lighting-linearly-transformed-cosines-ltc">Shading
+with Microfacet BRDFs under polygonal lighting – Linearly Transformed
+Cosines (LTC)</h4>
+<p>解决微表面模型着色问题</p>
+<ul>
+<li>主要针对GGX的NDF时（当然其他NDF也可以）</li>
+<li>不考虑阴影</li>
+<li>在多边形光源的情况下（不需要采样的方法）</li>
+</ul>
+<p><img src="/images/games202/LTC1.png" alt="LTC1" style="zoom: 25%;" /></p>
+<blockquote>
+<p>Lobe：瓣，如图蓝色区域，表示从视点发射的光线反射的分布，分布的形状类似一片花瓣。严格定义：BRDF的二维切片（BRDF输入两维、输出两维，
+<span class="math inline">\(\theta\)</span> 和 <span
+class="math inline">\(\phi\)</span> ，共四维）。</p>
+</blockquote>
+<p><strong>核心想法</strong>：</p>
+<ul>
+<li>BRDF的入射/出射的Lobe可以通过线性变换转换成余弦函数（转换到顶部，90度时最大，逐步向外减小）</li>
+<li>多边形光源也可以作同样的线性变换</li>
+<li>在这种情况下，在余弦Lobe上积分变形后的光源可以得到<strong>解析解</strong></li>
+</ul>
+<p><img src="/images/games202/LTC2.png" alt="LTC2" style="zoom: 40%;" /></p>
+<p><strong>具体做法</strong>：</p>
+<ul>
+<li><p><span class="math display">\[
+{\rm BRDF}\xrightarrow{M^{-1}}{\rm Cosine}\\
+方向:\omega_i\xrightarrow{M^{-1}}\omega_i&#39;\\
+积分域:P\xrightarrow{M^{-1}}P&#39;
+\]</span>
+<img src="/images/games202/LTC3.jpg" alt="LTC3" style="zoom: 25%;" />
+<img src="/images/games202/LTC4.png" alt="LTC4" style="zoom: 40%;" /></p></li>
+<li><p>替换一个变量 假设多边形光源是uniform的，即<span
+class="math inline">\(L_i\)</span>对各方向保持一致，则 <span
+class="math display">\[
+\text{渲染方程}\quad L(\omega_o)=L_i\cdot\int_P F(\omega_i)\,\mathrm
+d\omega_i\text{（BRDF、Cosine合并为$F()$）}\\
+\omega_i=\dfrac{M\omega&#39;_i}{\|M\omega&#39;_i\|}\quad\text{代入替换得}\\
+\begin{aligned}L(\omega_o)&amp;=L_i\cdot\int_P\cos(\omega&#39;_i)\,\mathrm
+d\dfrac{M\omega&#39;_i}{\|M\omega&#39;_i\|}\\&amp;=L_i\cdot\int_{P&#39;}\cos(\omega&#39;_i)J\,\mathrm
+d\omega&#39;_i\end{aligned}
+\]</span></p></li>
+<li><p>如何得到<span
+class="math inline">\(M\)</span>：预计算（给初始值通过优化方法计算）</p></li>
+</ul>
+<h4 id="disney-principled-brdf">Disney Principled BRDF</h4>
+<p>为什么需要？</p>
+<ul>
+<li>Microfacet模型不能表征所有真实感材质
+<ul>
+<li>不够Diffuse</li>
+<li>无法解释多层材质（eg.刷有清漆的表面）</li>
+</ul></li>
+<li>Microfacet模型不够Artist-friendly
+<ul>
+<li>eg. 定义折射率的<span class="math inline">\(n\)</span>和<span
+class="math inline">\(k\)</span></li>
+</ul></li>
+</ul>
+<p>Disney Principled BRDF设计原则</p>
+<ul>
+<li>Art directable，不必须物理真实</li>
+<li>还是一定程度上基于物理的（在实时渲染中）</li>
+</ul>
+<p><strong>Principle 原则</strong></p>
+<ul>
+<li>看起来直观，不用物理量</li>
+<li>尽可能减少参数</li>
+<li>0-1范围</li>
+<li>允许&lt;0和&gt;1情况，呈现特殊效果</li>
+<li>具有稳健性</li>
+</ul>
+<p>Disney Principled BRDF建立在拟合的基础上，有开放源码</p>
+<blockquote>
+<p>sheen : 绒毛，在grazing angle上有类似羽化效果 clearcoat :
+类似清漆的透明层</p>
+</blockquote>
+<p>维度多时，会出现多种参数呈现类似结果的现象</p>
+<p><strong>优劣势</strong></p>
+<ul>
+<li>易于理解/控制</li>
+<li>能描述的材质广泛</li>
+<li>开源的实现</li>
+<li>不完全基于物理</li>
+<li>巨大的参数空间</li>
+</ul>
+<h4 id="non-photorealistic-rendering">Non-Photorealistic Rendering</h4>
+<p>== (fast and reliable) stylization</p>
+<p><strong>风格化</strong></p>
+<ul>
+<li>描边</li>
+<li>模型简化、色块</li>
+<li>阴影分界线</li>
+</ul>
+<p><strong>轮廓</strong></p>
+<p><img src="/images/games202/NPR1.jpg" alt="NPR1" style="zoom: 25%;" /></p>
+<ul>
+<li><p>分类</p>
+<ul>
+<li>边界 Boundary / Border edge</li>
+<li>折痕 Crease</li>
+<li>材质边缘 Material edge</li>
+<li>有多个面共享的外轮廓线 Silhouette edge</li>
+</ul></li>
+<li><p>Silhouette edge 描边绘制</p>
+<ul>
+<li><p>Silhouette edge处观察方向与法线方向几乎垂直</p>
+<ul>
+<li>设定观察方向与发现夹角的阈值，超过的像素设黑</li>
+<li>问题：描边粗细不一样</li>
+</ul></li>
+<li><p>背面的三角形/模型扩大一小圈渲染为黑</p></li>
+<li><p>图像后处理：Edge Detect</p>
+<ul>
+<li><p>Sobel Detector 纵向/横向，色块处两侧抵消，分界线两侧不抵消 <span
+class="math display">\[
+\begin{bmatrix}
+1 &amp; 0 &amp; -1\\
+2 &amp; 0 &amp; -2\\
+1 &amp; 0 &amp; -1
+\end{bmatrix}\quad
+\begin{bmatrix}
+-1 &amp; -2 &amp; -1\\
+0 &amp; 0 &amp; 0\\
+1 &amp; 2 &amp; 1
+\end{bmatrix}
+\]</span></p>
+<center>
+<p><img src="/images/games202/NPR2.jpg" alt="NPR2" style="zoom:50%;" /><img src="/images/games202/NPR3.jpg" alt="NPR3" style="zoom:50%;" /></p>
+<center/></li>
+<li><p>利用G-Buffer信息，深度、法线等</p></li>
+</ul></li>
+</ul></li>
+<li><p>色块</p>
+<ul>
+<li>先得到正常的shading结果，再做一个阈值化（多值化 Quantization）</li>
+<li>在不同的部分（Diffuse、Specular…）应用不同的阈值化方法</li>
+</ul></li>
+<li><p>素描效果</p>
+<ul>
+<li>阴影部分打横竖线格，格子密度与阴影明暗相关</li>
+<li>提前设计不同密度的格状纹理查询（结果邻近像素查询纹理邻近像素，保证笔触连续）</li>
+<li>对每种纹理做MIPMAP时，保证每一级MIPMAP的密度一致（类似裁切而非等比缩小）</li>
+</ul>
+<p><img src="/images/games202/NPR4.jpg" alt="NPR4" style="zoom: 33%;" /></p></li>
+</ul>
+<p><strong>真实感模型是非真实感渲染的基础。</strong></p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space</title>
+      <link>http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</link>
+      <pubDate>Thu, 11 Mar 2021 15:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</guid>
+      <description>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
+Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
+Key idea :
+不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
+Theory :
+Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
+考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;amp;\dfrac{\int_{\Omega_+} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_+}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;amp;\int_{\Omega_+}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]</description>
+      <content:encoded><![CDATA[<h3 id="lecture-8-9-real-time-global-illumination-screen-space">Lecture
+8-9 Real-time Global Illumination （Screen Space）</h3>
+<p><strong>Screen Space</strong> :
+利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post
+Processing</p>
+<h4 id="screen-space-ambient-occlusion-ssao">Screen Space Ambient
+Occlusion (SSAO)</h4>
+<p><strong>AO 环境光遮蔽</strong> : 通过Contact
+Shadow使物体间相对位置明显<strong>SSAO</strong> :
+对全局光照的近似的屏幕空间方法</p>
+<p><strong>Key idea</strong> :</p>
+<ul>
+<li>不知道间接光照</li>
+<li>假定间接光照值是常数（对所有着色点、从所有方向）
+<ul>
+<li>like Blinn-Phong</li>
+</ul></li>
+<li>考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方）</li>
+</ul>
+<blockquote>
+<p>离线渲染中的AO——“天光”：等同于一个完全均匀的光照</p>
+</blockquote>
+<p><img src="/images/games202/AO.png" alt="AO" style="zoom:50%;" /></p>
+<p><strong>Theory</strong> :</p>
+<ul>
+<li><p>Rendering Equation <span class="math display">\[
+L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm
+p,\omega_i)\cos\theta_i\,\mathrm d\omega_i
+\]</span></p></li>
+<li><p>考虑对Rendering Equation的近似（“The RTR Approximation /
+Equation”） <span class="math display">\[
+\int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G}
+f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x
+\]</span> 将Visibility项拆出，得： <span class="math display">\[
+\begin{aligned}
+L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_+}
+V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm
+d\omega_i}{\int_{\Omega_+}\cos\theta_i\,\mathrm d\omega_i}\cdot\\
+\approx&amp;\int_{\Omega_+}L_i^{\rm indir}(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm
+d\omega_i\\
+=&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\
+AO}
+\end{aligned}
+\]</span></p></li>
+<li><p>A deeper understanding 1 <span class="math display">\[
+\begin{aligned}
+\int_\Omega f(x)g(x)\,\mathrm d x&amp;\approx\dfrac{\int_{\Omega_G}
+f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x\\
+&amp;=\overline{f(x)}\cdot\int_\Omega g(x)\,\mathrm d x
+\end{aligned}
+\]</span> 由于 <span class="math inline">\(g(x)\)</span>
+值小且平滑时该近似较准确，此处 <span class="math inline">\(g(x)\)</span>
+为常数，为准确拆分。</p></li>
+<li><p>A deeper understanding 2 前面积分中， <span
+class="math inline">\(\,\mathrm d x\)</span> 总是跟着 <span
+class="math inline">\(\cos\theta_i\)</span> =&gt; 半球上的立体角投影
+<span class="math inline">\(\,\mathrm d x_\perp=\cos\theta_i\,\mathrm d
+\omega_i\)</span> ，将球面积分转换为圆盘积分（积分值为圆盘面积 <span
+class="math inline">\(\pi\)</span> ）
+<img src="/images/games202/SSAO1.jpg" alt="SSAO1" style="zoom:50%;" /></p></li>
+<li><p><strong>回到SSAO的简单情况</strong>：</p>
+<ul>
+<li><p>均匀间接光照 <span class="math inline">\(L_i\)</span>
+[常数]</p></li>
+<li><p>Diffuse材质BRDF <span
+class="math inline">\(f_r=\dfrac{\rho}{\pi}\)</span> [常数]</p></li>
+<li><p>Rendering Equation拆成： <span class="math display">\[
+\begin{aligned}
+L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_+}L_i(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm
+p,\omega_i)\cos\theta_i\,\mathrm d\omega_i\\
+&amp;=\dfrac{\rho}{\pi}\cdot L_i(p)\cdot\int_{\Omega_+}V(\mathrm
+p,\omega_i)\cos\theta_i\mathrm d\omega_i
+\end{aligned}
+\]</span> 则即需求 <span class="math inline">\(k_A\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>How to compute</strong> : + In object space + Raycasting
+against geometry + Slow, require simplifications and / or spatial data
+structures + Depends of scene complexity + In screen space + Done in a
+post-rendering pass + No pre-processing required + Doesn’t depend on
+scene comple + Simple + Not physically accurate</p>
+<p><strong>SSAO</strong></p>
+<ul>
+<li>考虑特定半径<strong>半球</strong>范围内的遮挡关系（忽略远处的间接光照）</li>
+<li>在半径范围内随机撒点，通过点在物体内/外判断对光源可见性
+判断方法：通过Z-Buffer记录的物体深度直接判断（可能出现中图红线处的判断失误，忽略该失误）<img
+src="/images/games202/SSAO2.png" alt="SSAO2" /></li>
+<li>理论上应在法线方向半球范围内考虑，但渲染过程不一定有Normal-Buffer。
+则考虑，仅当随机点中有超过一半在物体内时考虑AO问题。计算时 <span
+class="math inline">\({\rm AO} =
+\dfrac{物体外的点}{物体内的点-随机点总数/2}\)</span></li>
+<li>随机点采样数不足时，易出现噪点，可以后期直接降噪应用，对画面影响较小</li>
+<li>问题：在两个完全不接触的物体边界可能出现AO效果</li>
+</ul>
+<p><strong>HBAO</strong> , Horizon based Ambient Occlusion :
+在有Normal-Buffer情况下，在半球范围内撒点采样，对不同方向加权（根据方向与法线的差值）。（更加精确，也改善了不接触的物体边界的问题。）</p>
+<h4 id="screen-space-directional-occlusion-ssdo">Screen Space
+Directional Occlusion (SSDO)</h4>
+<p>在SSAO基础上的提升，考虑更加精确的间接光照</p>
+<p><strong>Key idea</strong> :</p>
+<ul>
+<li>不再假设间接光照都是均匀的</li>
+<li>有一些间接光照的信息已经知道——参考RSM中，直接光照的接收者</li>
+</ul>
+<p><strong>效果</strong> : 遮蔽不再简单变暗，而是带有Color
+Blending效果</p>
+<p><strong>思路</strong> :</p>
+<ul>
+<li>很像Path Tracing</li>
+<li>在着色点P处随机发射一根光线</li>
+<li>若未hit物体，则判为直接光照</li>
+<li>若hit物体，则判为间接光照</li>
+</ul>
+<blockquote>
+<p>Comparison with SSAO :</p>
+<ul>
+<li>AO : 未被挡住的有间接光照、被挡住的没有</li>
+<li>DO : 未被挡住的无间接光照、被挡住的有</li>
+</ul>
+<p>原因：AO假设间接光照来自远处、DO假设间接光照来自近处。理论正确方法=AO+DO。</p>
+<p><img src="/images/games202/SSDO1.png" alt="SSDO1" style="zoom: 25%;" /></p>
+</blockquote>
+<p><strong>Theory</strong> : <span class="math display">\[
+L_o^{\rm dir}(\mathrm p,\omega_0)=\int_{\Omega_+,\,V=1}L_i^{\rm
+dir}(\mathrm p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\
+L_o^{\rm indir}(\mathrm p,\omega_0)=\int_{\Omega_+,\,V=0}L_i^{\rm
+indir}(\mathrm p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i
+\]</span> 则关注下式，求 <span class="math inline">\(V=0\)</span>
+时得到的间接光照，来自一个patch/pixel的间接光照求法在前课中已介绍</p>
+<p><strong>具体做法</strong></p>
+<ul>
+<li><p>对着色点P法线方向的半球内，随机取几个点（eg. 下图ABCD）</p></li>
+<li><p>同SSAO，用相机对采样点的可见性替代P点对采样点的可见性，得到满足要求的不可见点</p></li>
+<li><p>将满足要求的不可见点作为间接光源计算P点处间接光照</p>
+<p><img src="/images/games202/SSDO3.jpg" alt="SSDO3" style="zoom:25%;" /></p></li>
+<li><p>BUG：如下图出现前后非接触物体时，用相机对采样点的可见性替代P点对采样点的可见性会错误
+<img src="/images/games202/SSDO4.jpg" alt="SSDO4" style="zoom:25%;" /></p></li>
+</ul>
+<p><strong>问题</strong> :</p>
+<ul>
+<li><p>只能实现小范围的全局光照（半球范围内）</p></li>
+<li><p>可见性问题（参考具体做法.BUG）</p></li>
+<li><p><strong>丢失不可见面信息</strong>（所有SS方法都有的问题） eg.
+下图中图3/4旋转后，丢失了方块深度面上的DO
+<img src="/images/games202/SSDO5.jpg" alt="SSDO5" style="zoom:50%;" /></p></li>
+</ul>
+<h4 id="screen-space-reflection-ssr">Screen Space Reflection (SSR)</h4>
+<p><strong><em>// “Screen Space Ray Tracing”</em></strong></p>
+<p>SSR : 在屏幕空间作光线追踪</p>
+<ul>
+<li>Intersection : 任意光线与屏幕空间的场景求交</li>
+<li>Shading : 交点处像素对着色点的“贡献”</li>
+</ul>
+<p>PS.反射信息绝大部分都是屏幕空间中已有的内容</p>
+<p>可以做</p>
+<ul>
+<li>Specular 从着色点处trace镜面方向光线</li>
+<li>Glossy 从着色点处，trace多根光线（根据BRDF）</li>
+<li>Medium smoothness + normals 不光滑平面，根据法线和BRDF…</li>
+<li>Variable smoothness</li>
+</ul>
+<p><strong>做法</strong></p>
+<ul>
+<li><p>Intersection</p>
+<ul>
+<li><p>逐渐往前走一小步</p></li>
+<li><p>每步与Z-Buffer对比深度，若在深度内则判定相交
+<img src="/images/games202/SSR1.png" alt="SSR1" style="zoom:33%;" /></p></li>
+<li><p>步长过大不精准、过小效率低——动态自适应步长</p>
+<ul>
+<li><p>作深度的Mipmap（每一层的像素是下一层对应四个像素中的最小值，“最小池化”）
+<img src="/images/games202/DepthMipmap1.png" alt="DepthMipmap" style="zoom: 20%;" /></p></li>
+<li><p>类似BVH、KD-Tree的加速结构</p></li>
+<li><p>在与上层（低分辨率）的深度图相交的情况下，下层（高分辨率）的深度图才可能相交
+<img src="/images/games202/DepthMipmap2.png" alt="DepthMipmap2" style="zoom: 25%;" /></p></li>
+<li><p>先以低步长前进、与高精度Mipmap判断，若无相交则增大步长、降低Mipmap精度，若无相交则继续增大步长、降低Mipmap精度，直到产生相交则减小步长，提高Mipmap精度，直至最高精度</p>
+<pre class="pseudocode"><code>mip = 0;
+while (level &gt; -1)
+  step through current cell;
+  if (above Z plane) ++level;
+  if (below Z plane) --level;</code></pre>
+<p><img src="/images/games202/DepthMipmap3.gif" alt="DepthMipmap2" style="zoom: 25%;" /></p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>问题</strong> : Screen Space
+被遮挡的物体、范围外的物体均不参与反射，通常在反射边界做虚化</p>
+<p><strong>Theory</strong> : 与Path
+Tracing无异——仅假设被反射物（非反射材质）和次级光源为diffuse。（没有距离衰减、没有次级光源与着色点之间的可见性问题。）</p>
+<p><strong>类似Path Tracing带来的效果</strong></p>
+<ul>
+<li>通过不同BRDF（不同数量光线）实现镜面、Glossy等多种反射</li>
+<li>Contact hardening 离反射面越近越Sharp的现象</li>
+<li>Specular elongation 各向同性问题（雨天灯光拉长）</li>
+<li>逐像素的Roughness和Normal</li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul>
+<li>BRDF的重要性采样</li>
+<li>邻近pixel的hit复用，增加了采样数</li>
+<li>屏幕空间先做模糊，再做单次查询（filter较难做）</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li>Pros
+<ul>
+<li>快速的Specular/Gloss反射</li>
+<li>高质量</li>
+<li>没有Spike和遮挡问题</li>
+</ul></li>
+<li>Cons
+<ul>
+<li>效率较Diffuse情况低</li>
+<li>丢失屏幕空间以外的信息</li>
+</ul></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</title>
+      <link>http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</link>
+      <pubDate>Tue, 02 Mar 2021 15:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</guid>
+      <description>Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
+Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR：直接光照 + 一次间接光照
+一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果 核心问题：
+要计算间接光照需要知道
+被直接光照照亮的表面有哪些？ / 哪些是次级光源？ 借助Shadow Map 每一个次级光源的“贡献”是多少？ 求和 每一个次级光源作为一个Area Light Reflective Shadow Maps (RSM) 获得光源的Shadow Map，存储光源“可见”的深度/世界坐标/法线/Flux等（即Reflective Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow Maps为512*512，则有512*512个点光源。 次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse） Recall 一个Patch（Reflective Shadow Maps的一个像素）的“贡献
+\[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]</description>
+      <content:encoded><![CDATA[<h3 id="lecture-7-8-real-time-global-illumination-3d-gi">Lecture 7-8
+Real-time Global Illumination （3D GI）</h3>
+<h4 id="introduction">Introduction</h4>
+<ul>
+<li><p>GI is complex</p>
+<ul>
+<li>Ray tracing …</li>
+<li>Hack方法：Blinn-Phong——统一大小的Ambient项</li>
+</ul></li>
+<li><p>in RTR：直接光照 + 一次间接光照</p></li>
+<li><p>一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果
+<img src="/images/games202/GIIntro1.png" alt="GIIntro1" style="zoom:40%;" /></p></li>
+</ul>
+<p><strong>核心问题：</strong></p>
+<p>要计算间接光照需要知道</p>
+<ul>
+<li>被直接光照照亮的表面有哪些？ / 哪些是次级光源？
+<ul>
+<li>借助Shadow Map</li>
+</ul></li>
+<li>每一个次级光源的“贡献”是多少？
+<ul>
+<li>求和</li>
+<li>每一个次级光源作为一个Area Light</li>
+</ul></li>
+</ul>
+<h4 id="reflective-shadow-maps-rsm">Reflective Shadow Maps (RSM)</h4>
+<ul>
+<li>获得光源的Shadow
+Map，存储光源“可见”的<strong>深度/世界坐标/法线/Flux</strong>等（即Reflective
+Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow
+Maps为512*512，则有512*512个点光源。</li>
+<li>次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse）</li>
+</ul>
+<blockquote>
+<p>Recall
+<img src="/images/games202/LightMeasurementofInterest.png" alt="LightMeasurementofInterest" style="zoom:30%;" /></p>
+</blockquote>
+<ul>
+<li><p>一个Patch（Reflective Shadow Maps的一个像素）的“贡献</p>
+<p><img src="/images/games202/RSM1.png" alt="RSM1" style="zoom:60%;" />
+<span class="math display">\[
+\begin{array}{l}\begin{aligned}L_o(\mathrm
+p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm
+p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\
+&amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm
+p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm
+p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A
+\end{aligned}\\\\
+f_r=\dfrac{\rho}{\pi}\\
+L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident
+flux / energy})
+\end{array}
+\]</span> 故对每个Reflective Shadow Maps的像素只需存储其 <span
+class="math inline">\(\Phi\)</span> ， <span
+class="math inline">\(\mathrm d A\)</span> 在积分中被约掉；
+由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 <span
+class="math inline">\(P\rightarrow Q\)</span> ，故论文中原式为下式中
+<span class="math inline">\(q\)</span> 换成 <span
+class="math inline">\(p\)</span> ） <span class="math display">\[
+E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle
+n|x_q-x\rangle \}}{\|x-x_q\|^4}
+\]</span></p></li>
+<li><p>Reflective Shadow
+Maps中不是每一个像素都可以作为次级光源有“贡献”：</p>
+<ul>
+<li>Visibility 遮挡，但该项计算复杂，影响不大，故忽略</li>
+<li>Orientation 方向，例如下图 <span
+class="math inline">\(x_{-1}\)</span> 对 <span
+class="math inline">\(x\)</span> 无光照
+<img src="/images/games202/RSM2.jpg" alt="RSM1" style="zoom: 100%;" /></li>
+<li>Distance 距离 -&gt; 减少计算量的方法 ↓</li>
+</ul></li>
+<li><p>假设：以Reflective Shadow Maps上的距离近似世界坐标的距离
+<img src="/images/games202/RSM3.jpg" alt="RSM3" style="zoom: 60%;" /></p>
+<ul>
+<li>参考PCSS，降低Shadow Map作为次级光源的采样</li>
+<li>对一个Shadow Map，约400个采样</li>
+</ul></li>
+<li><p>优势：易于实现 问题：性能开销与直接光源数量成正比 /
+间接光照不考虑可见性（不真实） / 大量假设 / 采样率和质量的权衡</p></li>
+<li><p>非常类似离线渲染中的VPL(Virtual Point Light)方法</p></li>
+</ul>
+<h4 id="light-propagation-volumes-lpv">Light Propagation Volumes
+(LPV)</h4>
+<p><strong>关键问题</strong>：着色点收到所有方向的间接光照
+<strong>关键想法</strong>：Radiance沿直线传播，且在空间中传播时不会变化
+<strong>解决思路</strong>：用体素传播Radiance</p>
+<p><strong>步骤</strong>：</p>
+<ul>
+<li><p>获取次级光源</p>
+<ul>
+<li>利用RSM，采样以减少数量</li>
+</ul></li>
+<li><p>将次级光源的Radiance“注入”到空间网格/体素中</p>
+<ul>
+<li>预分割三维网格（eg. 3D texture）</li>
+<li>对每个网格，找到接近的次级光源</li>
+<li>求次级光源接收的直接光照Radiance分布和（空间分布）</li>
+<li>用二阶SH函数（4个数值）压缩Radiance空间分布（近似）
+<img src="/images/games202/LPV1.png" alt="LPV1" style="zoom: 40%;" /></li>
+</ul></li>
+<li><p>在网格中传播Radiance</p>
+<ul>
+<li>空间上向周围6个面传播，周边网格也用二阶SH表示
+<img src="/images/games202/LPV2.jpg" alt="LPV2" style="zoom: 40%;" /></li>
+<li>迭代4-5次基本达到稳定</li>
+</ul></li>
+<li><p>在着色点处读取对应体素的Radiance参与渲染</p></li>
+</ul>
+<p><strong>问题</strong>：</p>
+<ul>
+<li>由于粒度不够小（至少比画面分辨率小一个数量级），会传播到物体背面/侧面
+-&gt; Light Leaking
+<img src="/images/games202/LPV3.jpg" alt="LPV3" style="zoom:50%;" /></li>
+<li>同样不考虑Visibility</li>
+</ul>
+<blockquote>
+<p>Cascaded / Multiscale / LoD: 用自适应粒度的网格</p>
+</blockquote>
+<h4 id="voxel-global-illumination-vxgi">Voxel Global Illumination
+(VXGI)</h4>
+<ul>
+<li><p><strong>2 Pass Algorithm</strong> Differences with RSM:</p>
+<ul>
+<li>直接光照对象 / 次级光源 pixel -&gt; (hierarchical) voxels
+（层级结构的体素，大小层级，建立树结构存储）</li>
+<li>RSM中的采样 -&gt; 对每个Shading
+Point作圆锥形trace，计算trace到的voxels</li>
+</ul></li>
+<li><p>Voxelize the scene &amp; Build a hierachy</p>
+<p><img src="/images/games202/VXGI1.jpg" alt="VXGI1" style="zoom:30%;" /><img src="/images/games202/VXGI2.jpg" alt="VXGI2" style="zoom:60%;" /></p></li>
+<li><p>Pass 1 : Light Pass</p>
+<ul>
+<li>存储光源的入射分布、法线分布，再在trace时计算出射分布（比LPV中视作Diffuse使用SH压缩存储准确，可以支持Glossy材质）
+<img src="/images/games202/VXGI3.png" alt="VXGI3" style="zoom:30%;" /></li>
+<li>在hiearchy中更新</li>
+</ul></li>
+<li><p>Pass 2 : Camera Pass</p>
+<ul>
+<li><p>对Glossy材质，向反射方向作cone trace</p></li>
+<li><p>基于cone的大小遍历hierarchy，找到相近大小的块再求和
+<img src="/images/games202/VXGI4.jpg" alt="VXGI4" style="zoom:40%;" /><img src="/images/games202/VXGI5.jpg" alt="VXGI5" style="zoom:40%;" /></p></li>
+<li><p><strong>PS</strong>：对Diffuse材质，求能覆盖表面的多个cone
+trace（eg.8个，空隙可忽略）
+<img src="/images/games202/VXGI6.jpg" alt="VXGI6" style="zoom: 30%;" /></p></li>
+</ul></li>
+<li><p>问题：计算量较大、实时体素化开销较大</p></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

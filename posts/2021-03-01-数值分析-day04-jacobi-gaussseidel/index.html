@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel | xα&#39;s blog</title>
+<meta name="keywords" content="数值分析">
+<meta name="description" content="3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
+工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
+通法：
+将 \(Ax=b\) 改写为 \(x=B_0x&#43;f\) 任取初始值，如 \(x^{(0)}=(0,0,0)^T\) ，将其带入得到方程组解 \(x^{(1)}=B_0x^{(0)}&#43;f\) 依次得： \(x^{(2)}=B_0x^{(1)}&#43;f,\ x^{(2)}=B_0x^{(1)}&#43;f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}&#43;f,\ \dots\) 即得向量序列 \(x^{(0)},x^{(1)},\dots,x^{(k)}\) ，迭代公式 \(x^{(k)}=B_0x^{(k-1)}&#43;f\) 迭代次数较高时，向量序列 \(x^{(k)}\) 有可能收敛至逼近精确解的值（不一定）。 根据 \(x=Bx&#43;f\) 变形方式的不同，存在多种迭代算法。
+定义1：
+对于给定方程组 \(x=Bx&#43;f\) ，用公式 \(x^{k&#43;1}=Bx^{(k)}&#43;f,\ (k=0,1,2,3,\dots)\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \(B\) 与 \(k\) 无关）。
+如果 \(\lim\limits_{k\to\infty}x^{(k)}=x^*\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。
+由于需要研究 \(\{x^{(k)}\}\) 的收敛性，引进误差向量 \(\varepsilon^{(k&#43;1)}=x^{(k&#43;1)}-x^*\) 。易得到： \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\) ，递推得： \(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\) 。
+Jacobi迭代 通法细节：
+将 \(A\) 分裂成 \(A=M-N\) ，其中 \(M\) 为可选择的非奇异矩阵，使 \(Mx=d\) 易解，一般选择为 \(A\) 的某种近似，称 \(M\) 为分裂矩阵。">
+<meta name="author" content="xα">
+<link rel="canonical" href="http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
+<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-03-01-数值分析-Day04-Jacobi-GaussSeidel | xα&#39;s blog" />
+<meta name="twitter:description" content="3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
+工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
+通法：
+将 \(Ax=b\) 改写为 \(x=B_0x&#43;f\) 任取初始值，如 \(x^{(0)}=(0,0,0)^T\) ，将其带入得到方程组解 \(x^{(1)}=B_0x^{(0)}&#43;f\) 依次得： \(x^{(2)}=B_0x^{(1)}&#43;f,\ x^{(2)}=B_0x^{(1)}&#43;f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}&#43;f,\ \dots\) 即得向量序列 \(x^{(0)},x^{(1)},\dots,x^{(k)}\) ，迭代公式 \(x^{(k)}=B_0x^{(k-1)}&#43;f\) 迭代次数较高时，向量序列 \(x^{(k)}\) 有可能收敛至逼近精确解的值（不一定）。 根据 \(x=Bx&#43;f\) 变形方式的不同，存在多种迭代算法。
+定义1：
+对于给定方程组 \(x=Bx&#43;f\) ，用公式 \(x^{k&#43;1}=Bx^{(k)}&#43;f,\ (k=0,1,2,3,\dots)\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \(B\) 与 \(k\) 无关）。
+如果 \(\lim\limits_{k\to\infty}x^{(k)}=x^*\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。
+由于需要研究 \(\{x^{(k)}\}\) 的收敛性，引进误差向量 \(\varepsilon^{(k&#43;1)}=x^{(k&#43;1)}-x^*\) 。易得到： \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\) ，递推得： \(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\) 。
+Jacobi迭代 通法细节：
+将 \(A\) 分裂成 \(A=M-N\) ，其中 \(M\) 为可选择的非奇异矩阵，使 \(Mx=d\) 易解，一般选择为 \(A\) 的某种近似，称 \(M\) 为分裂矩阵。" />
+<meta property="og:title" content="2021-03-01-数值分析-Day04-Jacobi-GaussSeidel | xα&#39;s blog" />
+<meta property="og:description" content="3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
+工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
+通法：
+将 \(Ax=b\) 改写为 \(x=B_0x&#43;f\) 任取初始值，如 \(x^{(0)}=(0,0,0)^T\) ，将其带入得到方程组解 \(x^{(1)}=B_0x^{(0)}&#43;f\) 依次得： \(x^{(2)}=B_0x^{(1)}&#43;f,\ x^{(2)}=B_0x^{(1)}&#43;f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}&#43;f,\ \dots\) 即得向量序列 \(x^{(0)},x^{(1)},\dots,x^{(k)}\) ，迭代公式 \(x^{(k)}=B_0x^{(k-1)}&#43;f\) 迭代次数较高时，向量序列 \(x^{(k)}\) 有可能收敛至逼近精确解的值（不一定）。 根据 \(x=Bx&#43;f\) 变形方式的不同，存在多种迭代算法。
+定义1：
+对于给定方程组 \(x=Bx&#43;f\) ，用公式 \(x^{k&#43;1}=Bx^{(k)}&#43;f,\ (k=0,1,2,3,\dots)\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \(B\) 与 \(k\) 无关）。
+如果 \(\lim\limits_{k\to\infty}x^{(k)}=x^*\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。
+由于需要研究 \(\{x^{(k)}\}\) 的收敛性，引进误差向量 \(\varepsilon^{(k&#43;1)}=x^{(k&#43;1)}-x^*\) 。易得到： \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\) ，递推得： \(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\) 。
+Jacobi迭代 通法细节：
+将 \(A\) 分裂成 \(A=M-N\) ，其中 \(M\) 为可选择的非奇异矩阵，使 \(Mx=d\) 易解，一般选择为 \(A\) 的某种近似，称 \(M\) 为分裂矩阵。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/" />
+    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-01T20:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-01T20:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "2021-03-01-数值分析-Day04-Jacobi-GaussSeidel",
+      "item": "http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-03-01-数值分析-Day04-Jacobi-GaussSeidel | xα's blog",
+  "name": "2021-03-01-数值分析-Day04-Jacobi-GaussSeidel",
+  "description": "3.1 - 6 迭代法 基本思想 对线性方程组 \\(Ax=b\\) ，当 \\(A\\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。\n工程应用中 \\(A\\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。\n通法：\n将 \\(Ax=b\\) 改写为 \\(x=B_0x+f\\) 任取初始值，如 \\(x^{(0)}=(0,0,0)^T\\) ，将其带入得到方程组解 \\(x^{(1)}=B_0x^{(0)}+f\\) 依次得： \\(x^{(2)}=B_0x^{(1)}+f,\\ x^{(2)}=B_0x^{(1)}+f,\\ \\dots,\\ x^{(k)}=B_0x^{(k-1)}+f,\\ \\dots\\) 即得向量序列 \\(x^{(0)},x^{(1)},\\dots,x^{(k)}\\) ，迭代公式 \\(x^{(k)}=B_0x^{(k-1)}+f\\) 迭代次数较高时，向量序列 \\(x^{(k)}\\) 有可能收敛至逼近精确解的值（不一定）。 根据 \\(x=Bx+f\\) 变形方式的不同，存在多种迭代算法。\n定义1：\n对于给定方程组 \\(x=Bx+f\\) ，用公式 \\(x^{k+1}=Bx^{(k)}+f,\\ (k=0,1,2,3,\\dots)\\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \\(B\\) 与 \\(k\\) 无关）。\n如果 \\(\\lim\\limits_{k\\to\\infty}x^{(k)}=x^*\\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。\n由于需要研究 \\(\\{x^{(k)}\\}\\) 的收敛性，引进误差向量 \\(\\varepsilon^{(k+1)}=x^{(k+1)}-x^*\\) 。易得到： \\(\\varepsilon^{(k+1)}=B\\varepsilon^{(k)}\\) ，递推得： \\(\\varepsilon^{(k)}=B\\varepsilon^{(k-1)}=\\dots=B^k\\varepsilon^{(0)}\\) 。\nJacobi迭代 通法细节：\n将 \\(A\\) 分裂成 \\(A=M-N\\) ，其中 \\(M\\) 为可选择的非奇异矩阵，使 \\(Mx=d\\) 易解，一般选择为 \\(A\\) 的某种近似，称 \\(M\\) 为分裂矩阵。",
+  "keywords": [
+    "数值分析"
+  ],
+  "wordCount" : "593",
+  "inLanguage": "en",
+  "datePublished": "2021-03-01T20:00:00+08:00",
+  "dateModified": "2021-03-01T20:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2021-03-01-数值分析-Day04-Jacobi-GaussSeidel</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-01</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="http://localhost:1313/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="3.1 - 6 迭代法">3.1 - 6 迭代法</a><ul>
+                        
+                <li>
+                    <a href="#%e5%9f%ba%e6%9c%ac%e6%80%9d%e6%83%b3" aria-label="基本思想">基本思想</a></li>
+                <li>
+                    <a href="#jacobi%e8%bf%ad%e4%bb%a3" aria-label="Jacobi迭代">Jacobi迭代</a></li>
+                <li>
+                    <a href="#gauss-seidel%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="Gauss-Seidel迭代法">Gauss-Seidel迭代法</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81jacobi%e8%bf%ad%e4%bb%a3" aria-label="代码：Jacobi迭代">代码：Jacobi迭代</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81gauss-seidel%e8%bf%ad%e4%bb%a3" aria-label="代码：Gauss-Seidel迭代">代码：Gauss-Seidel迭代</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="迭代法">3.1 - 6 迭代法</h3>
+<h4 id="基本思想">基本思想</h4>
+<p>对线性方程组 <span class="math inline">\(Ax=b\)</span> ，当 <span
+class="math inline">\(A\)</span>
+为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。<br />
+工程应用中 <span class="math inline">\(A\)</span>
+常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。</p>
+<p><strong>通法</strong>：</p>
+<ul>
+<li>将 <span class="math inline">\(Ax=b\)</span> 改写为 <span
+class="math inline">\(x=B_0x+f\)</span></li>
+<li>任取初始值，如 <span
+class="math inline">\(x^{(0)}=(0,0,0)^T\)</span> ，将其带入得到方程组解
+<span class="math inline">\(x^{(1)}=B_0x^{(0)}+f\)</span></li>
+<li>依次得： <span class="math inline">\(x^{(2)}=B_0x^{(1)}+f,\
+x^{(2)}=B_0x^{(1)}+f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}+f,\
+\dots\)</span></li>
+<li>即得向量序列 <span
+class="math inline">\(x^{(0)},x^{(1)},\dots,x^{(k)}\)</span> ，迭代公式
+<span class="math inline">\(x^{(k)}=B_0x^{(k-1)}+f\)</span></li>
+<li>迭代次数较高时，向量序列 <span
+class="math inline">\(x^{(k)}\)</span>
+<strong>有可能</strong>收敛至逼近精确解的值（不一定）。</li>
+</ul>
+<p>根据 <span class="math inline">\(x=Bx+f\)</span>
+变形方式的不同，存在多种迭代算法。</p>
+<p><strong>定义1</strong>：<br />
+对于给定方程组 <span class="math inline">\(x=Bx+f\)</span> ，用公式
+<span class="math inline">\(x^{k+1}=Bx^{(k)}+f,\
+(k=0,1,2,3,\dots)\)</span>
+逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 <span
+class="math inline">\(B\)</span> 与 <span
+class="math inline">\(k\)</span> 无关）。<br />
+如果 <span
+class="math inline">\(\lim\limits_{k\to\infty}x^{(k)}=x^*\)</span>
+，即向量序列<strong>收敛</strong>至精确解序列，则称此迭代法<strong>收敛</strong>，否则称<strong>发散</strong>。<br />
+由于需要研究 <span class="math inline">\(\{x^{(k)}\}\)</span>
+的收敛性，引进误差向量 <span
+class="math inline">\(\varepsilon^{(k+1)}=x^{(k+1)}-x^*\)</span>
+。易得到： <span
+class="math inline">\(\varepsilon^{(k+1)}=B\varepsilon^{(k)}\)</span>
+，递推得： <span
+class="math inline">\(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\)</span>
+。</p>
+<h4 id="jacobi迭代">Jacobi迭代</h4>
+<p><strong>通法细节</strong>：<br />
+将 <span class="math inline">\(A\)</span> 分裂成 <span
+class="math inline">\(A=M-N\)</span> ，其中 <span
+class="math inline">\(M\)</span> 为可选择的非奇异矩阵，使 <span
+class="math inline">\(Mx=d\)</span> 易解，一般选择为 <span
+class="math inline">\(A\)</span> 的某种近似，称 <span
+class="math inline">\(M\)</span> 为<strong>分裂矩阵</strong>。<br />
+则原方程 <span class="math inline">\(Ax=b\)</span> 转化为 <span
+class="math inline">\(Mx=Nx+b\)</span> ，即求解： <span
+class="math inline">\(x=M^{-1}Nx+M^{-1}b\)</span> 。<br />
+可构造一阶定常迭代法： <span class="math display">\[
+\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\
+(k=0,1,\dots)\end{array}\right.\\
+B=M^{-1}N=M^{-1}(M-A)=I-M^{-1}A,\quad f=M^{-1}b
+\]</span> 称 <span class="math inline">\(B=I-M^{-1}A\)</span>
+为迭代法的迭代矩阵，选取 <span class="math inline">\(M\)</span> 阵就得到
+<span class="math inline">\(Ax=b\)</span> 的各种迭代法。</p>
+<p><strong>Jacobbi迭代</strong>：<br />
+设 <span class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span>
+，并将 <span class="math inline">\(A\)</span> 写成三部分： <span
+class="math display">\[
+\begin{aligned}A&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0\\
+-a_{21}&amp;0\\
+\vdots&amp;\vdots&amp;\ddots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}\\
+&amp;-\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+&amp;&amp;\ddots&amp;\vdots&amp;\vdots\\
+&amp;&amp;&amp;0&amp;-a_{n-1,n}\\
+&amp;&amp;&amp;&amp;0
+\end{pmatrix}\\
+&amp;\equiv D-L-U
+\end{aligned}
+\]</span> 由此，当 <span
+class="math inline">\(a_{ii}\neq0(i=1,2,\dots,n)\)</span> 时，选取 <span
+class="math inline">\(M\)</span> 为 <span
+class="math inline">\(A\)</span> 的对角元素部分，即选取 <span
+class="math inline">\(M=D\)</span> ，<span
+class="math inline">\(A=D-N\)</span> ，即得到 <span
+class="math inline">\(Ax=b\)</span> 的<strong>Jacobi迭代法</strong>。
+<span class="math display">\[
+\begin{aligned}&amp;\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=Bx^{(k)}+f\
+(k=0,1,\dots)\end{array}\right.\\
+&amp;其中\ \begin{aligned}&amp;B=D^{-1}(L+U)\equiv J\\
+&amp;f=D^{-1}b\end{aligned}\end{aligned}
+\]</span> 称 <span class="math inline">\(J\)</span>
+为Jacobi迭代法的<strong>迭代矩阵</strong>。</p>
+<p><strong>Jacobi迭代法的分量计算公式</strong>： 记 <span
+class="math inline">\(x^{(k)}=(x_1^{(k)},x_2^{(k)},\dots,x_n^{(k)})\)</span>
+，则有： <span class="math display">\[
+\begin{array}{l}
+\begin{aligned}Dx^{k+1}&amp;=(L+U)x^{(k)}+b
+a_{ii}x_i^{k+1}\\&amp;=-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}+b_i\quad(i=1,2,\dots,n)\end{aligned}\\
+B=I-M^{-1}A,\ f=M^{-1}b
+\end{array}
+\]</span> 因此，解 <span class="math inline">\(Ax=b\)</span>
+的Jacobi迭代法的计算公式为： <span class="math display">\[
+\left\{\begin{array}{l}
+x^{(0)}=(x_1^{(0)},\dots,x_i^{(0)},\dots,x_n^{(0)})^T\\
+x_i^{(k+1)}=(b_i-\sum\limits_{j=1,j\neq i}^na_{ij}x_j^{(k)})/a_{ii}\\
+i=1,2,\dots,n\\
+k=0,1,\dots\ 表示迭代次数
+\end{array}\right.
+\]</span> 矩阵表示为： <span class="math display">\[
+\begin{array}{l}
+Ax=b\Leftrightarrow(D-L-U)x=b\Leftrightarrow Dx=(L+U)x+b\\
+\begin{aligned}Dx&amp;=\begin{pmatrix}
+a_{11}\\
+&amp;a_{22}\\
+&amp;&amp;\ddots\\
+&amp;&amp;&amp;a_{nn}
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}\\
+&amp;=\begin{pmatrix}
+0&amp;-a_{12}&amp;\cdots&amp;-a_{1,n-1}&amp;-a_{1,n}\\
+-a_{21}&amp;0&amp;\cdots&amp;-a_{2,n-1}&amp;-a_{2,n}\\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\\
+-a_{n-1,1}&amp;-a_{n-1,2}&amp;\cdots&amp;0&amp;-a_{n-1,n}\\
+-a_{n,1}&amp;-a_{n,2}&amp;\cdots&amp;-a_{n,n-1}&amp;0
+\end{pmatrix}
+\begin{pmatrix}x_1\\x_2\\\vdots\\x_n\end{pmatrix}+b\\
+&amp;=(L+U)x+b
+\end{aligned}\end{array}
+\]</span></p>
+<h4 id="gauss-seidel迭代法">Gauss-Seidel迭代法</h4>
+<p><strong>改进Jacobi迭代法</strong>：选取分裂矩阵 <span
+class="math inline">\(M\)</span> 为 <span
+class="math inline">\(A\)</span> 的下三角部分，即 <span
+class="math inline">\(M=D-L\)</span> ， <span
+class="math inline">\(A=M-U\)</span> ，得到： <span
+class="math display">\[
+\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\quad初始向量\\x^{(k+1)}=Bx^{(k)}+f\quad
+(k=0,1,\dots)\end{array}\right.\\
+B=I-(D-L^{-1})A=(D-L)^{-1}U\equiv G,\quad f=(D-L)^{-1}b\end{array}
+\]</span> 称 <span class="math inline">\(G\)</span>
+为Gauss-Seidel迭代法的迭代矩阵。</p>
+<p><strong>分量计算公式</strong>： <span class="math display">\[
+\begin{array}{l}Dx^{(k+1)}=Dx^{(k)}-(Lx^{(k+1)}+Ux^{k}-Dx^{(k)}+b)\\\\
+\left\{\begin{array}{l}
+x_1^{(k+1)}=\displaystyle-\frac{a_{12}}{a_{11}}x_2^{(k)}-\frac{a_{13}}{a_{11}}x_3^{(k)}-\dots-\frac{a_{1n}}{a_{11}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_2^{(k+1)}=\displaystyle-\frac{a_{21}}{a_{22}}x_2^{(k+1)}-\frac{a_{23}}{a_{22}}x_3^{(k)}-\dots-\frac{a_{2n}}{a_{22}}x_n^{(k)}+\frac{b_2}{a_{22}}\\
+x_3^{(k+1)}=\displaystyle-\frac{a_{31}}{a_{33}}x_2^{(k+1)}-\frac{a_{32}}{a_{33}}x_3^{(k+1)}-\dots-\frac{a_{3n}}{a_{33}}x_n^{(k)}+\frac{b_3}{a_{33}}\\
+\dots\\
+x_n^{(k+1)}=\displaystyle-\frac{a_{n1}}{a_{nn}}x_2^{(k+1)}-\frac{a_{n2}}{a_{nn}}x_3^{(k+1)}-\dots-\frac{a_{n,n-1}}{a_{nn}}x_n^{(k+1)}+\frac{b_n}{a_{nn}}\\
+\end{array}\right.\\
+即\
+\displaystyle{x_i^{k+1}=\frac{b_n-\sum\limits_{j=1}^{i-1}a_{ij}x_j^{(k+1)}-\sum\limits_{j=i+1}^{n}a_{ij}x_j^{(k)}}{a_{ii}}}\end{array}
+\]</span></p>
+<h3 id="代码jacobi迭代">代码：Jacobi迭代</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-01.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>vector<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> b<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> x<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> next_x<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> size <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">);</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(){</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">{{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">1</span><span class="op">},</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">3</span><span class="op">},</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">10</span><span class="op">}};</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">{</span><span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dv">14</span><span class="op">};</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    iterate<span class="op">(</span>A_<span class="op">,</span> <span class="va">b_</span><span class="op">);</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    A<span class="op">.</span>assign<span class="op">(</span>A_<span class="op">.</span>begin<span class="op">(),</span> A_<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    b<span class="op">.</span>assign<span class="op">(</span><span class="va">b_</span><span class="op">.</span>begin<span class="op">(),</span> <span class="va">b_</span><span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    size <span class="op">=</span> A<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> x<span class="op">(</span>size<span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> next_x<span class="op">(</span>size<span class="op">);</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">double</span> tmp <span class="op">=</span> b<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>j <span class="op">!=</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            next_x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> tmp <span class="op">/</span> A<span class="op">[</span>i<span class="op">][</span>i<span class="op">];</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>            x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> next_x<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">&#39; &#39;</span><span class="op">;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot; 第&quot;</span><span class="op">&lt;&lt;</span> k <span class="op">&lt;&lt;</span> <span class="st">&quot;次&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>k <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>k<span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="代码gauss-seidel迭代">代码：Gauss-Seidel迭代</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">/***区别***/</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">//Jacobi</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>j <span class="op">!=</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">//Gauss-Seidel</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> next_x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>j <span class="op">&gt;</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-01.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>vector<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> b<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> x<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> next_x<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> size <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">);</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(){</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">{{</span><span class="dv">10</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">1</span><span class="op">},</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">3</span><span class="op">},</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">10</span><span class="op">}};</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">{</span><span class="dv">14</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dv">14</span><span class="op">};</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    iterate<span class="op">(</span>A_<span class="op">,</span> <span class="va">b_</span><span class="op">);</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    A<span class="op">.</span>assign<span class="op">(</span>A_<span class="op">.</span>begin<span class="op">(),</span> A_<span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    b<span class="op">.</span>assign<span class="op">(</span><span class="va">b_</span><span class="op">.</span>begin<span class="op">(),</span> <span class="va">b_</span><span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    size <span class="op">=</span> A<span class="op">.</span>size<span class="op">();</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> x<span class="op">(</span>size<span class="op">);</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> next_x<span class="op">(</span>size<span class="op">);</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">double</span> tmp <span class="op">=</span> b<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> next_x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>j <span class="op">&gt;</span> i<span class="op">)</span> tmp <span class="op">-=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">*</span> x<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            next_x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> tmp <span class="op">/</span> A<span class="op">[</span>i<span class="op">][</span>i<span class="op">];</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>            x<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> next_x<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">&#39; &#39;</span><span class="op">;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot; 第&quot;</span><span class="op">&lt;&lt;</span> k <span class="op">&lt;&lt;</span> <span class="st">&quot;次&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>k <span class="op">&gt;</span> <span class="dv">100</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>k<span class="op">;</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-02-28-数值分析-Day03-范数-迭代改善算法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="/js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

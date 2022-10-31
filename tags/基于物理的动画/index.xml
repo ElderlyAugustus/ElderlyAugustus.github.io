@@ -1,0 +1,1698 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>基于物理的动画 on xα&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/</link>
+    <description>Recent content in 基于物理的动画 on xα&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 25 Dec 2021 00:00:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY</title>
+      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</link>
+      <pubDate>Sat, 25 Dec 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</guid>
+      <description>注：本篇由同组同学LLY编写，本人代完成格式化
+电影制作流程中的物理模拟 视效制作流程 在了解物理模拟在视效中的流程之前，我们需要先了解一下整个视效制作的大框架。
+FXPipeline 特效（FX）部门简述 动力学和模拟技术是数字特效的核心组成部分。从广义上讲，它们试图在数字领域复制真实世界的物理特征，这样就可以通过让软件计算适当的结果而不需要关键帧动画来实现真实的行为和交互。
+这可能是因为实际拍摄的话，成本过高（可能需要多个模型来允许重新拍摄），无法提供所需的可控性与可指导性，或者新一代监管人员对数字技术比传统的实际效果更满意。不管是什么原因，自20世纪90年代初以来，实际效果越来越被数字所取代，以至于模拟物体、流体和火的复杂相互作用现在已司空见惯。Dante的Peak（1997）使用简单的粒子系统对模型和微缩模型进行数字增强，同时使用真实拍摄，2012（2009）模拟了整个数字城市的大规模破坏。
+虽然模拟技术通常与毁灭和混乱联系在一起，包括破裂和变形物体、爆炸、火灾、烟雾和液体，但它们也被用来给角色穿衣服、造型和移动头发，以及移动皮肤下的肌肉。可以预期，通过模拟比通过关键帧更容易实现真实的复杂交互。
+3D动画中特效的种类 毛发模拟 Hair and Fur Simulation 模拟系统创建头发或毛发的模拟，不仅对环境因素作出反应，还对其附着角色头部或身体的运动作出反应。这是一个极其复杂的模拟，除了高预算项目以外，通常没有条件获取这样的资源。
+刚体&amp;amp;柔体模拟 Body Simulation 包括刚体模拟和柔体模拟。刚体用于模拟木材、石头、玻璃，或者其他形变不大的物体。刚体模拟处理的是物体间的相互作用、碰撞、破碎等效果。柔体模拟包括模拟刚性较低的材料，如布料、皮肤、土壤、身体组织等其他任何可能弯曲、扭曲活波动的材料。
+流体模拟 Fluid Simulation 流体模拟不仅包括水或液体，还包括气体、凝胶，或任何其他流体运动的物质。包括浓雾、明胶、燕麦等其他类似的物质。流体模拟器通常基于真实世界流体物理中涉及的方程进行计算。
+粒子模拟 Particle Simulation 粒子模拟器在空间中创建点，这些点具有分散的特征，如雨、烟、灰尘、群集、人群、前进的军队、飞溅的火花等等。艺术家将行为和视觉属性指定给粒子，使其外观和移动与艺术家想要的一样。与其他类型模拟相同，艺术家定义了基于物理的参数，如重力、风力等，粒子会做出相应的反应，创造出令人惊讶的逼真的效果，如暴风雪、迁徙的蜜蜂、攻击的鸟类，或者任何所需要的效果。
+我们今天主要从粒子、刚体、流体三个方面来讲，基本上从原理上涵盖了上述所有类型物体的模拟。
+FX部门流程与分工 RnD：Research and Development 研发部门。负责创新研发解决棘手问题的新方案，不断发展现有的能力。根据画面需求，对学术界现有的算法进行调研，寻找、整合可用于生产的解决方案。
+TD：Techinal Director 技术指导。TD是科学家与艺术家之间的桥梁，将研发部门开发的算法编写成艺术家能够上手使用的工具。他们使爆炸、浓烟、激流等效果更加容易使用。FX TD构建和测试工具，然后将其整合到VFX工作流程的制作pipeline当中。所有TD都是问题解决者。每个项目都有其复杂的地方，他们确保效果一致并且令人信服。
+FX Artist FX 艺术家。艺术家们使用TD创建出来的工具，通过自身的艺术造诣和导演的要求，为单个镜头创建效果。他们是视觉效果的生产者。
+FX 工作流程 因为今天演讲的主题是模拟相关，所以我们关注的FX部门的流程将不涉及到特效评估、数据统计、特效整理、测试、预演等细化工作。
+FX部门流程 首先，导演提出视效需求给视效总监，由视效总监判断现阶段视效能否实现。若不能实现，则交给RnD部门研发该效果，并准备可行备用方案。若可以实现，则将其交给视效制片规划制作方案。当RnD研发好算法后，将算法交给TD。TD询问艺术家的工作习惯、预期希望可以调整的方面等需求，编程、制作成实现容易，并为艺术家暴露出可修改的参数。在制作阶段，视效制片将相应的特效镜头派发给FX部门，相应的镜头将被派发给不同的FX艺术家。FX艺术家在制作时会收到来自其他部门的模型文件、跟踪数据、关键帧动画等信息，进行特效的制作。其中，每一个部门都有相应的组长，会对艺术家所制作的镜头进行评估和审核。全部制作完成的特效镜头，会经过各个监管的层层审核与反馈迭代，最后给到剪辑进行素材的回插。</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>注：本篇由同组同学LLY编写，本人代完成格式化</p>
+</blockquote>
+<h2 id="电影制作流程中的物理模拟">电影制作流程中的物理模拟</h2>
+<h3 id="视效制作流程">视效制作流程</h3>
+<p>在了解物理模拟在视效中的流程之前，我们需要先了解一下整个视效制作的大框架。</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/FXPipeline.jpg"
+alt="FXPipeline" />
+<figcaption aria-hidden="true">FXPipeline</figcaption>
+</figure>
+<h3 id="特效fx部门简述">特效（FX）部门简述</h3>
+<p>动力学和模拟技术是数字特效的核心组成部分。从广义上讲，它们试图在数字领域复制真实世界的物理特征，这样就可以通过让软件计算适当的结果而不需要关键帧动画来实现真实的行为和交互。</p>
+<p>这可能是因为实际拍摄的话，成本过高（可能需要多个模型来允许重新拍摄），无法提供所需的可控性与可指导性，或者新一代监管人员对数字技术比传统的实际效果更满意。不管是什么原因，自20世纪90年代初以来，实际效果越来越被数字所取代，以至于模拟物体、流体和火的复杂相互作用现在已司空见惯。Dante的Peak（1997）使用简单的粒子系统对模型和微缩模型进行<strong>数字增强</strong>，同时使用真实拍摄，2012（2009）模拟了整个数字城市的大规模破坏。</p>
+<p>虽然模拟技术通常与毁灭和混乱联系在一起，包括破裂和变形物体、爆炸、火灾、烟雾和液体，但它们也被用来给角色穿衣服、造型和移动头发，以及移动皮肤下的肌肉。可以预期，通过模拟比通过关键帧更容易实现真实的复杂交互。</p>
+<h4 id="d动画中特效的种类">3D动画中特效的种类</h4>
+<ul>
+<li><p><strong>毛发模拟 Hair and Fur Simulation</strong>
+模拟系统创建头发或毛发的模拟，不仅对环境因素作出反应，还对其附着角色头部或身体的运动作出反应。这是一个极其复杂的模拟，除了高预算项目以外，通常没有条件获取这样的资源。</p></li>
+<li><p><strong>刚体&amp;柔体模拟 Body Simulation</strong>
+包括刚体模拟和柔体模拟。刚体用于模拟木材、石头、玻璃，或者其他形变不大的物体。刚体模拟处理的是物体间的相互作用、碰撞、破碎等效果。柔体模拟包括模拟刚性较低的材料，如布料、皮肤、土壤、身体组织等其他任何可能弯曲、扭曲活波动的材料。</p></li>
+<li><p><strong>流体模拟 Fluid Simulation</strong>
+流体模拟不仅包括水或液体，还包括气体、凝胶，或任何其他流体运动的物质。包括浓雾、明胶、燕麦等其他类似的物质。流体模拟器通常基于真实世界流体物理中涉及的方程进行计算。</p></li>
+<li><p><strong>粒子模拟 Particle Simulation</strong>
+粒子模拟器在空间中创建点，这些点具有分散的特征，如雨、烟、灰尘、群集、人群、前进的军队、飞溅的火花等等。艺术家将行为和视觉属性指定给粒子，使其外观和移动与艺术家想要的一样。与其他类型模拟相同，艺术家定义了基于物理的参数，如重力、风力等，粒子会做出相应的反应，创造出令人惊讶的逼真的效果，如暴风雪、迁徙的蜜蜂、攻击的鸟类，或者任何所需要的效果。</p></li>
+</ul>
+<p>我们今天主要从粒子、刚体、流体三个方面来讲，基本上从原理上涵盖了上述所有类型物体的模拟。</p>
+<h3 id="fx部门流程与分工">FX部门流程与分工</h3>
+<ul>
+<li><p><strong>RnD：Research and Development</strong>
+研发部门。负责创新研发解决棘手问题的新方案，不断发展现有的能力。根据画面需求，对学术界现有的算法进行调研，寻找、整合可用于生产的解决方案。</p></li>
+<li><p><strong>TD：Techinal Director</strong>
+技术指导。TD是科学家与艺术家之间的桥梁，将研发部门开发的算法编写成艺术家能够上手使用的工具。他们使爆炸、浓烟、激流等效果更加容易使用。FX
+TD构建和测试工具，然后将其整合到VFX工作流程的制作pipeline当中。所有TD都是问题解决者。每个项目都有其复杂的地方，他们确保效果一致并且令人信服。</p></li>
+<li><p><strong>FX Artist</strong> FX
+艺术家。艺术家们使用TD创建出来的工具，通过自身的艺术造诣和导演的要求，为单个镜头创建效果。他们是视觉效果的生产者。</p></li>
+</ul>
+<h4 id="fx-工作流程">FX 工作流程</h4>
+<p>因为今天演讲的主题是模拟相关，所以我们关注的FX部门的流程将不涉及到特效评估、数据统计、特效整理、测试、预演等细化工作。</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/FX部门流程.jpg"
+alt="FX部门流程" />
+<figcaption aria-hidden="true">FX部门流程</figcaption>
+</figure>
+<p>首先，导演提出视效需求给视效总监，由视效总监判断现阶段视效能否实现。若不能实现，则交给RnD部门研发该效果，并准备可行备用方案。若可以实现，则将其交给视效制片规划制作方案。当RnD研发好算法后，将算法交给TD。TD询问艺术家的工作习惯、预期希望可以调整的方面等需求，编程、制作成实现容易，并为艺术家暴露出可修改的参数。在制作阶段，视效制片将相应的特效镜头派发给FX部门，相应的镜头将被派发给不同的FX艺术家。FX艺术家在制作时会收到来自其他部门的模型文件、跟踪数据、关键帧动画等信息，进行特效的制作。其中，每一个部门都有相应的组长，会对艺术家所制作的镜头进行评估和审核。全部制作完成的特效镜头，会经过各个监管的层层审核与反馈迭代，最后给到剪辑进行素材的回插。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY</title>
+      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</guid>
+      <description>注：本篇由同组同学LLY编写，本人代完成格式化
+刚体 在物理学里，刚体是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。
+刚体属性与表达 为了表示一个刚体，我们首先需要知道刚体的质心。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标 \(\mathbf x\) 和速度 \(\mathbf v\) 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为局部坐标系。刚体及模拟的其他对象被放置在世界坐标系中。
+质心 为了指定刚体在世界坐标系中的放置方式，我们指定其位置 \(\mathbf x\) 和 方向 \(R\) 。局部坐标为 \(\mathbf p_0\) 的点，世界坐标系下的坐标为：\(\mathbf p = \mathbf x + R \mathbf p_0\)
+物体坐标系和世界坐标系 我们想知道这个点在世界坐标系中如何随时间变化，所以对时间进行求导，得出： $ = + R + p_0 $
+因为在局部坐标系中 $ $ = 0 , 所以得出： $ = v + p_0 $
+所以我们只需要求出每个时间的 \(\mathbf v\) 和 $ $ 就可以描述刚体随时间的运动状态了。
+为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。
+角速度 我们知道 \(R\) 的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标，因此， $ $ 由这些方向向量的导数组成： \[ \displaystyle\dot{R} = [\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ] \] 于是 \(\dot{R}\) 就被简化成为求旋转矢量的导数的问题。旋转中心位置是 \(\mathbf x\) ，旋转点位置是 \(\mathbf p\) ，旋转中心到位置 \(\mathbf p\) 的向量为 \(r\) 。我们的目的是测定 \(r\) 的变化率。由于 \(\mathbf p\) 以角速度 \(\omega\) 旋转，所以其瞬时速度与 \(r\) 和 \(\omega\) 垂直。瞬时速度方向由 \(\omega\times r\) 表示，大小与向量积大小一致。于是我们可以得到： $ = r$</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>注：本篇由同组同学LLY编写，本人代完成格式化</p>
+</blockquote>
+<h2 id="刚体">刚体</h2>
+<p>在物理学里，<strong>刚体</strong>是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。</p>
+<h3 id="刚体属性与表达">刚体属性与表达</h3>
+<p>为了表示一个刚体，我们首先需要知道刚体的<strong>质心</strong>。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标
+<span class="math inline">\(\mathbf x\)</span> 和速度 <span
+class="math inline">\(\mathbf v\)</span>
+。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为<strong>局部坐标系</strong>。刚体及模拟的其他对象被放置在<strong>世界坐标系</strong>中。</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/质心.png" alt="质心" />
+<figcaption aria-hidden="true">质心</figcaption>
+</figure>
+<p>为了指定刚体在世界坐标系中的放置方式，我们指定其位置 <span
+class="math inline">\(\mathbf x\)</span> 和 方向 <span
+class="math inline">\(R\)</span> 。局部坐标为 <span
+class="math inline">\(\mathbf p_0\)</span>
+的点，世界坐标系下的坐标为：<span class="math inline">\(\mathbf p =
+\mathbf x + R \mathbf p_0\)</span></p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/物体坐标系和世界坐标系.png"
+alt="物体坐标系和世界坐标系" />
+<figcaption aria-hidden="true">物体坐标系和世界坐标系</figcaption>
+</figure>
+<p>我们想知道这个点在世界坐标系中如何随时间变化，所以对时间进行求导，得出：
+$ = + R + p_0 $</p>
+<p>因为在局部坐标系中 $ $ = 0 , 所以得出： $ = v + p_0 $</p>
+<p>所以我们只需要求出每个时间的 <span class="math inline">\(\mathbf
+v\)</span> 和 $ $ 就可以描述刚体随时间的运动状态了。</p>
+<p>为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/角速度.png" alt="角速度" />
+<figcaption aria-hidden="true">角速度</figcaption>
+</figure>
+<p>我们知道 <strong><span class="math inline">\(R\)</span>
+的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标</strong>，因此，
+$ $ 由这些方向向量的导数组成： <span class="math display">\[
+\displaystyle\dot{R} =
+[\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ]
+\]</span> 于是 <span class="math inline">\(\dot{R}\)</span>
+就被简化成为求旋转矢量的导数的问题。旋转中心位置是 <span
+class="math inline">\(\mathbf x\)</span> ，旋转点位置是 <span
+class="math inline">\(\mathbf p\)</span> ，旋转中心到位置 <span
+class="math inline">\(\mathbf p\)</span> 的向量为 <span
+class="math inline">\(r\)</span> 。我们的目的是测定 <span
+class="math inline">\(r\)</span> 的变化率。由于 <span
+class="math inline">\(\mathbf p\)</span> 以角速度 <span
+class="math inline">\(\omega\)</span> 旋转，所以其瞬时速度与 <span
+class="math inline">\(r\)</span> 和 <span
+class="math inline">\(\omega\)</span> 垂直。瞬时速度方向由 <span
+class="math inline">\(\omega\times r\)</span>
+表示，大小与向量积大小一致。于是我们可以得到： $ = r$</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/半径的变化率.png"
+alt="半径的变化率" />
+<figcaption aria-hidden="true">半径的变化率</figcaption>
+</figure>
+<p>将结果应用到旋转矩阵中，我们能写出旋转矩阵按时间的导数： <span
+class="math display">\[
+\dot R=[\omega\times\hat{\mathbf u}_x,\ \omega\times\hat{\mathbf u}_y,\
+\omega\times\hat{\mathbf u}_z]
+\]</span> 根据向量积表示法，我们可以化简得到： <span
+class="math display">\[
+\dot
+R=\omega^*R\quad其中a^*=\begin{bmatrix}0&amp;-a_z&amp;a_y\\a_z&amp;0&amp;-a_x\\-a_y&amp;a_x&amp;0\end{bmatrix}
+\]</span> 现在，我们只需要知道 <span class="math inline">\(\mathbf
+v\)</span> 和 <span class="math inline">\(\omega\)</span>
+就能表示描述刚体的运动状态了。</p>
+<h3 id="刚体运动">刚体运动</h3>
+<p>前面我们讲到，刚体有线性状态（ <span class="math inline">\(\mathbf
+v\)</span> ）和角度状态（ <span class="math inline">\(\omega\)</span>
+）。在模拟刚体时，必须更新这两种状态。刚体的运动可以拆分称平移运动和旋转运动。</p>
+<h4 id="平移运动">平移运动</h4>
+<p>平移运动非常简单。根据牛顿第二定律 <span
+class="math inline">\(F=ma\)</span>
+，逐时间步地更新我们的加速度、速度和位置即可。我们用前面提到过的时间积分方法迭代计算即可。</p>
+<h4 id="旋转运动">旋转运动</h4>
+<h5 id="惯性张量">惯性张量</h5>
+<p><strong>线性动量</strong> <span class="math inline">\(P=mv\)</span>
+，在有角度的情况下，有一个接近的类比，其中<strong>角动量 <span
+class="math inline">\(L\)</span> </strong>
+被定义为<strong>惯性张量</strong> <span class="math inline">\(I\)</span>
+和<strong>角速度</strong> <span class="math inline">\(\omega\)</span>
+的乘积： <span class="math inline">\(L=I\omega\)</span>
+。惯性张量<em>I</em>描述质量如何在物体中分布，是一个 <span
+class="math inline">\(3\times 3\)</span> 的矩阵。 <span
+class="math inline">\(I\)</span>
+的矩阵形式描述了惯性因方向而变化。局部坐标系中惯性张量的公式如下： <span
+class="math display">\[
+\mathbf I_{ref}=\sum m_i(\mathbf R_i^T\mathbf R_i\mathbf 1-\mathbf
+R_i\mathbf R_i^T)
+\]</span> 刚体在局部坐标系中的惯性张量 <span
+class="math inline">\(I_0\)</span>
+不会改变，但在世界坐标系中，惯性张量却会随着物体当前的方向而发生变化。根据线性空间转换可得，在世界坐标系中，物体的惯性张量为：
+<span class="math display">\[
+\mathbf I=\mathbf R\mathbf I_0\mathbf R^T
+\]</span> 线性运动与旋转运动中，有这样的对应关系：</p>
+<p><img src="/images/filmtechanalysis-PBA/线运动和角运动物理量对比.png" alt="线运动和角运动物理量对比" style="zoom:75%;" /></p>
+<h5 id="力矩">力矩</h5>
+<p><strong>线性动量</strong> <span class="math inline">\(P=mv\)</span>
+，对于 <span class="math inline">\(F\)</span> ，有 $ F = ma = m = $ ，即
+<span class="math inline">\(F\)</span>
+是线性动量的时间变化率。角动量变化有类似的过程，角动量的时间变化率是<strong>力矩
+</strong> <span class="math inline">\(\tau\)</span>。</p>
+<p>力矩对应力的旋转 <span class="math inline">\(\tau =
+\dot{L}\)</span></p>
+<p><img src="/images/filmtechanalysis-PBA/力矩_1.png" alt="力矩_1" style="zoom:67%;" /></p>
+<p>已知质心为 <span class="math inline">\(\mathbf x\)</span> ，假定在点
+<span class="math inline">\(\mathbf p\)</span> 施加力 <span
+class="math inline">\(F\)</span>
+。任何不作用于刚体质心的力都将产生力矩。为测定力矩，首先计算<strong>力臂</strong>
+<span class="math inline">\(r\)</span> ，<span
+class="math inline">\(\tau = r \times f\)</span>
+。力矩是一个矢量，方向同时垂直于力臂及作用力。方向为物体因力矩旋转时围绕的轴的方向。</p>
+<p>力矩作用于整个刚体，可理解为力矩通过了质心。力矩的叠加满足矢量加法。</p>
+<p><img src="/images/filmtechanalysis-PBA/力矩_2.png" alt="力矩_2" style="zoom: 80%;" /></p>
+<p>于是，我们很容易就能得出 <span
+class="math inline">\(\displaystyle\Delta \omega = \frac{\Delta L}{I} =
+\Delta t \frac{\tau}{I}\)</span></p>
+<h5 id="表示旋转的方法">表示旋转的方法</h5>
+<p>我们到此为止一直在使用旋转矩阵来表示旋转。但其实旋转有很多种表示方式。</p>
+<ul>
+<li><p><strong>旋转矩阵</strong></p>
+<ol type="1">
+<li>会有太多数据冗余：表示旋转矩阵需要九个元素，但是只表示了三个自由度。</li>
+<li>表示方法不符合直觉。</li>
+<li>定义它的时间导数很困难。</li>
+</ol></li>
+<li><p><strong>欧拉角</strong></p>
+<ul>
+<li>优势：表示是符合直觉的。它用三个轴的旋转角度来表达一个旋转。</li>
+<li>劣势：可能会导致万向锁问题，并且定义它的时间导数也很困难。</li>
+</ul></li>
+<li><p><strong>四元数：</strong>
+一个四元数的第一位表示旋转角度，后三位表示旋转轴方向。
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_1.png" alt="旋转的四元数表示_1" style="zoom: 45%;" /></p>
+<p>并且四元数可以和旋转矩阵互相转换：
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_2.png" alt="旋转的四元数表示_2" style="zoom: 50%;" /></p>
+<p>于是我们用四元数来表示旋转的状态更新方程可以表示为：
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_3.png" alt="旋转的四元数表示_3" style="zoom: 50%;" /></p></li>
+</ul>
+<p>总结一下，我们的刚体运动模拟过程由下图所示：线性运动和角度运动的物理量都有相互对应的关系。</p>
+<p><img src="/images/filmtechanalysis-PBA/线性运动与角度运动的对比.png" alt="线性运动与角度运动的对比" style="zoom:50%;" /></p>
+<h3 id="刚体的碰撞与接触">刚体的碰撞与接触</h3>
+<h4 id="rigid-collision-detection-and-response-by-impulse">Rigid
+Collision Detection and Response by Impulse</h4>
+<p>之前我们在粒子系统中已经介绍了一个点与面的两种碰撞方式，在Mesh表达的刚体碰撞处理中，我们一般采用Impulse的碰撞响应方式。</p>
+<p>当物体有许多点构成时，我们可以检测每个点是否发生碰撞。</p>
+<p><img src="/images/filmtechanalysis-PBA/碰撞_1.png" alt="碰撞_1" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/碰撞_2.png" alt="碰撞_2" style="zoom:50%;" /></p>
+<p>每一个点由 $x_i $ 表示，计算点到表面的距离 $ (x) $
+是否小于0。若大于零，说明没有发生碰撞。若小于零，则发生碰撞。</p>
+<p>然后将线性速度与角速度合成为此时该点的速度，若速度方向远离刚体内部，则不需要改变力，碰撞结束。若方向继续深入刚体内部，则继续运算。</p>
+<p>首先强行创造一个离 $ x_i $ 最近的接触点 $ x_i^{new} $
+，然后计算出当前速度的 <span class="math inline">\(xyz\)</span>
+分量。新的点的垂直速度反向，并且乘以衰减参数 $ _N $
+；平行速度乘以摩擦衰减参数 $ a $ 。将速度分量重新合成为 $ v_i^{new} $
+此速度即为当前点的速度。 <span class="math display">\[
+{\rm collision}\quad\mathbf x^{new}\leftarrow\mathbf x+|\phi(\mathbf
+x)|\mathbf N=\mathbf x=\phi(\mathbf x)\nabla\phi(\mathbf x)
+\]</span>
+<img src="/images/filmtechanalysis-PBA/Impulse碰撞.png" alt="Impulse碰撞" style="zoom:67%;" /></p>
+<p>又因为刚体的属性中只有线性速度和角速度，求得的点速度无法用于更新，所以引入冲量
+<span class="math inline">\(j\)</span> 。因为冲量 $ j = Ft $</p>
+<p>易得 $ v = t = j $ ， $ = t= t = I^{-1}(r j)$</p>
+<p>列出方程组： <span class="math inline">\(\begin{array}{l}\mathbf
+v^{new}=\mathbf v+\dfrac{1}{M}\mathbf j\\\mathbf \omega^{new}=\mathbf
+\omega+\mathbf I^{-1}(\mathbf Rr_i\times \mathbf j)\\\mathbf
+v_i^{new}=\mathbf v^{new}+\omega^{new}\times\mathbf R\mathbf
+r_i\end{array}\)</span></p>
+<p>即可求出 $ v^{new} $ 与 $ ^{new} $ 。</p>
+<h4 id="shape-matching">Shape Matching</h4>
+<p>Shape Matching
+方法将物体上的点当作粒子进行状态更新，允许点有自己的速度，点与点之间没有任何相互作用力，然后再强行将其约束成为一个刚体。将点云的质心作为下一时刻刚体的质心，然后让刚体尽可能接近点云的形态。但是因为实际应用不多，具体方法不再赘述。</p>
+<p><img src="/images/filmtechanalysis-PBA/ShapeMatching.png" alt="ShapeMatching" style="zoom:75%;" /></p>
+<h3 id="约束">约束</h3>
+<p>到目前为止，我们都讨论的是无约束系统的动力学。意思就是说，粒子或者刚体可以沿任何方向运动，仅受外力影响。但在基于物理的动画中，存在许多内在和约束有关的问题。比如轨道上的列车，车轮因为钢轨施加的作用力受到约束，沿轨道运行。轨道产生向上的作用力，支撑列车的重量，在转弯时，轨道也会产生横向作用力，保证车轮沿轨道前行。</p>
+<p>我们把约束视为减少运动的<strong>自由度</strong>。没有约束的刚体存在6个自由度——3个平移自由度和3个旋转自由度。刚体可以沿
+<span class="math inline">\(xyz\)</span> 方向移动、旋转。</p>
+<h4 id="罚函数">罚函数</h4>
+<p>罚函数法是维持约束最简单的方法。这种方法本质上就是先让刚体自由运动，当运动和约束有偏差的时候，再施加一个外力，使运动回到约束。因为这种方法是基于偏差而产生的校正力，所以不能维持<strong>刚性约束</strong>。刚性约束指永远不可能违反的约束。实现刚性约束需要使用其他方法（之后会讲到）。但很多例子中会使用暂时允许产生小幅偏差的<strong>柔性约束</strong>。</p>
+<h5 id="p比例控制器">P（比例）控制器</h5>
+<p><strong>P控制器</strong>是罚函数法使用的最简单的控制系统。这张图表示的是灰珠受到约束而沿线运动的例子。细线表示线的约束路径，粗线表示灰珠的实际路径。灰珠的中心位置为
+<span class="math inline">\(\mathbf x(t)\)</span>
+，约束路径上离灰珠最近的点为 <span class="math inline">\(\mathbf
+c(\mathbf x)\)</span> 表示和约束误差的向量为 <span
+class="math inline">\(\mathbf e(\mathbf x)=\mathbf c(\mathbf x)-\mathbf
+x(t)\)</span> 。强度常量为 $ k_p $
+的<strong>P控制器</strong>将施加以下校正力： <span
+class="math display">\[
+\mathbf F_p=-k_p\mathbf e
+\]</span>
+使用这种方法，灰珠会沿着约束路径运动，但两者之间仍存在较大的偏差，灰珠会在约束路径附近振动。并且当灰珠趋于静止时，和路径有一个恒定的偏差，此时控制器施加的力正好与重力抵消。</p>
+<p><img src="/images/filmtechanalysis-PBA/P控制器.png" alt="P控制器" style="zoom: 25%;" /></p>
+<h5 id="pd比例微分控制器">PD（比例微分）控制器</h5>
+<p>给P控制器加一个微分项可以预防未来的误差变化。施加一个误差向量方向上的力，该力正比于误差变化率，因此控制器合力为：
+<span class="math display">\[
+\mathbf F_{pd}=-[k_p\mathbf e+k_d(\dot{\mathbf e}\cdot\hat{\mathbf
+e})\hat{\mathbf e}]
+\]</span> $ k_d $ 为误差微分的可调增益。一般而言误差函数 <span
+class="math inline">\(\mathbf e(\mathbf x)\)</span>
+没有直接的解析式，只要我们能计算 <span class="math inline">\(\mathbf
+e\)</span> ，即可用两个时间步的误差估计当前时步的误差变化率： <span
+class="math display">\[
+\dot{\mathbf e}^{[n]}\approx(\mathbf e^{[n]}-\mathbf e^{[n-1]})/h
+\]</span>
+使用PD控制器仍然解决不了当灰珠趋于静止时，和路径有一个恒定的偏差。因为除非误差在一直变化，否则微分项不会施加力。</p>
+<p><img src="/images/filmtechanalysis-PBA/PD控制器.png" alt="PD控制器" style="zoom:25%;" /></p>
+<h5 id="pid比例积分微分控制器">PID（比例积分微分）控制器</h5>
+<p>静止状态下的误差问题可以通过添加积分项解决。这意味着只要灰珠与约束路径存在误差，就会施加作用力：
+<span class="math display">\[
+\mathbf F_{pid}=-\left[k_p\mathbf e+k_d(\dot{\mathbf e}\cdot\hat{\mathbf
+e})\hat{\mathbf e}+k_i\int_0^t\mathbf edt\right]
+\]</span>
+<img src="/images/filmtechanalysis-PBA/PID控制器.png" alt="PID控制器" style="zoom:25%;" /></p>
+<p>使用PID控制器的小球运动如图所示。最初小球的运动路径与PD控制器基本一致，担当小球减速，其运动轨迹更接近约束路径。当小球最终静止时，几乎完全符合约束。这是因为只要未回到约束，积分项将一直施加逐渐变大的力，使其刚好抵消重力。</p>
+<h4 id="约束动力学">约束动力学</h4>
+<p>约束动力学通过产生作用力来抵消所施加的力，防止违反约束从而确保维持刚性约束。</p>
+<p>我们首先关注模拟平面内运动钟摆的约束动力学问题。钟摆轴位置为 $ x_0 $
+，因此所有的运动都应围绕该位置旋转。质量为 m 的摆球安装在长度为 r
+的杆末端，杆是刚性的且质量忽略不计。摆球中心记为变量 $ x $
+，所有施加在摆球上的合外力为 $ f_a $ 。我们的目标是产生一个刚好可以抵消
+$ f_a $ 中可能导致杆长度发生变化的约束力 $ f_c $ 。</p>
+<p><img src="/images/filmtechanalysis-PBA/约束动力学_1.png" alt="约束动力学_1" style="zoom: 33%;" /></p>
+<p>约束动力学的关键是创建一个约束函数。这个函数是一个判定函数，当满足约束条件时，该函数值
+=
+0。我们想要让系统永远满足约束条件，也就是约束函数恒为0。故该函数对时间的一阶导数始终为0。同时，我们还必须确保该函数的变化率也恒为0，也就是没有发生变化的趋势，所以我们需要该函数对时间的二阶导数也为0。对于钟摆问题，我们选择一个最为明显的约束函数：
+<span class="math display">\[
+\mathbf c(\mathbf x)=\|\mathbf x-\mathbf x_0\|-r
+\]</span> 该函数计算导数非常困难，故我们使用该约束函数： <span
+class="math display">\[
+\mathbf c(\mathbf x)=\dfrac{1}{2}[(\mathbf x-\mathbf x_0)^2-r^2]
+\]</span> 当x与 $ x_0 $
+的距离刚好为r时，约束函数为0。约束函数对x的一阶导数为: $ x - x_0 $
+，根据链式法则，约束函数对时间的一阶导数为： <span
+class="math display">\[
+\dot {\mathbf c}=(\mathbf x-\mathbf x_0)\cdot\dot {\mathbf x}
+\]</span> 二阶导数为： <span class="math display">\[
+\ddot {\mathbf c}=\dot{\mathbf x}^2+(\mathbf x-\mathbf x_0)\cdot\ddot
+{\mathbf x}
+\]</span> 施加在摆球上的合力是外力与约束力的总和。根据牛顿第二定律：
+<span class="math display">\[
+\ddot{\mathbf x}=\dfrac{1}{m}{\mathbf f_a + \mathbf f_c}
+\]</span> 因为联立以上三式，又因为 $ = 0,   = 0 $ ，经整理得： <span
+class="math display">\[
+\dfrac{1}{m}(\mathbf x - \mathbf x_0)\cdot \mathbf f_c = -\dot{\mathbf
+x}^2-\dfrac{1}{m}(\mathbf x-\mathbf x_0)\cdot\mathbf f_a
+\]</span> 又因为约束力必须与杆平行，可得： <span class="math display">\[
+\mathbf f_c=\lambda(\mathbf x - \mathbf x_0)
+\]</span> 其中，<span class="math inline">\(\lambda\)</span>
+为待定的比例因子。再联立以上两式，即可求解 <span
+class="math inline">\(\lambda\)</span> ： <span class="math display">\[
+\displaystyle\lambda=-\frac{m\dot{\mathbf x}^2+(\mathbf x-\mathbf
+x_0)\cdot\mathbf f_a}{(\mathbf x-\mathbf x_0)^2}
+\]</span> 因此钟摆的系统动力学函数首先要求计算作用于钟摆的外力 $ f_a
+$，然后计算出比例因子 <span
+class="math inline">\(\lambda\)</span>，再计算出约束力 $ f_c $ 。已知 $
+f_a <span class="math inline">\(，\)</span> f_c $
+，在计算出摆球的总加速度。</p>
+<p>该单一约束的问题也可以推广到多约束的复杂系统。设定多个约束函数来求解多个约束力。由于篇幅限制，所以我们不再过多介绍。</p>
+<p><strong>总结</strong></p>
+<p>约束会减少系统的自由度。</p>
+<p>罚函数法先不考虑任何约束，直接计算运动，当运动与约束有所偏差时，再添加外力抵消。</p>
+<p>约束动力学通过计算约束力来维持刚性约束。</p>
+<p>以上，我们讲解了刚体的表示方法、表示刚体运动的方法、如何更新刚体运动状态、如何处理刚体运动的碰撞，以及如何对刚体创建约束。相信大家对刚体模拟都有了更深层次的了解。</p>
+<h3 id="vfx中的刚体模拟">VFX中的刚体模拟</h3>
+<p>刚才，我们从底层原理的角度讲述了刚体的表示和模拟的计算方法，那么，这节课我们就来详细讲讲我们该如何实际使用刚体模拟来实现我们想要的一些效果。在VFX中，刚体模拟最常用的地方，就是创建物体毁灭的效果，英文中这个效果叫做Destruction。</p>
+<h3 id="destruction">Destruction</h3>
+<p>电影《2012》是大范围的破坏视觉效果的分水岭，直到那时，还没有人看到过如此大规模的毁灭影像。这部电影加速了Bullet作为主要物理引擎的重要性和行业接受度。自2009年以后，视觉特效工作室、学术机构和开源项目继续为destruction工具做出贡献。</p>
+<h4
+id="实现destruction效果的两种方法">实现Destruction效果的两种方法</h4>
+<p><strong>RBS方法。</strong>这种方法主要有两种实现形式。</p>
+<p>第一种叫标准的RBS方法，最为广泛使用。此方法围绕现有物理库（如Bullet、PhysX或ODE）定制。其中，Bullet库最受欢迎。SPI、Frameworks、Weta和Dneg等公司是使用此方法的代表。这个方法还被众多商业软件和引擎如Houdini等使用。</p>
+<p>还有一种RBS方法是使用专业物理库的RBS方法，主要使用此方法的公司有：皮克斯、迪士尼、Industrial
+Light &amp;
+Magic等。这种方法与标准RBS方法的区别体现在碰撞检测中，他们使用了水平集方法。</p>
+<p><strong>有限元分析（FEA）</strong>。这种方法又被称为传统的大规模真实世界工程方法。这种方法目前只被MPC公司在电影视效中广泛使用。虽然这种方法在影视中不常见，但有许多游戏已经开始使用这种方法。</p>
+<h4 id="rbs方法">RBS方法</h4>
+<ul>
+<li><strong>RBS的三个阶段</strong>
+<ul>
+<li>第一阶段：分解RBS对象（预破碎）</li>
+<li>第二阶段：设置约束和设计编排</li>
+<li>第三阶段：运行模拟并进行碰撞检测</li>
+</ul></li>
+</ul>
+<p><strong>第一阶段：分解RBS对象（预破碎）</strong></p>
+<p>在RBS中，物体不会受力自行发生破碎，而是在进行模拟前需要先人为的破碎成小块，再在模拟中进行解算。RBS的第一阶段是准备几何体，换句话说，就是研究如何将几何体分解为“小块”。埃尔文·库曼斯（Erwin
+Coumans）在加拿大温哥华SIGGRAPH提出了四种分解几何体的方法：</p>
+<ul>
+<li><p>A. 维诺图 Voronoi Diagrams</p></li>
+<li><p>B.CSG constructive solid
+geometry：使用布尔运算切割几何图形。</p></li>
+<li><p>C.凸分解 Convex
+Decomposition：这可以由艺术家手工或使用自动工具执行。</p></li>
+<li><p>D.四面体化，也可以通过将3D模型转换为tetras来实现。</p></li>
+</ul>
+<p><strong>A.维诺图 Voronoi Diagrams </strong></p>
+<p>维诺图是一个数学概念，广泛用于生成看起来自然的断裂形状。这个原理非常简单，看起来非常自然。在两个点之间画一条等距离的线，与两点连线成直角。初始点（或称粒子）可以通过多种方式生成，包括随机生成。
+这有效地将对象简化为点云，然后生成一组多边形的破碎子几何体。这一概念是RBS/刚体动力学<strong>程序化破碎的核心</strong>。</p>
+<p><strong>B.CSG Constructive Solid Geometry</strong></p>
+<p>这是一种已经存在多年的技术。它使用简单加法、减法和异或运算。这些数学运算称为<strong><em>布尔运算</em></strong>，这个方法称为<em>构造立体几何或CSG</em>。它可以在三维模型之间执行体积运算，使几个简单的几何图形或对象构建为更复杂、更自然的细分形状。可以将两个体积相加，或计算两个对象之间的差值，或求它们的交集。这些操作可以将原始三维模型分解为更小的部分，类似于饼干切割器。这个方法的<strong>优点</strong>是可以精确控制物体破碎后的几何形状，<strong>缺点</strong>是操作繁琐，不够程序化，并且在多边形中进行布尔运算容易出现问题。</p>
+<p><strong>C.凸分解 Convex Decomposition</strong></p>
+<p>“convex”一词的意思是向外弯曲或凸出，与向内弯曲的concave相反。凸分解是一种通常用于将复杂模型简化为更易于处理的较小子模型的技术。凸分解<strong><em>将一个复杂多面体划分为多个凸面几何体</em></strong>。由于凸对象的重要性质，许多算法在凸对象上比在非凸对象上更有效。因此，此种方法处理的几何体<strong>主要用于计算碰撞检测</strong>。艺术家可以使用简单的凸面图元（如长方体、球体和胶囊）手动创建凸面分解。也可以自动创建凸分解。</p>
+<p><strong>D.四面体化 Tetrahedralization</strong></p>
+<p>这种处理几何体的方法用于<strong>有限元分析</strong>，在传统的RBS流程中不会使用。但因这也是预处理几何体的方法之一，故在此做简单介绍。一个mesh可以使用<strong><em>德洛内（Delaunay）三角剖分</em></strong>分解为<strong>四面体网格</strong>。有一些开源软件实现可用，包括Netgen和Tetgen。Pixelux的Maya
+2012 DMM数字分子物质插件在内部使用Netgen执行四面体化。</p>
+<p><strong>第二阶段：设置约束并控制约束力的大小</strong></p>
+<p>在几何体准备好并分解为预破碎的小块后，如果直接进行模拟，它们就是一个个独立的碎块，还没来得及发生外力的碰撞，就在重力的作用下发生坍塌了。因此，在预破碎几何体后，还需要一个方式将它们约束在一起。直到外力超过了约束的限制时，约束才会消失，从而看起来发生了破碎。</p>
+<ul>
+<li><strong>设置约束的两种方法</strong>
+<ul>
+<li><strong>A.定义每个部件和其他部件之间的连接。</strong></li>
+<li><strong>B.基于碰撞检测自动计算连接。</strong></li>
+</ul></li>
+</ul>
+<p><strong>A.定义每个部件和其他部件之间的连接。</strong></p>
+<p>这提供了最多的控制，但如果连接太多，性能可能会比较慢。如果使用维诺图的方法进行预破碎，可以自然而然地得到各个子几何体的连接。因为维诺图使用的是代表子几何体的点云，每个点的连接就是子几何体的连接。因此很容易对连接进行程序化约束。</p>
+<p>现在，如果艺术家想要控制建筑的哪一侧倒塌，他们可以在约束上进行“绘制”，这是RBS设置的一部分。约束基本上是指导模拟的，比如说我们可以手动添加metaball来控制某一个区域的约束力大小，来削弱这个对象在这一帧这个区域内的所有约束。</p>
+<p><strong>B.基于碰撞检测自动计算连接。</strong></p>
+<p>计算相邻碎块之间的接触点，并且仅在存在接触点时创建连接。然后，你可以为这些连接创建中断阈值。一旦我们将这些片段粘合成一个刚体，我们就可以执行运行时断裂。如果发生碰撞，我们计算其冲量。如果该冲量大于所选阈值，我们将通过连接来传播该冲量。这些连接可能会减弱或断开。在此之后，需要确定断开连接的碎块，然后为每个单独的碎块创建新刚体。</p>
+<p>放射状破碎就是一个很好的例子。某些类型的玻璃在破裂时会出现维诺图无法立即提供的径向图案。此效果可以通过蒙版或break
+maps提供。径向裂纹是需要解决的较为典型的特殊情况之一。它们既有从碰撞点辐射的裂纹，也有围绕碰撞点的圆形裂纹。Dneg使用Dn-crack，这是一种程序化表面破碎器。它不像voronoi破碎器那样进行固体体积破碎，而是进行多边形表面破碎。</p>
+<p>它的工作原理是用户提供一组用脚本编写的规则，这些规则描述裂纹如何出现在表面上，如何传播到子裂纹，以及每个裂纹如何生成，然后底层代码根据这些规则在表面上生成这些裂纹，将它们相交，重要的是在裂缝交汇处终止，等等。然后最终的设定是它将所有几何体分割为最终的破碎碎块。</p>
+<p><strong>第三阶段：运行模拟和碰撞检测</strong></p>
+<p>碰撞检测最简单形式是Bounding
+Box。如果所有对象都包含在简单的boxes中，则避免boxes重叠从而避免物体碰撞。问题是，虽然这非常快，但大多数简单的长方体通常会生成过大的形状，无法生成高质量的模拟。显然，肉眼看起来不太靠近的物体似乎仍然会相互反弹。那么我们该怎么做才能使碰撞看起来尽可能精准，并且不太消耗算力呢？</p>
+<p>大多数碰撞检测管道中分为两个主要阶段，分别是<strong>broad-phase</strong>和<strong>narrow-phase</strong>。</p>
+<p><strong>Broad-phase:</strong></p>
+<p>Broad-phase阶段根据<strong>边界体积重叠</strong>（bounding volume
+overlap）减少潜在交互对象的总数。Bullet中有各种不同用途的broad-phase实现。最通用的broad-phase实现是基于<strong>动态边界体积层次结构</strong>（dynamic
+bounding volume
+hierarchies）：移动、添加或删除对象时更新<strong>轴对齐包围盒</strong>（axis
+aligned bounding box）。</p>
+<p>总的来说，就是先使用一个算法找到可能发生碰撞的物体，从而减少不必要的计算。</p>
+<p><strong>Narrow-phase:</strong></p>
+<p>Narrow-phase阶段处理的是<strong>成对碰撞对象之间精确接触点的生成</strong>。</p>
+<p><strong>A.标准RBS方法</strong></p>
+<p>最流行的解决方案是将<em>主对象细分为一组较小的对象，但都是单独凸面的</em>。这称为<strong>凸壳碰撞检测</strong>（Convex
+hull collision detection）。</p>
+<p>Bullet使用了一些通用算法，如GJK（Gilbert–Johnson–Keerthi）来实现<strong>两个凸面形状之间的快速距离</strong>，并处理各种碰撞形状类型。支持计算移动和旋转对象之间碰撞时间的连续碰撞检测，但默认情况下Bullet计算离散时间点的最近距离和穿透深度，以生成接触点信息或进行碰撞检测。</p>
+<p>在确定可能发生碰撞的物体对后，将物体替换为它的凸壳，计算两个凸壳之间的距离以生成接触点信息。使用凸壳来计算是为了加快计算的速度，是模拟质量和模拟速度妥协的结果。</p>
+<p><strong>B.水平集方法</strong></p>
+<p><strong>有向距离场的概念</strong></p>
+<p><strong>水平集的基本概念</strong></p>
+<p>水平集数据结构用于表示<strong><em>离散采样的动态水平集函数</em></strong>。这种形式的数据结构通常用于高效的图像渲染。基本方法是构造一个从边界延伸的有向距离场，并可用于解算该场中边界的运动。</p>
+<p>“术语‘LSV’（level set
+value，水平集值）实际上是一个隐式曲面，用于模拟中的碰撞对象的倾向。PhysBAM使用水平集数据结构来实现它的<strong>narrow-phase
+碰撞检测</strong>。当查询粒子与几何曲面的距离时，水平集具有<strong>快速查找</strong>的良好特性。PhysBAM使用的水平集数据结构将几何体的空域划分为box
+cells，每个cell存储其到曲面的距离（φ）。从附近cells的集合中，我们可以计算梯度场，该梯度场产生指向几何体表面的法向量。通过水平集上的法向量和φ函数，我们可以计算到几何体表面的精确距离。”</p>
+<p>通过查看这些向量和法线，可以判断你是在碰撞检测对象的内部还是外部。然后，ILM进一步利用这一点，使用水平集进行破碎。使用水平集可以轻松完成的一件事是在物体表面行走。我已经将所有空间分割成一个网格，在任何一点我都可以显示”我离表面有多近“，如果我不知道，那么我可以使用网格查找信息直接到达表面。”</p>
+<p>对于单个物体，当粒子进入碰撞检测包围盒时，为物体设置一个水平集，很容易确定粒子是位于物体的内部还是外部，因此，粒子从物体上更精确地反弹，而不仅仅是从包围盒上反弹。但在破碎中，ILM并没有以同样的方式使用水平集，水平集不是表示单个对象，而是表示一组或一组称之为zero
+iso contours的点，这些点在水平集中实际位于曲面上。</p>
+<p>Zero iso
+contours与voronoi等破碎工具非常相关。Voronoi点是用来破碎对象的，但ILM获取Voronoi点，然后找到刚好在模型曲面上的点，因为Voronoi种子点云通常不知道表面在哪，它只是负责将空间分割开，但在ILM中，水平集将这种分割带到下一个级别，不基于水平集创建子几何体，而是直接使用水平集分割高分辨率的几何图形。</p>
+<p>斯坦福大学PhyBAM模拟软件的<strong>碰撞检测</strong>都基于水平集方法，基于SIGGRAPH
+2003中Eran Guendelman的Nonconvex Rigid Bodies with
+Stacking（非凸刚体的堆叠）。他们的RBS要求你有一个体积，以便对象正确碰撞，因此他们在模拟开始时使用水平集方法生成此体积数据结构，在模拟期间，他们将使用刚体表面的粒子来测试它们可能与之交互的对象的水平集的深度。它的分析查找速度很快，水平集的<strong>优点</strong>是，在空间中的任何一点，我都可以快速且准确地告诉你离曲面有多远，因此它是一个很好的碰撞查找模型。但<strong>缺点</strong>是它需要<em>很长的时间生成</em>，并且水平集的<em>存储空间</em>以立方方式增加。</p>
+<p>幸运的是，水平集可以更改分辨率，ILM可以轻松控制此级别的精度。当你想让事情变得更复杂时，你必须不断增加水平集的存储空间。因此，与其他方法一样，ILM的艺术家和TD需要非常谨慎地在时间和准确性之间进行权衡。</p>
+<h4 id="有限元分析-finite-element-analysis">3.有限元分析 Finite Element
+Analysis</h4>
+<p>FEA是一种物理上更精确的制作Destruction的方法，它使用<strong>有限元方法</strong>(finite
+element
+method)来求解控制弹性材料的动力学的偏微分方程。FEA是模拟变形的一种<em>物理上更正确</em>的方法，破碎是基于<strong>连续介质力学</strong>的。一个3D
+mesh是用一组元素来近似的，通常是<strong>四面体</strong>。应变、应力和刚度矩阵用于计算力和变形的影响。</p>
+<p><strong>有限元法</strong></p>
+<p>有限元法最初被称为矩阵近似方法，应用于航空器的结构强度计算，并由于其方便性、实用性和有效性而引起从事力学研究的科学家的浓厚兴趣。经过短短数十年的努力，随着计算机技术的快速发展和普及，有限元方法迅速从结构工程强度分析计算扩展到几乎所有的科学技术领域，成为一种丰富多彩、应用广泛并且实用高效的数值分析方法。</p>
+<p>FEA由R.Courant于1943年首次开发，并在20世纪70年代和80年代用于制造业，但直到21世纪10年代才找到了实现视觉效果的方法。MPC是FEA在视觉效果工作中的主要公司之一。“有可能这项技术现在才足够快，可以使用，别忘了RBS在VFX中花了相当长的时间才被采用。”</p>
+<p>FEA使用一个称为<strong>节点</strong>的复杂点系统，该节点构成称为mesh的三维网格。该网格被设计并<strong>包含材料和结构属性</strong>，这些属性定义了结构如何对特定荷载条件作出反应。根据特定区域的预期应力水平，在整个材料中以特定密度指定节点。承受大量应力的区域通常比承受很少或没有应力的区域具有更高的节点密度。网格就像一张网络，每个节点都延伸一个网格单元到每个相邻节点。这张矢量网将材质属性带到对象上，创建了许多单元。</p>
+<p><strong>DMM系统 Digital Molecular Matter system</strong></p>
+<p>问题是，有限元分析曾经的计算非常昂贵。但一个新的系统诞生了。Pixelux是DMM数字分子物质系统的开发者，该系统使用基于有限元的方法处理柔体，使用四面体网格，并将应力张量直接转换为节点力。通过一些非常聪明的假设和技巧，DMM是可以是实时的。</p>
+<p>DMM是从2004年开始，在六年半的时间里为<strong><em>电子游戏</em></strong>设计的。从2005年到2008年，作为《星球大战：原力释放计划》的一部分，Pixelux
+DMM技术是卢卡斯艺术娱乐公司的独家技术。DMM中的有限元系统利用了加利福尼亚大学伯克利教授，James
+F. O’Brien博士论文中的破碎和变形算法。Pixelux首席技术官Eric
+Parker领导的团队对O’Brien算法进行了改进、优化，并将其应用到DMM中间件中，Pixelux首席执行官Mitchell
+Bunnell领导的团队设计了DMM工具流程。</p>
+<p>与传统的基于刚体运动学的实时仿真引擎不同，FEA允许DMM<strong>非常快速地模拟大量的物理特性</strong>。开发人员可以给给定的对象分配物理属性，从而允许对象像在现实世界中一样行为。此外，对象的属性可以在运行时更改，从而产生更多有趣的效果(参见下面的“chopping”)。</p>
+<p><strong>MPC的Kali destruction tool</strong></p>
+<p>《美少女特工队》中，巨武士战役中有大量木头破碎的镜头，木头的破碎不同于刚体，木头具有大量的形变能力。传统的RBS并不能达到预期的效果。MPC看到在SIGGRAPH中使用四面体FEA进行实时应用的文章，他们认为，如果FEA可以通过实时实现，那么如果再深入研究一下，说不定在VFX中就可以实现。”MPC直接与Pixelux合作，在他们自己的代码中使用Pixelux的解算器。</p>
+<p>碰撞检测通常是由包围盒或凸面外壳（和水平集体积）实现的，但在FEA中，实际上完全使用网格，然后执行“tet-collision
+detection（<strong>四面体网格碰撞检测</strong>）”。原始对象完全包围在<strong>固定大小或分辨率</strong>的四面体网格（
+tetrahedral
+mesh）中，这是一种基于速度/效率原因的非自适应网格解决方案。一个tet和另一个tet之间的碰撞检测比任意凸面和凸面的检测简单得多。</p>
+<p>tet网格与物体几何体不同，但它很接近。但由于tet的数量是固定的，因此必须将细节放在你认为可能需要的地方。你可以做一个自适应解决方案，使解算器在物体破裂时切换并添加更多细节，但实际上，在帧间进行比较是相当困难的。但是如果你知道tet的数量是固定的，你可以使用它进行比较。MPC使用该技巧进行render
+time chopping。“render time
+chopping”指的是模拟使用固定分辨率的网格，在渲染时将几何体替换为完全不同的几何体的能力。</p>
+<p><strong>在FEA中没有预破碎，没有voronoi或切割，从某种意义上说，这是一个更纯粹的解决方案。</strong>tet连接在一起，形成一个大的组，其中有一个共同的节点。该点被定义为具有一定的强度、结构鲁棒性，如果超过阈值，则会断开该连接。用tet填充体积的算法具有一定的随机性，足以满足需要。艺术家可以控制tet的密度，但精确的顶点在材质内部。</p>
+<p><strong>FEA的优点：</strong>基于材料属性破碎。</p>
+<p>破碎将取决于物体受力的方式。这是基于材料属性的，在传统的RBS方法中，在模拟发生前物体就已经被破碎了。你不需要使用FEA来实现这一点，因为你有明确的内力，因此碎块会按照你想要的方式，以及它应该的方式断裂。</p>
+<p><strong>FEA的控制</strong>：</p>
+<p>MPC有一个大小限制，它可以控制最小碎片的大小，以免物体变成粉末。</p>
+<p>仍然可以预先破坏某些物体。MPC的TD基于voronoi贴图制作密度贴图，可以影响节点的密度云，但系统仍然基于实际材质断裂。</p>
+<p><strong>FEA的附加效果：</strong></p>
+<p>模拟的物体可以发生符合物理的塑性变形。结构蠕变、塑性或弹性变形可以作为标准系统的一部分进行，不需要任何造假和技巧。在MPC，艺术家可以通过对具有塑性变形的“钢”施加力来弯曲钢梁。</p>
+<p>MPC系统更简单，弯曲效果不需要单独进行设置，传统的RBS需要对每一个不同的材质进行特殊的绑定和预破碎。而MPC将所有物体都放在一个tet网格框架中。所有模拟都可以统一进行，并且通过rendertime
+chopping，随时可以替换框架中的几何体。这种抽象级别非常强大。</p>
+<p>这个概念与传统的<strong>自由变形晶格</strong>（Free Form Deformation
+lattice,
+FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很容易想象弯曲框架然后交换内部的几何体——可以从低模转换为高模。虽然将高分辨率几何体切分为与tet网格相对应的碎块非常昂贵，但因为tet网格不会改变，只需在最后一帧执行一次，然后就可以在整个模拟过程中将其应用到每一帧的动画中。</p>
+<p><strong>为什么其他公司没有使用有限元分析</strong></p>
+<p>1.员工和整个软件系统需要重新培训和重建。目前为止，还没有发现需要改变。</p>
+<p>2.虽然传统RBS需要更多的设置，但是性能比FEA强很多。</p>
+<h4 id="destruction-方法总结">Destruction 方法总结</h4>
+<p>所有方法都是为了获得银幕上真实的效果。只要结果达到了，使用什么方法都是可行的。但随着计算力的发展，更符合物理的方法是必然的趋势。但就目前而言，是特效TD和动画师的技术、艺术以及经验使得影片的真实感达到了如此高的水平。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用</title>
+      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</guid>
+      <description>影视制作中的最新进展与应用 学术界发展动向 在讨论影视工业中物理模拟的最新方向之前，我们先看看学界这两年都在做什么——技术的发展顺序大部分情况下都是先从学术界开始的。
+我整理出了近三年国际图形学顶级学术会议Siggraph发表的论文中，基于物理的动画方向的所有论文：
+Siggraph 2021 Revisiting Integration in the Material Point Method: A Scheme for Easier Separation and Less Dissipation 重新审视物质点法（MPM）：更易分离、更少耗散的方法 Mechanics-Aware Deformation of Yarn Pattern Geometry 纱织物几何体的力学感知变形 Kelvin Transformations for Simulations on Infinite Domains 无限域模拟的开尔文变换 QuanTaichi: A Compiler for Quantized Simulations QuanTaichi：一种量化模拟编译器 A Unified Second-Order Accurate in Time MPM Formulation for Simulating Viscoelastic Liquids with Phase Change 相变粘弹性液体模拟的统一二阶时间精确MPM公式 Bijective and Coarse High-Order Tetrahedral Meshes 双射和粗高阶四面体网格 Physical validation of simulators in Computer Graphics: A new framework dedicated to slender elastic structures and frictional contact 计算机图形学模拟器的物理验证：一种细长弹性结构和摩擦接触的新型框架 Stream-Guided Smoke Simulations 流向烟雾模拟 Solid-Fluid Interaction with Surface-Tension-Dominant Contact 表面张力主导接触的固液相互作用 Fire in Paradise: Mesoscale Simulation of Wildfires 天堂之火：野火尺度模拟 Systematically Differentiating Parametric Discontinuities 系统区分参数不连续性 Thin-Film Smoothed Particle Hydrodynamics Fluid 薄膜平滑粒子流体动力学（SPH）流体 Clebsch Gauge Fluid Clebsch规范流体 Incompressible Flow Simulation on Vortex Segment Clouds 涡段云上的不可压缩流体 Codimensional Incremental Potential Contact 共维增量潜在接触（C-IPC） Intersection-free Rigid Body Dynamics 无交点刚体动力学 Medial IPC: Accelerated Incremental Potential Contact With Medial Elastics Medial IPC：结合Medial Elastics的IPC方法 High-order Differentiable Autoencoder for Nonlinear Model Reduction 非线性模型重建的高阶可微自动编码器 Fast Linking Numbers for Topology Verification 拓扑验证的快速链接数 of Loopy Structures 环状结构 Learning Contact Corrections for Handle-Based Subspace Dynamics 基于句柄的子空间动力学的接触修正学习 The Shape Matching Element Method: Direct Animation of Curved Surface Models 形状匹配元素方法：曲面模型的直接动画 GPU-Based Simulation of Cloth Wrinkles at Submillimeter Levels 基于 GPU 的亚毫米级布料皱纹模拟 Multiscale Cholesky Preconditioning for Ill-conditioned Problems 病态问题的多尺度Cholesky预处理 A Momentum-Conserving Implicit Material Point Method for Surface Tension with Contact Angles and Spatial Gradients 具有接触角和空间梯度的表面张力动量守恒隐式材料点法 SANM: A Symbolic Asymptotic Numerical Solver with Applications in Mesh Deformation SANM：网格变形中应用的符号渐近数值求解器 Learning Meaningful Controls for Fluids 流体有意义控制学习 Unified Particle System for Multiple-fluid Flow and Porous Material 多流体流动和多孔材料的统一粒子系统 Constrained Projective Dynamics: Real-time Simulation of Deformable Objects With Energy-momentum Conservation 约束投影动力学：能量-动量守恒的可形变物体的实时模拟 TOG:</description>
+      <content:encoded><![CDATA[<h2 id="影视制作中的最新进展与应用">影视制作中的最新进展与应用</h2>
+<h3 id="学术界发展动向">学术界发展动向</h3>
+<p>在讨论影视工业中物理模拟的最新方向之前，我们先看看学界这两年都在做什么——技术的发展顺序大部分情况下都是先从学术界开始的。</p>
+<p>我整理出了近三年国际图形学顶级学术会议Siggraph发表的论文中，基于物理的动画方向的所有论文：</p>
+<blockquote>
+<h3 id="siggraph-2021">Siggraph 2021</h3>
+<ul>
+<li><a href="http://yunfei.work/asflip/">Revisiting Integration in the
+Material Point Method: A Scheme for Easier Separation and Less
+Dissipation</a> 重新审视物质点法（MPM）：更易分离、更少耗散的方法</li>
+<li><a
+href="https://visualcomputing.ist.ac.at/publications/2021/MADYPG/">Mechanics-Aware
+Deformation of Yarn Pattern Geometry</a> 纱织物几何体的力学感知变形</li>
+<li><a
+href="http://cseweb.ucsd.edu/~viscomp/projects/SIG21KelvinTransform/">Kelvin
+Transformations for Simulations on Infinite Domains</a>
+无限域模拟的开尔文变换</li>
+<li><a
+href="https://yuanming.taichi.graphics/publication/2021-quantaichi/">QuanTaichi:
+A Compiler for Quantized Simulations</a>
+QuanTaichi：一种量化模拟编译器</li>
+<li><a href="https://orionquest.github.io/papers/USOSVLPC/paper.html">A
+Unified Second-Order Accurate in Time MPM Formulation for Simulating
+Viscoelastic Liquids with Phase Change</a>
+相变粘弹性液体模拟的统一二阶时间精确MPM公式</li>
+<li><a href="https://cs.nyu.edu/~yixinhu/">Bijective and Coarse
+High-Order Tetrahedral Meshes</a> 双射和粗高阶四面体网格</li>
+<li><a href="http://elan.inrialpes.fr/people/vromerog/">Physical
+validation of simulators in Computer Graphics: A new framework dedicated
+to slender elastic structures and frictional contact</a>
+计算机图形学模拟器的物理验证：一种细长弹性结构和摩擦接触的新型框架</li>
+<li><a
+href="http://nishitalab.org/user/syuhei/StreamGuidedSmoke/streamguided_smoke.html">Stream-Guided
+Smoke Simulations</a> 流向烟雾模拟</li>
+<li><a href="https://arxiv.org/abs/2105.08471">Solid-Fluid Interaction
+with Surface-Tension-Dominant Contact</a>
+表面张力主导接触的固液相互作用</li>
+<li><a
+href="http://computationalsciences.org/publications/haedrich-2021-wildfires.html">Fire
+in Paradise: Mesoscale Simulation of Wildfires</a>
+天堂之火：野火尺度模拟</li>
+<li><a
+href="https://people.csail.mit.edu/sbangaru/projects/teg-2021/">Systematically
+Differentiating Parametric Discontinuities</a> 系统区分参数不连续性</li>
+<li><a
+href="https://wang-mengdi.github.io/proj/thin-film-sph/">Thin-Film
+Smoothed Particle Hydrodynamics Fluid</a>
+薄膜平滑粒子流体动力学（SPH）流体</li>
+<li><a href="https://y-sq.github.io/proj/clebsch_gauge_fluid/">Clebsch
+Gauge Fluid</a> Clebsch规范流体</li>
+<li><a
+href="https://shiyingxiong.github.io/proj/VortexSegments/VortexSegments">Incompressible
+Flow Simulation on Vortex Segment Clouds</a> 涡段云上的不可压缩流体</li>
+<li><a href="https://ipc-sim.github.io/C-IPC/">Codimensional Incremental
+Potential Contact</a> 共维增量潜在接触（C-IPC）</li>
+<li><a href="https://ipc-sim.github.io/rigid-ipc/">Intersection-free
+Rigid Body Dynamics</a> 无交点刚体动力学</li>
+<li><a href="https://www.seas.upenn.edu/~minchenl/">Medial IPC:
+Accelerated Incremental Potential Contact With Medial Elastics</a>
+Medial IPC：结合Medial Elastics的IPC方法</li>
+<li><a href="https://yangzzzy.github.io/">High-order Differentiable
+Autoencoder for Nonlinear Model Reduction</a>
+非线性模型重建的高阶可微自动编码器</li>
+<li><a
+href="https://graphics.stanford.edu/papers/fastlinkingnumbers/">Fast
+Linking Numbers for Topology Verification</a> 拓扑验证的快速链接数</li>
+<li><a
+href="https://graphics.stanford.edu/papers/fastlinkingnumbers/">of Loopy
+Structures</a> 环状结构</li>
+<li><a
+href="http://mslab.es/projects/LearningContactCorrections/">Learning
+Contact Corrections for Handle-Based Subspace Dynamics</a>
+基于句柄的子空间动力学的接触修正学习</li>
+<li><a
+href="https://www.dgp.toronto.edu/projects/shape-matching-element-method/">The
+Shape Matching Element Method: Direct Animation of Curved Surface
+Models</a> 形状匹配元素方法：曲面模型的直接动画</li>
+<li><a
+href="https://web.cse.ohio-state.edu/~wang.3602/publications.html">GPU-Based
+Simulation of Cloth Wrinkles at Submillimeter Levels</a> 基于 GPU
+的亚毫米级布料皱纹模拟</li>
+<li><a href="http://www.geometry.caltech.edu/pubs/CSHD21.pdf">Multiscale
+Cholesky Preconditioning for Ill-conditioned Problems</a>
+病态问题的多尺度Cholesky预处理</li>
+<li><a href="https://dabh.io/">A Momentum-Conserving Implicit Material
+Point Method for Surface Tension with Contact Angles and Spatial
+Gradients</a> 具有接触角和空间梯度的表面张力动量守恒隐式材料点法</li>
+<li><a href="https://arxiv.org/abs/2105.08535">SANM: A Symbolic
+Asymptotic Numerical Solver with Applications in Mesh Deformation</a>
+SANM：网格变形中应用的符号渐近数值求解器</li>
+<li><a
+href="https://people.mpi-inf.mpg.de/~mchu/projects/den2vel/">Learning
+Meaningful Controls for Fluids</a> 流体有意义控制学习</li>
+<li>Unified Particle System for Multiple-fluid Flow and Porous Material
+多流体流动和多孔材料的统一粒子系统</li>
+<li>Constrained Projective Dynamics: Real-time Simulation of Deformable
+Objects With Energy-momentum Conservation
+约束投影动力学：能量-动量守恒的可形变物体的实时模拟</li>
+</ul>
+<p>TOG:</p>
+<ul>
+<li><a
+href="http://faculty.sist.shanghaitech.edu.cn/faculty/liuxp/projects/ss_dbnn/index.htm">Dynamic
+Upsampling of Smoke through Dictionary-based Learning</a>
+烟雾动态上采样的基于字典的学习</li>
+<li><a
+href="https://elrnv.com/projects/frictional-contact-on-smooth-elastic-solids/">Frictional
+Contact on Smooth Elastic Solids</a> 光滑弹性固体的摩擦接触</li>
+<li><a href="https://yangzzzy.github.io/">A Safe and Fast Repulsion
+Method for GPU-based Cloth Self Collisions</a>
+一种安全快速的基于GPU的布料自碰撞排斥方法</li>
+<li><a
+href="https://www.cg.informatik.uni-siegen.de/en/publications">Optimized
+Refinement for Spatially Adaptive SPH</a> 空间自适应SPH的优化细化</li>
+<li><a href="https://www.cs.ubc.ca/~ascher/">SIERE: A Hybrid
+Semi-implicit Exponential Integrator for Efficiently Simulating Stiff
+Deformable Objects</a>
+SIERE：刚性可形变对象有效模拟的混合半隐式指数积分器</li>
+</ul>
+<h3 id="siggraph-2020"><strong>SIGGRAPH 2020</strong></h3>
+<ul>
+<li><a
+href="https://visualcomputing.ist.ac.at/publications/2020/HYLC/">Homogenized
+Yarn-Level Cloth</a> 均质纱织物</li>
+<li><a
+href="https://sadashigeishida.bitbucket.io/soapfilm_with_thickness/">A
+Model for Soap Film Dynamics with Evolving Thickness</a>
+变化厚度的皂膜动力学模型</li>
+<li><a href="http://www.geometry.caltech.edu/pubs.html">Fast and
+Scalable Turbulent Flow Simulation with Two-Way Coupling</a>
+双向耦合的快速可扩展湍流模拟</li>
+<li><a
+href="https://cs.uwaterloo.ca/~rgoldade/reducedfluids/">Constraint
+Bubbles and Affine Regions: Reduced Fluid Models for Efficient Immersed
+Bubbles and Flexible Spatial Coarsening</a>
+约束气泡和仿射区域：有效浸入气泡和灵活空间粗化的简化流体模型</li>
+<li><a href="http://gmrv.es/Publications/2020/SRBO20/">Robust
+Eulerian-on-Lagrangian Rods</a> 具有鲁棒性的EoL棒</li>
+<li><a href="http://www.byungsoo.me/project/lnst/index.html">Lagrangian
+Neural Style Transfer for Fluids</a> 流体的拉格朗日神经风格迁移</li>
+<li><a href="http://www.paramathic.com/">NASOQ: Numerically Accurate
+Sparsity-Oriented QP Solver</a>
+NASQQ：数值精确的面向稀疏性的QP求解器</li>
+<li><a href="https://sites.google.com/view/siggraph2020-multigpu">A
+Massively Parallel and Scalable Multi-GPU Material Point Method</a>
+一种大规模并行和可扩展的多GPU物质点法</li>
+<li><a href="https://hal.inria.fr/hal-02563307/">Projective Dynamics
+with Dry Frictional Contact</a> 干性摩擦接触的投影动力学</li>
+<li><a href="https://marctenbosch.com/ndphysics/">N-Dimensional Rigid
+Body Dynamics</a> N维刚体动力学</li>
+<li><a href="https://ipc-sim.github.io/">Incremental Potential Contact:
+Intersection- and Inversion-free, Large-Deformation Dynamic</a>
+增量潜在接触（IPC）：无交点无反转大变形动力学</li>
+<li><a href="https://cs.nyu.edu/~yixinhu/">Fast Tetrahedral Meshing in
+the Wild</a> 自然环境快速四面体网格化</li>
+<li><a
+href="https://light.cs.uni-bonn.de/chemomechanical-simulation-of-soap-film-flow-on-spherical-bubbles/">Chemomechanical
+Simulation of Soap Film Flow on Spherical Bubbles</a>
+肥皂膜在球形气泡上流动的化学动力学模拟</li>
+<li><a href="http://pub.ist.ac.at/group_wojtan/index.html">Wave Curves:
+Simulating Lagrangian Water Waves on Dynamically Deforming Surfaces</a>
+波曲线：模拟动态变形表面上的拉格朗日水波</li>
+<li><a href="https://cg.informatik.uni-freiburg.de/publications.htm">An
+Implicit Compressible SPH Solver for Snow Simulation</a>
+一种雪体模拟的隐式可压缩SPH求解器</li>
+<li><a href="https://www.youtube.com/watch?v=ugJhLMlyctc">Codimensional
+Surface Tension Flow Using Moving-Least-Squares Particles</a>
+使用移动最小二乘粒子的共维表面张力流</li>
+<li><a href="https://joshuahwolper.com/anisompm">AnisoMPM: Animating
+Anisotropic Damage Mechanics</a> AnisoMPM：各向异性损伤力学动画</li>
+<li><a href="http://vcl.pku.edu.cn/publication/2020/magnetism">A
+Level-Set Method for Magnetic Substance Simulation</a>
+一种磁体模拟的水平集方法</li>
+<li><a href="https://graphics.pixar.com/library/PhongDefo/">Phong
+Deformation: A Better C0 Interpolant for Embedded Deformation</a>
+Phong变形：一种更好的嵌入变形C0插值方法</li>
+<li><a href="http://gdaviet.fr/">Simple and Scalable Frictional Contacts
+for Thin Nodal Objects</a> 薄节点对象</li>
+<li><a href="https://ryichando.graphics/">A Practical Octree Liquid
+Simulator With Adaptive Surface Resolution</a>
+一种具有自适应表面分辨率的实用八叉树液体模拟器</li>
+<li>Adaptive Merging for Rigid Body Simulation 刚体模拟的自适应合并</li>
+<li><a href="https://www.seas.upenn.edu/~minchenl/">IQ-MPM: An Interface
+Quadrature Material Point Method for Non-sticky Strongly Two-way Coupled
+Nonlinear Solids and Fluids</a>
+IQ-MPM：一种非粘性强双向耦合非线性固体和流体的接口正交物质点方法</li>
+</ul>
+<p>TOG:</p>
+<ul>
+<li><a href="https://www.seas.upenn.edu/~minchenl/">Hierarchical
+Optimization Time Integration for CFL-rate MPM Stepping</a>
+CFL率物质点法步进的分层优化时间积分</li>
+<li><a
+href="http://www.cse.chalmers.se/~marcof/publication/tog2020/">Medial
+Elastics: Efficient and Collision-ready Deformation via Medial Axis
+Transform Medial Elastics</a>：通过中性轴变换的高效可碰撞变形</li>
+<li><a href="https://www.cs.umd.edu/~akader/pubs.html">VoroCrust:
+Voronoi Meshing without Clipping</a>
+VoroCrust：无需裁剪的Voronoi网格化</li>
+</ul>
+<h3 id="siggraph-2019"><strong>SIGGRAPH 2019</strong></h3>
+<ul>
+<li><a href="http://www.tkim.graphics/">Anisotropic Elasticity for
+Inversion-Safety and Element Rehabilitation</a>
+反转安全、元素恢复的各向异性弹性</li>
+<li><a href="http://joshuahwolper.com/publications">CD-MPM: Continuum
+Damage Material Point Methods for Dynamic Fracture Animation</a>
+CD-MPM：动态断裂动画的连续损伤物质点法</li>
+<li><a href="http://squarefk.com/">Silly Rubber: An Implicit Material
+Point Method for Simulating Non-equilibrated Viscoelastic and
+Elastoplastic Solids</a> Silly
+Rubber：模拟非平衡粘弹性和塑弹性固体的隐式物质点法</li>
+<li><a href="https://www.seas.upenn.edu/~minchenl/">Decomposed
+Optimization Time Integrator for Large-Step Elastodynamics</a>
+大步长弹性动力学的分解优化时间积分器</li>
+<li><a href="https://www.seas.upenn.edu/~cffjiang/">Efficient and
+Conservative Fluids Using Bidirectional Mapping</a>
+使用双向映射的高效保守流体</li>
+<li><a
+href="https://www3.math.tu-berlin.de/geometrie/wp_padilla/on_bubble_rings_and_ink_chandeliers/">On
+Bubble Rings and Ink Chandeliers</a> 气泡环和水墨吊灯</li>
+<li><a
+href="http://mns.k.u-tokyo.ac.jp/~yonghao/sig19/abstsig19.html">Mixing
+Sauces: A Viscosity Blending Model for Shear Thinning Fluids</a> Mixing
+Sauces：一种剪切稀化流体的粘度</li>
+<li><a
+href="http://computationalsciences.org/publications/huang-2019-ferrofluids.html">On
+the Accurate Large-scale Simulation of Ferrofluids</a>
+磁流体的大规模精确模拟</li>
+<li><a href="https://cs.uwaterloo.ca/~rgoldade/adaptiveviscosity/">An
+Adaptive Variational Finite Difference Framework for Efficient Symmetric
+Octree Viscosity</a> 一种高效对称八叉树粘度的自适应可变有限差分方法</li>
+<li><a href="http://faculty.cs.tamu.edu/sueda/projects/redmax/">REDMAX:
+Efficient and Flexible Approach for Articulated Dynamics</a>
+REDMAX：铰接体动力学的高效灵活方法</li>
+<li><a
+href="https://research-explorer.app.ist.ac.at/record/6442">Fundamental
+solutions for water wave animation</a> 水波动画的基础解决方案</li>
+<li><a href="https://hal.archives-ouvertes.fr/hal-02129156/">Implicit
+Untangling: A Robust Solution for Modeling Layered Clothing</a>
+隐式分解：一种分层服装建模的稳健解决方案</li>
+<li><a
+href="https://www.cg.tu-berlin.de/harmonic-triangulations/">Harmonic
+Triangulations</a> 谐波三角化</li>
+<li><a href="http://run.usc.edu/hand-mri/">Hand Modeling and Simulation
+Using Stabilized Magnetic Resonance Imaging</a>
+使用稳定磁共振成像的手部建模和模拟</li>
+</ul>
+<p>TOG:</p>
+<ul>
+<li><a
+href="http://graphics.pixar.com/library/AnalyticEigensystems/index.html">Analytic
+Eigensystems for Isotropic Distortion Energies</a>
+各向同性畸变能量的解析特征系统</li>
+<li><a
+href="http://nishitalab.org/user/syuhei/FlowInterpolation/flow_interpolation.html">Editing
+Fluid Animation using Flow Interpolation</a> 使用流插值编辑流体动画</li>
+<li><a
+href="https://cg.informatik.uni-freiburg.de/publications.htm">Interlinked
+SPH Pressure Solvers for Strong Rigid-Fluid Coupling</a>
+强刚性流体耦合的互连SPH压力求解器</li>
+<li><a
+href="http://www.mverschoor.nl/wp/projects/efficient-and-accurate-collision-response-for-elastically-deformable-models/">Efficient
+and Accurate Collision Response for Elastically Deformable Models</a>
+弹性可形变模型的高效准确碰撞响应</li>
+<li><a
+href="https://www.jdumas.org/publication/2019/polyspline/">Poly-Spline
+Finite Element Method</a> 多边形样条有限元方法</li>
+</ul>
+</blockquote>
+<p>我们可以看到，其中就有我们刚刚提到的<strong>MPM</strong>方法的数学论证和进一步优化。整理下来，整体来说主要有以下几个方面的工作：</p>
+<ul>
+<li>特殊材料、特殊问题的新型算法</li>
+<li>更加精确的模拟算法</li>
+<li>GPU/数学优化加速算法</li>
+<li>某个方法的数学物理原理</li>
+</ul>
+<p>那么我们就前三个（很显然数理原理的分析对我们制作不会太重要：我们知道方法对就行）讨论一下在我们电影制作中的发展方向。</p>
+<p>第一个，特殊材料、特殊问题的新型算法。参考《冰雪奇缘》对<strong>MPM</strong>的应用，我认为这类方法投入工业一般是具备了这两个条件：影片中出现了大量该特殊材料的镜头需要模拟；制作者具备足够的科研能力和时间成本、金钱成本去做工程化实践。因此，这件事我了解到的通常只会出现在一家公司的动画影片中，那就是Disney，尤其是旗下的Pixar公司。Disney不仅拥有非常棒的动画团队，还拥有目前全球可以说最强大的图形学科研团队Disney
+Research，前面的大量论文那就是他们产出的。同时他们还具有良好的营收情况，适合各种新方法实践的动画创意型影片生产线。这些条件都是很难复刻的。</p>
+<p>第二个，更精确的模拟算法。大家都知道，我们做娱乐用途的图形学领域有一句话说：“如果它看起来是对的，那么它就是对的”，我们观影看到各种大楼轰塌、水漫金山，也只是为了“好看”，而不会说“这滴水真的能溅到这么远吗，让我算算”。因此，我认为在模拟方法达到一定精确性的情况下，更精确的模拟算法对影视工业的意义并不很大。更多的用于工业生产的仿真工作中，例如导弹的弹道计算、桥梁的受冲击能力等等，这些更加需要精确性的行业。关于这一点大家也可以提出自己的看法。</p>
+<p>最后一个GPU/数学优化加速算法，我认为是对目前影视制作意义最大的一个方向，说白了就是更快。目前视效与动画制作最大的问题就在于速度，无论是物理模拟还是渲染，都是调整一次等待许久才能看到结果的一个离线工作流——当然渲染依托于GPU的渐进式渲染已经可以在很短的时间内看到结果，甚至借助实时渲染引擎已经开始有机会实现所见即所得的实时工作流。而基于物理的动画环节却还差得很远，我认为，物理模拟的实时化也是必然的趋势。</p>
+<h3
+id="影视游戏中的物理模拟实时化的发展趋势">影视/游戏中的物理模拟：实时化的发展趋势</h3>
+<p>在目前的影视/游戏的FX（特效）中，只有少数游戏具有简单的实时的交互物理动画，例如角色的Ragdoll系统（死亡后自然倒下）、刚体的掉落碰撞、简单的流体交互等等。大部分物理动画都是预先模拟完烘焙好的动画序列。那么在影视制作中，实时的物理模拟能够为哪些流程带来优势呢？</p>
+<h4 id="传统的视效动画工作流">传统的视效/动画工作流</h4>
+<p>在传统的视效/动画制作中，FX的制作方式前面已经提到。我在这里可以给大家演示一个简单的物理模拟程序，仅仅几十个节点组成的一个场景模拟，在我的5950X主机上，计算一帧就需要约4-6秒的时间。而在我们的影视制作中，一个镜头可能是几百个、甚至上千个节点组成的，其模拟的时间可想而知。在这种情况下，反复地调整参数是一件非常痛苦的事情，很多情况下，就只能靠经验判断。</p>
+<p>通过GPU或算法的优化、模型的简化提高模拟速率（甚至达到实时）在这里起到的作用和渲染领域中相似：预览和最终的高质量输出分离，用简化后的快速方法来获得预览画面——预览画面的基本动画要能保证与最终效果是一致的。如此，我们的FX艺术家就可以通过参数的调整，实时地来看参数的结果，从而细致化地调参，来达到更加精细的结果。</p>
+<h4 id="电影虚拟化制作">电影虚拟化制作</h4>
+<p>电影虚拟化制作是相对较新的制作方式，从On-set
+Previz（实时交互预演）到今天的基于LED背景墙的电影虚拟化制作，实时渲染的内容的重要性进一步提升。</p>
+<p>在On-set
+Previz中，我们用实时渲染画面作为预览用的合成背景。在绿幕拍摄现场，通过摄影机跟踪将真实摄影机与实时渲染引擎中的摄影机绑定，使得现场画面的与实时渲染画面的运动匹配，再将绿幕画面实时抠像后作为前景、实时渲染画面作为背景实时合成输出至监看设备，提供给现场制作人员参考。这一流程中的实时渲染背景仅作为现场的制作者预览使用，不会作为真实的成片内容。因此，无论是模拟还是渲染的精度都不需要很高，目的在于告诉摄影师“爆炸的炸点在这”。因此在On-set
+Previz中应用游戏中常见的简单交互特效是可行的。这样我们可以设计与实时渲染引擎交互的触发装置，让演员能够比较轻松地判断与虚拟物体的交互。</p>
+<p>而在基于LED背景墙的电影虚拟化制作中，实时渲染画面需要用于最终成片。在On-set
+Previz的基础上，我们将实时渲染的场景通过mapping的方式投影至LED背景墙上，那么摄影机内就能直接拍摄得到正确透视、视差的背景画面，我们称为“摄影机内视效拍摄”，直接就完成了合成工作。这也意味着，我们实时渲染引擎产出的画面要用于最终的成片了，对资产的质量要求大大提高了——因此目前，涉及到基于物理的动画的资产，都是预先完成模拟计算、烘焙成动画的，仅在引擎中设计触发播放，无法产生交互。因而，我们也期待着物理模拟的实时化、以及实时化模拟的结果可以很快地转换至Mesh完成实时的光照与渲染，从而实现基于LED背景墙的电影虚拟化制作中的交互物理动画。</p>
+<h3 id="总结">总结</h3>
+<p>通过今天的课程，希望能给大家带来对基于物理的动画的一些认识。我们从视效/动画制作中的FX流程，到粒子、刚体、流体为代表的各种模拟系统发展及其在各类影片中的应用案例，最后我们畅想了一下基于物理的动画在影视工业应用中的发展方向。也算是基本涵盖了基于物理的动画的方方面面了。</p>
+<p>我们知道，这门课的内容对大家相对来说有些难，有很多的数学公式、很多的程序代码，要相信，课程的内容对我们俩也是困难的，但我们这几个月来不断地啃书本、Paper、代码，坚持着看教程、做实验，然后尽可能地为大家做简化——已经省去了大量的推导、求解和程序。最后，呈现到大家面前这样一个还算笼统的一个Pre，我们不求大家能完全听懂这个Pre的每一部分，只希望如果我们能展现那么几分在计算机中、在电影中重现物理世界这件事的魅力，能够让同学们对这个领域不再陌生，当进入行业后，如果有人提起相关的话题、工作中遇到相关的问题，可以想到当年有两位同学为我们介绍过，能应和两声，或者是回头想到我们这次提到的一些方法，去搜索学习就已经再好不过了。</p>
+<p>最后，我们不可免俗地cue一下近期的热点。我们现在讨论在电影中重现物理世界，电影是一个二维的视觉内容，我们现在经常说要拓展我们的维度、拓展我们的感官，也就是三维的、多种感官交互的内容——也就是我们正在向着电影《头号玩家》的绿洲那样的内容迈进，或者说热点词汇就是我们的“元宇宙”，也就是在虚拟世界中重现物理世界，用到的仍然会是我们今天讨论的这些技术，所以我觉得基于物理的动画既是一个已经发展了数十年的技术领域，也是正在蓬勃发展中，将为我们未来的“元宇宙”提供基础物理定律的一个高新领域。期待引领我们俩进入图形学世界的闫令琪老师口中的“无限月读”的世界能够早日实现，谢谢大家。</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-12-05-影片技术分析Pre-基于物理的动画-流体系统</title>
+      <link>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</guid>
+      <description>流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
+流体与流体力学 首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。
+所有液体 所有气体 具备流动特征的固体：如沙丘 流体主要具备以下性质：
+流动性（fluidity）：流体间的分子作用力较小，难以保持一定的形状，在受到外界的作用力或能量不平衡时，流体会发生流动。
+变形性（deformability）：在受到剪切力持续作用时，与固体的微小变形或有限变形不同，流体产生程度很大的、甚至作用时间无限长的变形。
+粘性（viscosity）：相邻两层流体之间发生相对运动时，在两层流体的接触面会产生对于变形的抗力，与固体的摩擦力不同，这种抗力不与流体的变形大小有关，而与流体的变形速度正相关，这种抵抗变形的特性称为粘性。
+正相关的形式：
+线性相关 - 牛顿流体 \(\tau=\mu\dfrac{du}{dy}\) 非线性相关 - 非牛顿流体 \(\tau=\mu(T,p)\left(\dfrac{du}{dy}\right)^2\) 可压缩性（compressibility）/不可压缩性（incompressibility）：在一定的温度下，单位压强增量引起的体积变化率定义为流体的压缩性系数(coefficients of compressibility)，其值越大，流体越容易压缩，反之，不容易压缩。
+在影视制作的物理模拟中，一般模拟的是不可压缩流体。
+Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\frac{\mathrm D\mathbf u}{\mathrm Dt}}_{\frac{\partial\mathbf u}{\partial t}+\mathbf u\cdot\nabla\mathbf u}=\frac{1}{\rho}\nabla\cdot\underbrace\sigma_{应力加速度张量}+\mathbf g\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+不可压缩流体 Navier-Stokes 方程 \[ 动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf u}{\partial t}}_{非稳态加速度}+\underbrace{\mathbf u\cdot\nabla\mathbf u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm Dt}}+\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf g}_{外力加速度}+\underbrace{\nu\nabla\cdot\nabla\mathbf u}_{粘滞力加速度(经常忽略)}\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+补充数学： \[ 哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)\quad\\ {\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\ 拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)^2\\ {\bf梯度}的{\bf散度}\ \Delta\vec F \]</description>
+      <content:encoded><![CDATA[<h2 id="流体系统">流体系统</h2>
+<p>最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。</p>
+<h3 id="流体与流体力学">流体与流体力学</h3>
+<p>首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。</p>
+<ul>
+<li>所有液体</li>
+<li>所有气体</li>
+<li>具备流动特征的固体：如沙丘</li>
+</ul>
+<p>流体主要具备以下性质：</p>
+<ul>
+<li><p><strong>流动性（fluidity）</strong>：流体间的分子作用力较小，难以保持一定的形状，在受到外界的作用力或能量不平衡时，流体会发生流动。</p></li>
+<li><p><strong>变形性（deformability）</strong>：在受到剪切力持续作用时，与固体的微小变形或有限变形不同，流体产生程度很大的、甚至作用时间无限长的变形。</p></li>
+<li><p><strong>粘性（viscosity）</strong>：相邻两层流体之间发生相对运动时，在两层流体的接触面会产生对于变形的抗力，与固体的摩擦力不同，这种抗力不与流体的变形大小有关，而与流体的变形速度正相关，这种抵抗变形的特性称为粘性。</p>
+<p><strong>正相关</strong>的形式：</p>
+<ul>
+<li>线性相关 - <strong>牛顿流体</strong> <span
+class="math inline">\(\tau=\mu\dfrac{du}{dy}\)</span></li>
+<li>非线性相关 - <strong>非牛顿流体</strong> <span
+class="math inline">\(\tau=\mu(T,p)\left(\dfrac{du}{dy}\right)^2\)</span></li>
+</ul></li>
+<li><p><strong>可压缩性（compressibility）/不可压缩性（incompressibility）</strong>：在一定的温度下，单位压强增量引起的体积变化率定义为流体的压缩性系数(coefficients
+of compressibility)，其值越大，流体越容易压缩，反之，不容易压缩。</p>
+<p>在影视制作的物理模拟中，一般模拟的是<strong>不可压缩流体</strong>。</p></li>
+</ul>
+<h4 id="navier-stokes-方程">Navier-Stokes 方程</h4>
+<p><strong>一般形式</strong> <span class="math display">\[
+动量方程\quad\displaystyle\underbrace{\frac{\mathrm D\mathbf u}{\mathrm
+Dt}}_{\frac{\partial\mathbf u}{\partial t}+\mathbf u\cdot\nabla\mathbf
+u}=\frac{1}{\rho}\nabla\cdot\underbrace\sigma_{应力加速度张量}+\mathbf
+g\\
+质量方程\quad\nabla\cdot\mathbf u=0
+\]</span></p>
+<p><strong>不可压缩流体 Navier-Stokes 方程</strong> <span
+class="math display">\[
+动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf
+u}{\partial t}}_{非稳态加速度}+\underbrace{\mathbf u\cdot\nabla\mathbf
+u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm
+Dt}}+\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf
+g}_{外力加速度}+\underbrace{\nu\nabla\cdot\nabla\mathbf
+u}_{粘滞力加速度(经常忽略)}\\
+质量方程\quad\nabla\cdot\mathbf u=0
+\]</span></p>
+<blockquote>
+<p>补充数学： <span class="math display">\[
+哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\
+\dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial
+z}\right)\quad\\
+{\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\
+拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial
+x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial
+z}\right)^2\\
+{\bf梯度}的{\bf散度}\ \Delta\vec F
+\]</span></p>
+</blockquote>
+<h4 id="流体模拟的两种视点">流体模拟的两种视点</h4>
+<p>前面我们一直在用拉格朗日视点在考虑粒子和刚体的模拟，也就是“盯着运动物体看”。那在流体中，我们终于可以聊到两种视点。</p>
+<p>流体是一种连续介质——什么叫连续介质，简单来说就是很难分割，你没法把一杯水分成一块一块的独立件去模拟，除非细到分子程度——我们的第一种思路就有点像：用超大规模的粒子去模拟流体。那就回归到了我们第一节课讲过的粒子系统，又由于粒子之间是要考虑相互作用力的，那么就是一个比较复杂的交互粒子系统。这就是我们流体模拟的<strong>拉格朗日方法</strong>。<strong>拉格朗日方法</strong>的优势在于非常直观，相对来说更加精确，但是问题是很难追溯流体中的某一部分，或者说某一区域的粒子，要选取范围来做粒子操作——永远需要遍历每一个粒子，需要用非常复杂的数据结构来优化。</p>
+<p>另一种方法之前也给大家介绍过了：考虑空间网格而不是考虑单体的<strong>欧拉方法</strong>。在流体模拟中，也就是把流体运动的空间分割为网格，考虑每一个网格中是否有流体、流体的速度、加速度、受力等状态，然后迭代更新每一个网格的状态。<strong>欧拉方法</strong>则可以方便地调取某一区域的流体。后面会提到这个“方便调取”带来的优势。</p>
+<p>近两年也出现了<strong>拉格朗日</strong>和<strong>欧拉</strong>的混合方法，就是一会<strong>拉格朗日</strong>、一会<strong>欧拉</strong>，来结合两者的优点。后面也会给大家介绍。</p>
+<ul>
+<li><strong>拉格朗日方法</strong></li>
+<li><strong>欧拉方法</strong></li>
+<li><strong>混合方法</strong></li>
+</ul>
+<h3 id="拉格朗日方法光滑粒子动力学">拉格朗日方法：光滑粒子动力学</h3>
+<p>那么首先我们就为大家介绍一种最简单的拉格朗日流体模拟方法：SPH
+(Smoothed Particle Hydrodynamics)[2]。</p>
+<p>SPH的核心思想就是把流体考虑成一个个相互作用的粒子：每一个粒子根据周围一定范围的粒子的位置、受力、粘力等状态来更新自己的状态，从而计算出加速度和速度，进行反复迭代。</p>
+<p>首先我们来解释一下“光滑”的概念。先给大家讲一种比较形象的解释方式，两个小球，不接触（手做演示）时互不影响，一旦接触就反弹，这叫<strong>不光滑</strong>；而如果这两个小球接触时不会立即弹开，而是有一个缓冲，先接触、重合然后慢慢地弹开，就叫做<strong>光滑</strong>。严谨的表述是，两个粒子的相互影响在相近一定距离时发生（接触），相互影响的程度随着距离的接近从0开始逐渐增大（缓冲），即形成下图右图这样的相互影响程度
+- 距离函数，我们称之为<strong>光滑核函数</strong>。</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/不光滑核函数.png" alt="不光滑核函数" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/光滑核函数.png" alt="光滑核函数" style="zoom:40%;" />
+<center/>
+<p><img src="/images/filmtechanalysis-PBA/光滑核函数3D.png" alt="光滑核函数3D" style="zoom:10%;" /></p>
+<p>设第 <span class="math inline">\(i\)</span> 个粒子的坐标是 <span
+class="math inline">\(\mathbf x_i\)</span> ，对空间中任一点 <span
+class="math inline">\(\mathbf x\)</span> ， <span
+class="math inline">\(\mathbf r =\mathbf x - \mathbf x_i\)</span>
+，<strong>核函数</strong>即为： <span class="math display">\[
+\omega_i(\mathbf r)=\omega(\|\mathbf r\|)\\
+\]</span></p>
+<p>“最大半径”的概念我们也称为<strong>有限支撑</strong>，设该最大半径/有限支撑为
+<span class="math inline">\(r_{max}\)</span> 。 <span
+class="math display">\[
+r\ge r_{max}时,\quad\omega(r)=0\\
+\oint \omega_{(r)}d\mathbf r=1
+\]</span></p>
+<p><strong>光滑核函数</strong>选择是很多的，只要满足以上条件的函数都可以用于核函数，一般根据我们的动画需要来选择，也可以根据动画效果来做一些参数的调整。可以是我们上图中这样的，也可以是接近0时趋向正无穷的。</p>
+<p>那么有空间中的任意场 <span class="math inline">\(A\)</span> 、场梯度
+<span class="math inline">\(\nabla A\)</span> 及密度 <span
+class="math inline">\(\rho\)</span> 计算方法分别为： <span
+class="math display">\[
+A(\mathbf x)=\sum_i A_i \dfrac{m_i}{\rho_i}\omega(\|\mathbf x-\mathbf
+x_i\|),\quad\rho_i=\sum_j m_j\omega(\|\mathbf x_i-\mathbf x_j\|)\\
+\nabla A_i=\rho_i\sum_j
+m_j\left(\dfrac{A_i}{\rho_i^2}+\dfrac{A_j}{\rho_j^2}\right)\nabla_{\mathbf
+x_i}\omega(\|\mathbf x_i-\mathbf x_j\|)\quad (\nabla_{\mathbf
+x_i}\omega指核函数在位置{\mathbf x_i}的梯度)
+\]</span></p>
+<p>则我们就可以来做最简单的SPH算法了：<strong>WCSPH (Weakly Compressible
+SPH)</strong>。最终在程序中每一个时间步的计算步骤为：</p>
+<ul>
+<li><p>对于每个粒子 <span class="math inline">\(i\)</span> ，计算其密度
+<span class="math inline">\(\rho_i\)</span> ，从而得到压强 <span
+class="math inline">\(p_i\)</span> ，进一步计算得到压强梯度 <span
+class="math inline">\(\nabla p_i\)</span> ： <span
+class="math display">\[
+\rho_i=\sum_j m_j\omega(\|\mathbf x_i-\mathbf x_j\|)\\
+p_i=B((\dfrac{\rho_i}{\rho_0}))
+\]</span></p></li>
+<li><p>对于每个粒子 <span class="math inline">\(i\)</span>
+，计算所在位置的压强梯度 <span class="math inline">\(\nabla p_i\)</span>
+，即： <span class="math display">\[
+\nabla p_i=\rho_i\sum_j
+m_j\left(\dfrac{p_i}{\rho_i^2}+\dfrac{p_j}{\rho_j^2}\right)\nabla_{\mathbf
+x_i}\omega(\|\mathbf x_i-\mathbf x_j\|)
+\]</span></p></li>
+<li><p>代入N-S方程（忽略了粘度项 <span
+class="math inline">\(\nu\nabla\cdot\nabla\mathbf u\)</span>
+），计算每个粒子 <span class="math inline">\(i\)</span> 的材料加速度
+<span class="math inline">\(\dfrac{\mathrm D\mathbf u}{\mathrm
+Dt}\)</span> ，从而直接计算当前时间步的速度与位移： <span
+class="math display">\[
+a=-\dfrac{\nabla p}{\rho}+g\\
+以显式时间积分方法为例\quad\begin{array}{l}\mathbf v_{t+1}=\mathbf
+v_t+\Delta t\left(-\dfrac{\nabla p}{\rho}+\mathbf g\right)\\
+\mathbf x_{t+1}=\mathbf x_t+\Delta t\mathbf v_{i+1}\end{array}
+\]</span></p></li>
+</ul>
+<p>除了我们最简单的<strong>WCSPH</strong>，还有一些拓展方法。</p>
+<ul>
+<li><strong>WCSPH, Weakly Compressible SPH</strong>
+最简单的显式求解</li>
+<li><strong>PCISPH, Predictive-Corrective Incompressible SPH</strong>
+不断调整压力值控制密度，保证不可压缩性，循环修正过程即为“预估矫正
+(Predictive-Corrective)”</li>
+<li><strong>IISPH, Implicit Incompressible SPH</strong> 隐式求解，使用
+Relaxed Jacobi Method 求解，PCISPH</li>
+<li><strong>DFSPH, Divergence-Free SPH</strong>
+不仅保证密度恒定，还要保证速度的散度为0</li>
+</ul>
+<figure>
+<img src="/images/filmtechanalysis-PBA/PCISPH.gif" alt="PCISPH" />
+<figcaption aria-hidden="true">PCISPH</figcaption>
+</figure>
+<p>如这张图中的效果就是PCISPH方法在二维中的一个呈现，通过Taichi编程显示。</p>
+<p>SPH方法的优势在于理解起来相对简单，再加以一定的条件后也能够达到相当的精确性。但SPH方法在粒子量较大时计算会比较慢，尤其是在搜索附近粒子时没有很好的加速方法的话。此外，SPH想要保证流体的不可压缩性，只能通过PCISPH那种预估矫正的方法来保证。</p>
+<h4 id="案例分享">案例分享</h4>
+<p>近年来，SPH方法主要还是用于建筑、桥梁等土木工程流体仿真计算中，在电影中应用较少。我能搜到的一个应用粒子是《超人：英雄归来》中，Tweak
+(Shotgrid) 在一些流体镜头中应用了SPH方法。</p>
+<h3 id="欧拉方法stable-fluids">欧拉方法：Stable Fluids</h3>
+<p>纯拉格朗日方法有什么问题呢？前面我们提到过，我们无法对其中某些部分粒子单独操作，一旦模拟开始了，就无法控制，只能通过初始参数的设定来调整效果。我们看一个欧拉方法的案例：<a
+href="https://zcyemi.github.io/webgl2-stablefluids/">WebGL2-StableFluids</a>。在网格化的方法中，我们就能比较方便地操作某一个区域的流体——网格是固定不动的，这一时间步的
+<span class="math inline">\((0.5,0.5)\)</span>
+和下一时间步的都是指的同一个网格。</p>
+<p>在欧拉方法中，我们不再关注流体本身，而是关注流体流过的空间。那么我们就要把前面用到的材料导数拆开：
+<span class="math inline">\(\displaystyle \frac{\mathrm D\mathbf
+u}{\mathrm Dt}=\frac{\partial\mathbf u}{\partial t}+\mathbf
+u\cdot\nabla\mathbf u\)</span> ，我们现在要在网格里存的是 <span
+class="math inline">\(\dfrac{\partial\mathbf u}{\partial t}\)</span>
+，也就是我们比起拉格朗日方法直接得到 <span
+class="math inline">\(\dfrac{\mathrm D\mathbf u}{\mathrm Dt}\)</span>
+，现在要多计算 <span class="math inline">\(-\mathbf u\cdot\nabla\mathbf
+u\)</span> 这一项了，这一项叫做<strong>对流项</strong>。</p>
+<p>我们这里用欧拉方法中最经典的一篇Paper，Stable
+Fluids[3]的实现为例来讲解欧拉方法的细节，Stable
+Fluids把N-S方程先做了一个变形： <span class="math display">\[
+\displaystyle\frac{\partial\mathbf u}{\partial t}=-\frac{1}{\rho}\nabla
+p-\mathbf u\cdot\nabla\mathbf u+\nu\nabla\cdot\nabla\mathbf u+\mathbf
+g\\
+\Rightarrow\quad\displaystyle\frac{\partial\mathbf u}{\partial
+t}=\mathbf P(-\mathbf u\cdot\nabla\mathbf u+\nu\nabla\cdot\nabla\mathbf
+u+\mathbf g)\\
+(\mathbf P 表示压强的投影算子，消去了单独的压强项-\frac{1}{\rho}\nabla
+p)
+\]</span>
+在拉格朗日方法中，我们把粒子的所有受力计算出来、叠加得到合力，最后再来做时间积分的。然而欧拉方法中我们是逐项逐步来做计算，每一步得到一次速度，每一步的输出要作为下一步的输入，如下图依次执行。
+<img src="/images/filmtechanalysis-PBA/StableFluidsSteps.png" alt="Semi-StableFluidsSteps" style="zoom:20%;" /></p>
+<ul>
+<li><strong>Add force</strong>
+处理统一的外力，这一步相对简单，就是给流体一个统一的外力，比如重力</li>
+<li><strong>Advection</strong> 步进，计算对流项 <span
+class="math inline">\(-\mathbf u\cdot\nabla\mathbf u\)</span>
+，更新粒子速度和位置。</li>
+<li><strong>Diffusion</strong> 耗散，计算粘度项 <span
+class="math inline">\(\nu\nabla\cdot\nabla\mathbf u\)</span>
+，这一条我们在这次讲解中就简单带过了，一般在模拟高粘度的流体比如胶水时，才比较需要这一项。</li>
+<li><strong>Projection</strong> 投影，计算投影算子 <span
+class="math inline">\(\mathbf P\)</span> 或者压强项 <span
+class="math inline">\(-\dfrac{1}{\rho}\nabla p\)</span> 。</li>
+</ul>
+<p>在具体讲解之前呢，我们还是先了解一下，“网格化”的一些细节。网格化本身是一个很容易的事情，能够产生不一样的地方在于，我们怎样存储网格化的流体的状态。</p>
+<ul>
+<li>最简单的一种方式就是我们把所有属性：速度、压强存在每一个网格的中心；</li>
+<li>另一种稍微复杂一些的方式是我们把压强存在网格的中心，而把速度拆成垂直分量和水平分量，分别存储在网格的左右两边中点和上下两边中点，这种方式我们也称为<strong>MAC网格</strong>。
+这样能够避免掉简单的中心存储可能出现的“棋盘格图案 Checkerboard
+Pattern”。</li>
+</ul>
+<center>
+<img src="/images/filmtechanalysis-PBA/均匀网格-中心.png" alt="均匀网格-中心" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/均匀网格-周围.png" alt="均匀网格-周围" style="zoom:20%;" />
+<center/>
+<h4 id="grid">Grid</h4>
+<p>在这个基础上，我们的下一个问题是，我在空间中任意取一点并不在网格存储点位置的点，怎样去求其状态——这里我们使用的就是简单的双线性插值。就像下图，用它周围的四个点的状态计算、用面积作为权重。</p>
+<p><img src="/images/filmtechanalysis-PBA/双线性插值.png" alt="双线性插值" style="zoom:25%;" /></p>
+<h4 id="advection">Advection</h4>
+<p>在计算对流项这一步，Stable
+fluid实现的方法被称为<strong>半拉格朗日法</strong>，为什么又要“拉格朗日”？</p>
+<p>我们考虑某一个网格位置当前的速度是什么？这里我们用粒子来考虑：就是一个粒子从上一个地方流到了这一个地方——就是粒子在的上一个地方的速度（要注意，我们这里计算的是对流项，因此不考虑压强带来的速度变化）。那<strong>Advection</strong>的思路就出来了：</p>
+<p>如下图，首先假定一个网格中心 <span class="math inline">\(\mathbf
+x\)</span> 处存在粒子 <span class="math inline">\(p\)</span> ，由处当
+<span class="math inline">\(p\)</span> 前的速度 <span
+class="math inline">\(\mathbf u\)</span> 反向追溯得 <span
+class="math inline">\(p\)</span> 前一个时间步的位置 <span
+class="math inline">\(\mathbf x_{old}\)</span> ，这个 <span
+class="math inline">\(\mathbf x_{old}\)</span>
+就不一定在网格中心了，用它周围的速度场插值得到它的速度 <span
+class="math inline">\(\mathbf u_{old}\)</span> 也就是我们要更新的 <span
+class="math inline">\(\mathbf u_{new}\)</span> 。</p>
+<p><img src="/images/filmtechanalysis-PBA/Semi-Lagrangian_1.png" alt="Semi-Lagrangian_1" style="zoom:24%;" /></p>
+<p>但是这时可能会存在下图这种现象，尤其是时间步长较大时非常明显：运动方向与我们的追溯方向偏差较大，不断地偏差下去就会一次比一次大，最终出现整个流体速度场的整体性偏移。那么怎么解决它呢：</p>
+<p><img src="/images/filmtechanalysis-PBA/Semi-Lagrangian_2.png" alt="Semi-Lagrangian_2" style="zoom:15%;" /></p>
+<p>那根据我们之前做正向速度更新时的经验，我们就可以“往回走两步”，或者说是“先走半步、再走半步”，即我们熟悉的“中点法”，这样我们就能够追溯地更加精准。当然也可以走三步，相对来说就没那么必要了。这个过程，其实本质上是在解非线性常微分方程的数值解，用的方法叫做Runge-Kutta方法，我们最简单的走一步就是RK1，走两步就是RK2，三步就是RK3方法。</p>
+<p>此外呢，在插值问题上，后来也有人用样条插值（比如Catmull-Rom）来对线性插值做改进。</p>
+<h4 id="diffusion">Diffusion</h4>
+<p><strong>Diffusion</strong>这一步相对简单，如果要做的话。我们就直接逐网格求得粘度加速度，再在<strong>Advection</strong>得到的速度基础上做时间积分即可。
+<span class="math display">\[
+\dfrac{\partial\mathbf u}{\partial t}=\nu\nabla^2\mathbf u
+\]</span> 以简单的前向时间积分为例就是： <span class="math display">\[
+\mathbf u^{n+1}=\mathbf u^n+\Delta t \nu\nabla^2\mathbf u^n
+\]</span>
+当然，这个前向时间积分也可以用隐式的时间积分方法（比如后向欧拉）来完成，Stable
+Fluids就是把上面这个计算过程换成用后向欧拉方法、使用共轭梯度法迭代来计算的，这里我们就省略过程了。</p>
+<h4 id="projection">Projection</h4>
+<p>在<strong>Projection</strong>这一步，我们求的其实是压强，压强这一项其实是为了保证流体的不可压缩性，因此我们有条件：速度的散度为0。我们这一步的条件其实就是：
+<span class="math display">\[
+\dfrac{\partial\mathbf u}{\partial t}=-\dfrac{1}{\rho}\nabla p\
+,\quad\nabla\mathbf u=0
+\]</span> 那么我们用后向欧拉的思路就得到了压强的泊松方程（Pressure
+Poisson equation, PPE）： <span class="math display">\[
+\mathbf u^{n+1}-\mathbf u^n=-\Delta t\dfrac{\nabla p}{\rho}\ ,\quad
+\nabla\mathbf u^{n+1}=0\\
+\Rightarrow\ 泊松方程\ \nabla\cdot\nabla p=\dfrac{\rho}{\Delta
+t}\nabla\cdot\mathbf u
+\]</span>
+我们用中心差分方法代替其中的哈密顿算子和拉普拉子算子后，这个泊松方程又是一个形如
+<span class="math inline">\(Ax=b\)</span>
+的超大规模线性方程，我们用各种迭代方法去解它就好了。 <span
+class="math display">\[
+\begin{aligned}(\mathbf Ap)_{i,j,k}&amp;=(\nabla\cdot\nabla
+p)_{i,j,k}\\&amp;=\dfrac{1}{\Delta
+x^2}(-6p_{i,j,k}+p_{i+1,j,k}+p_{i-1,j,k}+p_{i,j+1,k}+p_{i,j-1,k}+p_{i,j,k+1}+p_{i,j,k-1})\\\\
+\mathbf b_{ij}&amp;=\left(\dfrac{\rho}{\Delta t}\nabla\cdot\mathbf
+u\right)_{i,j,k}\\&amp;=\dfrac{\rho}{\Delta t\Delta x}(\mathbf
+u_{i+1,j,k}^x-
+\mathbf u_{i,j,k}^x+\mathbf u_{i,j+1,k}^y-\mathbf u_{i,j,k}^y+\mathbf
+u_{i,j,k+1}^z-\mathbf u_{i,j,k}^z)\end{aligned}
+\]</span> 不过这里的 <span class="math inline">\(A\)</span>
+是一个超大规模的稀疏对称正定矩阵（ <span class="math inline">\(nml\times
+nml,\ nml\ 分别为\ xyz\ 方向的网格数量\)</span>
+），我们也会有一些计算方法去优化它。</p>
+<p>不过在烟雾这样的流体模拟中，温度也会带来变量。因此在模拟烟雾等流体时，压强场的泊松方程还需要做一些小变化：密度
+<span class="math inline">\(\rho\)</span>
+不是固定的了，针对每一网格要通过温度去计算浮力、从而得到新的 <span
+class="math inline">\(\rho\)</span> 来参与计算。这里不再赘述。</p>
+<h4 id="案例分享-1">案例分享</h4>
+<p>欧拉方法在混合方法出现之前，一度是电影工业界最流行的模拟方法。这里给大家讲一个趣事，就是我们前面分析的Stable
+Fluids这篇paper，刚投递到Siggraph时，审稿人直接给毙了：这写的什么东西啊，尤其是对它用半拉格朗日法求对流项速度的方法意见颇大——也太不精确了。但是很快，这一方法就在工业界被大量使用了：我们电影、游戏要多少物理精确啊，速度快、好看、好用才是对的。因此直到这一方法已经几乎成为工业界的成熟方案，才被会议接收发表。</p>
+<p>欧拉方法非常适合用于烟雾、火焰等流体的模拟，我们利用Houdini中的Pyro工具架也制作了一个简单的烟雾模拟DEMO：给大家演示一下。</p>
+<h3 id="混合欧拉-拉格朗日方法">混合欧拉-拉格朗日方法</h3>
+<p>整体上来说，一个流体模拟系统总体来说大致主要就是<strong>Advection</strong>（步进：根据速度更新粒子状态或进行场的流动）和<strong>Projection</strong>（投影：更新速度，维持物质守恒/不可压缩性）两步。在拉格朗日方法的SPH中，我们虽然没有强调这两个概念，因为<strong>Advection</strong>步骤很轻松就完成了，但是<strong>Projection</strong>时需要复杂的数据结构（或者逐个遍历）来实现邻域的访问，因此很难保证流体的不可压缩性——直到PCISPH中引入了一个有点复杂的预估校正系统才能保证这一点。而在欧拉方法中的<strong>Advection</strong>步骤中却很难精确地处理场的流动，我们用RK2甚至RK3才能够消除误差，甚至还不能完全消除图形上的Artifact，而且很容易丢失能量和几何的细节；<strong>Projection</strong>却因为我们可以很方便地调取周边网格的状态变得非常好操作。所以我们就想，能不能将这两个方法混合一下。</p>
+<p>当然可以，那么这类混合方法的思路就是：在粒子上做速度与状态更新，在网格上做压强计算与边界条件处理。算法的核心是
+P2G 和 G2P
+两个函数，分别是把粒子上的信息转换到网格上和把网格上的信息转换到粒子上，然后在粒子上和网格上分别做适合的工作。</p>
+<ul>
+<li>Particle to Grid transfer (P2G)</li>
+<li>Grid Operation
+<ul>
+<li>Pressure projection</li>
+<li>Boundary conditions</li>
+<li>…</li>
+</ul></li>
+<li>Grid to Particle transfer (G2P)</li>
+<li>Particle operation
+<ul>
+<li>Move particles</li>
+<li>Update material</li>
+<li>…</li>
+</ul></li>
+</ul>
+<h4 id="pic-particle-in-cell-粒子元胞法">PIC, Particle in Cell
+粒子元胞法</h4>
+<p>那么我们以最古老也最简单的一种混合欧拉-拉格朗日方法：PIC[4]，Particle
+in Cell，粒子元胞法为例，先给大家介绍 P2G 和 G2P 两个函数的实现。</p>
+<p>从这两张图就可以清晰地看到 P2G 和 G2P 的过程。</p>
+<ul>
+<li>我们通常先选择一个网格范围，这里是二维的 <span
+class="math inline">\(3\times 3\)</span> 的网格，作为 P2G 或 G2P
+中的网格作用范围，把粒子的状态“摊”到这些网格上或者是把这些网格的状态收集起来作为粒子的状态。</li>
+<li>这里我们就会又一次用到前面介绍的“核函数”。这里粒子对每一个网格、每一个网格对粒子的“贡献”是不一样的，所以我们在“分摊”或者“收集”时要用一个权重，这个权重就是我们关于距离的核函数
+<span class="math inline">\(\omega\|\mathbf x_i-\mathbf x_p\|\)</span>
+。</li>
+</ul>
+<p><img src="/images/filmtechanalysis-PBA/P2G&G2P.png" alt="P2G&G2P" style="zoom:50%;" /></p>
+<p>那么我们就可以实现我们的想法：在网格中做<strong>Projection</strong>（就如欧拉方法中那样），在粒子中做<strong>Advection</strong>（直接使用粒子携带的速度值移动）了。程序变得简单了起来（二维）：</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P2G</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> x:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    base <span class="op">=</span> (x[p] <span class="op">*</span> inv_dx <span class="op">-</span> <span class="fl">0.5</span>).cast(<span class="bu">int</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    fx <span class="op">=</span> x[p] <span class="op">*</span> inv_dx <span class="op">-</span> base.cast(<span class="bu">float</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Quadratic B-spline</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> [<span class="fl">0.5</span> <span class="op">*</span> (<span class="fl">1.5</span> <span class="op">-</span> fx) <span class="op">**</span> <span class="dv">2</span>, <span class="fl">0.75</span> <span class="op">-</span> (fx <span class="op">-</span> <span class="dv">1</span>) <span class="op">**</span> <span class="dv">2</span>, <span class="fl">0.5</span> <span class="op">*</span> (fx <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">**</span> <span class="dv">2</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> ti.static(<span class="bu">range</span>(<span class="dv">3</span>)):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> ti.static(<span class="bu">range</span>(<span class="dv">3</span>)):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            offset <span class="op">=</span> ti.Vector([i, j])</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            weight <span class="op">=</span> w[i][<span class="dv">0</span>] <span class="op">*</span> w[j][<span class="dv">1</span>]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            grid_v[base <span class="op">+</span> offset] <span class="op">+=</span> weight <span class="op">*</span> v[p]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            grid_m[base <span class="op">+</span> offset] <span class="op">+=</span> weight</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid normalize</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, j <span class="kw">in</span> grid_m:</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> grid_m[i, j] <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        inv_m <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> grid_m[i, j]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        grid_v[i, j] <span class="op">=</span> inv_m <span class="op">*</span> grid_v[i, j]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># G2P</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> x:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    base <span class="op">=</span> (x[p] <span class="op">*</span> inv_dx <span class="op">-</span> <span class="fl">0.5</span>).cast(<span class="bu">int</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    fx <span class="op">=</span> x[p] <span class="op">*</span> inv_dx <span class="op">-</span> base.cast(<span class="bu">float</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Quadratic B-spline</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> [<span class="fl">0.5</span> <span class="op">*</span> (<span class="fl">1.5</span> <span class="op">-</span> fx) <span class="op">**</span> <span class="dv">2</span>, <span class="fl">0.75</span> <span class="op">-</span> (fx <span class="op">-</span> <span class="fl">1.0</span>) <span class="op">**</span> <span class="dv">2</span>, <span class="fl">0.5</span> <span class="op">*</span> (fx <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">**</span> <span class="dv">2</span>]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    new_v <span class="op">=</span> ti.Vector.zero(ti.f32, <span class="dv">2</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> ti.static(<span class="bu">range</span>(<span class="dv">3</span>)):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> ti.static(<span class="bu">range</span>(<span class="dv">3</span>)):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>            weight <span class="op">=</span> w[i][<span class="dv">0</span>] <span class="op">*</span> w[j][<span class="dv">1</span>]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>            new_v <span class="op">+=</span> weight <span class="op">*</span> grid_v[base <span class="op">+</span> ti.Vector([i, j])]</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    x[p] <span class="op">=</span> clamp_pos(x[p] <span class="op">+</span> v[p] <span class="op">*</span> dt)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    v[p] <span class="op">=</span> new_v</span></code></pre></div>
+<p>但是这种方法有一个什么问题呢？试想如果同一个 <span
+class="math inline">\(3\times 3\)</span>
+网格中有两个粒子，它们的速度都被均摊到了这九个网格上，在迭代完成后再次从这九个网格中收集到新的速度时，A粒子的新速度就包含了B粒子的旧速度的一部分，同理B也是——因此，在不断地迭代过程中，其实是一个速度的细节丢失、不断平均化的过程——尤其是旋转、拉伸等运动，动着动着可能就停下来了。</p>
+<p>换一种理解方式，我们的二维中9个网格有18个运动的自由度（每个网格xy两个方向），而转换到的粒子却只有2个移动的自由度，如果是三维的话这个数字会是：81/3——因此信息就会丢失掉非常多。</p>
+<p><img src="/images/filmtechanalysis-PBA/2DoF.png" alt="2DoF" style="zoom:25%;" /></p>
+<p>所以人们就带来了新的思路，主要分为这两类：</p>
+<ul>
+<li><strong>APIC</strong>、<strong>PolyPIC</strong>：让粒子携带更多自由度的信息</li>
+<li><strong>FLIP</strong>：不直接传递值，而是传递前后时间步的差分或物理量的梯度/倒数</li>
+</ul>
+<h4 id="apic-affine-particle-in-cell">APIC, Affine Particle in Cell</h4>
+<p>第一种思路我们先说说<strong>APIC</strong>[5]。<strong>APIC</strong>其实就是通过给粒子增加一个<strong>Affine矩阵</strong>，来存储粒子的更多种速度信息——网格的不同自由度的作用中，就有下图（二维）这几种，刚好可以通过仿射变换包含进来。从而就将粒子的自由度拓展为原来的三倍，二维中就是6自由度，三维就是9个。</p>
+<p><img src="/images/filmtechanalysis-PBA/6DoF.png" alt="2DoF" style="zoom:33%;" /></p>
+<p>当然这个方法还涉及到怎样来计算这个Affine矩阵的问题，数学推导非常复杂就不给大家讲解了。代码实现却非常简单：用一个张量积来计算这个Affine矩阵即可。也不演示了。效果上带来的区别非常明显：流体可以正常的旋转、拉伸、剪切运动了。</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/APIC_math_P2G.jpg" alt="APIC_math_P2G" style="zoom:22.5%;" /><img src="/images/filmtechanalysis-PBA/APIC_math_G2P.jpg" alt="APIC_math_G2P" style="zoom:22.5%;" />
+<center/>
+<p><img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom: 25%;" /></p>
+<img src="/images/filmtechanalysis-PBA/APIC_code.png" alt="APIC_code" style="zoom:20%;" />
+<center/>
+<p>而<strong>PolyPIC</strong>[6]则是进一步拓展了粒子的自由度——达到与网格一样的级别，当然复杂度也进一步提升了。</p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/PolyPIC.jpg" alt="PolyPIC" />
+<figcaption aria-hidden="true">PolyPIC</figcaption>
+</figure>
+<p><strong>APIC</strong>也逐渐在影视制作中使用，尤其适合海洋、瀑布等水体的模拟，在迪士尼影片《海洋奇缘》中就有应用。</p>
+<h4 id="flip-fluid-implicit-particles-隐式粒子流体法">FLIP, Fluid
+Implicit Particles 隐式粒子流体法</h4>
+<p><strong>影视工业目前最常用的方法</strong></p>
+<p><strong>FLIP</strong>方法[7][8]的核心想法在于，我们不把表述粒子状态的物理量直接与网格传递，而是传递一个时间步里的增量。</p>
+<p>还是以速度为例，我们在<strong>PIC</strong>系列方法中的 P2G 是 <span
+class="math display">\[
+\mathbf v_p^n={\rm gather}(\mathbf v_i^n)
+\]</span> 而<strong>FLIP</strong>方法中，则 <span
+class="math display">\[
+\mathbf v_p^{n+1}={\rm gather}(\mathbf v_i^{n+1}-\mathbf v_i^n)
+\]</span>
+这样，A粒子中包含B粒子的速度成分就只有B粒子速度对加速度的一点点影响，而不会被“平均”掉了。</p>
+<p>但是<strong>FLIP</strong>方法中，由于加速度的因素“成分”和原速度“成分”不一致，最终得到的结果会有很大的噪声——大家可以看到：毛毛刺刺的。到这里呢，我们刚好可以做一个多种常用模拟水的流体方法的对比（欧拉、PIC、APIC、FLIP）：</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/Demo_Eulerian.gif" alt="Demo_Eulerian" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_PIC.gif" alt="Demo_PIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_APIC.gif" alt="Demo_APIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_FLIP.gif" alt="Demo_FLIP" style="zoom:25%;" />
+<center/>
+<p>那么怎么办呢：非常简单，我们把PIC方法和我们的FLIP做一个Blend，而且这个比例呢只需要混一点点PIC，可以通过这个网站例子来玩一下<a
+href="http://yuanming-hu.github.io/fluid/">GPU-based Fluid Simulation
+(yuanming-hu.github.io)</a>： <span class="math display">\[
+\rm FLIP0.99=0.99*FLIP+0.01*PIC
+\]</span> 这是跟前面对比的<strong>FLIP0.97</strong>方法的效果</p>
+<p><img src="/images/filmtechanalysis-PBA/Demo_FLIP0.97.gif" alt="Demo_FLIP0.97" style="zoom:25%;" /></p>
+<p><strong>FLIP</strong>方法其实只是一个<strong>Advection</strong>步骤的实现方法，影视工业界通常把结合了<strong>FLIP</strong>的<strong>Advection</strong>和<strong>Chorin-Style
+pressure
+projection</strong>，再加上相应需要的粒子网格的工程实现（例如OpenVDB…）的整个流体解算器也称为<strong>FLIP</strong>——比如我们Houdini工具架上的<strong>FLIP</strong>模块。我们也利用这个工具制作了一小段流体动画。</p>
+<p>在我们的Houdini中，大家可以看到一个完整的FLIP
+Fluid包括了Geometry的导入、渲染和一个AutoDopNetwork，AutoDopNetwork中是我们的流体解算环节，其中最核心的节点是Filpsolver，大家可以看看这个Flipsolver中，是非常复杂的一个解算结构——但是在学习完前面的所有过程之后，根据每一个部分的名字，我们就逐渐能够看懂了。</p>
+<p><img src="/images/filmtechanalysis-PBA/Houdini_FLIP_1.png" alt="Houdini_FLIP_1" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Houdini_FLIP_2.png" alt="Houdini_FLIP_2" style="zoom: 25%;" /></p>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_3.png"
+alt="Houdini_FLIP_3" />
+<figcaption aria-hidden="true">Houdini_FLIP_3</figcaption>
+</figure>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_4.png"
+alt="Houdini_FLIP_4" />
+<figcaption aria-hidden="true">Houdini_FLIP_4</figcaption>
+</figure>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_5.png"
+alt="Houdini_FLIP_5" />
+<figcaption aria-hidden="true">Houdini_FLIP_5</figcaption>
+</figure>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_6.png"
+alt="Houdini_FLIP_6" />
+<figcaption aria-hidden="true">Houdini_FLIP_6</figcaption>
+</figure>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_7.png"
+alt="Houdini_FLIP_7" />
+<figcaption aria-hidden="true">Houdini_FLIP_7</figcaption>
+</figure>
+<figure>
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_8.png"
+alt="Houdini_FLIP_8" />
+<figcaption aria-hidden="true">Houdini_FLIP_8</figcaption>
+</figure>
+<h4 id="mpm-material-point-method-物质点法">MPM, Material Point Method
+物质点法</h4>
+<p>最后呢，我们来讲一点学术前沿，特别适合用于模拟雪、沙子这种带一点固体性质的流体的方法<strong>MPM物质点法</strong>[9]，甚至有人拿<strong>物质点法</strong>去模拟刚体，做我们上一节课介绍的破碎等效果。为什么这样一个流体方法可以用于模拟固体性质呢？</p>
+<p>原因在于，我们的粒子域过程中不再只有速度、加速度、受力、温度这些外部属性，而是加入了质量、体积这样的物质属性。而且不再局限于不可压缩流体的<strong>Advection</strong>和<strong>Projection</strong>。</p>
+<p>经典<strong>MPM</strong>方法的流程如下：</p>
+<ol type="1">
+<li>P2G，传递质量、速度等信息 <span
+class="math inline">\(\begin{array}{l}m_i=\sum\nolimits_pm_p\omega_{ip}^n\\\mathbf
+v_i=\sum\nolimits_p\mathbf
+v_p^nm_p\omega_{ip}^n/m_i^n\end{array}\)</span></li>
+<li>计算粒子体积和密度 <span
+class="math inline">\(\begin{array}{l}\rho_i=m_i^0/h^3\\\rho_p^0=\sum\nolimits_im_i^0\omega_{ip}^0/h^3\\V_p^0=m_p/\rho_p^0\end{array}\)</span></li>
+<li>计算网格受力</li>
+<li>更新网格速度场</li>
+<li>基于网格的碰撞计算</li>
+<li>求解线性方程（迭代法）</li>
+<li>更新形变梯度 <span class="math inline">\(\begin{array}{l}\mathbf
+F_p^{n+1}=(\mathbf I+\Delta t\nabla\mathbf v_p^{n+1})\mathbf
+F_p^n\\\nabla\mathbf v_p^{n+1}=\sum\nolimits_i\mathbf
+v_i^{n+1}(\nabla\omega_{ip}^n)\end{array}\)</span></li>
+<li>更新粒子速度 <span class="math inline">\(\begin{array}{l}\mathbf
+v_p^{n+1}=(1-\alpha)\mathbf v_{\mathrm{PIC}p}^{n+1}+\alpha\mathbf
+v_{\mathrm{FLIP}p}^{n+1}\\\mathbf
+v_{\mathrm{PIC}p}^{n+1}=\sum\nolimits_i\mathbf
+v_i^{n+1}\omega_{ip}^n\\\mathbf v_{\mathrm{FLIP}p}^{n+1}=\mathbf
+v_p^n+\sum\nolimits_i(\mathbf v_i^{n+1}-\mathbf
+v_i^n)\omega_{ip}^n\end{array}\)</span></li>
+<li>基于粒子的碰撞计算</li>
+<li>更新粒子位置 <span class="math inline">\(\mathbf
+x_p^{n+1}=x_p^n+\Delta t \mathbf v_p^{n+1}\)</span></li>
+</ol>
+<p><img src="/images/filmtechanalysis-PBA/MPM_Overview.png" alt="MPM_Overview" style="zoom:50%;" /></p>
+<p>而近年，又有人在<strong>APIC</strong>的基础上简化了这么复杂的一套<strong>MPM</strong>方法，提出了<strong>MLS-MPM(Moving
+Least Squares MPM) 移动最小二乘物质点法</strong>。</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/MPM_pipeline.png" alt="MPM_pipeline" style="zoom: 20%;" />
+<center/>
+<p>从代码上呈现，就是在前面<strong>APIC</strong>的代码上，除了Affine分量，还增加一个Stress分量，在更新速度和Affine分量时，利用该Stress分量参与计算，并且需要加上体积的更新。因此实现上相比较经典的<strong>MPM</strong>方法简单了非常多，也是目前比较流行的一个方法。</p>
+<p>这里MPM的数学原理相对复杂了非常多，就不再给大家推导了。</p>
+<p>MPM方法非常适合多种材质固体、流体的耦合模拟，处理自碰撞、大形变等等，因此也逐渐在影视工业中投入使用。其中最著名的一个应用案例，就是《冰雪奇缘》中的雪的交互。大家可以欣赏一下影片。当然，发明<strong>MLS-MPM</strong>的胡渊明博士还有非常火的一篇知乎分享，叫做《99行代码实现〈冰雪奇缘〉》，其实就是<strong>MLS-MPM</strong>的一个Taichi实现。</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/mls-mpm88-lowres.gif" alt="mls-mpm88-lowres" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/mls-mpm88-highres.gif" alt="mls-mpm88-highres" style="zoom:40%;" />
+<center/>
+<center>
+<img src="/images/filmtechanalysis-PBA/MPMDemo_water_wheel.gif" alt="MPMDemo_water_wheel" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_paddles.gif" alt="MPMDemo_sand_paddles" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_banana.gif" alt="MPMDemo_banana" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_robot_forward.gif" alt="MPMDemo_robot_forward" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_bunny.gif" alt="MPMDemo_bunny" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_stir.gif" alt="MPMDemo_sand_stir" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand-sweep.gif" alt="MPMDemo_sand-sweep" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_debris_flow.gif" alt="MPMDemo_debris_flow" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_armodillo.gif" alt="MPMDemo_armodillo" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_cheese.gif" alt="MPMDemo_cheese" style="zoom:50%;" />
+<center/>
+<h3 id="案例分析与欣赏">案例分析与欣赏</h3>
+<p>最后还是为大家准备了一些影片中的流体案例。包括《夏日友情天》《寻龙传说》《蜘蛛侠：英雄归来》《沙丘》等。</p>
+<p><strong>参考文献</strong> [1] Particle-Based Fluid Simulation for
+Interactive Applications [2] Smoothed Particle Hydrodynamics Techniques
+for the Physics Based Simulation of Fluids and Solids [3] Stable fluids
+[4] Harlow, F.H. (1964) The Particle-in-Cell Computing Method for Fluid
+Dynamics. Methods in Computational Physics, 3, 319-343. [5] The Affine
+Particle-In-Cell Method [6] A Polynomial Particle-In-Cell Method [7]
+FLIP a method for adaptively zoned, particle-in-cell calculations of
+fluid flows in two dimensions [8] Animating Sand as a Fluid [9] A
+material point method for snow simulation</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型</title>
+      <link>http://localhost:1313/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Tue, 23 Nov 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</guid>
+      <description>这节课开始我们将花两节课的时间从粒子、刚体、流体三种系统，来简要介绍一些基于物理的动画的基本原理与实现，并给大家展示一些具体的制作方法和成果。
+粒子系统 基于粒子的模型是基于物理的动画的一个基础模型，是拉格朗日方法中最典型的一种。这里的粒子系统个人认为广义地来说就是基于粒子的模型，是以粒子视点对物理现象做点采样的所有动画系统，但业界我们往往狭义地认为其典型就是特指由发射器发射大规模粒子、通过外力驱动运动、渲染成具体的无定形形象的系统。我们这一章的陈述主要还是以典型的粒子系统为主，会拓展些基于粒子的、但并不一定称为粒子系统的模型。
+粒子系统一般用来表现雨、雪、火、烟、尘、沙尘暴、烟花、水花、喷雾等等“无定形现象（Amorphous Phenomena[1]）”，当然也包括我们常见的一些“非物理现象”，诸如哥斯拉的吐息、猩红女巫的魔法光效等等，这些非物理现象同样要通过我们的物理系统去驱动粒子来产生这些效果。
+一个粒子 在开始讲粒子系统之前，我们还是要讲一下一个粒子的运动：粒子的运动只有位移——就如我们中学物理中常做的质点模型一样，对一个粒子而言，所需要的动力学参数仅有、位置、速度、加速度、受力、质量等。在这之中，质量将受力与加速度联系为同一个概念，位置的变化（位移）是速度的积分、速度的变化又是加速度的积分。而且与中学物理不同的是，这里的每一个量都是三维空间中的向量了。
+那么在这里，我们就第一次涉及到了时间积分概念的应用，也就是我们上节课刚刚讲过的如何在时间离散系统里做积分。
+我们用上图这样的近似积分方式，就能够表达粒子随着时间的运动。那么知道了如何描述一个粒子的运动，我们就能够描述一堆粒子的运动了——换言之，我们可以开始了解一个基本的粒子系统。
+基本粒子系统 我们来了解一个基本的粒子系统。在一个基本粒子系统的模拟过程中，通常包含了生成、模拟、消失三个过程，再加上把模拟过程渲染出来的渲染环节，我们分别讲解。
+粒子生成 粒子生成器 粒子生成字面含义就是粒子是怎样初始化的，怎样给大量的粒子赋予初始的参数。因此我们设计了“生成器”，或者也可以称为“发射器”。
+从发射器的形状说起，我们一般有点发射、平面发射、三维表面发射三种。
+点发射顾名思义就是从同一个位置发射所有粒子，方向上有朝单一矢量、全方向两种。 平面发射中，平面主要有圆盘平面和多边形（三角形）平面两种。 三维表面发射中，以模型表面为发射器，可以认为是多个多边形平面发射的组合；另一种是在体积内发射，即在一个区域内随即发射。 生成器分类 粒子生成的随机算法 我们想象，以相同的质量、速度、加速度、方向、位置等参数来初始化大量粒子会出现什么现象：所有粒子会以相同或平行的轨迹运动。所以我们这里需要使用随机算法来初始化粒子的参数、方向矢量、位置，也就是需要生成随机数、随机矢量和随机点三种数据类型。
+随机数 —— 为了控制粒子形态，我们一般不会直接使用系统的 rand() 来产生均匀分布的随机数，这就涉及到随机分布的概念：
+均匀分布：均匀分布即每一个数出现的概率是均等的，经典案例就是抛硬币。只有我们希望空间中充满随机的点运动时才会使用。
+高斯分布 / 正态分布：概率密度函数 \(p(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{\frac{(x-\mu)^2}{2\sigma^2}}\) （概率密度函数 PDF 指的是概率密度 - 数值，概率密度大家可以类比中学统计中的概率/区间宽度，区间宽度 -&amp;gt; 0） 利用高斯分布，我们就可以得到一个“大部分粒子以这个参数运动，少量随机发散”的结果，比如火花飞溅时，大部分火花都会溅射在一个区域范围内，有少量迸发到外面的样子。能够让我们更好地控制粒子的运动。
+随机矢量：首先我们要了解如何生成一个均匀的球面分布，大家想象我们的地球上的任意一个点，做与球心的连线投影到赤道平面上得到长度 \(r\) ，与子午分割线成 \(\theta\) 角，那么我们只要随机 \(h=\sqrt{1-r^2}\) 和 \(\theta\) 两个值就能够得到随机矢量 \(\begin{bmatrix}r\cos\theta\\h\\r\sin\theta\end{bmatrix}\) ，经数学证明，球面上的点随 \(\theta\) 和 \(h\) 线性分布，因此，只要控制这两个随机数就可以控制球面的随机矢量。
+同理我们可以得到控制下图两种：点向圆盘方向发射、圆盘发射时控制随机矢量的参数，分别是\(\theta \ \phi\) 和 \(\theta\ r\) 。也就是把随机向量转换成了两个随机数的问题。
+随机点：三维空间中的一个点其实就是三个数，我们按照需要来生成三个随机数即可。当然也可以用一个随机矢量（两个随机数）+随机长度（一个随机数）的方式生成。随机点主要应用于表面发射的偏移和体积内发射。
+粒子模拟 碰撞 在不考虑交互的情况下（后面会专门讨论），粒子在模拟过程中除了随着力场一步一步地迭代和人工控制之外的会产生剧变的现象就是碰撞了。粒子系统通常工作在含有模型的场景中，我们就需要考虑与模型的碰撞，其实也就是与一个个平面三角形的碰撞。问题在于，粒子是一个无体积的点，而粒子所处的位置又是离散的点，粒子恰好停在一个表面的概率微乎其微，那么我们如何判定碰撞而不是让粒子直接穿越表面呢？下面我们就会讲到。
+碰撞主要分为两个步骤，分别是碰撞检测和碰撞响应。首先我们得发现产生了碰撞，在发现碰撞之后，就可以执行相应的碰撞响应，这里的响应可以是让粒子消失、吸附、飞出去各种，下面举例说最简单的反弹这种。
+处理一个点与一个面的碰撞主要有Penalty（惩罚）和Impulse（冲击）两种思路：
+Penalty 碰撞检测：通过点与面的距离 \(\phi(x)\) 判断 碰撞响应：更新 \(f\) ，判定碰撞后的下一个时间步更新粒子状态</description>
+      <content:encoded><![CDATA[<p>这节课开始我们将花两节课的时间从粒子、刚体、流体三种系统，来简要介绍一些基于物理的动画的基本原理与实现，并给大家展示一些具体的制作方法和成果。</p>
+<h2 id="粒子系统">粒子系统</h2>
+<p>基于粒子的模型是基于物理的动画的一个基础模型，是拉格朗日方法中最典型的一种。这里的粒子系统个人认为广义地来说就是基于粒子的模型，是以粒子视点对物理现象做点采样的所有动画系统，但业界我们往往狭义地认为其典型就是特指由发射器发射大规模粒子、通过外力驱动运动、渲染成具体的无定形形象的系统。我们这一章的陈述主要还是以典型的粒子系统为主，会拓展些基于粒子的、但并不一定称为粒子系统的模型。</p>
+<p>粒子系统一般用来表现雨、雪、火、烟、尘、沙尘暴、烟花、水花、喷雾等等“无定形现象（Amorphous
+Phenomena[1]）”，当然也包括我们常见的一些“非物理现象”，诸如哥斯拉的吐息、猩红女巫的魔法光效等等，这些非物理现象同样要通过我们的物理系统去驱动粒子来产生这些效果。</p>
+<h3 id="一个粒子">一个粒子</h3>
+<p>在开始讲粒子系统之前，我们还是要讲一下一个粒子的运动：粒子的运动只有位移——就如我们中学物理中常做的质点模型一样，对一个粒子而言，所需要的动力学参数仅有、<strong>位置</strong>、<strong>速度</strong>、<strong>加速度</strong>、<strong>受力</strong>、<strong>质量</strong>等。在这之中，<strong>质量</strong>将<strong>受力</strong>与<strong>加速度</strong>联系为同一个概念，<strong>位置</strong>的变化（<strong>位移</strong>）是<strong>速度</strong>的积分、<strong>速度</strong>的变化又是<strong>加速度</strong>的积分。而且与中学物理不同的是，这里的每一个量都是三维空间中的向量了。</p>
+<p>那么在这里，我们就第一次涉及到了时间积分概念的应用，也就是我们上节课刚刚讲过的如何在时间离散系统里做积分。</p>
+<center>
+<img src="/images/filmtechanalysis-PBA/时间积分1.png" alt="时间积分1" style="zoom: 15%;" /><img src="/images/filmtechanalysis-PBA/时间积分2.png" alt="时间积分2" style="zoom:15%;" /><img src="/images/filmtechanalysis-PBA/时间积分3.png" alt="时间积分3" style="zoom:15%;" />
+</center>
+<p>我们用上图这样的近似积分方式，就能够表达粒子随着时间的运动。那么知道了如何描述一个粒子的运动，我们就能够描述一堆粒子的运动了——换言之，我们可以开始了解一个基本的粒子系统。</p>
+<h3 id="基本粒子系统">基本粒子系统</h3>
+<p>我们来了解一个基本的粒子系统。在一个基本粒子系统的模拟过程中，通常包含了生成、模拟、消失三个过程，再加上把模拟过程渲染出来的渲染环节，我们分别讲解。</p>
+<h4 id="粒子生成">粒子生成</h4>
+<h5 id="粒子生成器">粒子生成器</h5>
+<p>粒子生成字面含义就是粒子是怎样初始化的，怎样给大量的粒子赋予初始的参数。因此我们设计了“生成器”，或者也可以称为“发射器”。</p>
+<p>从发射器的形状说起，我们一般有<strong>点发射</strong>、<strong>平面发射</strong>、<strong>三维表面发射</strong>三种。</p>
+<ul>
+<li><strong>点发射</strong>顾名思义就是从同一个位置发射所有粒子，方向上有<strong>朝单一矢量</strong>、<strong>全方向</strong>两种。</li>
+<li><strong>平面发射</strong>中，平面主要有<strong>圆盘平面</strong>和<strong>多边形（三角形）平面</strong>两种。</li>
+<li><strong>三维表面发射</strong>中，以<strong>模型表面</strong>为发射器，可以认为是多个多边形平面发射的组合；另一种是在<strong>体积内</strong>发射，即在一个区域内随即发射。</li>
+</ul>
+<figure>
+<img src="/images/filmtechanalysis-PBA/生成器分类.png"
+alt="生成器分类" />
+<figcaption aria-hidden="true">生成器分类</figcaption>
+</figure>
+<h5 id="粒子生成的随机算法">粒子生成的随机算法</h5>
+<p>我们想象，以相同的质量、速度、加速度、方向、位置等参数来初始化大量粒子会出现什么现象：所有粒子会以相同或平行的轨迹运动。所以我们这里需要使用随机算法来初始化粒子的参数、方向矢量、位置，也就是需要生成<strong>随机数</strong>、<strong>随机矢量</strong>和<strong>随机点</strong>三种数据类型。</p>
+<ul>
+<li><p><strong>随机数</strong> ——
+为了控制粒子形态，我们一般不会直接使用系统的 rand()
+来产生均匀分布的随机数，这就涉及到随机分布的概念：</p>
+<ul>
+<li><p><strong>均匀分布</strong>：均匀分布即每一个数出现的概率是均等的，经典案例就是抛硬币。只有我们希望空间中充满随机的点运动时才会使用。</p></li>
+<li><p><strong>高斯分布 / 正态分布</strong>：概率密度函数 <span
+class="math inline">\(p(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{\frac{(x-\mu)^2}{2\sigma^2}}\)</span>
+（概率密度函数 PDF 指的是概率密度 -
+数值，概率密度大家可以类比中学统计中的<strong>概率/区间宽度</strong>，区间宽度
+-&gt; 0）
+利用高斯分布，我们就可以得到一个“大部分粒子以这个参数运动，少量随机发散”的结果，比如火花飞溅时，大部分火花都会溅射在一个区域范围内，有少量迸发到外面的样子。能够让我们更好地控制粒子的运动。</p>
+<p><img src="/images/filmtechanalysis-PBA/高斯分布.png" alt="高斯分布" style="zoom: 15%;" /></p></li>
+</ul></li>
+<li><p><strong>随机矢量</strong>：首先我们要了解如何生成一个均匀的球面分布，大家想象我们的地球上的任意一个点，做与球心的连线投影到赤道平面上得到长度
+<span class="math inline">\(r\)</span> ，与子午分割线成 <span
+class="math inline">\(\theta\)</span> 角，那么我们只要随机 <span
+class="math inline">\(h=\sqrt{1-r^2}\)</span> 和 <span
+class="math inline">\(\theta\)</span> 两个值就能够得到随机矢量 <span
+class="math inline">\(\begin{bmatrix}r\cos\theta\\h\\r\sin\theta\end{bmatrix}\)</span>
+，经数学证明，球面上的点随 <span class="math inline">\(\theta\)</span>
+和 <span class="math inline">\(h\)</span>
+线性分布，因此，只要控制这两个随机数就可以控制球面的随机矢量。</p>
+<p><img src="/images/filmtechanalysis-PBA/球面均匀随机矢量.png" alt="球面均匀随机矢量" style="zoom:15%;"/></p>
+<p>同理我们可以得到控制下图两种：点向圆盘方向发射、圆盘发射时控制随机矢量的参数，分别是<span
+class="math inline">\(\theta \ \phi\)</span> 和 <span
+class="math inline">\(\theta\ r\)</span>
+。也就是把随机向量转换成了两个随机数的问题。</p>
+<center>
+<p><img src="/images/filmtechanalysis-PBA/随机矢量1.png" alt="随机矢量1" style="zoom:15%;" /><img src="/images/filmtechanalysis-PBA/随机矢量2.png" alt="随机矢量2" style="zoom:15%;" /></p>
+<center/></li>
+<li><p><strong>随机点</strong>：三维空间中的一个点其实就是三个数，我们按照需要来生成三个随机数即可。当然也可以用一个随机矢量（两个随机数）+随机长度（一个随机数）的方式生成。随机点主要应用于表面发射的偏移和体积内发射。</p></li>
+<li><p><img src="/images/filmtechanalysis-PBA/表面偏移.png" alt="表面偏移" style="zoom:25%;" /></p></li>
+</ul>
+<h4 id="粒子模拟">粒子模拟</h4>
+<h5 id="碰撞">碰撞</h5>
+<p>在不考虑交互的情况下（后面会专门讨论），粒子在模拟过程中除了随着力场一步一步地迭代和人工控制之外的会产生剧变的现象就是碰撞了。粒子系统通常工作在含有模型的场景中，我们就需要考虑与模型的碰撞，其实也就是与一个个平面三角形的碰撞。问题在于，粒子是一个无体积的点，而粒子所处的位置又是离散的点，粒子恰好停在一个表面的概率微乎其微，那么我们如何判定碰撞而不是让粒子直接穿越表面呢？下面我们就会讲到。</p>
+<p>碰撞主要分为两个步骤，分别是碰撞检测和碰撞响应。首先我们得发现产生了碰撞，在发现碰撞之后，就可以执行相应的碰撞响应，这里的响应可以是让粒子消失、吸附、飞出去各种，下面举例说最简单的反弹这种。</p>
+<p>处理一个点与一个面的碰撞主要有<strong>Penalty</strong>（惩罚）和<strong>Impulse</strong>（冲击）两种思路：</p>
+<ul>
+<li><p><strong>Penalty</strong> 碰撞检测：通过点与面的距离 <span
+class="math inline">\(\phi(x)\)</span> 判断 碰撞响应：更新 <span
+class="math inline">\(f\)</span>
+，判定碰撞后的下一个时间步更新粒子状态</p>
+<ul>
+<li><strong>Quadratic Penalty Method</strong> 碰撞条件 <span
+class="math inline">\(\phi(x)&lt;0\)</span> ，状态更新 <span
+class="math inline">\(f\leftarrow -k\phi(\mathbf x)\mathbf N\quad
+(\mathbf N为法线方向单位向量)\)</span>
+这种方法仅当粒子在面内时才能完成碰撞检测，就会出现粒子穿越表面的问题。</li>
+<li><strong>Quadratic Penalty Method with a Buffer</strong> 碰撞条件
+<span class="math inline">\(\phi(x)&lt;\epsilon\)</span> ，状态更新
+<span class="math inline">\(f\leftarrow k(\epsilon-\phi(\mathbf
+x))\mathbf N\)</span> 虽然缓解了粒子穿越表面的问题，但很可能会出现由于
+<span class="math inline">\(k\)</span> 过大带来的 Overshooting
+现象，导致碰撞响应时，粒子就飞出去了。</li>
+<li><strong>Log-Barrier Penalty Method</strong> 假定 <span
+class="math inline">\(\phi(x)\ge0\)</span> 恒成立，碰撞条件 <span
+class="math inline">\(\phi(x)&lt;\epsilon\)</span> ，状态更新 <span
+class="math inline">\(f\leftarrow \dfrac{\rho}{\phi(\mathbf x)}\mathbf
+N\)</span> 相当于在<strong>Quadratic Penalty Method with a
+Buffer</strong>的基础上，使Buffer的区域是可变的，一定程度上优化了上面提到的问题，但并不能根治。</li>
+</ul></li>
+<li><p><strong>Impulse</strong> 碰撞检测：通过点与面的距离 <span
+class="math inline">\(\phi(x)\)</span> 判断 碰撞响应：立即更新 <span
+class="math inline">\(\mathbf x\)</span> 和 <span
+class="math inline">\(\mathbf v\)</span>
+（相当于在下一个时间步前增加一个时间步）并重新得到 <span
+class="math inline">\(f\)</span>
+，判定碰撞后的“下一个时间步”直接使用已经更新完的粒子状态计算。</p>
+<p><strong>另一种理解方式是：</strong>
+我们以无碰撞系统考虑两步，也就是粒子的当前位置和下一个位置，如果这两个位置分别在某个表面的两侧，那么在这个两个时间步之间一定会产生碰撞。
+如下图计算，直接将下一个时间步的位置改为反弹后的位置，速度、加速度垂直于表面的分量做相应的反向即可。</p>
+<center>
+<p><img src="/images/filmtechanalysis-PBA/碰撞检测.png" alt="碰撞检测" style="zoom:15%;" /><img src="/images/filmtechanalysis-PBA/碰撞响应.png" alt="碰撞响应" style="zoom:15%;" /></p>
+<center/></li>
+</ul>
+<h5 id="粒子编排">粒子编排</h5>
+<p>在前面的介绍中，我们介绍了粒子的初始化和自动运行过程中的迭代、碰撞，下面我们具体来介绍我们怎样通过<strong>加速度操作</strong>和<strong>速度操作</strong>[2]来控制粒子的运动过程。</p>
+<ul>
+<li><p><strong>加速度操作</strong>：加速度的改变即力的改变，也即通过力场来操作粒子。例如最典型的引力，构建一个趋向于某一点的力场，粒子可能会被吸引，可能会绕它旋转，这都取决于初始速度和合力的改变，这要求我们能够熟练应用力学才能够非常熟练地操作粒子。</p>
+<p>当然我们也可以构造一些“奇怪的力场”，比如对不同的粒子随机施加不同的加速度、为强行限制粒子的速度调整加速度、给粒子赋予一些自驱动力达到一些特殊效果（比如烟雾活起来了）之类。</p></li>
+<li><p><strong>速度操作</strong>：速度操作则是更加违背物理学的操作，但在视觉创作时，我们当然可以这么干——创造一些不存在的物理规律达到想要的效果。当然，通常我们不会直接将点的速度突变为一个其他值，而是不只用加速度这一个加法维度来描述速度的改变，而是用仿射变换去实现速度的变化。从而就可以得到许多奇特的效果，比如《变形金刚4》中粒子变形法的惊破天——也即让粒子塑造成一些具体的形象。</p></li>
+</ul>
+<h4 id="粒子渲染">粒子渲染</h4>
+<p>这应该是我们这次课程唯一一次提到渲染——大家对三维模型的渲染都非常熟悉，体积渲染今天我们不会讲，但应该也比较容易理解。但没有体积的粒子怎样渲染呢？</p>
+<ul>
+<li>一个经典的想法是用球体渲染，把每一个粒子当作一颗球体。但是这样不好，为什么不好，这里告诉大家如果要得到一个看起来像球体的球，我们至少需要96个面。我们知道粒子系统通常是极大规模的，再乘以一百倍，这个渲染量显然是不可接受的。</li>
+<li>那么我们考虑直接以点投影到屏幕上呢。一个问题是无法看出来深度感了——深度感的来源：近大远小、近亮远暗。那么我们就可以根据深度，渲染不同半径的圆（称为面元渲染）；此外还可以渲染不同的透明度。从而实现三维的感觉。但是仍然存在问题：帧率不够高时没有动态模糊，看起来就会非常卡，要知道我们大部分电影只有24帧。</li>
+<li>因此，还有一种思路是“点即划痕”，也就是不渲染点，而是渲染粒子的两次时间步迭代之间的两个位置之间的连线——渲染线段，这样就自然而然带来了动态模糊。</li>
+<li>粒子不只能表述一个点，还可以用于表述以点方式运动的物体。那么这个物体我们可以在渲染时表现出来。第一种是用材质，每一个粒子渲染一个矩形（也就是两个三角形），在矩形上上一个材质。这种渲染我们称之为“精灵”。</li>
+<li>当然，“精灵”的渲染方式只能将粒子替换成平面，有时候我们还是需要用三维的东西去表现旋转等运动，比如落叶。所以我们也可以用几何形体去替换粒子，最后渲染模型。</li>
+<li>最后一种思维是体积渲染，一般用于极大规模的粒子系统，比如流体、核爆。极大规模的渲染中对粒子逐个渲染显然不现实，我们把粒子所处的区域体素化，再渲染体积，也可以在体积上去处理材质。</li>
+</ul>
+<h3 id="案例分析与欣赏">案例分析与欣赏</h3>
+<h4 id="pyro烟雾案例自制">Pyro烟雾案例（自制）</h4>
+<h4 id="粒子影片案例">粒子影片案例</h4>
+<h3 id="交互粒子系统">交互粒子系统</h3>
+<p>前面我们介绍了没有交互的基本粒子系统，现在我们进一步提高一下复杂度，给粒子之间加上交互。粒子之间的交互换句话说就是：每一个粒子都对其他每一个粒子施加了力，也就是每一次迭代，对每一个粒子都要做
+<span class="math inline">\(n-1\)</span>
+次力的叠加。复杂度上相较无交互的粒子系统 <span
+class="math inline">\(O(N)\)</span> 大幅提高至 <span
+class="math inline">\(O(N^2)\)</span> ，计算量急剧增加。</p>
+<pre class="pseudocode"><code>foreach particle i do
+    Calculate the resultant force F on i;
+    foreach particle j do
+        Calculate the sum of the forces j acting on i 
+    end
+end
+foreach particle j do
+    Update status of i
+end</code></pre>
+<h4 id="减少计算量的可能性">减少计算量的可能性</h4>
+<p>这种复杂度是无法通过计算方法的优化来减少复杂度：每一个数据读取一遍就是
+<span class="math inline">\(O(N^2)\)</span>
+了。因此我们只能考虑减少参与计算的数据。我们考虑到在真实物理世界中，粒子间的效应（即力）随着物理距离的增加急剧变弱——也就是我们常见的平方反比定律，引力场、电磁场均满足这条定律。因此我们可以忽略距离粒子足够远的粒子，或者是将远处的外围粒子做一簇一簇的近似计算而非精确计算。要完成这样的优化方法，我们首先得把粒子组成一簇一簇的，组合方法这里介绍<strong>均匀空间网格</strong>、<strong>八叉树</strong>、<strong>kd树</strong>三种。</p>
+<ul>
+<li><strong>均匀空间网格</strong>：最为简单的组合方法，将空间按一定的长方体网格分割，来组合粒子。这样网格利用率很低。</li>
+<li><strong>八叉树</strong>：八叉树则是经典的一分八方法，就如我们能把一个矩形同样宽高比地分成四份一样，把一个长方体分割成八份，从而建立树结构。这样我们可以根据粒子的不均匀排布来分割空间。</li>
+<li><strong>kd树</strong>：kd树则是一种二叉树，也是渲染领域光线追踪算法中BVH的构建基础。我们生成一个能够恰好包含所有粒子的包围盒，再以其中某一个维度上所有点的中位值分割。这种分割方法的每个单元粒子数量相近，范围搜索非常方便。利用kd树忽略或近似部分计算，可以减少计算复杂到
+<span class="math inline">\(O(N\log N)\)</span> 。</li>
+</ul>
+<p><img src="/images/filmtechanalysis-PBA/均匀空间分割.png" alt="均匀空间分割" style="zoom:10%;" /><img src="/images/filmtechanalysis-PBA/八叉树.png" alt="八叉树" style="zoom:10%;" /><img src="/images/filmtechanalysis-PBA/kd树.png" alt="kd树" style="zoom:15%;" /></p>
+<h4
+id="以天文系统群集系统为例的交互粒子系统">以天文系统、群集系统为例的交互粒子系统</h4>
+<h5 id="天文系统">天文系统</h5>
+<p>天文系统是最典型的简单交互粒子系统：天体的大小相比较之间的距离可以抽象化为质点；粒子之间存在相互引力——且只有相互引力。天体
+<span class="math inline">\(i\)</span> 收到天体 <span
+class="math inline">\(j\)</span> 的引力为 <span
+class="math inline">\(F_i^j = G\dfrac{m_im_j}{r_{ij}^2}\hat\mathbf
+x_{ij}\)</span> 。</p>
+<p>而天文系统中，天体之间的质量差距、两个星系之间的距离都非常之大——大到可以忽略掉很大部分的力。比如地球受到最近的恒星系比邻星的引力已经微乎其微，就算需要精确计算，也只需要将比邻星系作为一个整体来考虑。</p>
+<p>因此，天文系统非常适合实践我们前面提到的空间优化方法，我们将这种远距离的粒子聚成的整体称为“聚簇”，我们可以很快地估算一个聚簇带来的引力。根据天体系统的特征，我们还可以用不同大小的簇：例如仙女星系对太阳的引力，和一个相邻星系的引力，各自用一个簇来计算是合理的，这两个簇的大小显然不一样。</p>
+<h5 id="群集系统">群集系统</h5>
+<p>另一个例子是：给粒子赋予生命，或者说赋予一些“意识力”。这个力显然不是一个物理力学上的力，而是我们用粒子系统来模拟大规模生物的运动，例如鸟群。模拟生命体的运动，就会有更加复杂的逻辑表达。</p>
+<p>[3]我们将群集系统中的一个被模拟生命体称为“boid”，假定每个boid遵循三个规则：<strong>碰撞规避</strong>、<strong>速度匹配</strong>、<strong>集中</strong>，根据这三个规则得到三个加速度，根据三个加速度的有权或无权加和作为迭代用的加速度。</p>
+<ul>
+<li><strong>碰撞规避</strong>：越靠近另一个“boid”，反向飞离的速度就越大
+<span
+class="math inline">\(a_{ij}^a=-\dfrac{k_a}{d_{ij}}\hat{x}_{ij}\)</span></li>
+<li><strong>速度匹配</strong>：与“同伴”保持相对速度，保持群体运动一致性
+<span class="math inline">\(a_{ij}^v=k_v(\mathbf v_j-\mathbf
+v_i)\)</span></li>
+<li><strong>集中</strong>：朝向近邻的加速度，以保持群体完整 <span
+class="math inline">\(a_{ij}^c=k_c\mathbf x_{ij}\)</span></li>
+</ul>
+<p><strong>距离与视域</strong>：现在我们要考虑需要计算哪些 <span
+class="math inline">\(boid_j\)</span>
+。考虑真实生物，就会发现距离远的看不到、视线外的看不到。按照这两条，我们可以分别得到两个关于距离和视域的近邻boid的计算权重，以加权值来作为最终迭代使用的加速度。</p>
+<p><strong>加速度的权重</strong>：根据不同生物、环境的特点，三种加速度的“紧迫程度”不一样，而生物能达到的加速度是有限的。那么可以根据具体情况，分配三种加速度最终加权计算的权重。</p>
+<p><strong>外界干扰：绕过障碍</strong>：如果没有外界干扰，上述条件就能使我们的群集系统运作起来了。但环境中往往出现障碍——在“有生命”的群集中，不太可能傻乎乎地直接就碰撞了。所以我们可以为环境中的障碍物建立带有斥力的<strong>势场</strong>、<strong>操控</strong>粒子根据“观察角度”中出现的障碍更新加速度等方式处理避障。</p>
+<h3 id="案例分析与欣赏-1">案例分析与欣赏</h3>
+<h4 id="群集系统影片案例">群集系统影片案例</h4>
+<p>交互粒子系统还可以引入黏度等更加复杂的交互力，来模拟更加复杂的系统。在流体的章节中，我们会再次见到基于交互粒子系统的流体模拟方法。</p>
+<h3 id="弹性网格">弹性网格</h3>
+<p>粒子这一节的最后，我们来讲一种基于粒子的其他模型——严格说就不再是典型的粒子系统了。我们在粒子之间添加了一根线、比如一根“弹簧”，就构成了我们的<strong>可形变弹性网格</strong>[4]。这种结构可以就可以用于我们的头发、布料、软体模拟，再比如我们在DCC软件中常用的晶格变形器：驱动刚体的扭曲变形。由于时间的关系，我们这次的课程没有单开对应的章节，只是在粒子这一章，介绍其中的一种基于粒子的方法。</p>
+<p><img src="/images/filmtechanalysis-PBA/弹性网格.png" alt="弹性网格" style="zoom:10%;" /></p>
+<h4 id="弹簧-质量-阻尼模型">弹簧-质量-阻尼模型</h4>
+<p><strong>弹簧-质量-阻尼模型</strong>是可形变弹性网格的核心系统，即粒子之间的连接所施加的力由<strong>弹力</strong>和<strong>阻力</strong>两种。</p>
+<ul>
+<li><strong>弹力</strong>： <span class="math inline">\(\mathbf
+f_k=-kx\)</span> ， <span class="math inline">\(k\)</span>
+为劲度系数（<span class="math inline">\(x\)</span> 为形变长度）</li>
+<li><strong>阻力</strong>： <span class="math inline">\(\mathbf
+f_d=-dv\)</span> ， <span class="math inline">\(d\)</span>
+为阻尼系数（通常得到的是阻尼因子 <span
+class="math inline">\(\zeta=\dfrac{d}{2\sqrt{km}}\)</span>）</li>
+</ul>
+<p>设其他外力和为 <span class="math inline">\(\mathbf f_e\)</span>
+，则有 <span class="math inline">\(ma=\mathbf f_e-kx-dv\)</span> 即
+<span class="math inline">\(m\ddot{x}+d\dot{x}+kx=\mathbf f_e\)</span>
+，又是一个二阶微分方程。</p>
+<h4 id="面的受力">面的受力</h4>
+<p>当我们将点连接起来时，不可避免地就出现了面。虽然面不参与与粒子的交互，但面受到阻力、风等外部力的作用效果也需要参与到粒子的迭代计算中去。这里主要是有<strong>升力</strong>和<strong>空气阻力</strong>两种力，前者推动网格运动，后者阻碍。这里时间原因我们就不再详细分析。</p>
+<ul>
+<li>升力： <span class="math inline">\(\mathbf f_d=-C_dA(\hat \mathbf
+n\dot\ \mathbf v_r)\mathbf v_r\)</span></li>
+<li>拖拽力： <span class="math inline">\(\mathbf f_l=-C_lA(\hat \mathbf
+n\dot\ \mathbf v_r)(\mathbf v_r\times\dfrac{\hat \mathbf n\times\mathbf
+v_r}{\left \|\hat \mathbf n\times\mathbf v_r\right \| })\)</span></li>
+</ul>
+<h4 id="弹性网格模拟">弹性网格模拟</h4>
+<p>对每一个粒子，逐连接体、逐面计算合力。</p>
+<pre class="pseudocode"><code>foreach particle do
+    Calculate F_e;
+    foreach rod do
+        Calculate F_k and F_d
+        foreach face do
+            Calculate F_face
+        end
+    end
+end
+foreach particle i do
+    Update status of i
+end</code></pre>
+<h4 id="碰撞-1">碰撞</h4>
+<p>这里，我们需要用一个形体的观点来看待弹性网格了，这与粒子的碰撞截然不同了。对于一个几何形体，我们需要从<strong>点</strong>、<strong>线</strong>、<strong>面</strong>三个结构上来判定碰撞。实际情况中，“<strong>顶点与顶点</strong>”、“<strong>顶点与线</strong>”、“<strong>线与面</strong>”的碰撞情况非常少——概率几乎为零，因此我们一般只会判断“<strong>顶点与面</strong>”和“<strong>边与边</strong>”。</p>
+<ul>
+<li><strong>顶点-面检测</strong>：这种检测我们在介绍粒子碰撞时就已经提过。</li>
+<li><strong>边-边检测</strong>：思路上是取两条线上面到另一条线最近的点（作垂面交点），求这两个点的距离。</li>
+</ul>
+<h3 id="案例分析与欣赏-2">案例分析与欣赏</h3>
+<h4 id="布料系统影片案例">布料系统影片案例</h4>
+<p>[1] Particle systems - A technique for modeling a class of fuzz
+objects [2] Particle animation and rendering using data parallel
+computation [3] Flocks, Herds, and Schools: A Distributed Behavioral
+Model [4] The behavioral test-bed: Obtaining complex behavior from
+simple rules</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念</title>
+      <link>http://localhost:1313/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</guid>
+      <description>基于物理的动画/物理模拟 Physically Based Animation
+今天我和李乐游给大家讲一下基于物理的动画这个题目。首先我们来解释一下这个题目，这个动画指的不是一部动画片的那个动画，是指在动画片/视效制作中的一个环节，也是计算机图形学的三个大方向之一：建模Modeling、动画Animation、渲染Rendering。也就是驱动我们的模型动起来的过程——那么怎样驱动我们的模型动起来呢。大家最熟悉的一种方式就是Key关键帧，比如大家建了一个肖翱的模型，要驱动我去运动，那自然是要把我绑定到骨骼上，对每个关节去打关键帧，比如把我的手十秒后挪到这里。但是呢，不是所有的动画都适合用关键帧来驱动，比如窗外雪花飘飘、一辆车跌落悬崖、瀑布飞流直下，这样的镜头如果用Key关键帧的方法去完成，那就不是Key我身上的几十个关节这么“容易”的事了。但这种物理现象往往是遵循物理规律的，我们想让他看起来真实，那么我们就可以用物理规律去驱动它运动；又或者是一个非自然的物理现象，我们也可以创造非自然的物理规律去驱动它运动。这样的动画方法我们称之为基于物理的动画，也称为物理模拟，也有人将模拟Simulation单独作为图形学的第四个方向。下面我们说到这两个词大家知道都是指同一个东西就行了。
+那么基于物理的动画，在我们的电影中能做出什么样的效果呢，我们剪了一段经典影片中的Showreel给大家欣赏一下。然后我们将从发展历史、基本概念出发，介绍影视制作中的物理模拟制作流程、几种系统的算法原理与实现、展示一些我们自己制作的和经典影片中的基于物理的动画镜头，最后对物理模拟这项技术的未来再做一个分析和展望。
+发展历史 1940年代和1950年代 基于物理的动画来源于计算机模拟技术。它的首次大规模开发是著名的曼哈顿计划中的一个重要部分。在第二次世界大战中，为了模拟核爆炸的过程，人们应用蒙特·卡罗方法用12个坚球模型进行了模拟。计算机模拟最初被作为其他的方面研究的补充，但当人们发现它的重要性之后，它便作为一门单独的课题被使用得相当广泛。 之后便逐渐应用于军事和制造业。但在很长一段时间内，计算机计算非常昂贵，通常只有军事会使用这项技术。
+20世纪70年代和80年代初 计算机图像生成技术兴起，1972年，第一部计算机生成的动画《A Computer Animated Hand》诞生，其中的一部分在1976年的电影《未来世界》中出现。这是电影第一次使用计算机生成图像。1982年《星际迷航II：可汗之怒》中的“创世纪”片段被普遍认为是VFX和计算机图形学的里程碑。这个片段首次使用了粒子系统，用CG的形式表现了爆炸效果。它是SIGGRAPH军事研究和电影工业早期交叉的产物之一。
+20世纪80年代初至90年代 20世纪80年代的技术进步使电脑比前几十年更便宜、功能更强，这促进了Xbox游戏等的兴起。1985年，任天堂发布了任天堂娱乐系统（NES），NES成为视频游戏史上最畅销的游戏机之一。20世纪90年代，随着模拟人生、命令与征服等游戏的发布，以及台式电脑的不断增强，电脑游戏变得越来越流行。
+1993年，电影《侏罗纪公园》成为第一部广泛使用计算机生成图形的电影，将计算机模拟的模拟恐龙几乎无缝地融入到实景中，这一事件改变了电影业。1995年，《玩具总动员》是第一部只使用计算机生成图像的电影，1998年，《蚁哥正传》第一次在动画中使用流体模拟。到了21世纪，计算机生成图像成为电影特效的主要选择。
+21世纪初至今 计算机图形学技术走向成熟，游戏和电影领域普遍使用基于物理的动画，在虚拟世界中模拟真实世界中物体之间的相互作用。
+基本概念 讲完发展历史，我们要开始正式进入基于物理的动画的世界。我把影视制作中基于物理的动画的制作归结为：“在计算机系统中、建立一定的物理模型、模拟生成动画并渲染成画面”。那么我们就需要首先了解一些基本概念。
+物理学的运动 在进入计算机之前，我们就需要把我们想要表现的画面、或者说想要模拟的现象，依据物理定律建构为物理模型。所以我们所有模拟首先要依赖于物理定律，由于目前影视制作的物理特效还很少涉及微观物理世界和超宏观物理世界（《蚁人2》、《星际穿越》这样的影片也仅仅是通过物理学家作为顾问来补齐一些“科幻设定”），所以我们使用的物理定律主要还是一般宏观视角的规律，如牛顿三大运动定律、各种守恒：
+牛顿运动定律 第一定律 假若施加于某物体的外力为零，则该物体的运动速度不变（惯性定律）【力是改变物体运动状态的原因】 第二定律 \(F = ma\) 【核心】 第三定律 当两个物体相互作用于对方时，彼此施加于对方的力，其大小相等、方向相反（作用力与反作用力定律） 三大守恒 质量守恒 动量守恒 \(\dfrac{d}{dt}mv=0\Rightarrow mv={\bf constant}\) 【来源自牛二定律】 能量守恒 在力学模拟中常常体现为机械能守恒 \(\dfrac{1}{2}mv^2+mgh+\dfrac{1}{2}k\Delta x^2(\Delta x=\int adt)+\dots={\bf constant}\) 有了基本定律，我们就可以考虑要建构怎样的模型了。不同性质的物体，所形成的物理模型显然是不同的，典型的物体性质按材料分有刚体、软体、流体等等，针对不同的物体，我们有不同的物理模型，用各种系统去做模拟方法，第二节课我们就会说到其中一些代表性的模拟系统。
+计算机的离散系统 计算机与真实的物理世界最大的不同在于离散与连续。真实世界是一个连续的世界，我手在空中划过，我可以任取无数个时间点、我的手所在的位置，我的手的运动轨迹上的每一个点都是存在的。而如果在计算机系统中，这就是不可能的，我的手在计算机中一定会有一个计算精度，导致大量的点是不存在的，我手的运动其实是一次次“瞬移”组合而成的。这种离散化体现在两个方面：空间上和时间上。
+空间上的离散化 两种基本的观察视点 我们在观测一个物理现象时，一般有两种观察的方法：一种是盯着某个物体，观察物体的运动，视线随着物体走；一种是盯着某个区域，观察物体在这个区域的运动。到计算机中离散存储空间运动时，也需要用这两种观察方法：记录物体、把物体的状态信息存储在物体上，即拉格朗日视点；把空间网格化，记录某一位置是否有物体、物体的属性是什么，即欧拉视点（需要强调，这里的欧拉与前面的欧拉法解线性方程并不一样，我们伟大的数学、物理学家的名字可不能只用在一种地方啊）。
+拉格朗日视点 欧拉视点 视效工作中常用的三种表达方法 我们再具体一点，在视效工作中，离散化一个物理系统通常有以下几种：
+粒子 Particle 粒子就是把物体作为一个个“质点”的组合，假设还是观察挥手这个动作，那么把我的手当成一群点组成的点集（大家可以理解为细胞？或者我手上的所有分子？），追溯每一个点的位置、速度、加速度，对每一个点去迭代。这是一个很典型的拉格朗日视点方法。 物体网格 Mesh （粒子的复合体） 第二种大家应该是比较熟悉的。我们在雪松老师的建模课上、在MAYA中处理的大多数模型都是这种离散化方法。用一个个的面去组成我们的风车、无人机、甲壳虫，再如我的手。而我们建模课上，雪松老师无数次强调要用“四边面”来方便进一步细分曲面处理，但无论是四边面还是最终渲染管线中的三角面，都是由一个个的点组成的。我们在模拟迭代计算时，仍然考虑点的状态，因此这也是一种拉格朗日视点的方法。 空间网格/体素 Grid/Voxel 现在大家考虑把我手的运动的这个区域框成一个空间，把这个空间网格化，这个过程可以类比二维情况下的像素化，我们称为“体素”，以1mm*1mm*1mm的立方体作为一个体素来描述这个空间。我的手从左到右挥过这个空间，首先是左边的空间有物体存在，然后中间，最后右边。我们记录每一个体素上是否有物体、物体的运动速度、加速度等信息，来迭代。这种方法就是欧拉视点的方法了。 在后面我们的具体方法介绍中，大多数都使用的拉格朗日视点的方法，到流体部分会涉及到欧拉视点和两种视点混合的新型方法。
+时间上的离散化 时间维度上，我们用“时间步”的概念来离散化我们的物理模型，每一次需要计算的“点”称为一个时间步。假定我们的时间步长是1/24s，那么我们就会对相应物理模型每1/24s做一次计算（这个1/24s是物理模型的1/24s，不是我计算花的时间，事实上计算一个时间步所花的时间一般要比时间步长长得多），例如我的手花了1s挥过，那么我只计算其中的24个点、我的手位于什么位置，最终组合成一个动画。</description>
+      <content:encoded><![CDATA[<h1 id="基于物理的动画物理模拟">基于物理的动画/物理模拟</h1>
+<p><strong>Physically Based Animation</strong></p>
+<p>今天我和李乐游给大家讲一下基于物理的动画这个题目。首先我们来解释一下这个题目，这个动画指的不是一部动画片的那个动画，是指在动画片/视效制作中的一个环节，也是计算机图形学的三个大方向之一：建模Modeling、动画Animation、渲染Rendering。也就是驱动我们的模型动起来的过程——那么怎样驱动我们的模型动起来呢。大家最熟悉的一种方式就是Key关键帧，比如大家建了一个肖翱的模型，要驱动我去运动，那自然是要把我绑定到骨骼上，对每个关节去打关键帧，比如把我的手十秒后挪到这里。但是呢，不是所有的动画都适合用关键帧来驱动，比如窗外雪花飘飘、一辆车跌落悬崖、瀑布飞流直下，这样的镜头如果用Key关键帧的方法去完成，那就不是Key我身上的几十个关节这么“容易”的事了。但这种物理现象往往是遵循物理规律的，我们想让他看起来真实，那么我们就可以用物理规律去驱动它运动；又或者是一个非自然的物理现象，我们也可以创造非自然的物理规律去驱动它运动。这样的动画方法我们称之为<strong>基于物理的动画</strong>，也称为<strong>物理模拟</strong>，也有人将模拟Simulation单独作为图形学的第四个方向。下面我们说到这两个词大家知道都是指同一个东西就行了。</p>
+<p>那么基于物理的动画，在我们的电影中能做出什么样的效果呢，我们剪了一段经典影片中的Showreel给大家欣赏一下。然后我们将从发展历史、基本概念出发，介绍影视制作中的物理模拟制作流程、几种系统的算法原理与实现、展示一些我们自己制作的和经典影片中的基于物理的动画镜头，最后对物理模拟这项技术的未来再做一个分析和展望。</p>
+<h2 id="发展历史">发展历史</h2>
+<h3 id="年代和1950年代">1940年代和1950年代</h3>
+<p>基于物理的动画来源于计算机模拟技术。它的首次大规模开发是著名的曼哈顿计划中的一个重要部分。在第二次世界大战中，为了模拟核爆炸的过程，人们应用蒙特·卡罗方法用12个坚球模型进行了模拟。计算机模拟最初被作为其他的方面研究的补充，但当人们发现它的重要性之后，它便作为一门单独的课题被使用得相当广泛。
+之后便逐渐应用于军事和制造业。但在很长一段时间内，计算机计算非常昂贵，通常只有军事会使用这项技术。</p>
+<h3 id="世纪70年代和80年代初">20世纪70年代和80年代初</h3>
+<p>计算机图像生成技术兴起，1972年，第一部计算机生成的动画《A Computer
+Animated
+Hand》诞生，其中的一部分在1976年的电影《未来世界》中出现。这是电影第一次使用计算机生成图像。1982年《星际迷航II：可汗之怒》中的“创世纪”片段被普遍认为是VFX和计算机图形学的里程碑。这个片段首次使用了粒子系统，用CG的形式表现了爆炸效果。它是SIGGRAPH军事研究和电影工业早期交叉的产物之一。</p>
+<h3 id="世纪80年代初至90年代">20世纪80年代初至90年代</h3>
+<p>20世纪80年代的技术进步使电脑比前几十年更便宜、功能更强，这促进了Xbox游戏等的兴起。1985年，任天堂发布了任天堂娱乐系统（NES），NES成为视频游戏史上最畅销的游戏机之一。20世纪90年代，随着模拟人生、命令与征服等游戏的发布，以及台式电脑的不断增强，电脑游戏变得越来越流行。</p>
+<p>1993年，电影《侏罗纪公园》成为第一部广泛使用计算机生成图形的电影，将计算机模拟的模拟恐龙几乎无缝地融入到实景中，这一事件改变了电影业。1995年，《玩具总动员》是第一部只使用计算机生成图像的电影，1998年，《蚁哥正传》第一次在动画中使用流体模拟。到了21世纪，计算机生成图像成为电影特效的主要选择。</p>
+<h3 id="世纪初至今">21世纪初至今</h3>
+<p>计算机图形学技术走向成熟，游戏和电影领域普遍使用基于物理的动画，在虚拟世界中模拟真实世界中物体之间的相互作用。</p>
+<h2 id="基本概念">基本概念</h2>
+<p>讲完发展历史，我们要开始正式进入基于物理的动画的世界。我把影视制作中基于物理的动画的制作归结为：“在计算机系统中、建立一定的物理模型、模拟生成动画并渲染成画面”。那么我们就需要首先了解一些基本概念。</p>
+<h3 id="物理学的运动">物理学的运动</h3>
+<p>在进入计算机之前，我们就需要把我们想要表现的画面、或者说想要模拟的现象，依据物理定律建构为物理模型。所以我们所有模拟首先要依赖于物理定律，由于目前影视制作的物理特效还很少涉及微观物理世界和超宏观物理世界（《蚁人2》、《星际穿越》这样的影片也仅仅是通过物理学家作为顾问来补齐一些“科幻设定”），所以我们使用的物理定律主要还是一般宏观视角的规律，如牛顿三大运动定律、各种守恒：</p>
+<ul>
+<li><strong>牛顿运动定律</strong>
+<ul>
+<li><strong>第一定律</strong>
+假若施加于某物体的外力为零，则该物体的运动速度不变（惯性定律）【力是改变物体运动状态的原因】</li>
+<li><strong>第二定律</strong> <span class="math inline">\(F =
+ma\)</span> <strong>【核心】</strong></li>
+<li><strong>第三定律</strong>
+当两个物体相互作用于对方时，彼此施加于对方的力，其大小相等、方向相反（作用力与反作用力定律）</li>
+</ul></li>
+<li><strong>三大守恒</strong>
+<ul>
+<li><strong>质量守恒</strong></li>
+<li><strong>动量守恒</strong> <span
+class="math inline">\(\dfrac{d}{dt}mv=0\Rightarrow mv={\bf
+constant}\)</span> 【来源自牛二定律】</li>
+<li><strong>能量守恒</strong>
+在力学模拟中常常体现为<strong>机械能守恒</strong> <span
+class="math inline">\(\dfrac{1}{2}mv^2+mgh+\dfrac{1}{2}k\Delta
+x^2(\Delta x=\int adt)+\dots={\bf constant}\)</span></li>
+</ul></li>
+</ul>
+<p>有了基本定律，我们就可以考虑要建构怎样的模型了。不同性质的物体，所形成的物理模型显然是不同的，典型的物体性质按材料分有<strong>刚体、软体、流体</strong>等等，针对不同的物体，我们有不同的物理模型，用各种系统去做模拟方法，第二节课我们就会说到其中一些代表性的模拟系统。</p>
+<h3 id="计算机的离散系统">计算机的离散系统</h3>
+<p>计算机与真实的物理世界最大的不同在于离散与连续。真实世界是一个连续的世界，我手在空中划过，我可以任取无数个时间点、我的手所在的位置，我的手的运动轨迹上的每一个点都是存在的。而如果在计算机系统中，这就是不可能的，我的手在计算机中一定会有一个计算精度，导致大量的点是不存在的，我手的运动其实是一次次“瞬移”组合而成的。这种离散化体现在两个方面：空间上和时间上。</p>
+<h4 id="空间上的离散化">空间上的离散化</h4>
+<h5 id="两种基本的观察视点">两种基本的观察视点</h5>
+<p>我们在观测一个物理现象时，一般有两种观察的方法：一种是盯着某个物体，观察物体的运动，视线随着物体走；一种是盯着某个区域，观察物体在这个区域的运动。到计算机中离散存储空间运动时，也需要用这两种观察方法：记录物体、把物体的状态信息存储在物体上，即<strong>拉格朗日视点</strong>；把空间网格化，记录某一位置是否有物体、物体的属性是什么，即<strong>欧拉视点</strong>（需要强调，这里的欧拉与前面的欧拉法解线性方程并不一样，我们伟大的数学、物理学家的名字可不能只用在一种地方啊）。</p>
+<ul>
+<li><strong>拉格朗日视点</strong></li>
+<li><strong>欧拉视点</strong></li>
+</ul>
+<h5 id="视效工作中常用的三种表达方法">视效工作中常用的三种表达方法</h5>
+<p>我们再具体一点，在视效工作中，离散化一个物理系统通常有以下几种：</p>
+<ul>
+<li><strong>粒子 Particle</strong>
+粒子就是把物体作为一个个“质点”的组合，假设还是观察挥手这个动作，那么把我的手当成一群点组成的点集（大家可以理解为细胞？或者我手上的所有分子？），追溯每一个点的位置、速度、加速度，对每一个点去迭代。这是一个很典型的拉格朗日视点方法。</li>
+<li><strong>物体网格 Mesh</strong> （粒子的复合体）
+第二种大家应该是比较熟悉的。我们在雪松老师的建模课上、在MAYA中处理的大多数模型都是这种离散化方法。用一个个的面去组成我们的风车、无人机、甲壳虫，再如我的手。而我们建模课上，雪松老师无数次强调要用“四边面”来方便进一步细分曲面处理，但无论是四边面还是最终渲染管线中的三角面，都是由一个个的点组成的。我们在模拟迭代计算时，仍然考虑点的状态，因此这也是一种拉格朗日视点的方法。</li>
+<li><strong>空间网格/体素 Grid/Voxel</strong>
+现在大家考虑把我手的运动的这个区域框成一个空间，把这个空间网格化，这个过程可以类比二维情况下的像素化，我们称为“体素”，以1mm*1mm*1mm的立方体作为一个体素来描述这个空间。我的手从左到右挥过这个空间，首先是左边的空间有物体存在，然后中间，最后右边。我们记录每一个体素上是否有物体、物体的运动速度、加速度等信息，来迭代。这种方法就是欧拉视点的方法了。</li>
+</ul>
+<p>在后面我们的具体方法介绍中，大多数都使用的拉格朗日视点的方法，到流体部分会涉及到欧拉视点和两种视点混合的新型方法。</p>
+<h4 id="时间上的离散化">时间上的离散化</h4>
+<p>时间维度上，我们用“时间步”的概念来离散化我们的物理模型，每一次需要计算的“点”称为一个时间步。假定我们的时间步长是1/24s，那么我们就会对相应物理模型每1/24s做一次计算（这个1/24s是物理模型的1/24s，不是我计算花的时间，事实上计算一个时间步所花的时间一般要比时间步长长得多），例如我的手花了1s挥过，那么我只计算其中的24个点、我的手位于什么位置，最终组合成一个动画。</p>
+<p>而离散化的多种方法主要是来源于考虑基于“何时”的状态来做下一步的计算。我们要计算当前时刻物体的位置，即上一个已知位置之后发生的位移，那么我们理应得到速度发生的变化，对其积分得到总的位置，但现在我们只知道上一个时间步的位置和速度，那么显而易见的，我们可以直接用上一个时间步的参数来计算——这就是我们所谓的<strong>显式时间积分</strong>；但显式时间积分很容易出问题：容易发生发散、不收敛的现象，导致数值爆炸，但如果我们硬要用当前时间步的状态，数值就稳定了，但我们的当前状态是“隐藏的”——因此要称为<strong>隐式时间积分</strong>。</p>
+<ul>
+<li><strong>显式时间积分</strong>
+<ul>
+<li><strong>前向欧拉</strong> <span
+class="math inline">\(v_{t+1}=v_t+a_t\Delta t \\ x_{t+1}=x_t+v_t\Delta
+t\)</span> 这就是完全使用前一时间步的速度、加速度来计算</li>
+<li><strong>半隐式欧拉</strong> <span
+class="math inline">\(v_{t+1}=v_t+a_t\Delta t \\
+x_{t+1}=x_t+v_{t+1}\Delta t\)</span>
+这里，我们先算出了当前时间步的速度，这样我们就可以用当前时间步的速度来计算了，称之为“半隐式”是因为速度这个参数确实是隐藏的，但其确实是通过前一个时间步的加速度“顺着”算出来的，本质上仍然是一个明显的量，所以本质上还是显示的时间积分方法。那么什么样是“不明显的”呢，我们接着看。</li>
+</ul></li>
+<li><strong>隐式时间积分</strong>
+<ul>
+<li><strong>后向欧拉</strong> <span
+class="math inline">\(v_{t+1}=v_t+a_{t+1}\Delta t \\
+x_{t+1}=x_t+v_{t+1}\Delta t\)</span>
+可以看到我们这里把加速度也换成当前时间步的加速度了，除了上一时间步的位置作为初值，不再有使用前一时间步的任何状态参数，那么怎么求解呢？我们把这个公式替换、变形、泰勒展开，最终得到了
+<span class="math inline">\([{\bf I}-\Delta t^2 {\bf
+M}^{-1}\dfrac{\partial f(x_t)}{\partial x}]v_{t+1}=v_t+\Delta t{\bf
+M}^{-1}{\bf f}(x_t)\)</span> ，形如 <span
+class="math inline">\(Ax=b\)</span>
+的一个线性方程：至于怎么解线性方程，大家大一是学过其中的数值解法的，也即Gauss消元、三角分解这些，但这些方法在解这样庞大、复杂的方程显得无能为力。因此我们引入迭代法去求解，也即再把式子做一些变形，得到一个满足迭代条件的结构，任给其一个初值，去不断重复计算，来逼近真实的解——迭代次数越多，越精准。经典的迭代方法有牛顿迭代法、Jacobi迭代法、共轭梯度法等等。这里就不再展开了。</li>
+</ul></li>
+</ul>
+<p>有了这些基本概念，我们终于可以进入到具体的基于物理的动画的介绍中了。接下来，我们会轻松一会，远离数理概念一段时间，介绍在一个电影制作流程中、一家影视视效公司里，基于物理的动画、或者说物理模拟工作的制作流程、分工。然后我们会就粒子系统、刚体系统、流体系统三种物理模拟系统来给大家介绍一些物理模拟的基本算法与效果。</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

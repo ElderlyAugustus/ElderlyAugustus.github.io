@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Misc on xα&#39;s blog</title>
+    <link>http://localhost:1313/tags/misc/</link>
+    <description>Recent content in Misc on xα&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 31 Oct 2022 12:02:25 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/misc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>迁移说明</title>
+      <link>http://localhost:1313/posts/2022-10-31-%E8%BF%81%E7%A7%BB%E8%AF%B4%E6%98%8E/</link>
+      <pubDate>Mon, 31 Oct 2022 12:02:25 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2022-10-31-%E8%BF%81%E7%A7%BB%E8%AF%B4%E6%98%8E/</guid>
+      <description>2022年10月31日，从Hexo迁移至Hugo
+欢迎访问我的个人主页，主页内容主要为学习笔记，目前主要包含
+计算机图形学
+数理基础
+影视技术分享</description>
+      <content:encoded><![CDATA[<p>2022年10月31日，从Hexo迁移至Hugo</p>
+<p>欢迎访问我的个人主页，主页内容主要为学习笔记，目前主要包含</p>
+<ul>
+<li><p>计算机图形学</p></li>
+<li><p>数理基础</p></li>
+<li><p>影视技术分享</p></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>之前的笔记链接</title>
+      <link>http://localhost:1313/posts/2021-02-25-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AC%94%E8%AE%B0%E9%93%BE%E6%8E%A5/</link>
+      <pubDate>Thu, 25 Feb 2021 19:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/posts/2021-02-25-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AC%94%E8%AE%B0%E9%93%BE%E6%8E%A5/</guid>
+      <description>信号与系统 上 中 下 傅予力
+2020寒假
+https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg
+https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw
+https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA
+GAMES101现代计算机图形学入门 闫令琪
+2020上半年-疫情在家
+https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw</description>
+      <content:encoded><![CDATA[<h3 id="信号与系统-上-中-下">信号与系统 <a
+href="https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg">上</a> <a
+href="https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw">中</a> <a
+href="https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA">下</a></h3>
+<p>傅予力<br />
+2020寒假<br />
+https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg<br />
+https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw<br />
+https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA</p>
+<h3 id="games101现代计算机图形学入门"><a
+href="https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw">GAMES101现代计算机图形学入门</a></h3>
+<p>闫令琪<br />
+2020上半年-疫情在家<br />
+https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

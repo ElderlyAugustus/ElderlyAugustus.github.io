@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \[ {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\ {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\ \]
+对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑
+1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）
+2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置 双线性插值 Delaunay Triangulation 常用 根据设置的动画点，生成三角形划分 在空间内一点，由周围三角形插值 插值利用重心坐标 Skeleton Masked Blending 针对只应用于半身或身体局部的动画，实现多种动画的混合 eg.各种姿态下的鼓掌
+绘制一个Mask，只应用于部分Joints Additive Blending eg. 向着摄影机点头
+存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg.">
+<meta name="author" content="xα">
+<link rel="canonical" href="http://localhost:1313/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
+<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \[ {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\ {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\ \]
+对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑
+1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）
+2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置 双线性插值 Delaunay Triangulation 常用 根据设置的动画点，生成三角形划分 在空间内一点，由周围三角形插值 插值利用重心坐标 Skeleton Masked Blending 针对只应用于半身或身体局部的动画，实现多种动画的混合 eg.各种姿态下的鼓掌
+绘制一个Mask，只应用于部分Joints Additive Blending eg. 向着摄影机点头
+存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg." />
+<meta property="og:title" content="2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced | xα&#39;s blog" />
+<meta property="og:description" content="Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \[ {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\ {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\ \]
+对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑
+1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）
+2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置 双线性插值 Delaunay Triangulation 常用 根据设置的动画点，生成三角形划分 在空间内一点，由周围三角形插值 插值利用重心坐标 Skeleton Masked Blending 针对只应用于半身或身体局部的动画，实现多种动画的混合 eg.各种姿态下的鼓掌
+绘制一个Mask，只应用于部分Joints Additive Blending eg. 向着摄影机点头
+存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/" />
+    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2022-05-19T17:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2022-05-19T17:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced",
+      "item": "http://localhost:1313/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced | xα's blog",
+  "name": "2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced",
+  "description": "Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \\[ {\\rm weight_1=\\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\\\ {\\rm weight_2=\\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\\\ \\]\n对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑\n1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）\n2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置 双线性插值 Delaunay Triangulation 常用 根据设置的动画点，生成三角形划分 在空间内一点，由周围三角形插值 插值利用重心坐标 Skeleton Masked Blending 针对只应用于半身或身体局部的动画，实现多种动画的混合 eg.各种姿态下的鼓掌\n绘制一个Mask，只应用于部分Joints Additive Blending eg. 向着摄影机点头\n存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg.",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "295",
+  "inLanguage": "en",
+  "datePublished": "2022-05-19T17:00:00+08:00",
+  "dateModified": "2022-05-19T17:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2022-05-19</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="http://localhost:1313/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#animation-blending" aria-label="Animation Blending">Animation Blending</a><ul>
+                        
+                <li>
+                    <a href="#lerp" aria-label="LERP">LERP</a></li>
+                <li>
+                    <a href="#%e6%9d%83%e9%87%8d" aria-label="权重">权重</a></li>
+                <li>
+                    <a href="#%e5%af%b9%e9%bd%90%e6%97%b6%e9%97%b4%e7%ba%bf" aria-label="对齐时间线">对齐时间线</a></li>
+                <li>
+                    <a href="#blend-space" aria-label="Blend Space">Blend Space</a></li>
+                <li>
+                    <a href="#skeleton-masked-blending" aria-label="Skeleton Masked Blending">Skeleton Masked Blending</a></li>
+                <li>
+                    <a href="#additive-blending" aria-label="Additive Blending">Additive Blending</a></li>
+                <li>
+                    <a href="#animation-blend-tree" aria-label="Animation Blend Tree">Animation Blend Tree</a></li></ul>
+                </li>
+                <li>
+                    <a href="#inverse-kinematics" aria-label="Inverse Kinematics">Inverse Kinematics</a><ul>
+                        
+                <li>
+                    <a href="#two-bones-ik" aria-label="Two Bones IK">Two Bones IK</a></li>
+                <li>
+                    <a href="#multi-joint-ik-solving" aria-label="Multi-Joint IK Solving">Multi-Joint IK Solving</a></li>
+                <li>
+                    <a href="#ik-with-multiple-end-effects" aria-label="IK with Multiple End-Effects">IK with Multiple End-Effects</a></li>
+                <li>
+                    <a href="#ik%e7%9a%84%e6%8c%91%e6%88%98" aria-label="IK的挑战">IK的挑战</a></li></ul>
+                </li>
+                <li>
+                    <a href="#facial-animation" aria-label="Facial Animation">Facial Animation</a><ul>
+                        
+                <li>
+                    <a href="#facial-action-coding-system" aria-label="Facial Action Coding System">Facial Action Coding System</a></li>
+                <li>
+                    <a href="#morph-target-animation" aria-label="Morph Target Animation">Morph Target Animation</a></li>
+                <li>
+                    <a href="#facial-skeleton" aria-label="Facial Skeleton">Facial Skeleton</a></li>
+                <li>
+                    <a href="#uv-texture-facial-animation" aria-label="UV Texture Facial Animation">UV Texture Facial Animation</a></li>
+                <li>
+                    <a href="#muscle-model-animation" aria-label="Muscle Model Animation">Muscle Model Animation</a></li></ul>
+                </li>
+                <li>
+                    <a href="#animation-retargeting" aria-label="Animation Retargeting">Animation Retargeting</a><ul>
+                        
+                <li>
+                    <a href="#skeleton-retargeting" aria-label="Skeleton Retargeting">Skeleton Retargeting</a></li>
+                <li>
+                    <a href="#morph-animation-retargeting" aria-label="Morph Animation Retargeting">Morph Animation Retargeting</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture09-animation-system---advanced">Lecture09 Animation
+System - Advanced</h3>
+<h4 id="animation-blending">Animation Blending</h4>
+<h5 id="lerp">LERP</h5>
+<ul>
+<li>LERP / NLERP / SLERP</li>
+<li>两个动画clip之间的LERP</li>
+</ul>
+<h5 id="权重">权重</h5>
+<p>eg. 走路与跑步动画，依据运动速度切换 <span class="math display">\[
+{\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\
+{\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\
+\]</span></p>
+<h5 id="对齐时间线">对齐时间线</h5>
+<ul>
+<li>eg.走路和跑步的步频不同，怎样对齐混合的帧</li>
+<li>每一段动画为一步，对每一段动画时间线做归一化</li>
+</ul>
+<h5 id="blend-space">Blend Space</h5>
+<p>eg. 左右前后走/跑</p>
+<ul>
+<li><p>1D Blend Space： eg.
+左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）</p></li>
+<li><p>2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置
+<img src="/images/games104/L09_2DBlendSpace.jpg" alt="L09_2DBlendSpace" style="zoom:33%;" /></p>
+<ul>
+<li><p>双线性插值
+<img src="/images/games104/L09_Bilinear.jpg" alt="L09_Bilinear" style="zoom:33%;" /></p></li>
+<li><p>Delaunay Triangulation 常用
+<img src="/images/games104/L09_DelaunayTriangulation.jpg" alt="L09_DelaunayTriangulation" style="zoom:33%;" /></p>
+<ul>
+<li>根据设置的动画点，生成三角形划分</li>
+<li>在空间内一点，由周围三角形插值</li>
+<li>插值利用重心坐标</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="skeleton-masked-blending">Skeleton Masked Blending</h5>
+<p>针对只应用于半身或身体局部的动画，实现多种动画的混合
+eg.各种姿态下的鼓掌</p>
+<ul>
+<li>绘制一个Mask，只应用于部分Joints</li>
+</ul>
+<h5 id="additive-blending">Additive Blending</h5>
+<p>eg. 向着摄影机点头</p>
+<ul>
+<li>存储动画的变化量，在基础动画上叠加一层动画</li>
+<li>需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果</li>
+</ul>
+<h5 id="animation-state-machine-状态机">Animation State Machine
+状态机</h5>
+<p><img src="/images/games104/L09_ASM1.jpg" alt="L09_ASM1" style="zoom: 67%;" /><img src="/images/games104/L09_ASM2.jpg" alt="L09_ASM2" style="zoom: 40%;" /></p>
+<ul>
+<li>两种核心元素
+<ul>
+<li>Node
+<ul>
+<li>Clip</li>
+<li>Blend Space</li>
+<li>脚本串接的单套动画系统</li>
+</ul></li>
+<li>Translation
+<ul>
+<li>激活条件</li>
+<li>Cross Fade
+<ul>
+<li>Smooth transition 慢慢过渡，插值（各种插值曲线）</li>
+<li>Frozen transition 先停住动画A，再播放动画B</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>多层状态机
+<img src="/images/games104/L09_LayeredASM.jpg" alt="L09_LayeredASM" style="zoom: 50%;" /></li>
+</ul>
+<h5 id="animation-blend-tree">Animation Blend Tree</h5>
+<ul>
+<li>多层状态机在复杂动画中非常复杂</li>
+<li>用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树
+<img src="/images/games104/L09_ExpressionTree.png" alt="L09_ExpressionTree" style="zoom: 25%;" /></li>
+<li>两种节点
+<ul>
+<li>Terminal Node 执行节点 (叶节点)
+<ul>
+<li>Clip</li>
+<li>Blend Space</li>
+<li>ASM</li>
+</ul></li>
+<li>Non-terminal Node （非叶节点）
+<ul>
+<li>LERP Blend Node
+<img src="/images/games104/L09_ABTLERP.png" alt="L09_ABTLERP" style="zoom: 25%;" /></li>
+<li>Additive Blend Node
+<img src="/images/games104/L09_ABTAdditive.png" alt="L09_ABTAdditive" style="zoom: 25%;" /></li>
+</ul></li>
+</ul></li>
+<li>Layered ASM to Blend Tree
+<img src="/images/games104/L09_LayeredASM2ABT.png" alt="L09_LayeredASM2ABT" style="zoom: 25%;" /></li>
+<li>Blend Tree Control Parameters
+<ul>
+<li>Variable
+<ul>
+<li>暴露变量，根据变量切换运动状态</li>
+<li>eg. 速度、HP</li>
+</ul></li>
+<li>Event
+<ul>
+<li>外部传入激活状态的指令</li>
+<li>eg. 持枪、开枪</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="inverse-kinematics">Inverse Kinematics</h4>
+<ul>
+<li>Forward Kinematics 前向传递动画</li>
+<li>Inverse Kinematics 对末端Joint Key动画 eg.
+崎岖地面走路，脚步顶点反向传递</li>
+</ul>
+<h5 id="two-bones-ik">Two Bones IK</h5>
+<ul>
+<li><p>2根Bone组成三角形的两边
+<img src="/images/games104/L09_2BonesIK1.jpg" alt="L09_2BonesIK1" style="zoom:25%;" /></p></li>
+<li><p>大腿根部的Joint到地面接触点距离为第三边</p></li>
+<li><p>即可得到两根Bone的夹角 <span
+class="math inline">\(\cos\theta=\dfrac{a^2+c^2-b^2}{2ac}\)</span>
+<img src="/images/games104/L09_2BonesIK2.jpg" alt="L09_2BonesIK2" style="zoom: 25%;" /></p></li>
+<li><p>问题：在3D空间，解有无数个，构成一个圆
+<img src="/images/games104/L09_2BonesIK3.jpg" alt="L09_2BonesIK3" style="zoom:33%;" /></p>
+<ul>
+<li>设定Reference Vector</li>
+<li>朝着Reference Vector方向取解
+<img src="/images/games104/L09_2BonesIK4.jpg" alt="L09_2BonesIK4" style="zoom:20%;" /></li>
+</ul></li>
+<li><p>更多复杂的IK</p>
+<ul>
+<li>Look At</li>
+<li>Hand</li>
+<li>Foot</li>
+<li>Full Body</li>
+</ul></li>
+</ul>
+<h5 id="multi-joint-ik-solving">Multi-Joint IK Solving</h5>
+<ul>
+<li>更多种可能性
+<img src="/images/games104/L09_MultiJointIK1.jpg" alt="L09_MultiJointIK1" style="zoom:33%;" /></li>
+<li>首先检查是否能到达目标（最长、最短的触及范围）
+<ul>
+<li>最长（拉直）
+<img src="/images/games104/L09_MultiJointIK2.jpg" alt="L09_MultiJointIK2" style="zoom: 25%;" /></li>
+<li>最短（最长的单根Bone减去其他Bone）
+<img src="/images/games104/L09_MultiJointIK3.jpg" alt="L09_MultiJointIK3" style="zoom:20%;" /><img src="/images/games104/L09_MultiJointIK4.jpg" alt="L09_MultiJointIK4" style="zoom:20%;" /></li>
+</ul></li>
+<li>约束 Constraints
+关节有运动的约束，不能超出约束范围（比如依据人体的骨骼结构）</li>
+<li>解法
+<ul>
+<li><strong>CCD, Cyclic Coordinate Decent</strong>
+<img src="/images/games104/L09_CCD.gif" alt="L09_CCD" style="zoom: 25%;" />
+<ul>
+<li>逐个Joint遍历，每个Joint朝下一个Joint与目标点连线方向旋转</li>
+<li>上述过程反复迭代，不断接近结果</li>
+<li>优化：
+<ul>
+<li>每次旋转时，使用Tolerance region进行缩小或限制
+<img src="/images/games104/L09_OptimizedCCD1.png" alt="L09_OptimizedCCD1" style="zoom: 20%;" /></li>
+<li>越靠近根节点的限制越大，运动幅度越小（处理约束同理）
+<img src="/images/games104/L09_OptimizedCCD2.png" alt="L09_OptimizedCCD2" style="zoom:20%;" /></li>
+</ul></li>
+</ul></li>
+<li><strong>FABRIK, Forward And Backward Reaching Inverse
+Kinematics</strong>
+<img src="/images/games104/L09_FABRIK.gif" alt="L09_FABRIK" style="zoom:25%;" />
+<ul>
+<li>逐个Joint遍历，每个Joint朝目标点或上一个Joint位移，再将Bone还原设定下一个Joint</li>
+<li>从末端Joint出发、从Root出发反复迭代</li>
+<li>同样需要Tolerance优化</li>
+<li>处理约束：将约束区域投影到Target所在平面，取可运动到的点
+<img src="/images/games104/L09_FABRIKConstraint.gif" alt="L09_FABRIKConstraint" style="zoom:25%;" /></li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="ik-with-multiple-end-effects">IK with Multiple End-Effects</h5>
+<p>eg. 爬墙、攀岩灯多个目标点的IK
+<img src="/images/games104/L09_IKwithMultipleEnd-Effectors.png" alt="L09_IKwithMultipleEnd-Effectors" style="zoom:20%;" /></p>
+<ul>
+<li><p>利用Jacobi矩阵求解：</p>
+<p><img src="/images/games104/L09_Jacobi1.png" alt="L09_Jacobi1" style="zoom:20%;" /></p>
+<p><img src="/images/games104/L09_Jacobi2.png" alt="L09_Jacobi2" style="zoom:15%;" /></p></li>
+<li><p>其他解法</p>
+<ul>
+<li>基于物理的解法</li>
+<li>PBD, Position Based Dynamics</li>
+<li>Fullbody IK in UE5 (XPBD, Extended PBD)</li>
+</ul></li>
+</ul>
+<h5 id="ik的挑战">IK的挑战</h5>
+<ul>
+<li>蒙皮后的自我穿插、交叠</li>
+<li>对环境的感知</li>
+<li>更自然的人类行为，例如平衡
+<ul>
+<li>基于数据的、AI的方法</li>
+</ul></li>
+</ul>
+<h4 id="animation-pipeline-with-blending-and-ik">Animation Pipeline with
+Blending and IK</h4>
+<p><img src="/images/games104/L09_AnimationPipelineWithBlendingAndIK.png" alt="L09_AnimationPipelineWithBlendingAndIK" style="zoom: 25%;" /></p>
+<h4 id="facial-animation">Facial Animation</h4>
+<h5 id="facial-action-coding-system">Facial Action Coding System</h5>
+<ul>
+<li>把表情分成46种，并进行编码</li>
+<li>多种表情可以进行组合</li>
+<li>Apple归纳了28个核心的表情，其中有23个是有对称性的，可以压缩</li>
+<li>混合时如果线性叠加：合到一起后效果折半 -&gt; 存储表情相对于“Neutral
+Face”的Offset，实现Additive Blending 即<strong>Morph Target
+Animation</strong></li>
+</ul>
+<h5 id="morph-target-animation">Morph Target Animation</h5>
+<h5 id="facial-skeleton">Facial Skeleton</h5>
+<p>骨骼非常复杂
+<img src="/images/games104/L09_FacialSkeleton.png" alt="L09_FacialSkeleton" style="zoom: 15%;" /></p>
+<h5 id="uv-texture-facial-animation">UV Texture Facial Animation</h5>
+<p>简单用贴图实现</p>
+<h5 id="muscle-model-animation">Muscle Model Animation</h5>
+<p>前沿研究，如果运动脸部肌肉（影视行业开始使用）
+<img src="/images/games104/L09_MuscleModelAnimation.jpg" alt="L09_MuscleModelAnimation" style="zoom: 50%;" /></p>
+<h4 id="animation-retargeting">Animation Retargeting</h4>
+<h5 id="skeleton-retargeting">Skeleton Retargeting</h5>
+<ul>
+<li>把同一个骨骼动画应用到不同角色</li>
+<li>Source Character + Target Character Source Animation + Target
+Animation</li>
+<li>两幅骨骼比例、位置不同 -&gt; 一一对应</li>
+<li>保持Binding Pose的旋转，Retarget相对运动，而不是绝对运动</li>
+<li>Translation和Scale动画：考虑Bone的长度之比，进行动画的放缩</li>
+<li>问题：腿部不同长度时出现浮空
+<ul>
+<li>以Pelvis到地面的距离之比为放缩比例，对动画、移动速度做放缩</li>
+<li>Foot IK</li>
+</ul></li>
+<li>离线方法完成</li>
+<li>对不同骨骼结构的Retargeting
+<ul>
+<li>以骨骼名字做对应</li>
+<li>把有对应骨骼之间的部分做归一化
+<img src="/images/games104/L09_DifferentSkeletonRetargeting.gif" alt="L09_DifferentSkeletonRetargeting" style="zoom: 33%;" /></li>
+</ul></li>
+<li>问题：
+<ul>
+<li>角色的自穿插</li>
+<li>有语义动作偏移带来语义偏移，例如鼓掌动画，Retargeting后掌合不起来</li>
+</ul></li>
+</ul>
+<h5 id="morph-animation-retargeting">Morph Animation Retargeting</h5>
+<p>eg. 表情动画 + 直接存储的是相对于Neutral
+Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
+闭眼，眼睛大小不同时，直接Apply可能无法闭上 + 增加约束条件 eg.
+闭眼动画限制眼睛必须闭上 +
+手动调整，利用拉普拉斯算子计算，拉眼睑使相近脸部一起运动</p>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-05-25-GAMES104现代游戏引擎-Lecture10-Physics System - Basic Concepts</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="/js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

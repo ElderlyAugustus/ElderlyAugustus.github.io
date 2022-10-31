@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space | xα&#39;s blog</title>
+<meta name="keywords" content="高质量实时渲染">
+<meta name="description" content="Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
+Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
+Key idea :
+不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
+Theory :
+Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
+考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]">
+<meta name="author" content="xα">
+<link rel="canonical" href="http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/icons/favicon.ico">
+<link rel="apple-touch-icon" href="http://localhost:1313/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
+Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
+Key idea :
+不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
+Theory :
+Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
+考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]" />
+<meta property="og:title" content="2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space | xα&#39;s blog" />
+<meta property="og:description" content="Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
+Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
+Key idea :
+不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
+Theory :
+Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
+考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/" />
+    <meta property="og:image" content="http://localhost:1313/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-11T15:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-11T15:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space",
+      "item": "http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space | xα's blog",
+  "name": "2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space",
+  "description": "Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing\nScreen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法\nKey idea :\n不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照\nTheory :\nRendering Equation \\[ L_o(\\mathrm p,\\omega_0)=\\int_{\\Omega_\\mathrm{patch}}L_i(\\mathrm p,\\omega_i)f_r(\\mathrm p,\\omega_i,\\omega_0)V(\\mathrm p,\\omega_i)\\cos\\theta_i\\,\\mathrm d\\omega_i \\]\n考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \\[ \\int_\\Omega f(x)g(x)\\,\\mathrm d x\\approx\\dfrac{\\int_{\\Omega_G} f(x)\\,\\mathrm d x}{\\int_{\\Omega_G} \\,\\mathrm d x}\\cdot\\int_\\Omega g(x)\\,\\mathrm d x \\] 将Visibility项拆出，得： \\[ \\begin{aligned} L_o^{\\rm indir}(\\mathrm p,\\omega_0)\\approx\u0026amp;\\dfrac{\\int_{\\Omega_+} V(\\mathrm p,\\omega_i)\\cos\\theta_i\\,\\mathrm d\\omega_i}{\\int_{\\Omega_+}\\cos\\theta_i\\,\\mathrm d\\omega_i}\\cdot\\\\ \\approx\u0026amp;\\int_{\\Omega_+}L_i^{\\rm indir}(\\mathrm p,\\omega_i)f_r(\\mathrm p,\\omega_i,\\omega_0)\\cos\\theta_i\\,\\mathrm d\\omega_i\\\\ =\u0026amp;k_A\\cdot \\underbrace{L_i^{\\rm indir}(p)\\rho}_{\\rm constant\\ for\\ AO} \\end{aligned} \\]",
+  "keywords": [
+    "高质量实时渲染"
+  ],
+  "wordCount" : "397",
+  "inLanguage": "en",
+  "datePublished": "2021-03-11T15:00:00+08:00",
+  "dateModified": "2021-03-11T15:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div><h1 class="post-title">2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-11</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="http://localhost:1313/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#screen-space-reflection-ssr" aria-label="Screen Space Reflection (SSR)">Screen Space Reflection (SSR)</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture-8-9-real-time-global-illumination-screen-space">Lecture
+8-9 Real-time Global Illumination （Screen Space）</h3>
+<p><strong>Screen Space</strong> :
+利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post
+Processing</p>
+<h4 id="screen-space-ambient-occlusion-ssao">Screen Space Ambient
+Occlusion (SSAO)</h4>
+<p><strong>AO 环境光遮蔽</strong> : 通过Contact
+Shadow使物体间相对位置明显<strong>SSAO</strong> :
+对全局光照的近似的屏幕空间方法</p>
+<p><strong>Key idea</strong> :</p>
+<ul>
+<li>不知道间接光照</li>
+<li>假定间接光照值是常数（对所有着色点、从所有方向）
+<ul>
+<li>like Blinn-Phong</li>
+</ul></li>
+<li>考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方）</li>
+</ul>
+<blockquote>
+<p>离线渲染中的AO——“天光”：等同于一个完全均匀的光照</p>
+</blockquote>
+<p><img src="/images/games202/AO.png" alt="AO" style="zoom:50%;" /></p>
+<p><strong>Theory</strong> :</p>
+<ul>
+<li><p>Rendering Equation <span class="math display">\[
+L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm
+p,\omega_i)\cos\theta_i\,\mathrm d\omega_i
+\]</span></p></li>
+<li><p>考虑对Rendering Equation的近似（“The RTR Approximation /
+Equation”） <span class="math display">\[
+\int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G}
+f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x
+\]</span> 将Visibility项拆出，得： <span class="math display">\[
+\begin{aligned}
+L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_+}
+V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm
+d\omega_i}{\int_{\Omega_+}\cos\theta_i\,\mathrm d\omega_i}\cdot\\
+\approx&amp;\int_{\Omega_+}L_i^{\rm indir}(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm
+d\omega_i\\
+=&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\
+AO}
+\end{aligned}
+\]</span></p></li>
+<li><p>A deeper understanding 1 <span class="math display">\[
+\begin{aligned}
+\int_\Omega f(x)g(x)\,\mathrm d x&amp;\approx\dfrac{\int_{\Omega_G}
+f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x\\
+&amp;=\overline{f(x)}\cdot\int_\Omega g(x)\,\mathrm d x
+\end{aligned}
+\]</span> 由于 <span class="math inline">\(g(x)\)</span>
+值小且平滑时该近似较准确，此处 <span class="math inline">\(g(x)\)</span>
+为常数，为准确拆分。</p></li>
+<li><p>A deeper understanding 2 前面积分中， <span
+class="math inline">\(\,\mathrm d x\)</span> 总是跟着 <span
+class="math inline">\(\cos\theta_i\)</span> =&gt; 半球上的立体角投影
+<span class="math inline">\(\,\mathrm d x_\perp=\cos\theta_i\,\mathrm d
+\omega_i\)</span> ，将球面积分转换为圆盘积分（积分值为圆盘面积 <span
+class="math inline">\(\pi\)</span> ）
+<img src="/images/games202/SSAO1.jpg" alt="SSAO1" style="zoom:50%;" /></p></li>
+<li><p><strong>回到SSAO的简单情况</strong>：</p>
+<ul>
+<li><p>均匀间接光照 <span class="math inline">\(L_i\)</span>
+[常数]</p></li>
+<li><p>Diffuse材质BRDF <span
+class="math inline">\(f_r=\dfrac{\rho}{\pi}\)</span> [常数]</p></li>
+<li><p>Rendering Equation拆成： <span class="math display">\[
+\begin{aligned}
+L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_+}L_i(\mathrm
+p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm
+p,\omega_i)\cos\theta_i\,\mathrm d\omega_i\\
+&amp;=\dfrac{\rho}{\pi}\cdot L_i(p)\cdot\int_{\Omega_+}V(\mathrm
+p,\omega_i)\cos\theta_i\mathrm d\omega_i
+\end{aligned}
+\]</span> 则即需求 <span class="math inline">\(k_A\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>How to compute</strong> : + In object space + Raycasting
+against geometry + Slow, require simplifications and / or spatial data
+structures + Depends of scene complexity + In screen space + Done in a
+post-rendering pass + No pre-processing required + Doesn’t depend on
+scene comple + Simple + Not physically accurate</p>
+<p><strong>SSAO</strong></p>
+<ul>
+<li>考虑特定半径<strong>半球</strong>范围内的遮挡关系（忽略远处的间接光照）</li>
+<li>在半径范围内随机撒点，通过点在物体内/外判断对光源可见性
+判断方法：通过Z-Buffer记录的物体深度直接判断（可能出现中图红线处的判断失误，忽略该失误）<img
+src="/images/games202/SSAO2.png" alt="SSAO2" /></li>
+<li>理论上应在法线方向半球范围内考虑，但渲染过程不一定有Normal-Buffer。
+则考虑，仅当随机点中有超过一半在物体内时考虑AO问题。计算时 <span
+class="math inline">\({\rm AO} =
+\dfrac{物体外的点}{物体内的点-随机点总数/2}\)</span></li>
+<li>随机点采样数不足时，易出现噪点，可以后期直接降噪应用，对画面影响较小</li>
+<li>问题：在两个完全不接触的物体边界可能出现AO效果</li>
+</ul>
+<p><strong>HBAO</strong> , Horizon based Ambient Occlusion :
+在有Normal-Buffer情况下，在半球范围内撒点采样，对不同方向加权（根据方向与法线的差值）。（更加精确，也改善了不接触的物体边界的问题。）</p>
+<h4 id="screen-space-directional-occlusion-ssdo">Screen Space
+Directional Occlusion (SSDO)</h4>
+<p>在SSAO基础上的提升，考虑更加精确的间接光照</p>
+<p><strong>Key idea</strong> :</p>
+<ul>
+<li>不再假设间接光照都是均匀的</li>
+<li>有一些间接光照的信息已经知道——参考RSM中，直接光照的接收者</li>
+</ul>
+<p><strong>效果</strong> : 遮蔽不再简单变暗，而是带有Color
+Blending效果</p>
+<p><strong>思路</strong> :</p>
+<ul>
+<li>很像Path Tracing</li>
+<li>在着色点P处随机发射一根光线</li>
+<li>若未hit物体，则判为直接光照</li>
+<li>若hit物体，则判为间接光照</li>
+</ul>
+<blockquote>
+<p>Comparison with SSAO :</p>
+<ul>
+<li>AO : 未被挡住的有间接光照、被挡住的没有</li>
+<li>DO : 未被挡住的无间接光照、被挡住的有</li>
+</ul>
+<p>原因：AO假设间接光照来自远处、DO假设间接光照来自近处。理论正确方法=AO+DO。</p>
+<p><img src="/images/games202/SSDO1.png" alt="SSDO1" style="zoom: 25%;" /></p>
+</blockquote>
+<p><strong>Theory</strong> : <span class="math display">\[
+L_o^{\rm dir}(\mathrm p,\omega_0)=\int_{\Omega_+,\,V=1}L_i^{\rm
+dir}(\mathrm p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\
+L_o^{\rm indir}(\mathrm p,\omega_0)=\int_{\Omega_+,\,V=0}L_i^{\rm
+indir}(\mathrm p,\omega_i)f_r(\mathrm
+p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i
+\]</span> 则关注下式，求 <span class="math inline">\(V=0\)</span>
+时得到的间接光照，来自一个patch/pixel的间接光照求法在前课中已介绍</p>
+<p><strong>具体做法</strong></p>
+<ul>
+<li><p>对着色点P法线方向的半球内，随机取几个点（eg. 下图ABCD）</p></li>
+<li><p>同SSAO，用相机对采样点的可见性替代P点对采样点的可见性，得到满足要求的不可见点</p></li>
+<li><p>将满足要求的不可见点作为间接光源计算P点处间接光照</p>
+<p><img src="/images/games202/SSDO3.jpg" alt="SSDO3" style="zoom:25%;" /></p></li>
+<li><p>BUG：如下图出现前后非接触物体时，用相机对采样点的可见性替代P点对采样点的可见性会错误
+<img src="/images/games202/SSDO4.jpg" alt="SSDO4" style="zoom:25%;" /></p></li>
+</ul>
+<p><strong>问题</strong> :</p>
+<ul>
+<li><p>只能实现小范围的全局光照（半球范围内）</p></li>
+<li><p>可见性问题（参考具体做法.BUG）</p></li>
+<li><p><strong>丢失不可见面信息</strong>（所有SS方法都有的问题） eg.
+下图中图3/4旋转后，丢失了方块深度面上的DO
+<img src="/images/games202/SSDO5.jpg" alt="SSDO5" style="zoom:50%;" /></p></li>
+</ul>
+<h4 id="screen-space-reflection-ssr">Screen Space Reflection (SSR)</h4>
+<p><strong><em>// “Screen Space Ray Tracing”</em></strong></p>
+<p>SSR : 在屏幕空间作光线追踪</p>
+<ul>
+<li>Intersection : 任意光线与屏幕空间的场景求交</li>
+<li>Shading : 交点处像素对着色点的“贡献”</li>
+</ul>
+<p>PS.反射信息绝大部分都是屏幕空间中已有的内容</p>
+<p>可以做</p>
+<ul>
+<li>Specular 从着色点处trace镜面方向光线</li>
+<li>Glossy 从着色点处，trace多根光线（根据BRDF）</li>
+<li>Medium smoothness + normals 不光滑平面，根据法线和BRDF…</li>
+<li>Variable smoothness</li>
+</ul>
+<p><strong>做法</strong></p>
+<ul>
+<li><p>Intersection</p>
+<ul>
+<li><p>逐渐往前走一小步</p></li>
+<li><p>每步与Z-Buffer对比深度，若在深度内则判定相交
+<img src="/images/games202/SSR1.png" alt="SSR1" style="zoom:33%;" /></p></li>
+<li><p>步长过大不精准、过小效率低——动态自适应步长</p>
+<ul>
+<li><p>作深度的Mipmap（每一层的像素是下一层对应四个像素中的最小值，“最小池化”）
+<img src="/images/games202/DepthMipmap1.png" alt="DepthMipmap" style="zoom: 20%;" /></p></li>
+<li><p>类似BVH、KD-Tree的加速结构</p></li>
+<li><p>在与上层（低分辨率）的深度图相交的情况下，下层（高分辨率）的深度图才可能相交
+<img src="/images/games202/DepthMipmap2.png" alt="DepthMipmap2" style="zoom: 25%;" /></p></li>
+<li><p>先以低步长前进、与高精度Mipmap判断，若无相交则增大步长、降低Mipmap精度，若无相交则继续增大步长、降低Mipmap精度，直到产生相交则减小步长，提高Mipmap精度，直至最高精度</p>
+<pre class="pseudocode"><code>mip = 0;
+while (level &gt; -1)
+  step through current cell;
+  if (above Z plane) ++level;
+  if (below Z plane) --level;</code></pre>
+<p><img src="/images/games202/DepthMipmap3.gif" alt="DepthMipmap2" style="zoom: 25%;" /></p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>问题</strong> : Screen Space
+被遮挡的物体、范围外的物体均不参与反射，通常在反射边界做虚化</p>
+<p><strong>Theory</strong> : 与Path
+Tracing无异——仅假设被反射物（非反射材质）和次级光源为diffuse。（没有距离衰减、没有次级光源与着色点之间的可见性问题。）</p>
+<p><strong>类似Path Tracing带来的效果</strong></p>
+<ul>
+<li>通过不同BRDF（不同数量光线）实现镜面、Glossy等多种反射</li>
+<li>Contact hardening 离反射面越近越Sharp的现象</li>
+<li>Specular elongation 各向同性问题（雨天灯光拉长）</li>
+<li>逐像素的Roughness和Normal</li>
+</ul>
+<p><strong>Improvements</strong></p>
+<ul>
+<li>BRDF的重要性采样</li>
+<li>邻近pixel的hit复用，增加了采样数</li>
+<li>屏幕空间先做模糊，再做单次查询（filter较难做）</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li>Pros
+<ul>
+<li>快速的Specular/Gloss反射</li>
+<li>高质量</li>
+<li>没有Spike和遮挡问题</li>
+</ul></li>
+<li>Cons
+<ul>
+<li>效率较Diffuse情况低</li>
+<li>丢失屏幕空间以外的信息</li>
+</ul></li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-10-数值分析-Day13-差分公式</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="http://localhost:1313">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="/js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

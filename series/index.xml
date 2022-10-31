@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Series on xα&#39;s blog</title>
+    <link>http://localhost:1313/series/</link>
+    <description>Recent content in Series on xα&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 31 Oct 2022 12:02:25 +0800</lastBuildDate><atom:link href="http://localhost:1313/series/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Misc</title>
+      <link>http://localhost:1313/series/misc/</link>
+      <pubDate>Mon, 31 Oct 2022 12:02:25 +0800</pubDate>
+      
+      <guid>http://localhost:1313/series/misc/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>笔记</title>
+      <link>http://localhost:1313/series/%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 23 Oct 2022 09:00:00 +0800</pubDate>
+      
+      <guid>http://localhost:1313/series/%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
