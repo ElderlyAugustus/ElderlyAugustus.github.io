@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-03-09-数值分析-Day12-续数值积分-数值微分 | xα&#39;s blog</title>
+<meta name="keywords" content="数值分析">
+<meta name="description" content="续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
+在区间 \([a,b]\) 上，取等距节点 \(x_k=a&#43;kh,\ k=0,1,\dots,n\) ，
+由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
+若在每个小区间 \(x_{k-1},x_k\) 用梯形公式，则有复化梯形公式 \(T_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx T_n=\frac{h}{2}\sum_{k=1}^n\left[f(x_{k-1})&#43;f(x_k)\right]=\frac{h}{2}\left[2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化梯形公式的的误差为：
+\[ \begin{array}{l}\displaystyle I-T_n=-\frac{h^3}{12}[f&#39;&#39;(\xi_1)&#43;\dots&#43;f&#39;&#39;(\xi_n)]=-\frac{h^2(b-a)}{12}f&#39;&#39;(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-T_n\right|\le\frac{(b-a)^3}{12n^2}\max_{a\le x\le b}|f&#39;&#39;(x)|\end{array} \]
+可知复化梯形公式收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-T_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt{\frac{(b-a)^3\max_{a\le x\le b}|f&#39;&#39;(x)|}{12\varepsilon}}\) 。 同理，复化Simpson公式 \(S_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx S_n=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})&#43;2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化Simpson公式的误差为：
+\[ \begin{array}{l}\displaystyle I-S_n=-\frac{h^4(b-a)}{2880}f^{4}(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-S_n\right|\le\frac{(b-a)^5}{2880n^4}\max_{a\le x\le b}|f^{(4)}(x)|\end{array} \]
+可知收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-S_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt[4]{\frac{(b-a)^5\max_{a\le x\le b}|f^{(4)}(x)|}{2880\varepsilon}}\) 。 同理，复化Cotes公式 \(C_n\) ：">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-03-09-数值分析-Day12-续数值积分-数值微分 | xα&#39;s blog" />
+<meta name="twitter:description" content="续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
+在区间 \([a,b]\) 上，取等距节点 \(x_k=a&#43;kh,\ k=0,1,\dots,n\) ，
+由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
+若在每个小区间 \(x_{k-1},x_k\) 用梯形公式，则有复化梯形公式 \(T_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx T_n=\frac{h}{2}\sum_{k=1}^n\left[f(x_{k-1})&#43;f(x_k)\right]=\frac{h}{2}\left[2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化梯形公式的的误差为：
+\[ \begin{array}{l}\displaystyle I-T_n=-\frac{h^3}{12}[f&#39;&#39;(\xi_1)&#43;\dots&#43;f&#39;&#39;(\xi_n)]=-\frac{h^2(b-a)}{12}f&#39;&#39;(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-T_n\right|\le\frac{(b-a)^3}{12n^2}\max_{a\le x\le b}|f&#39;&#39;(x)|\end{array} \]
+可知复化梯形公式收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-T_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt{\frac{(b-a)^3\max_{a\le x\le b}|f&#39;&#39;(x)|}{12\varepsilon}}\) 。 同理，复化Simpson公式 \(S_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx S_n=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})&#43;2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化Simpson公式的误差为：
+\[ \begin{array}{l}\displaystyle I-S_n=-\frac{h^4(b-a)}{2880}f^{4}(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-S_n\right|\le\frac{(b-a)^5}{2880n^4}\max_{a\le x\le b}|f^{(4)}(x)|\end{array} \]
+可知收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-S_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt[4]{\frac{(b-a)^5\max_{a\le x\le b}|f^{(4)}(x)|}{2880\varepsilon}}\) 。 同理，复化Cotes公式 \(C_n\) ：" />
+<meta property="og:title" content="2021-03-09-数值分析-Day12-续数值积分-数值微分 | xα&#39;s blog" />
+<meta property="og:description" content="续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
+在区间 \([a,b]\) 上，取等距节点 \(x_k=a&#43;kh,\ k=0,1,\dots,n\) ，
+由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
+若在每个小区间 \(x_{k-1},x_k\) 用梯形公式，则有复化梯形公式 \(T_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx T_n=\frac{h}{2}\sum_{k=1}^n\left[f(x_{k-1})&#43;f(x_k)\right]=\frac{h}{2}\left[2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化梯形公式的的误差为：
+\[ \begin{array}{l}\displaystyle I-T_n=-\frac{h^3}{12}[f&#39;&#39;(\xi_1)&#43;\dots&#43;f&#39;&#39;(\xi_n)]=-\frac{h^2(b-a)}{12}f&#39;&#39;(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-T_n\right|\le\frac{(b-a)^3}{12n^2}\max_{a\le x\le b}|f&#39;&#39;(x)|\end{array} \]
+可知复化梯形公式收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-T_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt{\frac{(b-a)^3\max_{a\le x\le b}|f&#39;&#39;(x)|}{12\varepsilon}}\) 。 同理，复化Simpson公式 \(S_n\) ：
+\[ \displaystyle I=\int_a^bf(x)dx\approx S_n=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})&#43;2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
+复化Simpson公式的误差为：
+\[ \begin{array}{l}\displaystyle I-S_n=-\frac{h^4(b-a)}{2880}f^{4}(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-S_n\right|\le\frac{(b-a)^5}{2880n^4}\max_{a\le x\le b}|f^{(4)}(x)|\end{array} \]
+可知收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-S_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt[4]{\frac{(b-a)^5\max_{a\le x\le b}|f^{(4)}(x)|}{2880\varepsilon}}\) 。 同理，复化Cotes公式 \(C_n\) ：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-09T19:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-09T19:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2021-03-09-数值分析-Day12-续数值积分-数值微分",
+      "item": "//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-03-09-数值分析-Day12-续数值积分-数值微分 | xα's blog",
+  "name": "2021-03-09-数值分析-Day12-续数值积分-数值微分",
+  "description": "续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \\(\\ge8\\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。\n在区间 \\([a,b]\\) 上，取等距节点 \\(x_k=a+kh,\\ k=0,1,\\dots,n\\) ，\n由定积分的区间可加性得 \\(\\displaystyle\\int_a^bf(x)dx=\\sum_{k=1}^n\\int_{x_{k-1}}^{x_k}f(x)dx\\) 。\n若在每个小区间 \\(x_{k-1},x_k\\) 用梯形公式，则有复化梯形公式 \\(T_n\\) ：\n\\[ \\displaystyle I=\\int_a^bf(x)dx\\approx T_n=\\frac{h}{2}\\sum_{k=1}^n\\left[f(x_{k-1})+f(x_k)\\right]=\\frac{h}{2}\\left[2\\sum_{k=1}^{n-1}f(x_k)+f(a)+f(b)\\right] \\]\n复化梯形公式的的误差为：\n\\[ \\begin{array}{l}\\displaystyle I-T_n=-\\frac{h^3}{12}[f\u0026#39;\u0026#39;(\\xi_1)+\\dots+f\u0026#39;\u0026#39;(\\xi_n)]=-\\frac{h^2(b-a)}{12}f\u0026#39;\u0026#39;(\\eta),\\quad\\eta\\in(a,b)\\\\\\displaystyle \\left|I-T_n\\right|\\le\\frac{(b-a)^3}{12n^2}\\max_{a\\le x\\le b}|f\u0026#39;\u0026#39;(x)|\\end{array} \\]\n可知复化梯形公式收敛，且要使得误差 \\(\\le\\varepsilon\\) ，只要 \\(\\left|I-T_n\\right|\\le\\varepsilon\\) 或 \\(\\displaystyle n\u0026gt;\\sqrt{\\frac{(b-a)^3\\max_{a\\le x\\le b}|f\u0026#39;\u0026#39;(x)|}{12\\varepsilon}}\\) 。 同理，复化Simpson公式 \\(S_n\\) ：\n\\[ \\displaystyle I=\\int_a^bf(x)dx\\approx S_n=\\frac{h}{6}\\left[4\\sum_{k=1}^nf(x_{k-\\frac{1}{2}})+2\\sum_{k=1}^{n-1}f(x_k)+f(a)+f(b)\\right] \\]\n复化Simpson公式的误差为：\n\\[ \\begin{array}{l}\\displaystyle I-S_n=-\\frac{h^4(b-a)}{2880}f^{4}(\\eta),\\quad\\eta\\in(a,b)\\\\\\displaystyle \\left|I-S_n\\right|\\le\\frac{(b-a)^5}{2880n^4}\\max_{a\\le x\\le b}|f^{(4)}(x)|\\end{array} \\]\n可知收敛，且要使得误差 \\(\\le\\varepsilon\\) ，只要 \\(\\left|I-S_n\\right|\\le\\varepsilon\\) 或 \\(\\displaystyle n\u0026gt;\\sqrt[4]{\\frac{(b-a)^5\\max_{a\\le x\\le b}|f^{(4)}(x)|}{2880\\varepsilon}}\\) 。 同理，复化Cotes公式 \\(C_n\\) ：",
+  "keywords": [
+    "数值分析"
+  ],
+  "wordCount" : "601",
+  "inLanguage": "en",
+  "datePublished": "2021-03-09T19:00:00+08:00",
+  "dateModified": "2021-03-09T19:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2021-03-09-数值分析-Day12-续数值积分-数值微分</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-09</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%bb%ad6.1---6.11-%e6%95%b0%e5%80%bc%e7%a7%af%e5%88%86" aria-label="续：6.1 - 6.11 数值积分">续：6.1 - 6.11 数值积分</a><ul>
+                        
+                <li>
+                    <a href="#%e5%a4%8d%e5%8c%96%e6%b1%82%e7%a7%af%e5%85%ac%e5%bc%8f" aria-label="复化求积公式">复化求积公式</a></li>
+                <li>
+                    <a href="#romberg%e6%b1%82%e7%a7%af%e5%85%ac%e5%bc%8f" aria-label="Romberg求积公式">Romberg求积公式</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b8%80%e8%88%ac%e5%8c%96%e6%8e%a8%e8%ae%ba" aria-label="一般化推论">一般化推论</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%ad%a3%e4%ba%a4%e5%a4%9a%e9%a1%b9%e5%bc%8f" aria-label="正交多项式">正交多项式</a></li>
+                <li>
+                    <a href="#gauss%e5%9e%8b%e6%b1%82%e7%a7%af%e5%85%ac%e5%bc%8f" aria-label="Gauss型求积公式">Gauss型求积公式</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%95%b0%e5%80%bc%e5%be%ae%e5%88%86" aria-label="6.12 - 6.13 数值微分">6.12 - 6.13 数值微分</a><ul>
+                        
+                <li>
+                    <a href="#%e5%b7%ae%e5%95%86%e5%9e%8b%e6%95%b0%e5%80%bc%e5%be%ae%e5%88%86" aria-label="差商型数值微分">差商型数值微分</a></li>
+                <li>
+                    <a href="#%e6%8f%92%e5%80%bc%e5%9e%8b%e6%95%b0%e5%80%bc%e5%be%ae%e5%88%86" aria-label="插值型数值微分">插值型数值微分</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="续6.1---6.11-数值积分">续：6.1 - 6.11 数值积分</h3>
+<h4 id="复化求积公式">复化求积公式</h4>
+<blockquote>
+<p>Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数
+<span class="math inline">\(\ge8\)</span>
+时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即<strong>复化求积公式</strong>的基本思想。</p>
+</blockquote>
+<p>在区间 <span class="math inline">\([a,b]\)</span> 上，取等距节点
+<span class="math inline">\(x_k=a+kh,\ k=0,1,\dots,n\)</span> ，<br />
+由定积分的区间可加性得 <span
+class="math inline">\(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\)</span>
+。</p>
+<ul>
+<li>若在每个小区间 <span class="math inline">\(x_{k-1},x_k\)</span>
+用梯形公式，则有<strong>复化梯形公式</strong> <span
+class="math inline">\(T_n\)</span> ：<br />
+<span class="math display">\[
+\displaystyle I=\int_a^bf(x)dx\approx
+T_n=\frac{h}{2}\sum_{k=1}^n\left[f(x_{k-1})+f(x_k)\right]=\frac{h}{2}\left[2\sum_{k=1}^{n-1}f(x_k)+f(a)+f(b)\right]
+\]</span><br />
+复化梯形公式的的误差为：<br />
+<span class="math display">\[
+\begin{array}{l}\displaystyle
+I-T_n=-\frac{h^3}{12}[f&#39;&#39;(\xi_1)+\dots+f&#39;&#39;(\xi_n)]=-\frac{h^2(b-a)}{12}f&#39;&#39;(\eta),\quad\eta\in(a,b)\\\displaystyle
+\left|I-T_n\right|\le\frac{(b-a)^3}{12n^2}\max_{a\le x\le
+b}|f&#39;&#39;(x)|\end{array}
+\]</span><br />
+可知复化梯形公式收敛，且要使得误差 <span
+class="math inline">\(\le\varepsilon\)</span> ，只要 <span
+class="math inline">\(\left|I-T_n\right|\le\varepsilon\)</span> 或 <span
+class="math inline">\(\displaystyle n&gt;\sqrt{\frac{(b-a)^3\max_{a\le
+x\le b}|f&#39;&#39;(x)|}{12\varepsilon}}\)</span> 。</li>
+<li>同理，<strong>复化Simpson公式</strong> <span
+class="math inline">\(S_n\)</span> ：<br />
+<span class="math display">\[
+\displaystyle I=\int_a^bf(x)dx\approx
+S_n=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})+2\sum_{k=1}^{n-1}f(x_k)+f(a)+f(b)\right]
+\]</span><br />
+复化Simpson公式的误差为：<br />
+<span class="math display">\[
+\begin{array}{l}\displaystyle
+I-S_n=-\frac{h^4(b-a)}{2880}f^{4}(\eta),\quad\eta\in(a,b)\\\displaystyle
+\left|I-S_n\right|\le\frac{(b-a)^5}{2880n^4}\max_{a\le x\le
+b}|f^{(4)}(x)|\end{array}
+\]</span><br />
+可知收敛，且要使得误差 <span
+class="math inline">\(\le\varepsilon\)</span> ，只要 <span
+class="math inline">\(\left|I-S_n\right|\le\varepsilon\)</span> 或 <span
+class="math inline">\(\displaystyle
+n&gt;\sqrt[4]{\frac{(b-a)^5\max_{a\le x\le
+b}|f^{(4)}(x)|}{2880\varepsilon}}\)</span> 。</li>
+<li>同理，<strong>复化Cotes公式</strong> <span
+class="math inline">\(C_n\)</span> ：<br />
+<span class="math display">\[
+\begin{aligned}\displaystyle I&amp;=\int_a^bf(x)dx\approx
+C_n\\&amp;=\frac{h}{90}\left\{32\sum_{k=1}^n\left[f(x_{k-\frac{3}{4}})+f(x_{k-\frac{1}{4}})\right]+12\sum_{k=1}^nf(x_{k-\frac{1}{2}})+14\sum_{k=1}^{n-1}f(x_k)+7f(a)+7f(b)\right\}\end{aligned}
+\]</span><br />
+复化Cotes公式的误差为：<br />
+<span class="math display">\[
+\begin{array}{l}\displaystyle
+I-S_n=-\frac{h^6(b-a)}{1935360}f^{6}(\eta),\quad\eta\in(a,b)\\\displaystyle
+\left|I-S_n\right|\le\frac{(b-a)^7}{1935360n^6}\max_{a\le x\le
+b}|f^{(6)}(x)|\end{array}
+\]</span><br />
+可知收敛，且要使得误差 <span
+class="math inline">\(\le\varepsilon\)</span> ，只要 <span
+class="math inline">\(\left|I-S_n\right|\le\varepsilon\)</span> 或 <span
+class="math inline">\(\displaystyle
+n&gt;\sqrt[6]{\frac{(b-a)^7\max_{a\le x\le
+b}|f^{(6)}(x)|}{1935360\varepsilon}}\)</span> 。</li>
+</ul>
+<h4 id="romberg求积公式">Romberg求积公式</h4>
+<blockquote>
+<p>复化求积公式对步长有较高要求。</p>
+</blockquote>
+<p><strong>由复化梯形公式推导</strong> 由梯形公式 <span
+class="math inline">\(\begin{array}{l}\displaystyle
+I-T_n=-\frac{(b-a)^3}{12n^2}f&#39;&#39;(\eta)\quad\eta\in(a,b)\\\displaystyle
+I-T_{2n}=-\frac{(b-a)^3}{36n^2}f&#39;&#39;(\tilde{\eta})\quad\tilde{\eta}\in(a,b)\end{array}\)</span>
+，视 <span class="math inline">\(f&#39;&#39;(\eta)\approx
+f&#39;&#39;(\tilde{\eta})\)</span> ，<br />
+得 <span class="math inline">\(\displaystyle
+I\approx\frac{4T_{2n}-T_n}{3}\)</span> 或 <span
+class="math inline">\(\displaystyle
+I-T_{2n}\approx\frac{T_{2n}-T_n}{3}\)</span> 。</p>
+<p>该二式表述精度更高，代入有 <span
+class="math inline">\(\displaystyle\frac{4T_{2n}-T_n}{3}=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})+2\sum_{k=1}^{n-1}f(x_k)+f(a)+f(b)\right]=S_n\)</span>
+，即为Simpson公式。且 <span class="math inline">\(\displaystyle
+T_{2n}=\frac{T_n}{2}+\frac{h}{2}\sum_{k=1}^nf(x_{k-\frac{1}{2}})\)</span>
+。</p>
+<ul>
+<li>由此得逐次分半的复化梯形公式的递推公式： <span
+class="math display">\[
+\left\{\begin{array}{l}
+\displaystyle T_{2^0}=T_1=\frac{b-a}{2}[f(a)+f(b)]\\
+\displaystyle
+T_{2^k}=\frac{T_{2^{k-1}}}{2}+\frac{b-a}{2^k}\sum_{i=1}^{2^{k-1}}f(a+\frac{(2i-1)(b-a)}{2^k}),\quad
+k=1,2,\dots
+\end{array}\right.
+\]</span> 且要使得 <span
+class="math inline">\(|I-T_{2^k}|&lt;\varepsilon\)</span> ，只要 <span
+class="math inline">\(|T_{2^k}-T_{2^{k-1}}|&lt;3\varepsilon\)</span>
+。</li>
+<li>同理得逐次分半的复化Simpson公式的递推公式： <span
+class="math display">\[
+\left\{\begin{array}{l}
+\displaystyle T_{2^0}=T_1=\frac{b-a}{2}[f(a)+f(b)]\\
+\displaystyle
+T_{2^k}=\frac{T_{2^{k-1}}}{2}+\frac{b-a}{2^k}\sum_{i=1}^{2^{k-1}}f(a+\frac{(2i-1)(b-a)}{2^k}),\quad
+k=1,2,\dots\\
+\displaystyle S_{2^{k-1}}=\frac{4T_{2^k}-T_{2^{k-1}}}{3},\quad
+k=1,2,\dots
+\end{array}\right.
+\]</span></li>
+</ul>
+<p><strong>由复化Simpson公式推导</strong> 类似的推法得到 <span
+class="math inline">\(\displaystyle
+I\approx\frac{16S_{2n}-S_n}{15}\)</span> 或 <span
+class="math inline">\(\displaystyle
+I-S_{2n}\approx\frac{S_{2n}-S_n}{15}\)</span> 。且有 <span
+class="math inline">\(\displaystyle\frac{16S_{2n}-S_n}{15}=C_n\)</span>
+。</p>
+<p><strong>由复化Cotes公式推导</strong></p>
+<p>同理得 <span class="math inline">\(\displaystyle
+I\approx\frac{64C_{2n}-C_n}{63}\)</span> 或 <span
+class="math inline">\(\displaystyle
+I-C_{2n}\approx\frac{C_{2n}-C_n}{63}\)</span> 。记 <span
+class="math inline">\(\displaystyle R_n=\frac{64C_{2n}-C_n}{63}\)</span>
+，即为<strong>Romberg求积公式</strong>。</p>
+<h5 id="一般化推论">一般化推论</h5>
+<p>令 <span class="math inline">\(T_{2^k}^{(1)}=T_{2^k},\
+T_{2^k}^{(1)}=S_{2^k},\ T_{2^k}^{(2)}=C_{2^k},\
+T_{2^k}^{(3)}=R_{2^k}\)</span> ，则有： <span class="math display">\[
+\left\{\begin{array}{l}
+\displaystyle T_{2^0}=T_1=\frac{b-a}{2}[f(a)+f(b)]\\
+\displaystyle
+T_{2^k}^{(0)}=\frac{T_{2^{k-1}}}{2}+\frac{b-a}{2^k}\sum_{i=1}^{2^{k-1}}f(a+\frac{(2i-1)(b-a)}{2^k}),\quad
+k=1,2,\dots\\
+\displaystyle
+T_{2^k}^{(m)}=\frac{4^mT_{2^{k+1}}^{(m-1)}-T_{2^k}^{(m-1)}}{4^m-1},\quad
+k=1,2,\dots,\ m=1,2,\dots
+\end{array}\right.
+\]</span> 且要使得 <span
+class="math inline">\(|I-T_{2^k}^{(m)}|&lt;\varepsilon\)</span> ，只要
+<span
+class="math inline">\(|T_{2^k}^{(m)}-T_{2^{k-1}}^{(m)}|&lt;(4^{m+1}-1)\varepsilon,\
+m=0,1,\dots\)</span> 。</p>
+<blockquote>
+<h4 id="正交多项式">正交多项式</h4>
+<p><strong>函数内积</strong>：若 <span
+class="math inline">\(f(x),g(x)\in C[a,b]\)</span> ，则称 <span
+class="math inline">\(\displaystyle\int_a^bf(x)g(x)dx\)</span> 为 <span
+class="math inline">\(f(x)\)</span> 和 <span
+class="math inline">\(g(x)\)</span> 的内积，记为： <span
+class="math inline">\((f,g)\)</span> ，其满足： + <span
+class="math inline">\((f,g)=(g,f)\)</span> + <span
+class="math inline">\((cf,g)=c(f,g)\)</span> + <span
+class="math inline">\((f_1+f_2,g)=(f_1,g)+(f_2,g)\)</span> 若 <span
+class="math inline">\((f,g)=0\)</span> ，则称 <span
+class="math inline">\(f(x)\)</span> 与 <span
+class="math inline">\(g(x)\)</span> <strong>正交</strong>，记为 <span
+class="math inline">\(f\perp g\)</span> 。</p>
+<p>利用内积可定义函数的<strong>平方模</strong> <span
+class="math inline">\(\displaystyle\|f\|_2=\sqrt{(f,f)}=\sqrt{\int_a^bf^2(x)dx}\)</span>
+，其满足： + <span class="math inline">\(\|f\|_2\ge0,\
+\|f\|_2=0\Leftrightarrow f(x)=0\)</span> + <span
+class="math inline">\(\|cf\|_2=|c|\|f\|_2\)</span> + <span
+class="math inline">\(\|f,g\|_2\le\|f\|_2+\|g\|_2\)</span> + <span
+class="math inline">\(\|(f,g)\|_2\le\|f\|_2\|g\|_2\)</span></p>
+<p>常引进加权形式定义： <span
+class="math inline">\(\displaystyle(f,g)=\int_a^b\rho(x)f(x)g(x)dx\)</span>
+，则 <span
+class="math inline">\(\displaystyle\|f\|_2=\sqrt{\int_a^b\rho(x)f^2(x)dx}\)</span>
+。</p>
+<p><strong>定理1</strong>：若 <span
+class="math inline">\(f_0(x),f_1(x),\dots,f_n(x)\)</span> 为 <span
+class="math inline">\(C[a,b]\)</span> 上的一组线性无关函数，则由 <span
+class="math inline">\(f_k(x)\)</span> 线性组合可得到 <span
+class="math inline">\(C[a,b]\)</span> 上的一组两两正交的函数组 <span
+class="math inline">\(g_0(x),g_1(x),\dots,g_n(x)\)</span>
+，单位化（平方模变为 <span class="math inline">\(1\)</span>
+）为<strong>规范正交组</strong> <span
+class="math inline">\(e_0(x),r_1(x),\dots,r_n(x)\)</span>
+。（Schemite正交化）</p>
+<p>将 <span class="math inline">\(P_n\)</span> 上由线性无关函数 <span
+class="math inline">\(1,x,x^2,\dots,x^n\)</span>
+经过Schemite正交化得到的多项式 <span
+class="math inline">\(p_0(x),p_1(x),\dots,p_n(x)\)</span> 称为 <span
+class="math inline">\([a,b]\)</span>
+上的<strong>正交多项式</strong>。</p>
+<p>若 <span class="math inline">\(p_0(x),p_1(x),\dots,p_n(x)\)</span> 为
+<span class="math inline">\([a,b]\)</span> 上权函数为 <span
+class="math inline">\(\rho(x)\)</span> 的正交多项式，则满足： + <span
+class="math inline">\(p_k(x)\)</span> 时首项系数不为零的 <span
+class="math inline">\(k\)</span> 次多项式 + <span
+class="math inline">\(p_0(x),p_1(x),\dots,p_n(x)\)</span> 构成 <span
+class="math inline">\(P_n\)</span> 上的一组正交基 + <span
+class="math inline">\(p_n(x)\)</span> 与不高于 <span
+class="math inline">\(n-1\)</span> 次的多项式正交, <span
+class="math inline">\(p_n(x)\perp P_{n-1}\)</span> + 方程 <span
+class="math inline">\(p_n(x)=0\)</span> 在 <span
+class="math inline">\([a,b]\)</span> 上有 <span
+class="math inline">\(n\)</span> 个单根 + 方程 <span
+class="math inline">\(p_{n-1}(x)=0\)</span> 的根与方程 <span
+class="math inline">\(p_n(x)=0\)</span> 在 <span
+class="math inline">\([a,b]\)</span> 上交错分布</p>
+<p><strong>常用正交多项式系</strong></p>
+<ol type="1">
+<li><strong>Legendre多项式</strong> <span
+class="math inline">\(\displaystyle
+L_n(x)=\frac{1}{2^nn!}\frac{d^n}{dx^n}(x^2-1)^n\quad x\in[-1,1],\
+n=0,1,\dots\)</span> ，权函数 <span
+class="math inline">\(\displaystyle\rho(x)=1\)</span>
+<ul>
+<li><span class="math inline">\(\displaystyle
+(L_m,L_n)=\left\{\begin{aligned}&amp;0&amp;m\neq
+n\\&amp;\frac{2}{2n+1}&amp;m=n\end{aligned}\right.\)</span></li>
+<li>有三项递推关系 <span
+class="math inline">\(\left\{\begin{array}{l}\displaystyle
+(n+1)L_{n+1}(x)=(2n+1)xL_n(x)-nL_{n-1}(x),\quad n\ge1\\L_0(x)=1,\
+L_1(x)=x\end{array}\right.\)</span></li>
+</ul></li>
+<li><strong>Chebyshev多项式</strong> <span
+class="math inline">\(T_n(x)=\cos(n\arccos x)\quad x\in[-1,1],\
+n=0,1,\dots\)</span> ，权函数 <span
+class="math inline">\(\displaystyle\rho(x)=\frac{1}{\sqrt{1-x^2}}\)</span>
+<ul>
+<li><span class="math inline">\(\displaystyle
+(T_m,T_n)=\left\{\begin{array}{l}0\quad\quad m\neq n\\\pi\quad\quad
+m=n=0\\\pi/2\quad m=n\neq0\end{array}\right.\)</span></li>
+<li>有三项递推关系 <span
+class="math inline">\(\left\{\begin{array}{l}\displaystyle
+T_{n+1}(x)=2xT_n(x)-nT_{n-1}(x),\quad n=1,2,\dots\\T_0(x)=1,\
+T_1(x)=x\end{array}\right.\)</span></li>
+<li><span class="math inline">\(T_n(x)\)</span> 在 <span
+class="math inline">\([-1,1]\)</span> 上的 <span
+class="math inline">\(n\)</span> 个零点为 <span
+class="math inline">\(\displaystyle
+x_k^{(n)}=\cos\frac{2k-1}{2n}\pi,\quad k=1,2,\dots,n\)</span></li>
+</ul></li>
+<li><strong>Laguere多项式</strong> <span
+class="math inline">\(\displaystyle
+L_n(x)=e^x\frac{d^n}{dx^n}(x^ne^{-x}),\quad0&lt;x&lt;+\infty,\quad
+n=0,1,2,\dots\)</span> ，权函数 <span
+class="math inline">\(\rho(x)=e^{-x}\)</span>
+<ul>
+<li><span class="math inline">\(\displaystyle
+(L_m,L_n)=\left\{\begin{aligned}&amp;0&amp;m\neq
+n\\&amp;(n!)^2&amp;m=n\end{aligned}\right.\)</span></li>
+<li>有三项递推关系 <span
+class="math inline">\(\left\{\begin{array}{l}\displaystyle
+L_{n+1}(x)=(2n+1-x)L_n(x)-n^2L_{n-1}(x),\quad n=1,2,\dots\\L_0(x)=1,\
+L_1(x)=1-x\end{array}\right.\)</span></li>
+</ul></li>
+<li><strong>Hermite多项式</strong> <span
+class="math inline">\(\displaystyle
+H_n(x)=(-1)^ne^{x^2}\frac{d^n}{dx^n}(e^{-x^2}),\quad-\infty&lt;x&lt;+\infty,\quad
+n=0,1,2,\dots\)</span> ，权函数 <span
+class="math inline">\(\rho(x)=e^{-x^2}\)</span>
+<ul>
+<li><span class="math inline">\(\displaystyle
+(L_m,L_n)=\left\{\begin{aligned}&amp;0&amp;m\neq
+n\\&amp;2^nn!\pi&amp;m=n\end{aligned}\right.\)</span></li>
+<li>有三项递推关系 <span
+class="math inline">\(\left\{\begin{array}{l}\displaystyle
+H_{n+1}(x)=2xH_n(x)-nH_{n-1}(x),\quad n\ge1\\H_0(x)=1,\
+H_1(x)=2x\end{array}\right.\)</span></li>
+</ul></li>
+</ol>
+</blockquote>
+<h4 id="gauss型求积公式">Gauss型求积公式</h4>
+<blockquote>
+<p>对一个求积公式而言，若不固定节点位置，节点数不变的情况下，代数精度如何提高。</p>
+</blockquote>
+<p><strong>定理1</strong>：区间 <span
+class="math inline">\([a,b]\)</span> 上权函数为 <span
+class="math inline">\(\rho(x)\)</span> 的具有 <span
+class="math inline">\(n\)</span> 个节点的数值积分公式代数精度不超过
+<span class="math inline">\(2n-1\)</span> 次。</p>
+<p><strong>Gauss型求积公式</strong>：使求积公式具有 <span
+class="math inline">\(2n-1\)</span> 次代数精度的节点 <span
+class="math inline">\(x_1,x_2,\dots,x_n\)</span>
+称为<strong>Gauss点</strong>，此时的插值型求积公式称为<strong>Gauss型求积公式</strong>：
+<span
+class="math inline">\(I\approx\displaystyle\sum_{i=1}^nA_if(x_i)\)</span>
+。</p>
+<p><strong>定理2</strong>：取区间 <span
+class="math inline">\([a,b]\)</span> 上权函数为 <span
+class="math inline">\(\rho(x)\)</span> 的正交多项式 <span
+class="math inline">\(p_n(x)\)</span> 的 <span
+class="math inline">\(n\)</span> 个零点 <span
+class="math inline">\(x_1,x_2,\dots,x_n\)</span> 恰为Gauss点。</p>
+<p>因此构造Gauss型求积公式的方法为：</p>
+<ul>
+<li>求出区间 <span class="math inline">\([a,b]\)</span> 上权函数为 <span
+class="math inline">\(\rho(x)\)</span> 的正交多项式 <span
+class="math inline">\(p_n(x)\)</span> ；</li>
+<li>求出 <span class="math inline">\(p_n(x)\)</span> 的 <span
+class="math inline">\(n\)</span> 个零点；</li>
+<li>计算积分系数 <span
+class="math inline">\(A_i=\displaystyle\int_a^bl_i(x)\rho(x)dx\)</span>
+。</li>
+</ul>
+<p><strong>定理3</strong>：设 <span class="math inline">\(f(x)\in
+C^{2n}[a,b]\)</span> ，则Gauss公式的误差为： <span
+class="math inline">\(\displaystyle
+R[f]=\int_a^bf(x)\rho(x)dx-\sum_{i=1}^nA_if(x_i)=\frac{f^{(2n)}(\eta)}{(2n)!}\int_a^b\rho(x)\omega^2(x)dx,\quad
+\eta\in(a,b)\)</span></p>
+<p><strong>常见Gauss型求积公式</strong></p>
+<ul>
+<li><p><strong>Gauss-Legendre求积公式</strong>：区间 <span
+class="math inline">\([-1,1]\)</span> 上权函数 <span
+class="math inline">\(\rho(x)=1\)</span> 的Guass型求积公式 <span
+class="math inline">\(\displaystyle\int_{-1}^1f(x)dx\approx\displaystyle\sum_{i=1}^nA_if(x_i)\)</span>
+，其Gauss点为Legendre多项式的零点。可通过数学用表查询对应Gauss点和求积系数。余项为
+<span class="math inline">\(\displaystyle
+R[f]=\frac{2^{2n+1}(n!)^4}{[(2n)!]^3(2n+1)}f^{(2n)}(\eta),\quad\eta\in(-1,1)\)</span>
+。</p>
+<p>利用积分变换 <span
+class="math inline">\(\displaystyle\int_a^bf(x)dx=\frac{b-a}{2}\int_{-1}^1(\frac{a+b}{2}+\frac{b-a}{2}t)dt,\quad(x=\frac{(a+b)+(b-a)t}{2})\)</span><br />
+可用Gauss-Legendre求积公式求任意区间的数值积分，其在 <span
+class="math inline">\([a,b]\)</span> 上权函数 <span
+class="math inline">\(\rho(x)=1\)</span> 的求积公式为 <span
+class="math inline">\(\displaystyle\int_a^bf(x)dx\approx\frac{b-a}{2}\sum_{i=1}^{n}A_if(\frac{a+b}{2}+\frac{b-a}{2}x_i)\)</span>
+。余项为 <span class="math inline">\(\displaystyle
+R[f]=\frac{(b-a)^{2n+1}(n!)^4}{[(2n)!]^3(2n+1)}f^{(2n)}(\eta),\quad\eta\in(a,b)\)</span>
+。</p></li>
+<li><p><strong>Gauss-Laguerre求积公式</strong>：区间 <span
+class="math inline">\([0,+\infty)\)</span> 上权函数 <span
+class="math inline">\(\rho(x)=e^{-x}\)</span> 的Guass型求积公式 <span
+class="math inline">\(\displaystyle\int_0^\infty
+e^{-x}f(x)dx\approx\sum_{i=1}^nA_if(x_i)\)</span>
+，其Gauss点为Laguerre多项式的零点。可通过数学用表查询对应Gauss点和求积系数。余项为
+<span class="math inline">\(\displaystyle
+R[f]=\frac{(n!)^2}{(2n)!}f^{(2n)}(\eta),\quad\eta\in(0,+\infty)\)</span>
+。</p>
+<p>对 <span class="math inline">\([0,+\infty)\)</span> 上权函数 <span
+class="math inline">\(\rho(x)=1\)</span>
+的积分，也可构造Gauss-Laguerre求积公式（再乘一个 <span
+class="math inline">\(e^x\)</span> ）： <span
+class="math inline">\(\displaystyle\int_0^\infty
+f(x)dx\approx\sum_{i=1}^nA_ie^{x_i}f(x_i)\)</span> 。</p></li>
+<li><p><strong>Gauss-Hermite求积公式</strong>：区间 <span
+class="math inline">\((-\infty,+\infty)\)</span> 上权函数 <span
+class="math inline">\(\rho(x)=e^{-x^2}\)</span> 的Guass型求积公式 <span
+class="math inline">\(\displaystyle\int_{-\infty}^\infty
+e^{-x^2}f(x)dx\approx\sum_{i=1}^nA_if(x_i)\)</span>
+，其Gauss点为Herimite多项式的零点。可通过数学用表查询对应Gauss点和求积系数。余项为
+<span class="math inline">\(\displaystyle
+R[f]=\frac{n!\sqrt\pi}{2^n(2n)!}f^{(2n)}(\eta),\quad\eta\in(-\infty,+\infty)\)</span>
+。</p>
+<p>同理，对 <span class="math inline">\((-\infty,+\infty)\)</span>
+上权函数 <span class="math inline">\(\rho(x)=1\)</span>
+的积分，也可构造Gauss-Hermite求积公式（再乘一个 <span
+class="math inline">\(e^{x^2}\)</span> ）： <span
+class="math inline">\(\displaystyle\int_{-\infty}^\infty
+f(x)dx\approx\sum_{i=1}^nA_ie^{x_i^2}f(x_i)\)</span> 。</p></li>
+</ul>
+<h3 id="数值微分">6.12 - 6.13 数值微分</h3>
+<p><strong>数值微分</strong>是指用函数值的线性组合近似函数在某点的导数值。</p>
+<h4 id="差商型数值微分">差商型数值微分</h4>
+<ul>
+<li><p><strong>向前差商数值微分公式</strong>： <span
+class="math inline">\(\displaystyle
+f&#39;(x_0)\approx\frac{f(x_0+h)-f(x_0)}{h}\)</span></p>
+<p>Taylor展开得 <span class="math inline">\(\displaystyle
+f(x_0+h)=f(x_0)+f&#39;(x_0)h+\frac{h^2}{2}f&#39;&#39;(x_0+\theta
+h)\quad0\le\theta\le1\)</span><br />
+可得误差 <span class="math inline">\(\displaystyle
+f&#39;(x_0)-\frac{f(x_0+h)-f(x_0)}{h}=-\frac{h}{2}f&#39;&#39;(x_0+\theta
+h)\quad0\le\theta\le1\)</span></p></li>
+<li><p><strong>向后差商数值微分公式</strong>： <span
+class="math inline">\(\displaystyle
+f&#39;(x_0)\approx\frac{f(x_0)-f(x_0-h)}{h}\)</span></p>
+<p>Taylor展开得 <span class="math inline">\(\displaystyle
+f(x_0-h)=f(x_0)-f&#39;(x_0)h+\frac{h^2}{2}f&#39;&#39;(x_0-\theta
+h)\quad0\le\theta\le1\)</span><br />
+可得误差 <span class="math inline">\(\displaystyle
+f&#39;(x_0)-\frac{f(x_0)-f(x_0-h)}{h}=\frac{h}{2}f&#39;&#39;(x_0-\theta
+h)\quad0\le\theta\le1\)</span></p></li>
+<li><p><strong>中心差商数值微分公式</strong>： <span
+class="math inline">\(\displaystyle
+f&#39;(x_0)\approx\frac{f(x_0+h)-f(x_0-h)}{2h}\)</span></p>
+<p>可得误差 <span class="math inline">\(\begin{aligned}\displaystyle
+f&#39;(x_0)-\frac{f(x_0+h)-f(x_0-h)}{2h}&amp;=-\frac{h^2}{12}[f&#39;&#39;&#39;(x_0+\theta_1
+h)+f&#39;&#39;&#39;(x_0-\theta_2
+h)]\\&amp;=-\frac{h^2}{6}f&#39;&#39;&#39;(x_0+\theta
+h)\quad\quad-1\le\theta\le1\end{aligned}\)</span></p></li>
+<li><p><strong>二阶中心差商数值微分公式</strong>： <span
+class="math inline">\(\displaystyle
+f&#39;&#39;(x_0)\approx\frac{f(x_0+h)-2f(x_0)+f(x_0-h)}{h^2}\)</span></p>
+<p>Taylor展开得 <span
+class="math inline">\(\begin{array}{l}\displaystyle
+f(x_0+h)=f(x_0)+hf&#39;(x_0)+\frac{h^2}{2}f&#39;&#39;(x_0)+\frac{h^3}{6}f&#39;&#39;&#39;(x_0)+\frac{h^4}{24}f^{(4)}(x_0+\theta_1
+h)\\\displaystyle
+f(x_0-h)=f(x_0)-hf&#39;(x_0)+\frac{h^2}{2}f&#39;&#39;(x_0)-\frac{h^3}{6}f&#39;&#39;&#39;(x_0)+\frac{h^4}{24}f^{(4)}(x_0-\theta_2
+h)\end{array}\)</span><br />
+两式相加可得误差 <span class="math inline">\(\displaystyle
+f&#39;(x_0)-\frac{f(x_0+h)-2f(x_0)+f(x_0-h)}{h^2}=-\frac{h^2}{12}f^{(4)}(x_0+\theta
+h)\quad\theta\in(-1,1)\)</span></p></li>
+</ul>
+<p>从截断误差的角度看，步长 <span class="math inline">\(h\)</span>
+越小，计算越精确；但是 <span class="math inline">\(h\)</span>
+过小时，计算过程中有相近的数相减，会严重损失数值精度。实际应用中，可采用步长逐次减半的方法确定最终补偿。记
+<span class="math inline">\(G(h),\ G(h/2)\)</span>
+分别为对应步长取值时的差商公式，对给定精度 <span
+class="math inline">\(\varepsilon&gt;0\)</span> ，若 <span
+class="math inline">\(|G(h)-G(h/2)|&lt;\varepsilon\)</span> 就取步长为
+<span class="math inline">\(h/2\)</span> ，反之取 <span
+class="math inline">\(h\)</span> 。</p>
+<h4 id="插值型数值微分">插值型数值微分</h4>
+<p>建立插值多项式 <span class="math inline">\(L_n(x)\)</span> ，取 <span
+class="math inline">\(L_n&#39;(x)\)</span> 作为 <span
+class="math inline">\(f&#39;(x)\)</span> 的近似。误差余项 <span
+class="math inline">\(\displaystyle
+f&#39;(x_k)-L_n&#39;(x_k)=\frac{f^{(n+1)}(\xi)}{(n+1)!}\omega_{n+1}(x_k)\)</span>
+（ <span class="math inline">\(x\neq x_k\)</span> 时难以分析）</p>
+<p>仅考察节点处的导数值，假定所给节点等距。</p>
+<ul>
+<li><p><strong>两点公式</strong>：线性插值函数 <span
+class="math inline">\(\displaystyle
+L_1(x)=\frac{x-x_1}{x_0-x_1}f(x_0)+\frac{x-x_0}{x_1-x_0}f(x_1)\)</span>
+，对公式两端求导，记 <span class="math inline">\(x_1-x_0=h\)</span>
+，有：<br />
+<span class="math inline">\(\displaystyle
+L_1&#39;(x)=\frac{1}{h}[f(x_1)-f(x_0)]\)</span> ，<br />
+得到两个两点公式： <span class="math inline">\(\displaystyle
+L_1&#39;(x_0)=L_1&#39;(x_1)=\frac{1}{h}[f(x_1)-f(x_0)]\)</span></p></li>
+<li><p><strong>三点公式</strong>：二次插值函数 <span
+class="math inline">\(L_2(x)\)</span> ，对其求导，记 <span
+class="math inline">\(x=x_0+th\)</span> ，有：<br />
+<span class="math inline">\(\displaystyle
+L_2&#39;(x)=\frac{1}{2h}[(2t-3)f(x_0)-(4t-4)f(x_1)+(2t-1)f(x_2)]\)</span><br />
+得到三个三点公式： <span
+class="math inline">\(\begin{array}{l}\displaystyle
+L_2&#39;(x_0)=\frac{1}{2h}[-3f(x_0)+4f(x_1)-f(x_2)]\\L_2&#39;(x_1)=\frac{1}{2h}[-f(x_0)+f(x_2)]\\L_2&#39;(x_2)=\frac{1}{2h}[f(x_0)-4f(x_1)+3f(x_2)]\end{array}\)</span></p>
+<p>再次求导，可以得到更高阶的数值微分公式 <span
+class="math inline">\(\displaystyle
+L_2&#39;&#39;(x)=\frac{1}{h^2}[f(x_0)-2f(x_1)+f(x_2)]\)</span></p></li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-03-10-数值分析-Day13-差分公式</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-08-数值分析-Day11-插值型数值积分</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

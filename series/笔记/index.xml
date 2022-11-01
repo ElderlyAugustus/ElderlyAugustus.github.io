@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>笔记 on xα&#39;s blog</title>
-    <link>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/</link>
+    <link>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html</link>
     <description>Recent content in 笔记 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 23 Oct 2022 09:00:00 +0800</lastBuildDate><atom:link href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen</title>
-      <link>//elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen.html</link>
       <pubDate>Sun, 23 Oct 2022 09:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen.html</guid>
       <description>Lecture21 Dynamic Global Illumination and Lumen Part I Dynamic Global Illumination Global Illumination - 略 Reflective Shadow Maps, RSM - 略 低分辨率间接光照加速：
 计算低分辨率间接光照 对全分辨率图像的每个像素 获得周围四个低分辨率采样 通过法线和世界坐标位置判断，采样间差异过大时剔除 双线性插值 以全分辨率重新计算剔除的像素 Light Propagation Volumes, LPV - 略 Sparse Voxel Octree for Real-time Global Illumination, SVOGI 如何组织voxel的分布？
 硬件保守光栅化：对很小的三角形，保证其至少有一个voxel 八叉树存储 Shading with Cone Tracing in Voxel Tree 着色点根据BRDF发射Diffuse和Specular的Cone 根据Cone尺寸查询树结构获取光照 - 非常适合Hierarchy结构存储的光照数据 NVIDIA的工作，GPU表达非常复杂 Voxelization Based Global Illumination, VXGI 更关注相机视锥内的区域、更关注近处的区域 Clipmap，voxel版的Mipmap 利用Clipmaps存储voxel数据 重心区域使用更高分辨率voxel 更适合Cone Tracing 建构简单、读取简单、GPU Friendly… Voxel Update：空间网格位置固定，只需要更新相机周围的Voxel Voxel具有Opacity（透明度），表征Voxel内有多少Surface可以阻挡光线，需要计算三个方向 对屏幕空间每个像素做Cone Tracing（Diffuse、Rough Specular、Fine Specular） 问题： 错误的遮挡关系，简单使用Opacity来表示 Light Leaking：遮挡物薄于Voxel时 Screen Space Global Illumination, SSGI Reuse screen space data &amp;lt;- Screen Space Reflection, SSR SSR：单根光线，构建反射 -&amp;gt; 多方向多根光线，构建GI 对Depth Buffer做Raymarching，Hierarchical Tracing 参考SSR笔记 Reuse近邻像素 做Cone Tracing，相当于对Tracing到的屏幕范围的像素做一次Filtering 优势：快，质量高，没有遮挡问题 问题：缺少屏外信息，重用近邻像素带来的错误Visibility 独特优势： 易于处理非常近的接近阴影 准确的Hit点计算 对场景复杂度不敏感 可以处理动态物体 Part II Lumen Real-time Ray Tracing的问题：</description>
@@ -298,10 +298,10 @@ Tracing的硬件开销不一样
     
     <item>
       <title>2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks</title>
-      <link>//elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks.html</link>
       <pubDate>Sat, 22 Oct 2022 09:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks.html</guid>
       <description>Lecture15 Gameplay Complexity and Building Blocks Overview Gameplay的挑战 多个系统之间的合作 同一个游戏中Gameplay的多样性 快速迭代 Event Mechanism Hard Code写在函数中：无数的if/else、非常难以修改 Event/Message Mechanism：GO之间的“通讯协议” Publish-subscribe Pattern 发行-订阅设计模式 Event Definition 信息的定义 方法1：Event作为类设计 -&amp;gt; 不适合交给设计师修改 方法2：允许定义任意的Event 再通过代码渲染系统编译，但每次修改都需要重新编译过于麻烦 在引擎核心代码之外定义 dll注入 用脚本层语言实现 Callback Registration 响应注册 注册和调用不在同一处 –&amp;gt; 对象的生命周期和回调函数安全性问题 Strong Reference 强引用：引用关系绑定 Weak Reference 弱引用：引用关系弱，可手动进行逻辑判断，使用较多 Event Dispatching 信息分发 遍历每个GO，逐个分发调用函数 —— 效率过低 Immediate：发送消息立即调用函数 会打断前一任务，等待Callback执行后再继续 单次打断引发连锁Callback，易导致Callstack非常深，难以Debug 难以并行 Event Queue 把Event存储至队列，依次执行 Event Queue的序列化和反序列化 实现：利用反射，获取每个对象的描述结构 存储结构：Ring Buffer 不用重复申请新内存 Batching，将多个独立系统分开处理 问题： 无法保证多个系统间的执行顺序 =&amp;gt; 保留一定的Immediate处理能力 同时具备Pre、Post、Immediate处理方式 有系统延迟，削弱动作游戏打击感 =&amp;gt; 经常Hardcode绕过Delay Script System Game Logic 直接在游戏引擎代码内，使用编译语言编写 （C/C++） 每次修改Gameplay，需要重新编译游戏引擎 极难支持热更新 对设计师极不友好 脚本语言 Script System 支持快速迭代 易于学习、编写 支持热更新 沙盒运行，稳定、更少Crash 如何运行 基于虚拟机 Script Text -&amp;gt; [Compiler] -&amp;gt; Bytecode [Virtual Machine] 速度略慢 如何管理GO 强调效率：引擎内核管理，脚本触发引擎执行 编写难度大 执行过程非常复杂 直接交给脚本系统管理 脚本如何处理GO的生命周期：GC, Garbage Collection 优势：不需要手动管理对象生命周期，自动处理 问题：每次需要扫描内存，处理效率低 对于玩法相对简单的单机游戏，大多交给引擎管理； MMORPG等玩法非常复杂的游戏，大多脚本系统管理 架构 引擎调用脚本 eg.</description>
       <content:encoded><![CDATA[<h3 id="lecture15-gameplay-complexity-and-building-blocks">Lecture15
 Gameplay Complexity and Building Blocks</h3>
@@ -503,10 +503,10 @@ Bytecode -&gt; Virtual Machine</li>
     
     <item>
       <title>2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic</title>
-      <link>//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html</link>
       <pubDate>Sun, 03 Jul 2022 14:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html</guid>
       <description>Lecture14 Tool Chains Applications &amp;amp; Advanced Topic Architecture of A World Editor A hub for everything to build the world
 Editor Viewport 运行一个完整游戏，“Editor Mode” 代码存在Editor Only -&amp;gt; 避免编译到最终游戏中 Everything is an Editable Object Objects Views Tree View Layer View Categories and groups 通过Schema系统编辑Object参数，参数编辑面板 Content Browser Editing Utilities in World Editor 鼠标选取
 Ray casting 不需要缓存，支持同时选取多个物体 遍历性能差 RTT 在G-Buffer中存储Object ID 根据点击像素直接对应Object ID 其他Trick来选取无Mesh的Object Object Transform Editing
@@ -712,10 +712,10 @@ data-cites="UE5">@UE5</span>
     
     <item>
       <title>2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</title>
-      <link>//elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain.html</link>
       <pubDate>Sun, 26 Jun 2022 14:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain.html</guid>
       <description>Lecture13 Tool Chains 游戏引擎工具链的地位：
 用户和引擎Runtime层的桥梁 引擎和DCC软件的桥梁：Asset Conditioning Pipeline 调和不同思维方式的平台：策划 / 美术 / 程序 GUI Immediate Mode 逐帧直接绘制，由引擎逻辑绘制，简单轻量直接 扩展性有限，性能有限，将业务压力交给了引擎逻辑 eg. Unity UGUI / Omniverse GUI / Piccolo GUI Retained Mode 将需要绘制的图形内容存储成Buffer，再交由GUI绘制 将引擎逻辑和GUI工具隔离，扩展性强，性能表现好 对开发者来说相对复杂 eg. Unreal UMG / WPF GUI / QT GUI Design Pattern MVC MVP：在MVC基础上的变化，View进一步与Model分离 MVVM：把Presenter换成ViewModel——用Binding将ViewModel和View绑定，用HTML/XAML等简单逻辑表示View 平台兼容性问题，eg. 在Windows下WPF表现较好 数据处理 Serialization and Deserialization 序列化与反序列化：文件、数据库、内存、网络之间的数据转换
 存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&amp;gt; 结构化 eg. XML/… -&amp;gt; 更简单的结构 eg. json/… eg.</description>
@@ -907,10 +907,10 @@ you get “所见即所得”</h4>
     
     <item>
       <title>2022-06-18-GAMES104现代游戏引擎-Lecture12-Effects</title>
-      <link>//elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects.html</link>
       <pubDate>Sat, 18 Jun 2022 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects.html</guid>
       <description>Lecture12 Effects Particle 一个粒子 @PBA 粒子形态 Billboard Particle 永远朝向相机的面片 Mesh Particle eg. 碎石 Ribbon Particle 光带 eg. 刀的尾迹 样条插值，一般用Catmull 粒子渲染 透明混合顺序 全局排序 精确但开销大 层级结构 系统 -&amp;gt; Emitter -&amp;gt; Within emitter 分辨率，性能开销爆炸 Low-Resolution Particles 低分辨率渲染粒子，再与普通画面混合 GPU粒子 定义Particle Pool
 管理Dead list和Alive list
 在Compute Shader上计算
@@ -1033,10 +1033,10 @@ data-cites="PBA">@PBA</span></h5>
     
     <item>
       <title>2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications</title>
-      <link>//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications.html</link>
       <pubDate>Sat, 04 Jun 2022 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications.html</guid>
       <description>Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 + 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&amp;gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用</description>
       <content:encoded><![CDATA[<h3 id="lecture11-physics-system---applications">Lecture11 Physics
 System - Applications</h3>
@@ -1362,10 +1362,10 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
     
     <item>
       <title>2022-05-25-GAMES104现代游戏引擎-Lecture10-Physics System - Basic Concepts</title>
-      <link>//elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts.html</link>
       <pubDate>Wed, 25 May 2022 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts.html</guid>
       <description>Lecture10 Physics System - Basic Concepts 物理的作用： + 物理直觉 + 动态环境，《彩六》破坏环境 + 环境交互，VR等《Alyx》 + 艺术效果，粒子、流体、布料
 Physics Actors and Shapes Actor Static Actor 静态固定的，不受物理影响 Dynamic Actor 按照动力学原理运动的，受力/动量/冲量驱动 Trigger 根据碰撞触发Message从而产生Event Kinematic 反物理的自发运动（游戏设计师设计的运动） &amp;gt; Kinematic与受物理约束的Actor碰撞时，可能会产生“飞掉” Shape : 复杂形状物理计算过于复杂 Sphere Capsule 胶囊体 Box Convex Mesh 凸多面体 Trangle Mesh （一般只用于静态） Height Field ！尽量使用简单的Shape（从前到后越来越复杂）
 Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction / Restitution 摩擦力 / 弹力 (and more …) Forces Force eg.</description>
@@ -1539,10 +1539,10 @@ Solution：
     
     <item>
       <title>2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced</title>
-      <link>//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem.html</link>
       <pubDate>Thu, 19 May 2022 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem.html</guid>
       <description>Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \[ {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\ {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\ \]
 对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑
 1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）
@@ -1812,10 +1812,10 @@ Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
     
     <item>
       <title>2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</title>
-      <link>//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html</link>
       <pubDate>Fri, 13 May 2022 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html</guid>
       <description>Lecture08 Animation System - Basics 挑战：
 不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF + Translation X Y Z + Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces</description>
       <content:encoded><![CDATA[<h3 id="lecture08-animation-system---basics">Lecture08 Animation System
@@ -2144,10 +2144,10 @@ Vertex的距离
     
     <item>
       <title>2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY</title>
-      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly.html</link>
       <pubDate>Sat, 25 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly.html</guid>
       <description>注：本篇由同组同学LLY编写，本人代完成格式化
 电影制作流程中的物理模拟 视效制作流程 在了解物理模拟在视效中的流程之前，我们需要先了解一下整个视效制作的大框架。
 FXPipeline 特效（FX）部门简述 动力学和模拟技术是数字特效的核心组成部分。从广义上讲，它们试图在数字领域复制真实世界的物理特征，这样就可以通过让软件计算适当的结果而不需要关键帧动画来实现真实的行为和交互。
@@ -2213,10 +2213,10 @@ alt="FX部门流程" />
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY</title>
-      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly.html</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly.html</guid>
       <description>注：本篇由同组同学LLY编写，本人代完成格式化
 刚体 在物理学里，刚体是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。
 刚体属性与表达 为了表示一个刚体，我们首先需要知道刚体的质心。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标 \(\mathbf x\) 和速度 \(\mathbf v\) 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为局部坐标系。刚体及模拟的其他对象被放置在世界坐标系中。
@@ -2636,10 +2636,10 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用</title>
-      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8.html</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8.html</guid>
       <description>影视制作中的最新进展与应用 学术界发展动向 在讨论影视工业中物理模拟的最新方向之前，我们先看看学界这两年都在做什么——技术的发展顺序大部分情况下都是先从学术界开始的。
 我整理出了近三年国际图形学顶级学术会议Siggraph发表的论文中，基于物理的动画方向的所有论文：
 Siggraph 2021 Revisiting Integration in the Material Point Method: A Scheme for Easier Separation and Less Dissipation 重新审视物质点法（MPM）：更易分离、更少耗散的方法 Mechanics-Aware Deformation of Yarn Pattern Geometry 纱织物几何体的力学感知变形 Kelvin Transformations for Simulations on Infinite Domains 无限域模拟的开尔文变换 QuanTaichi: A Compiler for Quantized Simulations QuanTaichi：一种量化模拟编译器 A Unified Second-Order Accurate in Time MPM Formulation for Simulating Viscoelastic Liquids with Phase Change 相变粘弹性液体模拟的统一二阶时间精确MPM公式 Bijective and Coarse High-Order Tetrahedral Meshes 双射和粗高阶四面体网格 Physical validation of simulators in Computer Graphics: A new framework dedicated to slender elastic structures and frictional contact 计算机图形学模拟器的物理验证：一种细长弹性结构和摩擦接触的新型框架 Stream-Guided Smoke Simulations 流向烟雾模拟 Solid-Fluid Interaction with Surface-Tension-Dominant Contact 表面张力主导接触的固液相互作用 Fire in Paradise: Mesoscale Simulation of Wildfires 天堂之火：野火尺度模拟 Systematically Differentiating Parametric Discontinuities 系统区分参数不连续性 Thin-Film Smoothed Particle Hydrodynamics Fluid 薄膜平滑粒子流体动力学（SPH）流体 Clebsch Gauge Fluid Clebsch规范流体 Incompressible Flow Simulation on Vortex Segment Clouds 涡段云上的不可压缩流体 Codimensional Incremental Potential Contact 共维增量潜在接触（C-IPC） Intersection-free Rigid Body Dynamics 无交点刚体动力学 Medial IPC: Accelerated Incremental Potential Contact With Medial Elastics Medial IPC：结合Medial Elastics的IPC方法 High-order Differentiable Autoencoder for Nonlinear Model Reduction 非线性模型重建的高阶可微自动编码器 Fast Linking Numbers for Topology Verification 拓扑验证的快速链接数 of Loopy Structures 环状结构 Learning Contact Corrections for Handle-Based Subspace Dynamics 基于句柄的子空间动力学的接触修正学习 The Shape Matching Element Method: Direct Animation of Curved Surface Models 形状匹配元素方法：曲面模型的直接动画 GPU-Based Simulation of Cloth Wrinkles at Submillimeter Levels 基于 GPU 的亚毫米级布料皱纹模拟 Multiscale Cholesky Preconditioning for Ill-conditioned Problems 病态问题的多尺度Cholesky预处理 A Momentum-Conserving Implicit Material Point Method for Surface Tension with Contact Angles and Spatial Gradients 具有接触角和空间梯度的表面张力动量守恒隐式材料点法 SANM: A Symbolic Asymptotic Numerical Solver with Applications in Mesh Deformation SANM：网格变形中应用的符号渐近数值求解器 Learning Meaningful Controls for Fluids 流体有意义控制学习 Unified Particle System for Multiple-fluid Flow and Porous Material 多流体流动和多孔材料的统一粒子系统 Constrained Projective Dynamics: Real-time Simulation of Deformable Objects With Energy-momentum Conservation 约束投影动力学：能量-动量守恒的可形变物体的实时模拟 TOG:</description>
@@ -2948,10 +2948,10 @@ Previz的基础上，我们将实时渲染的场景通过mapping的方式投影�
     
     <item>
       <title>2021-12-05-影片技术分析Pre-基于物理的动画-流体系统</title>
-      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F.html</link>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F.html</guid>
       <description>流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
 流体与流体力学 首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。
 所有液体 所有气体 具备流动特征的固体：如沙丘 流体主要具备以下性质：
@@ -3448,10 +3448,10 @@ material point method for snow simulation</p>
     
     <item>
       <title>2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型</title>
-      <link>//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F.html</link>
       <pubDate>Tue, 23 Nov 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F.html</guid>
       <description>这节课开始我们将花两节课的时间从粒子、刚体、流体三种系统，来简要介绍一些基于物理的动画的基本原理与实现，并给大家展示一些具体的制作方法和成果。
 粒子系统 基于粒子的模型是基于物理的动画的一个基础模型，是拉格朗日方法中最典型的一种。这里的粒子系统个人认为广义地来说就是基于粒子的模型，是以粒子视点对物理现象做点采样的所有动画系统，但业界我们往往狭义地认为其典型就是特指由发射器发射大规模粒子、通过外力驱动运动、渲染成具体的无定形形象的系统。我们这一章的陈述主要还是以典型的粒子系统为主，会拓展些基于粒子的、但并不一定称为粒子系统的模型。
 粒子系统一般用来表现雨、雪、火、烟、尘、沙尘暴、烟花、水花、喷雾等等“无定形现象（Amorphous Phenomena[1]）”，当然也包括我们常见的一些“非物理现象”，诸如哥斯拉的吐息、猩红女巫的魔法光效等等，这些非物理现象同样要通过我们的物理系统去驱动粒子来产生这些效果。
@@ -3715,10 +3715,10 @@ simple rules</p>
     
     <item>
       <title>2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念</title>
-      <link>//elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html</link>
       <pubDate>Thu, 18 Nov 2021 00:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html</guid>
       <description>基于物理的动画/物理模拟 Physically Based Animation
 今天我和李乐游给大家讲一下基于物理的动画这个题目。首先我们来解释一下这个题目，这个动画指的不是一部动画片的那个动画，是指在动画片/视效制作中的一个环节，也是计算机图形学的三个大方向之一：建模Modeling、动画Animation、渲染Rendering。也就是驱动我们的模型动起来的过程——那么怎样驱动我们的模型动起来呢。大家最熟悉的一种方式就是Key关键帧，比如大家建了一个肖翱的模型，要驱动我去运动，那自然是要把我绑定到骨骼上，对每个关节去打关键帧，比如把我的手十秒后挪到这里。但是呢，不是所有的动画都适合用关键帧来驱动，比如窗外雪花飘飘、一辆车跌落悬崖、瀑布飞流直下，这样的镜头如果用Key关键帧的方法去完成，那就不是Key我身上的几十个关节这么“容易”的事了。但这种物理现象往往是遵循物理规律的，我们想让他看起来真实，那么我们就可以用物理规律去驱动它运动；又或者是一个非自然的物理现象，我们也可以创造非自然的物理规律去驱动它运动。这样的动画方法我们称之为基于物理的动画，也称为物理模拟，也有人将模拟Simulation单独作为图形学的第四个方向。下面我们说到这两个词大家知道都是指同一个东西就行了。
 那么基于物理的动画，在我们的电影中能做出什么样的效果呢，我们剪了一段经典影片中的Showreel给大家欣赏一下。然后我们将从发展历史、基本概念出发，介绍影视制作中的物理模拟制作流程、几种系统的算法原理与实现、展示一些我们自己制作的和经典影片中的基于物理的动画镜头，最后对物理模拟这项技术的未来再做一个分析和展望。
@@ -3832,10 +3832,10 @@ class="math inline">\(Ax=b\)</span>
     
     <item>
       <title>2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything</title>
-      <link>//elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers.html</link>
       <pubDate>Mon, 03 May 2021 11:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers.html</guid>
       <description>Lecture07 Rendering Pipeline, Post-Process and Everything Ambient Occlusion 接触阴影，满足渲染方程，但在渲染过程中直接渲染很难做到，因为计算尺度小（称为中尺度）。
 AO：单目视觉中形成3D感的重要元素
 不考虑尺度差异，AO和BRDF中的Geometry项（Shadowing-Masking）非常相似。
@@ -4003,10 +4003,10 @@ alt="L07_UnrealRenderingPipeline" /></p>
     
     <item>
       <title>2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud.html</link>
       <pubDate>Fri, 30 Apr 2021 14:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud.html</guid>
       <description>Lecture06-2 Sky and Atmosphere Atmosphere 大气 Analytic Atmosphere Appearance Modeling 不必按照物理模拟，根据观察找模型拟合
 两个参数
 观察向量与垂直向上向量的夹角 \(\theta\) 观察向量与太阳方向的夹角 \(\gamma\) \[ \mathbb{F}(\theta,\gamma)=(1+Ae^{\frac{B}{\cos\theta+0.01}})\cdot(C+De^{E\gamma}+F\cos^2\gamma+G\cdot\chi(H,\gamma)+I\cdot\cos^{\frac{1}{2}}\theta)\\ L_\lambda = \mathbb{F}(\theta,\gamma)\cdot L_{M\lambda} \]
@@ -4239,10 +4239,10 @@ Scattering计算衰减百分比的级数求和即可</p></li>
     
     <item>
       <title>2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html</link>
       <pubDate>Wed, 28 Apr 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html</guid>
       <description>Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&amp;gt; 非均匀网格 -&amp;gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&amp;gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&amp;gt; Runtime Tessellation -&amp;gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation</description>
       <content:encoded><![CDATA[<h2 id="lecture06-rendering-of-mother-nature">Lecture06 Rendering of
 Mother Nature</h2>
@@ -4430,10 +4430,10 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
     
     <item>
       <title>2022-04-17-GAMES104现代游戏引擎-Lecture5-Lighting, Materials and Shaders</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders.html</link>
       <pubDate>Sat, 17 Apr 2021 12:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders.html</guid>
       <description>Lecture05 Lighting, Materials and Shaders The Rendering Equation \[ {\displaystyle L_{\text{o}}(\mathbf {x} ,\omega _{\text{o}},\lambda ,t)=L_{\text{e}}(\mathbf {x} ,\omega _{\text{o}},\lambda ,t)\ +\int _{\Omega }f_{\text{r}}(\mathbf {x} ,\omega _{\text{i}},\omega _{\text{o}},\lambda ,t)L_{\text{i}}(\mathbf {x} ,\omega _{\text{i}},\lambda ,t)(\omega _{\text{i}}\cdot \mathbf {n} )\operatorname {d} \omega _{\text{i}}} \]
 多重挑战：
 如何得到入射光 Visibility to Lights, Shadow Light Source Complexity, 尤其面光源 如何快速地积分 如何计算次级光源，全局光照，无限递归 从简单开始 Ambient + Simple Light == Result
@@ -4599,10 +4599,10 @@ Shader，一次编译所有结果。</li>
     
     <item>
       <title>2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering.html</link>
       <pubDate>Sat, 17 Apr 2021 09:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering.html</guid>
       <description>Lecture04 Rendering in Game Engine 挑战
 场景极其复杂 实时，帧率稳定 大纲
 基础 硬件架构 渲染数据结构 可见性 材质、Shader、光照 PBR Shader Permutation 光照 点/方向光照 IBL / Simple GI 特殊的渲染 地形 天空 / 雾 后处理 Pipeline 前向渲染 Forward、延迟渲染 Deferred、Forward Plus Ring buffer and V-Sync Tiled-based Rendering @GAMES101
@@ -4739,10 +4739,10 @@ BVH构建块，应用多</li>
     
     <item>
       <title>2022-04-17-GAMES104现代游戏引擎-Lecture2-3-游戏引擎架构</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure.html</link>
       <pubDate>Sat, 17 Apr 2021 08:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure.html</guid>
       <description>Lecture02 游戏引擎分层结构 工具层 Tool Layer 编辑器
 功能层 Function Layer 渲染/模拟/玩法/交互/…
 资源层 Resource Layer 数据和文件
@@ -4962,10 +4962,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight.html</link>
       <pubDate>Fri, 16 Apr 2021 16:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight.html</guid>
       <description>Lecture 5-6 Environment Lighting Recap
 环境光贴图 球面贴图 Spherical Map / 立方体贴图 Cube Map Shading from Environment Lighting / Image-Based Lighting (IBL) 解渲染方程（不考虑阴影） \[ L_o(\mathrm p,\omega_o)=\int_{\Omega^+}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\xcancel{V(\mathrm p,\omega_i)}\,\mathrm d\omega_i \]
 蒙特卡洛积分——数值解、大量采样，非常慢 PS: 一旦涉及采样，就很难实时，近年开始有一些进展 观察：
@@ -5257,10 +5257,10 @@ src="/images/games202/Wavelet2.jpg" alt="Wavelet2" /></li>
     
     <item>
       <title>2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry.html</link>
       <pubDate>Wed, 14 Apr 2021 12:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry.html</guid>
       <description>Lecture 14 Practical Industrial Solutions Temporal Anti-Aliasing, TAA Recall: why aliasing
 光栅化的采样数不够 终极解决方案：加样本（MSAA） TAA：应用Temporal信息，与RTRT的降噪思路一致
 每四帧复用：
@@ -5416,10 +5416,10 @@ global</strong></li>
     
     <item>
       <title>2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt.html</link>
       <pubDate>Mon, 12 Apr 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt.html</guid>
       <description>Lecture 12-13 Real-Time Ray-Tracing RTX : 10G rays per second == 1 sample per pixel
 1 SPP path tracing == 1 rasterization (primary) + 1 ray (primary visibility) + 1 ray (primary bounce) + 1 ray (primary vis.) +
 1 SPP is Extremely Noisy
@@ -5619,10 +5619,10 @@ Tracing结果降噪，神经网络方法。</p>
     
     <item>
       <title>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</title>
-      <link>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html</link>
       <pubDate>Mon, 05 Apr 2021 16:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html</guid>
       <description>Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
 基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
 Self occlusion 自遮挡
@@ -5932,10 +5932,10 @@ href="https://github.com/protectwise/troika/tree/master/packages/troika-3d-text"
     
     <item>
       <title>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html</link>
       <pubDate>Fri, 02 Apr 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html</guid>
       <description>Lecture 10-11 Physically-Based Material Content
 Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR</description>
@@ -6309,10 +6309,10 @@ class="math display">\[
     
     <item>
       <title>2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95.html</link>
       <pubDate>Thu, 11 Mar 2021 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95.html</guid>
       <description>7.5 - 7.7 Runge-Kutta方法 单步高阶方法构造思路 设 \(y(x)\) 是一阶常微分方程初值问题的精确解，Taylor展开得： \[ \begin{aligned} \displaystyle y(x_{n+1})&amp;amp;=y(x_n)+y&amp;#39;(x_n)h+\frac{y&amp;#39;&amp;#39;(x_n)}{2!}h^2+\dots+\frac{y^{(p)}(x_n)}{p!}h^p+\frac{y^{({p+1})}(x_n)}{(p+1)!}h^{p+1}\\ &amp;amp;=y(x_n)+hf(x_n,y(x_n))+\frac{h^2}{2!}f^{(1)}(x_n,y(x_n))+\dots+\frac{h^p}{p!}f^{(p-1)}(x_n,y(x_n))+O(h^{p+1})\end{aligned} \] 因此可建立节点处近似值 \(y_n\) 满足的差分公式： \[ \left\{\begin{array}{l}\displaystyle y_{n+1}=y_n+hf(x_n,y_n)+\frac{h^2}{2!}f^{(1)}(x_n,y_n)+\dots+\frac{h^p}{p!}f^{(p-1)}(x_n,y_n)\\y_0=\alpha,\quad n=0,1,\dots,N-1\end{array}\right. \] 称之为 \(\mathbf p\) 阶Taylor展开方法。 其中： \(\begin{array}{l}\displaystyle f^{(1)}(x,y)=\frac{\partial f(x,y)}{\partial x}+\frac{\partial f(x,y)}{\partial y}f(x,y)\\\displaystyle f^{(2)}(x,y)=\frac{\partial^2f}{\partial x^2}+2\frac{\partial^2f}{\partial x\partial y}f+\frac{\partial^2 f}{\partial y^2}f^2+\frac{\partial f}{\partial x}\frac{\partial f}{\partial y}+\left(\frac{\partial f}{\partial y}\right)^2f\\\dots\end{array}\)
 计算过于复杂，很少直接使用
 减少Taylor展开次数得： \[ y(x_{n+1})=y(x_n)+hy&amp;#39;(\xi)=y(x_n)+hf(\xi,y(\xi)),\quad x_n\le\xi\le x_{n+1} \] 构造差分方法即利用适当的函数值来近似计算 \(f(\xi,y(\xi))\) 。
@@ -6626,10 +6626,10 @@ class="math inline">\(r\)</span> 相等）。</p>
     
     <item>
       <title>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space</title>
-      <link>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss.html</link>
       <pubDate>Thu, 11 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss.html</guid>
       <description>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
 Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
 Key idea :
@@ -6865,10 +6865,10 @@ Tracing无异——仅假设被反射物（非反射材质）和次级光源为d
     
     <item>
       <title>2021-03-10-数值分析-Day13-差分公式</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F.html</link>
       <pubDate>Wed, 10 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F.html</guid>
       <description>7.1 - 7.4 差分公式 一阶常微分方程初值问题 一阶常微分方程初值问题的一般形式为：
 \[ \left\{\begin{array}{l}\displaystyle\frac{dy}{dx}=f(x,y),\quad a\le x\le b\\y(a)=\alpha\end{array}\right. \] 其中 \(f(x,y)\) 为已知函数， \(\alpha\) 为给定的值。
 在许多数学模型中，上述方程通常以 \(x\) 描述时间，而定解条件 \(y(a)=\alpha\) 则给出了函数 \(y(x)\) 在初始时刻的取值。因此称为初值问题。
@@ -7049,10 +7049,10 @@ y(x_{n+1})-y_{n+1}=\frac{y&#39;&#39;(x_n)}{2!}h^2+O(h^3)=O(h^2)
     
     <item>
       <title>2021-03-09-数值分析-Day12-续数值积分-数值微分</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html</link>
       <pubDate>Tue, 09 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86.html</guid>
       <description>续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
 在区间 \([a,b]\) 上，取等距节点 \(x_k=a+kh,\ k=0,1,\dots,n\) ，
 由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
@@ -7510,10 +7510,10 @@ L_2&#39;&#39;(x)=\frac{1}{h^2}[f(x_0)-2f(x_1)+f(x_2)]\)</span></p></li>
     
     <item>
       <title>2021-03-08-数值分析-Day11-插值型数值积分</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86.html</link>
       <pubDate>Mon, 08 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86.html</guid>
       <description>6.1 - 6.11 数值积分 牛顿-莱布尼茨公式： \(\displaystyle\int_a^bf(x)dx=F(b)-F(a)\)
 问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。
 【例】弧长积分： \(L=\displaystyle\int_a^b\sqrt{1+(f&amp;#39;(x))^2}dx\)
@@ -7706,10 +7706,10 @@ n为偶数\end{array}\right.\\\eta\in(a,b)\end{array}\)</span> 。</p>
     
     <item>
       <title>2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88.html</link>
       <pubDate>Sun, 07 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88.html</guid>
       <description>续：5.8 - 5.10 三次样条插值 三转角方法 考虑第一种一般边界条件： \(S&amp;#39;(x_0)=f_0&amp;#39;,\ S&amp;#39;(x_n)=f_n&amp;#39;\) ，即已知两端点一阶导数值。
 令 \(m_i=S&amp;#39;(x_i),\ i=0,1,\dots,n\) ，利用三次Hermite插值，得到 \(S(x)=\displaystyle \sum_{j=0}^n[y_j\alpha_j(x)+m_j\beta_j(x)]\) ，其中 \(\alpha_j(x),\ \beta_j(x)\) 为分段三次Hermite插值的基函数。再由边界条件得 \(S&amp;#39;(x_0)=f_0&amp;#39;,\ S&amp;#39;(x_n)=f_n&amp;#39;\) 即可解出 \(m_i\) 在各插值点的取值。记
 \(\displaystyle \lambda_i=\frac{h_{i+1}}{h_i+h_{i+1}},\ \mu_i=1-\lambda_i=\frac{h_i}{h_i+h_{i+1}},\ g_i=3(\lambda_if[x_{i-1},x_i]+\mu_if[x_i,x_{i+1}])\) ，
@@ -7971,10 +7971,10 @@ id="代码本节计算主要过程为解线性方程组列出对应元计算式�
     
     <item>
       <title>2021-03-06-数值分析-Day09-分段插值-三次样条函数</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html</link>
       <pubDate>Sat, 06 Mar 2021 17:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html</guid>
       <description>5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
 分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&amp;lt;x_1&amp;lt;\dots&amp;lt;x_n=b\) ，记 \(h_k=x_{k+1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
 余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&amp;#39;&amp;#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
@@ -8146,10 +8146,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html</link>
       <pubDate>Fri, 05 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html</guid>
       <description>5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n+1\) 个点： \(a\le x_0&amp;lt;x_1&amp;lt;\dots&amp;lt;x_n\le b\) 。
 已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
 $(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
@@ -8474,10 +8474,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-03-04-数值分析-Day07-Newton迭代法</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html</link>
       <pubDate>Thu, 04 Mar 2021 19:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html</guid>
       <description>4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \(\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)
 泰勒展开公式： \(\displaystyle f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n+R_n(x)\)
 皮亚诺型余项： \(R_n(x)=o[(x-a)^n]\) ，即当 \(x\to a\) 时，余项为 \((x-a)^n\) 的高阶无穷小 拉格朗日型余项： \(R_n(x)=\displaystyle\frac{f^{(n+1)}(\theta)}{(n+1)!}(x-a)^{(n+1)},\ \theta\in(a,x)\)
@@ -8704,10 +8704,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7.html</link>
       <pubDate>Wed, 03 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7.html</guid>
       <description>4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)=0\quad&amp;amp;\Leftrightarrow\quad x=\varphi(x)\\ f(x)的根\quad&amp;amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{aligned}\end{array} \]
 其中 \(x_{k+1}=\varphi(x_k),\quad (k=0,1,2,\dots)\) 称为迭代格式， \(\varphi(x)\) 称为迭代函数。
 简单迭代法的收敛条件 几何解释：求方程 \(x=\varphi(x)\) 的根，就是求直线 \(y=x\) 和曲线 \(y=\varphi(x)\) 的交点的横坐标。（图略。）
@@ -8950,10 +8950,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-03-02-数值分析-Day05-SOR-迭代法收敛性</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7.html</link>
       <pubDate>Tue, 02 Mar 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7.html</guid>
       <description>续：3.1 - 6 迭代法 逐次超松弛迭代法（SOR迭代法） 选取分裂矩阵 \(M\) 为带参数的下三角阵： \(M=\displaystyle\frac{1}{\omega}(D-\omega L),\ B=I-M^{-1}A,\ f=M^{-1}b\) ，其中 \(w&amp;gt;0\) 为可选择的松弛因子。
 构造迭代法，迭代矩阵为： \(L_\omega=I-\omega(D-\omega L)^{-1}A=(D-\omega L)^{-1}((1-\omega)D+\omega U)\) 。
 则解 \(Ax=b\) 的SOR方法即为： \(\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\\x^{(k+1)}=L_\omega x^{(k)}+f\quad(k=0,1,\dots)\end{array}\right.\\其中\begin{array}{l}L_\omega=(D-\omega L)^{-1}((1-\omega)D+\omega U),\\f=\omega(D-\omega L)^{-1}b\end{array}\end{array}\) 。
@@ -9178,10 +9178,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</title>
-      <link>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</link>
+      <link>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi.html</link>
       <pubDate>Tue, 02 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi.html</guid>
       <description>Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
 Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR：直接光照 + 一次间接光照
 一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果 核心问题：
@@ -9343,10 +9343,10 @@ trace（eg.8个，空隙可忽略）
     
     <item>
       <title>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel</title>
-      <link>//elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel.html</link>
       <pubDate>Mon, 01 Mar 2021 20:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel.html</guid>
       <description>3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
 工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
 通法：
@@ -9638,10 +9638,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
     
     <item>
       <title>2021-02-28-数值分析-Day03-范数-迭代改善算法</title>
-      <link>//elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95.html</link>
       <pubDate>Sun, 28 Feb 2021 20:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95.html</guid>
       <description>2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。
 向量的范数 定义1：设 \(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)
 将实数 \((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)（或复数 \((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\) ）称为向量x,y的数量积（内积）。
@@ -10188,10 +10188,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     
     <item>
       <title>2021-02-27-数值分析-Day02-三角分解</title>
-      <link>//elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3.html</link>
       <pubDate>Sat, 27 Feb 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3.html</guid>
       <description>续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵
 若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\) ，记： \(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp;amp; 1 \\ -l_{31} &amp;amp;&amp;amp; 1 \\ \vdots &amp;amp;&amp;amp;&amp;amp; \ddots \\ -l_{31} &amp;amp;&amp;amp;&amp;amp;&amp;amp; 1 \end{pmatrix}\)
 则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp;amp; a_{12}^{(1)} &amp;amp; \cdots &amp;amp; a_{1n}^{(1)} \\ 0 &amp;amp; a_{22}^{(2)} &amp;amp; \cdots &amp;amp; a_{2n}^{(2)} \\ \vdots &amp;amp; \vdots &amp;amp; \ddots &amp;amp; \vdots \\ 0 &amp;amp; a_{n2}^{(2)} &amp;amp; \cdots &amp;amp; a_{nn}^{(2)} \end{pmatrix}\)</description>
@@ -10438,10 +10438,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     
     <item>
       <title>2021-02-26-数值分析-Day01-顺序Gauss消元</title>
-      <link>//elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</link>
+      <link>//elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83.html</link>
       <pubDate>Fri, 26 Feb 2021 18:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/</guid>
+      <guid>//elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83.html</guid>
       <description>1.1 - 1.2 数值分析的算法要求 结构简单，易于计算机实现 理论上保证方法的收敛性和数值稳定性 计算效率高：速度快，内存开销小 经过数值实验验证 误差的来源和分类 模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免 观测误差：观测实验得到的参数带来的误差 截断误差：近似方法产生的误差 舍入误差：计算机有限位计算产生的误差 （后两者为本课程主要研究对象）
 绝对误差和相对误差
 设 \(x\) 是精确值 \(x^{*}\) 的一个近似值，则 \(e=x^{*}-x\) 为近似值 \(x\) 的绝对误差，简称误差。

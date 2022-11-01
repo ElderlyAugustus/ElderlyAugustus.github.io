@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow | xα&#39;s blog</title>
+<meta name="keywords" content="高质量实时渲染">
+<meta name="description" content="Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
+基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
+Self occlusion 自遮挡
+Shadow Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。 解决方案：在反射表面邻近区域不计算遮挡。不计算区域Light长度（Bias）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。
+Detached shadow 由解决自遮挡的Bias不计算带来的阴影残缺问题。
+工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。
+学术解决方案：Second-depth shadow mapping
+存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。 存在问题：要求所有物体watertight（有正反面）；计算量过大。 实时渲染不相信复杂度，只相信绝对速度！因此工业界不适用。 Aliasing 采样
+The math behind shadow mapping 微积分中常见的不等式： \[ \begin{array}{c} Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d x\\ Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)&#43;g(x)\right]^2\,\mathrm d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d x\right\}^\frac{1}{2}&#43;\left\{\int_a^bg^2(x)\,\mathrm d x\right\}^\frac{1}{2} \end{array} \] Approximation in RTR: But we care more about “approximately equal”.">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
+基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
+Self occlusion 自遮挡
+Shadow Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。 解决方案：在反射表面邻近区域不计算遮挡。不计算区域Light长度（Bias）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。
+Detached shadow 由解决自遮挡的Bias不计算带来的阴影残缺问题。
+工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。
+学术解决方案：Second-depth shadow mapping
+存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。 存在问题：要求所有物体watertight（有正反面）；计算量过大。 实时渲染不相信复杂度，只相信绝对速度！因此工业界不适用。 Aliasing 采样
+The math behind shadow mapping 微积分中常见的不等式： \[ \begin{array}{c} Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d x\\ Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)&#43;g(x)\right]^2\,\mathrm d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d x\right\}^\frac{1}{2}&#43;\left\{\int_a^bg^2(x)\,\mathrm d x\right\}^\frac{1}{2} \end{array} \] Approximation in RTR: But we care more about “approximately equal”." />
+<meta property="og:title" content="2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow | xα&#39;s blog" />
+<meta property="og:description" content="Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
+基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
+Self occlusion 自遮挡
+Shadow Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。 解决方案：在反射表面邻近区域不计算遮挡。不计算区域Light长度（Bias）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。
+Detached shadow 由解决自遮挡的Bias不计算带来的阴影残缺问题。
+工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。
+学术解决方案：Second-depth shadow mapping
+存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。 存在问题：要求所有物体watertight（有正反面）；计算量过大。 实时渲染不相信复杂度，只相信绝对速度！因此工业界不适用。 Aliasing 采样
+The math behind shadow mapping 微积分中常见的不等式： \[ \begin{array}{c} Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d x\\ Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)&#43;g(x)\right]^2\,\mathrm d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d x\right\}^\frac{1}{2}&#43;\left\{\int_a^bg^2(x)\,\mathrm d x\right\}^\frac{1}{2} \end{array} \] Approximation in RTR: But we care more about “approximately equal”." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-04-05T16:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-04-05T16:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow",
+      "item": "//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow | xα's blog",
+  "name": "2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow",
+  "description": "Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：\n基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem\nSelf occlusion 自遮挡\nShadow Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。 解决方案：在反射表面邻近区域不计算遮挡。不计算区域Light长度（Bias）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。\nDetached shadow 由解决自遮挡的Bias不计算带来的阴影残缺问题。\n工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。\n学术解决方案：Second-depth shadow mapping\n存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。 存在问题：要求所有物体watertight（有正反面）；计算量过大。 实时渲染不相信复杂度，只相信绝对速度！因此工业界不适用。 Aliasing 采样\nThe math behind shadow mapping 微积分中常见的不等式： \\[ \\begin{array}{c} Schwarz不等式： \\displaystyle\\left[\\int_a^bf(x)g(x)\\,\\mathrm d x\\right]^2\\le\\int_a^bf^2(x)\\,\\mathrm d x\\cdot\\int_a^bg^2(x)\\,\\mathrm d x\\\\ Minkowski不等式：\\displaystyle\\left\\{\\int_a^b\\left[f(x)+g(x)\\right]^2\\,\\mathrm d x\\right\\}^\\frac{1}{2}\\le\\left\\{\\int_a^bf^2(x)\\,\\mathrm d x\\right\\}^\\frac{1}{2}+\\left\\{\\int_a^bg^2(x)\\,\\mathrm d x\\right\\}^\\frac{1}{2} \\end{array} \\] Approximation in RTR: But we care more about “approximately equal”.",
+  "keywords": [
+    "高质量实时渲染"
+  ],
+  "wordCount" : "628",
+  "inLanguage": "en",
+  "datePublished": "2021-04-05T16:00:00+08:00",
+  "dateModified": "2021-04-05T16:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-05</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93.html">高质量实时渲染</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#lecture-3-4-soft-shadow" aria-label="Lecture 3-4 Soft Shadow">Lecture 3-4 Soft Shadow</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#pcss" aria-label="PCSS">PCSS</a></li>
+                <li>
+                    <a href="#a-deeper-look-at-pcf" aria-label="A deeper look at PCF">A deeper look at PCF</a></li>
+                <li>
+                    <a href="#more-about-pcss" aria-label="More about PCSS">More about PCSS</a></li></ul>
+                    
+                <li>
+                    <a href="#variance-soft-shadow-mapping" aria-label="Variance Soft Shadow Mapping">Variance Soft Shadow Mapping</a><ul>
+                        
+                <li>
+                    <a href="#recall-mipmap" aria-label="Recall: MIPMAP">Recall: MIPMAP</a></li>
+                <li>
+                    <a href="#sat-summed-area-table" aria-label="SAT (Summed-Area Table)">SAT (Summed-Area Table)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#moment-shadow-mapping" aria-label="Moment Shadow Mapping">Moment Shadow Mapping</a></li>
+                <li>
+                    <a href="#distance-field-soft-shadows" aria-label="Distance Field Soft Shadows">Distance Field Soft Shadows</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture-3-4-soft-shadow">Lecture 3-4 Soft Shadow</h3>
+<h4 id="recap-of-shadow-mapping---点光源">Recap of Shadow Mapping -
+点光源</h4>
+<ol type="1">
+<li>从“Light”处看向场景，生成场景关于光源的深度图，即<strong>Shadow
+Map</strong>；</li>
+<li>从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。</li>
+</ol>
+<p><strong>Feature</strong>：</p>
+<ul>
+<li>基于二维图像的算法，而不需要三维几何场景</li>
+<li>使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow
+Map与阴影生成时的深度判定方式一致即可</li>
+</ul>
+<p><strong>Problem</strong></p>
+<ul>
+<li><p><strong>Self occlusion 自遮挡</strong></p>
+<p>Shadow
+Map的每一个像素记录同一深度，形成下图现象。在单个/行像素采样处，形成尺寸为像素宽高的遮挡面。
+<img src="../images/games202/SelfOcclusion1.png" alt="SelfOcclusion1" style="zoom:25%;" /></p>
+<p><strong>解决方案</strong>：在反射表面邻近区域不计算遮挡。不计算区域Light长度（<strong>Bias</strong>）由Light与反射表面法线夹角决定。（Light垂直于表面时不产生自遮挡问题）。——带来新问题：丢失遮挡关系。<img src="../images/games202/SelfOcclusion2.png" alt="SelfOcclusion2" style="zoom:25%;" /></p></li>
+<li><p><strong>Detached shadow</strong>
+由解决自遮挡的Bias不计算带来的阴影残缺问题。</p>
+<p>工业界无法彻底解决该问题，通过找到合适的Bias值减少视觉问题。</p>
+<p>学术解决方案：<strong>Second-depth shadow mapping</strong></p>
+<ul>
+<li>存储第一深度和次级深度（离得第二近的表面距离），取中间值作为深度判断的值。</li>
+<li>存在问题：要求所有物体watertight（有正反面）；计算量过大。</li>
+<li><strong>实时渲染不相信复杂度，只相信绝对速度！</strong>因此工业界不适用。</li>
+</ul>
+<p><img src="../images/games202/SecondDepthSM1.png" alt="SecondDepthSM" style="zoom:25%;" /></p></li>
+<li><p><strong>Aliasing 采样</strong></p></li>
+</ul>
+<h4 id="the-math-behind-shadow-mapping">The math behind shadow
+mapping</h4>
+<p>微积分中常见的不等式： <span class="math display">\[
+\begin{array}{c}
+Schwarz不等式： \displaystyle\left[\int_a^bf(x)g(x)\,\mathrm d
+x\right]^2\le\int_a^bf^2(x)\,\mathrm d x\cdot\int_a^bg^2(x)\,\mathrm d
+x\\
+Minkowski不等式：\displaystyle\left\{\int_a^b\left[f(x)+g(x)\right]^2\,\mathrm
+d x\right\}^\frac{1}{2}\le\left\{\int_a^bf^2(x)\,\mathrm d
+x\right\}^\frac{1}{2}+\left\{\int_a^bg^2(x)\,\mathrm d
+x\right\}^\frac{1}{2}
+\end{array}
+\]</span> <strong>Approximation in RTR</strong>: But we care more about
+“approximately equal”. 实时渲染中常将不等式当作约等式使用。</p>
+<p><strong>An important approximation</strong>: <span
+class="math display">\[
+\displaystyle\int_\Omega f(x)g(x)\,\mathrm d x\approx\frac{\int_\Omega
+f(x)\,\mathrm d x}{\int_\Omega \,\mathrm d x}\cdot\int_\Omega
+g(x)\,\mathrm d x
+\]</span></p>
+<p>其中 <span class="math inline">\(\int_\Omega \,\mathrm d x\)</span>
+为归一化常数。</p>
+<p>该式何时较准确：</p>
+<ul>
+<li>积分域较小时</li>
+<li><span class="math inline">\(g(x)\)</span>
+在积分域内变化不大（Smooth）</li>
+</ul>
+<p>Recall：<strong>Rendering Equation with Explicit Visibility</strong>
+<span class="math display">\[
+L_o(p,\omega_o)=\int_{\Omega+}L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)\cos\theta_iV(p,\omega_i)\,\mathrm
+d \omega_i
+\]</span> Approximated as: <span class="math display">\[
+L_o(p,\omega_o)\approx\frac{\int_{\Omega+}V(p,\omega_i)d\omega_i}{\int_{\Omega+}d\omega_i}\cdot\int_{\Omega+}L_i(p,L_i(p,\omega_i)f_r(p,\omega_i,\omega_o)\cos\theta_i\,\mathrm
+d \omega_i
+\]</span> 即将Visibility部分 <span
+class="math inline">\(V(p,\omega_i)\)</span>
+单独计算。则非Visibility部分为纯Shading部分，Visibility近似部分为“Shadow
+Mapping”部分。</p>
+<p>何时准确：</p>
+<ul>
+<li>点光源/方向光源（积分域小）</li>
+<li>Diffuse/面光源（其中一个积分函数平滑）</li>
+</ul>
+<p><strong>Ambient Occlusion
+环境光遮蔽</strong>中将再次用到类似的约等式</p>
+<h4 id="pcss-percentage-closer-soft-shadows"><strong>PCSS: Percentage
+Closer Soft Shadows</strong></h4>
+<h5 id="pcf-percentage-closer-filtering">PCF: Percentage Closer
+Filtering</h5>
+<ul>
+<li>[ For <strong>anti-aliasing</strong> at shadows’ edges - Not for
+soft shadows ]</li>
+<li>Filtering the result of shadow comparisons</li>
+</ul>
+<p><strong>[Solution]</strong></p>
+<ul>
+<li>根据Shadow
+Map判断像素是否在阴影中：不判断一个像素，判断对应像素周围的一圈像素（如7*7网格）</li>
+<li>得到该组像素判断的<strong>平均值</strong>，赋给中心像素（原判断像素）</li>
+<li>计算量？PCSS时一并解决</li>
+<li>将Filter范围再放大得到软阴影？！</li>
+</ul>
+<h5 id="pcss">PCSS</h5>
+<ul>
+<li><p>软阴影：近处锐利，远处模糊 —— Filter Size &lt;-&gt; Blocker
+Distance</p></li>
+<li><p><span
+class="math inline">\(w_{Penumbra}=(d_{recevier}-d_{Blocker})\cdot
+w_{Light}/d_{Blocker}\)</span>
+<img src="../images/games202/PCSS1.png" alt="PCSS1" style="zoom:20%;" /></p></li>
+<li><p>Block Depth: Average block depth 在一定范围内，一个Shading
+Point被遮挡的平均深度值</p></li>
+<li><p>Complete algorithm</p>
+<ol type="1">
+<li>Blocker search : Getting the average depth <strong>in a certain
+region</strong> （视面光源中心为点光源生成Shadow Map）</li>
+<li>Penumbra estimation : Use the average blocker depth to determine
+filter size</li>
+<li>Percentage Closer Filtering</li>
+</ol></li>
+<li><p>Blocker search的范围（得到Average block
+depth的方式）如何确定？</p>
+<ul>
+<li><p>取固定范围，如5*5</p></li>
+<li><p>[Better]
+取决于<strong>光源面积</strong>和<strong>光照接收面到光源的距离</strong>
+<img src="../images/games202/PCSS2.png" alt="PCSS2" style="zoom:20%;" />
+<span class="math display">\[
+\rm
+size_{Blocker}=distance_{ShadowMap2Scene}/distance_{Light2Scene}\cdot
+size_{Light}
+\]</span></p></li>
+</ul></li>
+<li><p>开销巨大：下节课解决</p></li>
+</ul>
+<h5 id="a-deeper-look-at-pcf">A deeper look at PCF</h5>
+<p>The math behind PCF: <strong>Filter/Convolution</strong> <span
+class="math display">\[
+[w*f](p)=\sum_{q\in\mathcal{N}(p)}w(p,q)f(q)\quad\quad N(p):p的邻域
+\]</span> In PCSS <span class="math display">\[
+V(x)=\sum_{q\in\mathcal{N}(p)}w(p,q)\cdot\chi^+[D_{SM}(q)-D_{scene}(x)]\quad\quad\chi^+(A)=A&gt;0?1:0
+\]</span> 因此：</p>
+<ul>
+<li>PCF并不是对Shadow Map的滤波 <span class="math display">\[
+V(x)\neq\chi^+\{[w*D_{SM}](q)-D_{scene}(x)\}
+\]</span></li>
+<li>PCF也不是对结果图像做滤波 <span class="math display">\[
+V(x)\neq\sum_{q\in\mathcal{N}(p)}w(p,q)V(q)
+\]</span></li>
+</ul>
+<h5 id="more-about-pcss">More about PCSS</h5>
+<p>[Blocker Search] and [PCF] is slow to look at every texel.</p>
+<ul>
+<li>[Blocker Search] 随机取样 =&gt; Noise</li>
+<li>[PCF] Filter范围过大，随机采样 -&gt;
+<strong>图像空间降噪</strong></li>
+</ul>
+<h4 id="variance-soft-shadow-mapping">Variance Soft Shadow Mapping</h4>
+<ul>
+<li>Fast blocker search and filtering</li>
+</ul>
+<p><strong>[ Filter ]</strong> PCF：根据正态分布可估计 Percentage Closer
+Value
+正态分布由<strong>均值mean</strong>和<strong>方差variance</strong>定义</p>
+<ul>
+<li>Mean
+<ul>
+<li>Hardware Mipmaping 但只能正方形</li>
+<li>Summed Area Tables (SAT)</li>
+</ul></li>
+<li>Variance
+<ul>
+<li><span class="math display">\[
+Var(X)=E(X^2)-E^2(X)\quad E:期望=均值
+\]</span></li>
+<li>另一张“Shadow Map”记录深度的平方，称为“Square depth map”</li>
+</ul></li>
+</ul>
+<p>由此得到正态分布图，求得<strong>CDF(x) of the Gaussian
+PDF</strong>即可（即0-x的积分）。
+该积分没有解析解只有数值解，可通过高斯分布积分表<strong>Error
+Function</strong>得到CDF值。在<code>cpp</code>中使用<code>erf()</code>求数值解，但计算仍较复杂。</p>
+<p>因此引入切比雪夫不等式估计值： <span class="math display">\[
+P(x&gt;t)\le\frac{\sigma^2}{\sigma^2+(t-\mu)^2}\quad\quad\begin{aligned}\mu&amp;:
+mean\\\sigma^2&amp;:variance\end{aligned}
+\]</span> 对任意分布方式，通过切比雪夫不等式估得右侧积分值 <span
+class="math inline">\(P(x&gt;t)\)</span> ，再由 <span
+class="math inline">\(1-P(x&gt;t)\)</span> 得到 <span
+class="math inline">\(CDF(x)\)</span> 。
+仅t&gt;mean时较准，但工业界往往直接用。</p>
+<p><img src="../images/games202/VSSM1.png" alt="VSSM1" style="zoom:33%;" /></p>
+<blockquote>
+<p>总结 + Shadow map generation + “Square depth map” + Runtime + Mean of
+depth in a range: O(1) + Mean of depth square in a range: O(1) +
+Chebychev: O(1) + No samples / loops needed + Perfectly ?
+改变视角需要重新生成map 产生较大开销 GPU解决起来速度非常快</p>
+</blockquote>
+<p><strong>[ Block Search ]</strong></p>
+<ul>
+<li><p>Target: The average depth of <strong>blockers</strong> ( texels
+whose depth z &lt; t, <span class="math inline">\(z_{occ}\)</span> )
+<span
+class="math inline">\(\Rightarrow\begin{array}{l}blocker:z_{occ}\\non-blocker:z_{unocc}\end{array}\)</span></p></li>
+<li><p><span class="math display">\[
+\displaystyle\frac{N_1}{N}z_{unocc}+\frac{N_2}{N}z_{occ}=z_{avg}
+\]</span></p></li>
+<li><p>Chebychev Approximation: <span
+class="math inline">\(\displaystyle\frac{N_1}{N}=P(x&gt;t)\quad\frac{N_2}{N}=1-P(x&gt;t)\)</span></p></li>
+<li><p>Approximation: <span
+class="math inline">\(z_{unocc}=t\)</span></p></li>
+</ul>
+<h4 id="mipmap-and-summed-area-variance-shadow-maps">MIPMAP and
+Summed-Area Variance Shadow Maps</h4>
+<h5 id="recall-mipmap">Recall: MIPMAP</h5>
+<ul>
+<li><strong>fast, approx., square</strong> range queries</li>
+<li>非 <span class="math inline">\(1/n^i\)</span>
+方形区域，需使用线性插值</li>
+<li>不精准，限制多</li>
+</ul>
+<h5 id="sat-summed-area-table">SAT (Summed-Area Table)</h5>
+<ul>
+<li><p>in 1D: 第 <span class="math inline">\(i\)</span> 位存储 <span
+class="math inline">\(0-i\)</span> 的和</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SAT<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> Arr<span class="op">[</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  SAT<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> SAT<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> Arr<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">//Sum of a to b</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> SAT<span class="op">[</span>b<span class="op">]</span> <span class="op">-</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">];</span> <span class="op">}</span></span></code></pre></div></li>
+<li><p>in 2D: 第 <span class="math inline">\((i,j)\)</span> 位存储 <span
+class="math inline">\((0,0)-(i,j)\)</span> 的矩形区域和</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// m * n</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  SAT<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> Arr<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> j <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> Arr<span class="op">[</span>i<span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> i <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> j <span class="op">&lt;</span> n<span class="op">,</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        SAT<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">+=</span> SAT<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">//Sum of a to b</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> sum<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span> <span class="op">{</span> <span class="cf">return</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">][</span>b<span class="op">]</span> <span class="op">+</span> SAT<span class="op">[</span>a<span class="op">][</span>b<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">-</span> SAT<span class="op">[</span>a<span class="op">-</span><span class="dv">1</span><span class="op">][</span>b<span class="op">-</span><span class="dv">1</span><span class="op">];</span> <span class="op">}</span></span></code></pre></div></li>
+</ul>
+<h4 id="moment-shadow-mapping">Moment Shadow Mapping</h4>
+<p><strong>VSSM</strong> Problem:
+遮挡物简单情况下，遮挡深度分布非正态/不符合切比雪夫估计 ，估计值不准</p>
+<ul>
+<li>与实际值相比较暗：视觉无影响</li>
+<li>与实际值相比较亮：漏光（Light Leaking，工业界也有称Light
+Bleeding）</li>
+</ul>
+<p>解决分布描述不准方法——引入高阶<strong>矩（Moments）</strong></p>
+<ul>
+<li>简单理解为“ <span class="math inline">\(x^i\)</span> 即 <span
+class="math inline">\(x\)</span> 的 <span
+class="math inline">\(i\)</span> 阶矩”</li>
+<li>使用前 <span class="math inline">\(m\)</span> 阶矩的组合（ <span
+class="math inline">\(x^1,x^2,\dots,x^m\)</span> ）可以描述一个具有
+<span class="math inline">\(m/2\)</span> 个“台阶”的阶跃函数</li>
+<li>可视为一种展开，将原函数展开为前 <span
+class="math inline">\(m\)</span> 阶矩的线性组合</li>
+<li>在MSM中，前4阶矩可较好描述遮挡深度分布，在使用VSSM的想法计算所需值（可在Blocker
+Search和PCF环节使用该方法）</li>
+</ul>
+<h4 id="distance-field-soft-shadows">Distance Field Soft Shadows</h4>
+<p><strong>Distance Field / Distance Function</strong>: Minimum distance
+to the closet location on an object SDF(Signed Distance Field)
+是较好的混合方式，比线性插值得到结果更平滑连续——<strong>[ 最优传输理论
+]</strong></p>
+<p>Usages:</p>
+<ul>
+<li><p>Ray marching (Sphere Tracing)
+在某一点，作SDF值（距离物体的最小距离）为半径的球，则球体内任意方向发射光线均不与物体相交，将该半径定义为“安全距离”（safe
+distance）。则光线可以朝原方向走该半径长度的距离，得到新的点和SDF值，同理迭代。直到沿着同一方向与物体距离足够小，或光线路径过长（认为无物体与之相交）时停止追踪。
+<img src="../images/games202/SDF1.png" alt="SDF1" style="zoom:33%;" /></p></li>
+<li><p>Soft Shadows 类Ray Marching，对每一根光线，算出”安全角度”（safe
+angle）。（光线上所有点的SDF值的最小值为半径，该点为圆心作圆，与光线发射点两条切线的夹角）
+<span class="math inline">\(\text{smaller safe
+angle}\Rightarrow\text{less visibility}\)</span>
+<img src="../images/games202/SDF2.png" alt="SDF2" style="zoom:33%;" />
+<img src="../images/games202/SDF3.png" alt="SDF3" style="zoom:33%;" />
+<span class="math display">\[
+\begin{array}{l}
+\displaystyle V=\arcsin\frac{SDF(p)}{\|p-o\|}\quad \arcsin 计算量过大\\
+\displaystyle V\approx \min\left\{\frac{k\dot
+SDF(p)}{\|p-o\|},1.0\right\}\quad
+直接使用比值近似，其中k值决定过渡带宽度，即阴影软硬程度\\
+\end{array}
+\]</span></p></li>
+<li><p>优势：快</p></li>
+<li><p>局限性：SDF的计算量、存储量，以及物体运动后重新计算的复杂度。（对多个物体的SDF，取最小值即可。）and
+some artifact</p></li>
+<li><p>misc：<a
+href="https://github.com/protectwise/troika/tree/master/packages/troika-3d-text">利用SDF在实时渲染中生成矢量字符</a></p></li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

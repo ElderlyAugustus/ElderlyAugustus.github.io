@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值 | xα&#39;s blog</title>
+<meta name="keywords" content="数值分析">
+<meta name="description" content="5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n&#43;1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。
+已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
+$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
+在构造插值函数时，函数类 \(P\) 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即多项式插值。若用 \(P_n\) 表示所有次数不超过 \(n\) 的多项式函数类，则若 \(p_n(x)\in P_n\) ，则 有\(p_n(x)=a_0&#43;a_1x&#43;\dots&#43;a_nx^n\) ，由 \(n&#43;1\) 个系数唯一确定。若 \(p_n(x)\) 满足插值条件，即 \(\left\{\begin{array}{l}a_0&#43;a_1x_1&#43;\dots&#43;a_nx_1^n\\a_0&#43;a_1x_2&#43;\dots&#43;a_nx_2^n\\\dots\\a_0&#43;a_1x_n&#43;\dots&#43;a_nx_n^n\end{array}\right.\) 。令 \(\{a_0,a_1,\dots,a_n\}\) 为元，则该方程系数行列式为 \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\) ，由范德蒙行列式得: \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le n}(x_j-x_i)\neq0\) ，因此该方程有解。
+由此得定理：满足上述条件的插值问题， \(p_n(x)\) 存在且唯一。
+Lagrange插值 线性插值 最简单的插值问题：已知两点 \((x_0,y_0)\ (x_1,y_1)\) 。通过此两点的插值多项式是一条直线，即两点式： \(\displaystyle L_1(x)=\frac{x-x_1}{x_0-x_1}y_0&#43;\frac{x-x_0}{x_1-x_0}y_1\) 。称 \(L_1(x)\) 为线性插值函数。">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-03-05-数值分析-Day08-Lagrange插值-Newton插值 | xα&#39;s blog" />
+<meta name="twitter:description" content="5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n&#43;1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。
+已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
+$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
+在构造插值函数时，函数类 \(P\) 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即多项式插值。若用 \(P_n\) 表示所有次数不超过 \(n\) 的多项式函数类，则若 \(p_n(x)\in P_n\) ，则 有\(p_n(x)=a_0&#43;a_1x&#43;\dots&#43;a_nx^n\) ，由 \(n&#43;1\) 个系数唯一确定。若 \(p_n(x)\) 满足插值条件，即 \(\left\{\begin{array}{l}a_0&#43;a_1x_1&#43;\dots&#43;a_nx_1^n\\a_0&#43;a_1x_2&#43;\dots&#43;a_nx_2^n\\\dots\\a_0&#43;a_1x_n&#43;\dots&#43;a_nx_n^n\end{array}\right.\) 。令 \(\{a_0,a_1,\dots,a_n\}\) 为元，则该方程系数行列式为 \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\) ，由范德蒙行列式得: \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le n}(x_j-x_i)\neq0\) ，因此该方程有解。
+由此得定理：满足上述条件的插值问题， \(p_n(x)\) 存在且唯一。
+Lagrange插值 线性插值 最简单的插值问题：已知两点 \((x_0,y_0)\ (x_1,y_1)\) 。通过此两点的插值多项式是一条直线，即两点式： \(\displaystyle L_1(x)=\frac{x-x_1}{x_0-x_1}y_0&#43;\frac{x-x_0}{x_1-x_0}y_1\) 。称 \(L_1(x)\) 为线性插值函数。" />
+<meta property="og:title" content="2021-03-05-数值分析-Day08-Lagrange插值-Newton插值 | xα&#39;s blog" />
+<meta property="og:description" content="5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n&#43;1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。
+已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
+$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
+在构造插值函数时，函数类 \(P\) 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即多项式插值。若用 \(P_n\) 表示所有次数不超过 \(n\) 的多项式函数类，则若 \(p_n(x)\in P_n\) ，则 有\(p_n(x)=a_0&#43;a_1x&#43;\dots&#43;a_nx^n\) ，由 \(n&#43;1\) 个系数唯一确定。若 \(p_n(x)\) 满足插值条件，即 \(\left\{\begin{array}{l}a_0&#43;a_1x_1&#43;\dots&#43;a_nx_1^n\\a_0&#43;a_1x_2&#43;\dots&#43;a_nx_2^n\\\dots\\a_0&#43;a_1x_n&#43;\dots&#43;a_nx_n^n\end{array}\right.\) 。令 \(\{a_0,a_1,\dots,a_n\}\) 为元，则该方程系数行列式为 \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\) ，由范德蒙行列式得: \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le n}(x_j-x_i)\neq0\) ，因此该方程有解。
+由此得定理：满足上述条件的插值问题， \(p_n(x)\) 存在且唯一。
+Lagrange插值 线性插值 最简单的插值问题：已知两点 \((x_0,y_0)\ (x_1,y_1)\) 。通过此两点的插值多项式是一条直线，即两点式： \(\displaystyle L_1(x)=\frac{x-x_1}{x_0-x_1}y_0&#43;\frac{x-x_0}{x_1-x_0}y_1\) 。称 \(L_1(x)\) 为线性插值函数。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-05T18:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-05T18:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2021-03-05-数值分析-Day08-Lagrange插值-Newton插值",
+      "item": "//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-03-05-数值分析-Day08-Lagrange插值-Newton插值 | xα's blog",
+  "name": "2021-03-05-数值分析-Day08-Lagrange插值-Newton插值",
+  "description": "5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \\(y=f(x)\\) 在区间 \\([a,b]\\) 上连续，给定 \\(n+1\\) 个点： \\(a\\le x_0\u0026lt;x_1\u0026lt;\\dots\u0026lt;x_n\\le b\\) 。\n已知 \\(f(x_k)=y_k(k=0,1,\\dots,n)\\) ，在函数类 \\(P\\) 中寻找一函数 \\(\\varphi(x)\\) 作为 \\(f(x)\\) 的近似表达式，使满足：\n$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \\(y=f(x)\\) 为被插值函数，称 \\(\\varphi(x)\\) 为插值函数。称 \\(x_0,x_1,\\dots,x_n\\) 为插值节点； \\(\\varphi(x_k)=f(x_k)=y_k,\\ k=0,1,2,\\dots,n\\) 为插值条件，寻求插值函数的方法称为插值方法。\n在构造插值函数时，函数类 \\(P\\) 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即多项式插值。若用 \\(P_n\\) 表示所有次数不超过 \\(n\\) 的多项式函数类，则若 \\(p_n(x)\\in P_n\\) ，则 有\\(p_n(x)=a_0+a_1x+\\dots+a_nx^n\\) ，由 \\(n+1\\) 个系数唯一确定。若 \\(p_n(x)\\) 满足插值条件，即 \\(\\left\\{\\begin{array}{l}a_0+a_1x_1+\\dots+a_nx_1^n\\\\a_0+a_1x_2+\\dots+a_nx_2^n\\\\\\dots\\\\a_0+a_1x_n+\\dots+a_nx_n^n\\end{array}\\right.\\) 。令 \\(\\{a_0,a_1,\\dots,a_n\\}\\) 为元，则该方程系数行列式为 \\(\\begin{vmatrix}1\u0026amp;x_0\u0026amp;\\cdots\u0026amp;x_0^n\\\\1\u0026amp;x_1\u0026amp;\\cdots\u0026amp;x_1^n\\\\\\vdots\u0026amp;\\vdots\u0026amp;\\ddots\u0026amp;\\vdots\\\\1\u0026amp;x_n\u0026amp;\\cdots\u0026amp;x_n^n\\end{vmatrix}\\) ，由范德蒙行列式得: \\(\\begin{vmatrix}1\u0026amp;x_0\u0026amp;\\cdots\u0026amp;x_0^n\\\\1\u0026amp;x_1\u0026amp;\\cdots\u0026amp;x_1^n\\\\\\vdots\u0026amp;\\vdots\u0026amp;\\ddots\u0026amp;\\vdots\\\\1\u0026amp;x_n\u0026amp;\\cdots\u0026amp;x_n^n\\end{vmatrix}=\\begin{vmatrix}1\u0026amp;1\u0026amp;\\cdots\u0026amp;1\\\\x_0\u0026amp;x_1\u0026amp;\\cdots\u0026amp;x_n\\\\\\vdots\u0026amp;\\vdots\u0026amp;\\ddots\u0026amp;\\vdots\\\\x_0^n\u0026amp;x_2^n\u0026amp;\\cdots\u0026amp;x_n^n\\end{vmatrix}=\\prod\\limits_{0\\le\u0026lt;j\\le n}(x_j-x_i)\\neq0\\) ，因此该方程有解。\n由此得定理：满足上述条件的插值问题， \\(p_n(x)\\) 存在且唯一。\nLagrange插值 线性插值 最简单的插值问题：已知两点 \\((x_0,y_0)\\ (x_1,y_1)\\) 。通过此两点的插值多项式是一条直线，即两点式： \\(\\displaystyle L_1(x)=\\frac{x-x_1}{x_0-x_1}y_0+\\frac{x-x_0}{x_1-x_0}y_1\\) 。称 \\(L_1(x)\\) 为线性插值函数。",
+  "keywords": [
+    "数值分析"
+  ],
+  "wordCount" : "667",
+  "inLanguage": "en",
+  "datePublished": "2021-03-05T18:00:00+08:00",
+  "dateModified": "2021-03-05T18:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2021-03-05-数值分析-Day08-Lagrange插值-Newton插值</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-05</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul><ul>
+                <li>
+                    <a href="#%e6%8f%92%e5%80%bc%e7%9a%84%e5%ae%9a%e4%b9%89" aria-label="插值的定义">插值的定义</a></li>
+                <li>
+                    <a href="#lagrange%e6%8f%92%e5%80%bc" aria-label="Lagrange插值">Lagrange插值</a><ul>
+                        
+                <li>
+                    <a href="#%e7%ba%bf%e6%80%a7%e6%8f%92%e5%80%bc" aria-label="线性插值">线性插值</a></li>
+                <li>
+                    <a href="#%e6%8a%9b%e7%89%a9%e6%8f%92%e5%80%bc" aria-label="抛物插值">抛物插值</a></li>
+                <li>
+                    <a href="#lagrange%e6%8f%92%e5%80%bc%e4%bd%99%e9%a1%b9" aria-label="Lagrange插值余项">Lagrange插值余项</a></li>
+                <li>
+                    <a href="#%e4%ba%8b%e5%90%8e%e8%af%af%e5%b7%ae%e4%bc%b0%e8%ae%a1" aria-label="事后误差估计">事后误差估计</a></li></ul>
+                </li></ul>
+                    
+                <li>
+                    <a href="#%e5%b7%ae%e5%95%86%e4%b8%8enewton%e6%8f%92%e5%80%bc" aria-label="5.4 - 5.5 差商与Newton插值">5.4 - 5.5 差商与Newton插值</a><ul>
+                        
+                <li>
+                    <a href="#%e5%b7%ae%e5%95%86%e6%88%96%e7%a7%b0%e5%9d%87%e5%b7%ae" aria-label="差商（或称均差）">差商（或称均差）</a></li>
+                <li>
+                    <a href="#newton%e6%8f%92%e5%80%bc" aria-label="Newton插值">Newton插值</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81lagrange%e6%8f%92%e5%80%bc" aria-label="代码：Lagrange插值">代码：Lagrange插值</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="插值的引入与lagrange插值">5.1 - 5.3
+插值的引入与Lagrange插值</h3>
+<h4 id="插值的定义">插值的定义</h4>
+<p>设函数 <span class="math inline">\(y=f(x)\)</span> 在区间 <span
+class="math inline">\([a,b]\)</span> 上连续，给定 <span
+class="math inline">\(n+1\)</span> 个点： <span
+class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\)</span>
+。<br />
+已知 <span class="math inline">\(f(x_k)=y_k(k=0,1,\dots,n)\)</span>
+，在函数类 <span class="math inline">\(P\)</span> 中寻找一函数 <span
+class="math inline">\(\varphi(x)\)</span> 作为 <span
+class="math inline">\(f(x)\)</span> 的近似表达式，使满足：<br />
+$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 <span
+class="math inline">\(y=f(x)\)</span> 为<strong>被插值函数</strong>，称
+<span class="math inline">\(\varphi(x)\)</span>
+为<strong>插值函数</strong>。称 <span
+class="math inline">\(x_0,x_1,\dots,x_n\)</span>
+为<strong>插值节点</strong>； <span
+class="math inline">\(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\)</span>
+为<strong>插值条件</strong>，寻求插值函数的方法称为<strong>插值方法</strong>。</p>
+<p>在构造插值函数时，函数类 <span class="math inline">\(P\)</span>
+的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即<strong>多项式插值</strong>。若用
+<span class="math inline">\(P_n\)</span> 表示所有次数不超过 <span
+class="math inline">\(n\)</span> 的多项式函数类，则若 <span
+class="math inline">\(p_n(x)\in P_n\)</span> ，则 有<span
+class="math inline">\(p_n(x)=a_0+a_1x+\dots+a_nx^n\)</span> ，由 <span
+class="math inline">\(n+1\)</span> 个系数唯一确定。若 <span
+class="math inline">\(p_n(x)\)</span> 满足插值条件，即 <span
+class="math inline">\(\left\{\begin{array}{l}a_0+a_1x_1+\dots+a_nx_1^n\\a_0+a_1x_2+\dots+a_nx_2^n\\\dots\\a_0+a_1x_n+\dots+a_nx_n^n\end{array}\right.\)</span>
+。令 <span class="math inline">\(\{a_0,a_1,\dots,a_n\}\)</span>
+为元，则该方程系数行列式为 <span
+class="math inline">\(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\)</span>
+，由范德蒙行列式得: <span
+class="math inline">\(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le
+n}(x_j-x_i)\neq0\)</span> ，因此该方程有解。<br />
+由此得定理：满足上述条件的插值问题， <span
+class="math inline">\(p_n(x)\)</span> 存在且唯一。</p>
+<h4 id="lagrange插值">Lagrange插值</h4>
+<h5 id="线性插值">线性插值</h5>
+<p>最简单的插值问题：已知两点 <span class="math inline">\((x_0,y_0)\
+(x_1,y_1)\)</span> 。通过此两点的插值多项式是一条直线，即两点式： <span
+class="math inline">\(\displaystyle
+L_1(x)=\frac{x-x_1}{x_0-x_1}y_0+\frac{x-x_0}{x_1-x_0}y_1\)</span> 。称
+<span class="math inline">\(L_1(x)\)</span>
+为<strong>线性插值函数</strong>。<br />
+令 <span class="math inline">\(\left\{\begin{array}{l}\displaystyle
+l_0(x)=\frac{x-x_1}{x_0-x_1}\\\displaystyle
+l_1(x)=\frac{x-x_0}{x_1-x_0}\end{array}\right.\)</span> ，则有 <span
+class="math inline">\(\left\{\begin{array}{l}L_1(x)=y_0l_0(x)+y_1l_1(x)\\l_0(x_0)=1\quad
+l_0(x_1)=0\\l_1(x_0)=0\quad l_1(x_1)=1\end{array}\right.\)</span> ，称
+<span class="math inline">\(l_0(x),\ l_1(x)\)</span> 为关于 <span
+class="math inline">\(x_0,\ x_1\)</span>
+的<strong>线性插值基函数</strong>。</p>
+<h5 id="抛物插值">抛物插值</h5>
+<p>已知三点 <span class="math inline">\((x_0,y_0)\ (x_1,y_1)\
+(x_2,y_2)\)</span> 。构造插值函数 <span
+class="math inline">\(L_2(x)\)</span> 。称 <span
+class="math inline">\(L_2(x)\)</span>
+为<strong>抛物插值函数</strong>。<br />
+设 <span
+class="math inline">\(L_2(x)=y_0l_0(x)+y_1l_1(x)+y_2l_2(x)\)</span>
+，则由插值条件可知 <span
+class="math inline">\(\left\{\begin{array}{l}l_0(x_0)=1\quad
+l_0(x_1)=0\quad l_2(x_2)=0\\l_0(x_0)=0\quad l_0(x_1)=1\quad
+l_2(x_2)=0\\l_0(x_0)=0\quad l_0(x_1)=0\quad
+l_2(x_2)=1\end{array}\right.\)</span> ，可解得 <span
+class="math inline">\(\left\{\begin{array}{l}\displaystyle
+l_0(x)=\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}\\\displaystyle
+l_1(x)=\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}\\\displaystyle
+l_2(x)=\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\end{array}\right.\)</span>
+，称为<strong>二次插值基函数</strong>。<br />
+得到 <span class="math inline">\(\displaystyle
+L_2(x)=y_0\frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}+y_1\frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}+y_2\frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}\)</span>
+。</p>
+<h5 id="mathbf-n-次插值"><span class="math inline">\(\mathbf n\)</span>
+次插值</h5>
+<p>推广到一般形式：考虑已知 <span class="math inline">\(n+1\)</span>
+个点 <span class="math inline">\((x_i,y_i)(i=0,1,2,\dots,n)\)</span>
+，构造插值多项式 <span class="math inline">\(L_n(x)\)</span> 。<br />
+设 <span class="math inline">\(\displaystyle
+L_n(x)=\sum_{i=0}^{n}y_il_i(x)\)</span> ，则 <span
+class="math inline">\(l_i(x_j)=\left\{\begin{array}{l}1,\ j=i\\0,\ j\neq
+i\end{array}\right.\ i,j=0,1,\dots,n\)</span> ，解得 <span
+class="math inline">\(\displaystyle l_i(x)=\prod_{j=0,j\neq
+i}^{n}\frac{x-x_j}{x_i-x_j}\)</span> 。 &gt; 引入记号： <span
+class="math inline">\(\displaystyle
+\omega_{n+1}(x)=\prod_{i=0}^{n}(x-x_i)\)</span> 则有： <span
+class="math display">\[
+\begin{aligned}L_n&amp;=\displaystyle\sum_{i=0}^n\left(\prod_{j=0,j\neq
+i}^n\frac{x-x_j}{x_i-x_j}\right)y_i\\
+&amp;=\displaystyle\sum_{i=0}^n\frac{\omega_{n+1}(x)}{(x-x_i)\omega_{n+1}&#39;(x_i)}y_i\end{aligned}
+\]</span> 称这两式为 <span class="math inline">\(\mathbf n\)</span>
+<strong>次插值多项式</strong>，也称为<strong>Lagrange插值多项式</strong>。</p>
+<h5 id="lagrange插值余项">Lagrange插值余项</h5>
+<p>若在 <span class="math inline">\([a,b]\)</span> 上用 <span
+class="math inline">\(L_n(x)\)</span> 近似 <span
+class="math inline">\(f(x)\)</span> ，则其<strong>截断误差</strong>为
+<span class="math inline">\(R_n(x)=f(x)-L_n(x)\)</span>
+，也称其为插值多项式的<strong>余项</strong>。</p>
+<p>设 <span class="math inline">\(f^{(n)}(x)\)</span> 在 <span
+class="math inline">\([a,b]\)</span> 上连续， <span
+class="math inline">\(f^{(n+1)}(x)\)</span> 在 <span
+class="math inline">\((a,b)\)</span> 内存在，节点 <span
+class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\)</span> ，
+<span class="math inline">\(L_n(x)\)</span> 是插值多项式，则 <span
+class="math inline">\(\forall x\in [a,b],\
+R_n=\displaystyle\frac{f^{(n+1)}(\xi)}{(n+1)!}\omega_{n+1}(x)\)</span>
+，其中 <span class="math inline">\(a&lt;\xi&lt;b\)</span> 且依赖于 <span
+class="math inline">\(x\)</span> 。</p>
+<p>插值多项式 <span class="math inline">\(L_n(x)\)</span> 逼近 <span
+class="math inline">\(f(x)\)</span> 的截断误差限为 <span
+class="math inline">\(\left|R_n(x)\right|\le\displaystyle\frac{\max_{a&lt;x&lt;b}\left|f^{(n+1)}(x)\right|}{(n+1)!\left|\omega_{n+1}(x)\right|}\)</span>
+。</p>
+<p>当被插值函数未知时，无法用上述插值余项估计误差。</p>
+<h5 id="事后误差估计">事后误差估计</h5>
+<p>求 <span class="math inline">\(L_n(x)\)</span> 为 <span
+class="math inline">\(f(x)\)</span> 以 <span
+class="math inline">\(x_0,x_1,\dots,x_n\)</span> 为节点的 <span
+class="math inline">\(n\)</span> 次插值多项式；<br />
+求 <span class="math inline">\(L_n^{(1)}(x)\)</span> 为 <span
+class="math inline">\(f(x)\)</span> 以 <span
+class="math inline">\(x_1,x_2,\dots,x_n,x_{n+1}\)</span> 为节点的 <span
+class="math inline">\(n\)</span> 次插值多项式；<br />
+认为两者较 <span class="math inline">\(f(x)\)</span> 误差相近，则有：
+<span class="math display">\[
+\begin{array}{c}
+\displaystyle\frac{f(x)-L_n(x)}{f(x)-L_n^{(1)}}\approx\frac{x-x_0}{x-x_{n+1}}\\
+\displaystyle
+f(x)\approx\frac{x-x_{n+1}}{x_0-x_{n+1}}L_n(x)+\frac{x-x_0}{x_{n+1}-x_0}L_n^{(1)}(x)\\
+\displaystyle
+f(x)-L_n(x)\approx\frac{x-x_0}{x_0-x_{n+1}}(L_n(x)-L_n^{(1)}(x))
+\end{array}
+\]</span></p>
+<p>则第三式可用于事后误差估计，第二式可用于较精确的插值多项式。</p>
+<h3 id="差商与newton插值">5.4 - 5.5 差商与Newton插值</h3>
+<blockquote>
+<h4 id="差商或称均差">差商（或称均差）</h4>
+<p><strong>定义</strong>：</p>
+<ul>
+<li>称 <span
+class="math inline">\(f[x_0,x_k]=\displaystyle\frac{f(x_k)-f(x_0)}{x_k-x_0}\)</span>
+为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span
+class="math inline">\(x_0,\ x_k\)</span> 的一阶差商；</li>
+<li>称 <span
+class="math inline">\(f[x_0,x_1,x_k]=\displaystyle\frac{f[x_1,x_k]-f[x_0,x_1]}{x_k-x_0}\)</span>
+为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span
+class="math inline">\(x_0,\ x_k\)</span> 的二阶差商；</li>
+<li>称 <span
+class="math inline">\(f[x_0,x_1,\dots,x_k]=\displaystyle\frac{f[x_1,\dots,x_{k-1},x_{k}]-f[x_0,x_1,\dots,x_{k-1}]}{x_k-x_0}\)</span>
+为函数 <span class="math inline">\(f(x)\)</span> 关于点 <span
+class="math inline">\(x_0,\ x_k\)</span> 的 <span
+class="math inline">\(k\)</span> 阶差商。</li>
+</ul>
+<p><strong>性质</strong>：</p>
+<ul>
+<li><span class="math inline">\(\displaystyle
+f[x_0,\dots,x_k]=\sum_{j=0}^k\frac{f(x_j)}{(x_j-x_0)\cdots(x_j-x_{j-1})(x_j-x_{j+1})\cdots(x_j-x_k)}=\sum_{j=0}^k\frac{f(x_j)}{\omega_{k+1}(x_j)}\)</span></li>
+<li>差商与节点的排列次序无关；</li>
+<li>若 <span class="math inline">\(f(x)\)</span> 在 <span
+class="math inline">\([a,b]\)</span> 上存在 <span
+class="math inline">\(n\)</span>
+阶导数，且差商节点位于区间内，则：<br />
+<span
+class="math inline">\(f[x_0,\dots,x_n]=\displaystyle\frac{f^{(n)}(\xi)}{n!},\quad\xi\in[a,b]\)</span>
+。</li>
+</ul>
+</blockquote>
+<h4 id="newton插值">Newton插值</h4>
+<ul>
+<li><p>由直线方程点斜式得到线性插值函数： <span class="math display">\[
+L_1(x)=y_0+a_1(x-x_0),\quad a_1=\frac{y_1-y_0}{x_1-x_0}
+\]</span></p></li>
+<li><p>推广至三点情况得到二次插值函数： <span class="math display">\[
+\begin{array}{c}
+L_2(x)=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)\\
+\left\{\begin{array}{l}
+a_0=y_0\\
+a_1=\displaystyle\frac{y_1-y_0}{x_1-x_0}\\
+a_2=\displaystyle\frac{\displaystyle\frac{y_2-y_0}{x_2-x_0}-\frac{y_1-y_0}{x_1-x_0}}{x_2-x_1}
+\end{array}\right.
+\end{array}
+\]</span></p></li>
+<li><p>推广至 <span class="math inline">\(n+1\)</span> 点情况得到 <span
+class="math inline">\(n+1\)</span> 次插值函数： <span
+class="math display">\[
+\begin{aligned}
+L_n(x)&amp;=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)+\dots+a_n(x-x_0)\dots(x-x_{n-1})\\
+&amp;=\displaystyle\sum_{i=0}^{n}\left[a_i\left(\prod_{j=0}^{i-1}(x-x_j)\right)\right]\end{aligned}
+\]</span> 由前面的推导和差商的定义可知 <span
+class="math inline">\(a_i=f[x_0,x_1,\dots,x_i]\)</span>
+；或进行如下推导： <span class="math display">\[
+\begin{aligned}
+&amp;\quad\left\{\begin{array}{l}
+f(x)=f(x_0)+f[x,x_0](x-x_0)\\
+f[x,x_0]=f[x_0,x_1]+f[x,x_0,x_1])(x-x_1)\\
+f[x,x_0,\dots,x_{n-1}]=f[x_0,x_1,\dots,x_n]+f[x,x_0,\dots,x_n]\end{array}\right.\\
+&amp;\begin{aligned}\Rightarrow\
+f(x)&amp;=f(x_0)+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
+&amp;+\dots+f[x_0,x_1,\dots,x_n](x-x_0)\cdots(x-x_{n-1})+f[x,x_0,\dots,x_n]\omega_{n+1}(x)\\
+&amp;\equiv N_n(x) + R_n(x)\\\end{aligned}\\
+&amp;\begin{aligned}
+N_n(x)&amp;=f(x_0)+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)\\
+&amp;+\dots+f[x_0,x_1,\dots,x_n](x-x_0)\cdots(x-x_{n-1})\\
+R_n(x)&amp;=f[x,x_0,\dots,x_n]\omega_{n+1}(x)
+\end{aligned}\end{aligned}
+\]</span> 其中 <span class="math inline">\(N_n(x)\)</span>
+就称作<strong>Newton插值多项式</strong>，其与Lagrange插值多项式是等价的。
+<span class="math inline">\(R_n(x)\)</span>
+为Newton插值多项式的余项，它比Lagrange插值多项式的余项更具有一般性，对于离散函数
+<span class="math inline">\(f\)</span> 或 <span
+class="math inline">\(f\)</span> 导数不存在时均适用。</p>
+<blockquote>
+<p>Lagrange插值多项式的缺陷：当节点发生改变时，所有计算需要重新计算。</p>
+</blockquote></li>
+</ul>
+<h3 id="代码lagrange插值">代码：Lagrange插值</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-05.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>vector<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> L<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> xy_array<span class="op">,</span> <span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> sqrt_xy <span class="op">{{</span><span class="dv">100</span><span class="op">,</span> <span class="dv">10</span><span class="op">},</span> <span class="op">{</span><span class="dv">121</span><span class="op">,</span> <span class="dv">11</span><span class="op">},</span> <span class="op">{</span><span class="dv">144</span><span class="op">,</span> <span class="dv">12</span><span class="op">}};</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> L<span class="op">(</span>sqrt_xy<span class="op">,</span> <span class="dv">120</span><span class="op">)</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> L<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> xy_array<span class="op">,</span> <span class="dt">double</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sum <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> xy_array<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">double</span> prod <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> xy_array<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>j<span class="op">)</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">!=</span> i<span class="op">)</span> prod <span class="op">*=</span> <span class="op">(</span>x<span class="op">-</span>xy_array<span class="op">[</span>j<span class="op">][</span><span class="dv">0</span><span class="op">])</span> <span class="op">/</span> <span class="op">(</span>xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">]-</span>xy_array<span class="op">[</span>j<span class="op">][</span><span class="dv">0</span><span class="op">]);</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">+=</span> prod  <span class="op">*</span> xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3
+id="代码newton插值含生成差商表">代码：Newton插值（含生成差商表）</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-05.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>vector<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> xy_array<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> DD<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> refreshDD<span class="op">();</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> printDD<span class="op">();</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> N<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> xy_array<span class="op">,</span> <span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> sqrt_xy <span class="op">{{-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">5</span><span class="op">},</span> <span class="op">{-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">3</span><span class="op">},</span> <span class="op">{</span><span class="dv">1</span><span class="op">,</span> <span class="dv">17</span><span class="op">},</span> <span class="op">{</span><span class="dv">2</span><span class="op">,</span> <span class="dv">21</span><span class="op">}};</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> N<span class="op">(</span>sqrt_xy<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">//获取Divided Difference 差商表</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> refreshDD<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> tmp<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>DD<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> xy_array<span class="op">.</span>size<span class="op">()</span> <span class="op">&gt;=</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> xy_array<span class="op">.</span>size<span class="op">()-</span><span class="dv">1</span><span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> DD<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> <span class="dv">1</span><span class="op">)</span> tmp<span class="op">.</span>push_back<span class="op">((</span>xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">1</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">1</span><span class="op">])/(</span>xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">0</span><span class="op">]));</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span> tmp<span class="op">.</span>push_back<span class="op">((</span>DD<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">]-</span>tmp<span class="op">[</span>j<span class="op">-</span><span class="dv">1</span><span class="op">])/(</span>xy_array<span class="op">[</span>i<span class="op">-</span>j<span class="op">][</span><span class="dv">0</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">0</span><span class="op">]));</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            DD<span class="op">.</span>push_back<span class="op">(</span>tmp<span class="op">);</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>            tmp<span class="op">.</span>clear<span class="op">();</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>DD<span class="op">.</span>size<span class="op">()</span> <span class="op">&gt;=</span> <span class="dv">1</span> <span class="op">&amp;&amp;</span> xy_array<span class="op">.</span>size<span class="op">()</span> <span class="op">&gt;=</span> <span class="dv">2</span> <span class="op">&amp;&amp;</span> xy_array<span class="op">.</span>size<span class="op">()</span> <span class="op">&gt;</span> DD<span class="op">.</span>size<span class="op">()+</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> i <span class="op">=</span> xy_array<span class="op">.</span>size<span class="op">()</span> <span class="op">-</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> xy_array<span class="op">.</span>size<span class="op">()-</span><span class="dv">1</span><span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">&lt;</span> <span class="dv">1</span><span class="op">)</span> tmp<span class="op">.</span>push_back<span class="op">((</span>xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">1</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">1</span><span class="op">])/(</span>xy_array<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">0</span><span class="op">]));</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                tmp<span class="op">.</span>push_back<span class="op">((</span>DD<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">-</span><span class="dv">1</span><span class="op">]-</span>tmp<span class="op">[</span>j<span class="op">-</span><span class="dv">1</span><span class="op">])/(</span>xy_array<span class="op">[</span>i<span class="op">-</span>j<span class="op">][</span><span class="dv">0</span><span class="op">]-</span>xy_array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">0</span><span class="op">]));</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        DD<span class="op">.</span>push_back<span class="op">(</span>tmp<span class="op">);</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        tmp<span class="op">.</span>clear<span class="op">();</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    printDD<span class="op">();</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> printDD<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot;(&quot;</span> <span class="op">&lt;&lt;</span> DD<span class="op">.</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">&quot;, &quot;</span> <span class="op">&lt;&lt;</span> DD<span class="op">.</span>back<span class="op">().</span>size<span class="op">()</span> <span class="op">&lt;&lt;</span> <span class="st">&quot;)&quot;</span> <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> DD<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> DD<span class="op">[</span>i<span class="op">].</span>size<span class="op">();</span> <span class="op">++</span>j<span class="op">)</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> DD<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> N<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> <span class="va">xy_array_</span><span class="op">,</span> <span class="dt">double</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    xy_array<span class="op">.</span>assign<span class="op">(</span><span class="va">xy_array_</span><span class="op">.</span>begin<span class="op">(),</span> <span class="va">xy_array_</span><span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    refreshDD<span class="op">();</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> sum <span class="op">=</span> xy_array<span class="op">[</span><span class="dv">0</span><span class="op">][</span><span class="dv">1</span><span class="op">];</span> <span class="dt">double</span> prod <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> xy_array<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> i<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span> prod <span class="op">*=</span> x <span class="op">-</span> xy_array<span class="op">[</span>j<span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        sum <span class="op">+=</span> DD<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">].</span>back<span class="op">()</span> <span class="op">*</span> prod<span class="op">;</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        prod <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum<span class="op">;</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-03-06-数值分析-Day09-分段插值-三次样条函数</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-04-数值分析-Day07-Newton迭代法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

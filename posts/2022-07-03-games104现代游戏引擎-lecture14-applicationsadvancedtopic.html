@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="Lecture14 Tool Chains Applications &amp; Advanced Topic Architecture of A World Editor A hub for everything to build the world
+Editor Viewport 运行一个完整游戏，“Editor Mode” 代码存在Editor Only -&gt; 避免编译到最终游戏中 Everything is an Editable Object Objects Views Tree View Layer View Categories and groups 通过Schema系统编辑Object参数，参数编辑面板 Content Browser Editing Utilities in World Editor 鼠标选取
+Ray casting 不需要缓存，支持同时选取多个物体 遍历性能差 RTT 在G-Buffer中存储Object ID 根据点击像素直接对应Object ID 其他Trick来选取无Mesh的Object Object Transform Editing
+Terrain
+Heightmap Texture 植被、水体等 Brush Height Brush 笔刷边缘的过渡、笔刷的可拓展性 Instance Brush eg.">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture14 Tool Chains Applications &amp; Advanced Topic Architecture of A World Editor A hub for everything to build the world
+Editor Viewport 运行一个完整游戏，“Editor Mode” 代码存在Editor Only -&gt; 避免编译到最终游戏中 Everything is an Editable Object Objects Views Tree View Layer View Categories and groups 通过Schema系统编辑Object参数，参数编辑面板 Content Browser Editing Utilities in World Editor 鼠标选取
+Ray casting 不需要缓存，支持同时选取多个物体 遍历性能差 RTT 在G-Buffer中存储Object ID 根据点击像素直接对应Object ID 其他Trick来选取无Mesh的Object Object Transform Editing
+Terrain
+Heightmap Texture 植被、水体等 Brush Height Brush 笔刷边缘的过渡、笔刷的可拓展性 Instance Brush eg." />
+<meta property="og:title" content="2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic | xα&#39;s blog" />
+<meta property="og:description" content="Lecture14 Tool Chains Applications &amp; Advanced Topic Architecture of A World Editor A hub for everything to build the world
+Editor Viewport 运行一个完整游戏，“Editor Mode” 代码存在Editor Only -&gt; 避免编译到最终游戏中 Everything is an Editable Object Objects Views Tree View Layer View Categories and groups 通过Schema系统编辑Object参数，参数编辑面板 Content Browser Editing Utilities in World Editor 鼠标选取
+Ray casting 不需要缓存，支持同时选取多个物体 遍历性能差 RTT 在G-Buffer中存储Object ID 根据点击像素直接对应Object ID 其他Trick来选取无Mesh的Object Object Transform Editing
+Terrain
+Heightmap Texture 植被、水体等 Brush Height Brush 笔刷边缘的过渡、笔刷的可拓展性 Instance Brush eg." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2022-07-03T14:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2022-07-03T14:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications \u0026 Advanced Topic",
+      "item": "//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications \u0026 Advanced Topic | xα's blog",
+  "name": "2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications \u0026 Advanced Topic",
+  "description": "Lecture14 Tool Chains Applications \u0026amp; Advanced Topic Architecture of A World Editor A hub for everything to build the world\nEditor Viewport 运行一个完整游戏，“Editor Mode” 代码存在Editor Only -\u0026gt; 避免编译到最终游戏中 Everything is an Editable Object Objects Views Tree View Layer View Categories and groups 通过Schema系统编辑Object参数，参数编辑面板 Content Browser Editing Utilities in World Editor 鼠标选取\nRay casting 不需要缓存，支持同时选取多个物体 遍历性能差 RTT 在G-Buffer中存储Object ID 根据点击像素直接对应Object ID 其他Trick来选取无Mesh的Object Object Transform Editing\nTerrain\nHeightmap Texture 植被、水体等 Brush Height Brush 笔刷边缘的过渡、笔刷的可拓展性 Instance Brush eg.",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "209",
+  "inLanguage": "en",
+  "datePublished": "2022-07-03T14:00:00+08:00",
+  "dateModified": "2022-07-03T14:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2022-07-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture14-applicationsadvancedtopic.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2022-07-03</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#plugin-architecture" aria-label="Plugin Architecture">Plugin Architecture</a><ul>
+                        
+                <li>
+                    <a href="#eg.-sequencer-in-ue" aria-label="eg. Sequencer in UE">eg. Sequencer in UE</a></li></ul>
+                </li>
+                <li>
+                    <a href="#reflection-and-gameplay" aria-label="Reflection and Gameplay">Reflection and Gameplay</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8f%8d%e5%b0%84" aria-label="反射">反射</a></li>
+                <li>
+                    <a href="#c%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0%e5%8f%8d%e5%b0%84" aria-label="C&#43;&#43;如何实现反射">C++如何实现反射</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture14-tool-chains-applications-advanced-topic">Lecture14
+Tool Chains Applications &amp; Advanced Topic</h3>
+<h4 id="architecture-of-a-world-editor">Architecture of A World
+Editor</h4>
+<p><strong>A hub for everything to build the world</strong></p>
+<ul>
+<li>Editor Viewport
+<ul>
+<li>运行一个完整游戏，“Editor Mode”</li>
+<li>代码存在Editor Only -&gt; 避免编译到最终游戏中</li>
+</ul></li>
+<li>Everything is an Editable Object
+<ul>
+<li>Objects Views
+<ul>
+<li>Tree View</li>
+<li>Layer View</li>
+<li>Categories and groups</li>
+</ul></li>
+<li>通过Schema系统编辑Object参数，参数编辑面板</li>
+</ul></li>
+<li>Content Browser</li>
+<li>Editing Utilities in World Editor
+<ul>
+<li><p>鼠标选取</p>
+<ul>
+<li>Ray casting
+<ul>
+<li>不需要缓存，支持同时选取多个物体</li>
+<li>遍历性能差</li>
+</ul></li>
+<li>RTT
+<ul>
+<li>在G-Buffer中存储Object ID</li>
+<li>根据点击像素直接对应Object ID</li>
+<li>其他Trick来选取无Mesh的Object</li>
+</ul></li>
+</ul></li>
+<li><p>Object Transform Editing</p></li>
+<li><p>Terrain</p>
+<ul>
+<li>Heightmap</li>
+<li>Texture</li>
+<li>植被、水体等</li>
+<li>Brush
+<ul>
+<li>Height Brush 笔刷边缘的过渡、笔刷的可拓展性</li>
+<li>Instance Brush eg.刷植被</li>
+</ul></li>
+</ul></li>
+<li><p>Environment</p>
+<ul>
+<li>Sky</li>
+<li>Light</li>
+<li>Roads</li>
+<li>Rivers</li>
+<li>…</li>
+</ul></li>
+<li><p>Rule System in Environment</p>
+<ul>
+<li>eg. 路上不能有植被</li>
+<li>保证局部修改而不是全部重新生成</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="plugin-architecture">Plugin Architecture</h4>
+<ul>
+<li>系统和对象的功能“矩阵”
+<img src="../images/games104/L14_MatrixOfSystemsAndObjects.jpg" alt="L14_MatrixOfSystemsAndObjects" style="zoom: 33%;" />
+插件既需要在横向上拓展对象，也需要在纵向上拓展系统</li>
+<li>插件的Combination
+<ul>
+<li>Covered：覆盖原有逻辑 eg.地形编辑系统
+<img src="../images/games104/L14_PluginsCombinationCoverd.jpg" alt="L14_PluginsCombinationCoverd" style="zoom: 67%;" /></li>
+<li>Distributed：分布式，最终混合输出 eg.大部分编辑系统
+<img src="../images/games104/L14_PluginsCombinationDistributed.jpg" alt="L14_PluginsCombinationDistributed" style="zoom: 67%;" /></li>
+<li>Pipeline：串联，前者输出作为后者输入 eg.资产预处理、物理几何体
+<img src="../images/games104/L14_PluginsCombinationPipeline.jpg" alt="L14_PluginsCombinationPipeline" style="zoom: 67%;" /></li>
+<li>Onion rings：洋葱圈，如图 eg.地形插件的道路编辑插件
+<img src="../images/games104/L14_PluginsCombinationOnionRings.jpg" alt="L14_PluginsCombinationOnionRings" style="zoom: 67%;" /></li>
+</ul></li>
+<li>版本控制
+<ul>
+<li>理想情况：版本更新 with 插件版本更新</li>
+<li>插件使用SDK的方式不确定，保持SDK相同的输入输出并不一定代表稳定迭代更新</li>
+</ul></li>
+</ul>
+<h4 id="design-narrative-tools-设计叙事工具">Design Narrative Tools
+设计叙事工具</h4>
+<h5 id="eg.-sequencer-in-ue">eg. Sequencer in UE</h5>
+<ul>
+<li>Track</li>
+<li>Property Track</li>
+<li>Timeline</li>
+<li>Key Frame</li>
+<li>Sequence</li>
+</ul>
+<h4 id="reflection-and-gameplay">Reflection and Gameplay</h4>
+<h5 id="反射">反射</h5>
+<ul>
+<li>反射是Sequencer的基础，修改参数怎样应用到Runtime的对象上。Schema架构，反射系统执行</li>
+<li>Visual Scripting System eg.UE蓝图 ——
+核心解决问题：底层代码的可扩展性
+<ul>
+<li>eg.
+底层增加一个新的Function，表层也需要跟着增加相应的调用，非常麻烦（可以通过继承减少一部分工作）</li>
+<li>利用反射解决</li>
+</ul></li>
+<li>反射：构建代码和工具之间的桥梁
+<ul>
+<li>使用反射生成代码元数据map，包括class_name、func_name</li>
+<li>生成accessor（gettor、setter、invoker、…）</li>
+</ul></li>
+</ul>
+<h5 id="c如何实现反射">C++如何实现反射</h5>
+<ul>
+<li>生成Schema
+<ul>
+<li>GPL编译规范
+<img src="../images/games104/L14_GPL.jpg" alt="L14_GPL" style="zoom: 67%;" /></li>
+<li>从AST（Abstract Syntax
+Tree）可以很方便得到类型信息，生成Schema大量开源的编译器可以生成AST eg.
+gcc clang</li>
+<li>Piccolo
+<ul>
+<li>clang生成AST，得到Schema数据结构</li>
+<li>利用宏定义精确控制反射范围（不是所有变量、函数都需要被反射）
+<ul>
+<li>clang可以定义<code>__attribute__</code>，控制编译器行为</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>生成Accessor
+<ul>
+<li>get / set / invoke</li>
+<li>代码渲染
+<ul>
+<li>自动化生成代码</li>
+<li>节约人力</li>
+<li>很难出错</li>
+<li>数据和逻辑分离</li>
+</ul></li>
+<li>Piccolo
+<ul>
+<li>利用Mustache生成代码</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="collaborative-editing-协同编辑">Collaborative Editing
+协同编辑</h4>
+<ul>
+<li>核心问题：多人协作发生冲突</li>
+<li>文件区分方式
+<ul>
+<li>分层方
+<ul>
+<li>按照资产分成多层，各自编辑单独层，最后Merge</li>
+<li>分层难以完全分离，层之间经常存在相互关联</li>
+</ul></li>
+<li>分块
+<ul>
+<li>将世界分成多块，各自单独编辑，最后Merge</li>
+<li>难以解决块之间的连接</li>
+<li>单独有Artist处理边界</li>
+</ul></li>
+<li><strong>OFPA, One File Per Actor</strong> <span class="citation"
+data-cites="UE5">@UE5</span>
+<ul>
+<li>每个对象都有独立的文件</li>
+<li>很好地解决冲突</li>
+<li>但最终文件提交量非常大</li>
+<li>cooking时打包小文件开销大</li>
+</ul></li>
+</ul></li>
+<li>基于网络同时编辑，互相可见
+<ul>
+<li>问题
+<ul>
+<li>需要处理网络架构</li>
+<li>操作之间相互同步，要将操作原子化</li>
+<li>怎么解决Undo&amp;Redo</li>
+</ul></li>
+<li>方案
+<ul>
+<li>使用“锁定”机制固定部分资产不可修改</li>
+<li>OT, Operation Transform</li>
+<li>CRDT, Conflict-free Replicated Data Type</li>
+</ul></li>
+<li>现在大部分网络方案：客户端提交，由服务器决策分发
+<ul>
+<li>Client Crash： Nothing</li>
+<li>Server Crash： Boom</li>
+</ul></li>
+</ul></li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

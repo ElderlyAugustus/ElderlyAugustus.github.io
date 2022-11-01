@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="Lecture08 Animation System - Basics 挑战：
+不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture08 Animation System - Basics 挑战：
+不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces" />
+<meta property="og:title" content="2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics | xα&#39;s blog" />
+<meta property="og:description" content="Lecture08 Animation System - Basics 挑战：
+不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2022-05-13T17:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2022-05-13T17:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics",
+      "item": "//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics | xα's blog",
+  "name": "2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics",
+  "description": "Lecture08 Animation System - Basics 挑战：\n不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF + Translation X Y Z + Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "426",
+  "inLanguage": "en",
+  "datePublished": "2022-05-13T17:00:00+08:00",
+  "dateModified": "2022-05-13T17:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2022-05-13</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#d-animation" aria-label="2D Animation">2D Animation</a><ul>
+                        
+                <li>
+                    <a href="#sprite-animation" aria-label="Sprite Animation">Sprite Animation</a></li>
+                <li>
+                    <a href="#live2d" aria-label="Live2D">Live2D</a></li></ul>
+                </li>
+                <li>
+                    <a href="#d-animation-1" aria-label="3D Animation">3D Animation</a><ul>
+                        
+                <li>
+                    <a href="#per-vertex-animation" aria-label="Per-vertex Animation">Per-vertex Animation</a></li>
+                <li>
+                    <a href="#morph-target-animation" aria-label="Morph Target Animation">Morph Target Animation</a></li>
+                <li>
+                    <a href="#physics-based-animation" aria-label="Physics-based Animation">Physics-based Animation</a></li>
+                <li>
+                    <a href="#animation-%e5%88%9b%e4%bd%9c%e6%96%b9%e5%bc%8f" aria-label="Animation 创作方式">Animation 创作方式</a></li>
+                <li>
+                    <a href="#%e6%80%8e%e6%a0%b7%e5%b0%86mesh%e8%bf%90%e5%8a%a8%e8%b5%b7%e6%9d%a5" aria-label="怎样将Mesh运动起来">怎样将Mesh运动起来</a></li>
+                <li>
+                    <a href="#%e9%aa%a8%e9%aa%bc" aria-label="骨骼">骨骼</a></li>
+                <li>
+                    <a href="#skin---%e8%92%99%e7%9a%ae%e6%80%8e%e6%a0%b7%e8%bf%90%e5%8a%a8" aria-label="Skin - 蒙皮怎样运动">Skin - 蒙皮怎样运动</a></li>
+                <li>
+                    <a href="#clips-%e5%8a%a8%e7%94%bb%e7%89%87%e6%ae%b5" aria-label="Clips 动画片段">Clips 动画片段</a></li></ul>
+                </li>
+                <li>
+                    <a href="#animation-compression" aria-label="Animation Compression">Animation Compression</a></li>
+                <li>
+                    <a href="#animation-dcc" aria-label="Animation DCC">Animation DCC</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture08-animation-system---basics">Lecture08 Animation System
+- Basics</h3>
+<p>挑战：</p>
+<ul>
+<li>不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互</li>
+<li>实时，计算和存储开销</li>
+<li>真实感（表情、Ragdoll、Motion Matching …）</li>
+</ul>
+<h4 id="d-animation">2D Animation</h4>
+<h5 id="sprite-animation">Sprite Animation</h5>
+<ul>
+<li>逐帧绘制，循环播放</li>
+<li>Sprite-like animation technique in pseudo-3D game
+<ul>
+<li>《Doom》 绘制各个视角的sprite，做伪3D</li>
+</ul></li>
+<li>Sprite Animation in Modern Game</li>
+</ul>
+<h5 id="live2d">Live2D</h5>
+<ul>
+<li>把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴
+<img src="../images/games104/L08_Live2D1.jpg" alt="L08_Live2D1" style="zoom: 50%;" /></li>
+<li>仿射变换
+<img src="../images/games104/L08_Live2D2.jpg" alt="L08_Live2D2" style="zoom: 67%;" /></li>
+<li>图元的前后遮挡由深度决定</li>
+<li>每一个图元有控制网格
+<img src="../images/games104/L08_Live2D3.jpg" alt="L08_Live2D3" style="zoom: 50%;" /></li>
+<li>Key frame</li>
+</ul>
+<h5 id="d-skinned-animation-2d蒙皮动画">2D Skinned Animation
+2D蒙皮动画</h5>
+<h4 id="d-animation-1">3D Animation</h4>
+<blockquote>
+<p>DoF, Degrees of Freedom 自由度 6DoF + Translation X Y Z + Rotation
+Pan/Yaw Tilt/Pitch Roll
+<img src="../images/games104/L08_DoF.jpg" alt="L08_DoF" style="zoom: 67%;" /></p>
+</blockquote>
+<h5 id="rigid-hierarchical-animation-基于刚体的层次结构动画">Rigid
+Hierarchical Animation 基于刚体的层次结构动画</h5>
+<ul>
+<li>“皮影戏”</li>
+<li>直接连接Mesh，会导致Mesh互相产生穿插</li>
+</ul>
+<h5 id="per-vertex-animation">Per-vertex Animation</h5>
+<ul>
+<li>旗帜、布料、流体等（从物理烘焙而来的顶点动画实现）</li>
+<li>VAT, Virtual Animation Texture：用贴图存储顶点</li>
+</ul>
+<h5 id="morph-target-animation">Morph Target Animation</h5>
+<ul>
+<li>顶点动画的变种</li>
+<li>顶点带有权重，邻近顶点相互影响</li>
+</ul>
+<h5 id="d-skinned-animation-2d蒙皮动画-见下章">3D Skinned Animation
+2D蒙皮动画 （见下章）</h5>
+<h5 id="physics-based-animation">Physics-based Animation</h5>
+<ul>
+<li>Ragdoll</li>
+<li>布料和流体</li>
+<li>IK, Inverse kinematics 反向动力学</li>
+</ul>
+<h5 id="animation-创作方式">Animation 创作方式</h5>
+<ul>
+<li>Key frame</li>
+<li>动作捕捉</li>
+</ul>
+<h4 id="skinned-animation-implementation">Skinned Animation
+Implementation</h4>
+<h5 id="怎样将mesh运动起来">怎样将Mesh运动起来</h5>
+<ul>
+<li>创建一个绑定姿态的Mesh</li>
+<li>创建绑定骨骼Skeleton</li>
+<li>刷定点权重（蒙皮）</li>
+<li>骨骼动画</li>
+<li>顶点按骨骼动画和蒙皮权重运动</li>
+</ul>
+<blockquote>
+<p><strong>Different Spaces</strong></p>
+<ul>
+<li><strong>Local Space</strong> 每一个骨骼节点</li>
+<li>Model Space</li>
+<li>World Space</li>
+</ul>
+</blockquote>
+<h5 id="骨骼">骨骼</h5>
+<ul>
+<li><p>Humanoid 两足动物
+<img src="../images/games104/L08_HumanoidSkeleton.jpg" alt="L08_HumanoidSkeleton" style="zoom: 50%;" /></p></li>
+<li><p>Non-humanoid 四足动物
+<img src="../images/games104/L08_Non-humanoidSkeleton.jpg" alt="L08_Non-humanoidSkeleton" style="zoom: 50%;" /></p></li>
+<li><p>Joint 和 Bone 关节和骨段，存储/处理的是Joint
+<img src="../images/games104/L08_JointVsBone.png" alt="L08_JointVsBone" style="zoom: 25%;" /></p></li>
+<li><p>真实情况中的附加骨骼</p>
+<ul>
+<li>复杂的表情</li>
+<li>披风、翅膀、武器等外饰</li>
+<li>eg. 武器可能是单个Joint绑定在手上</li>
+</ul></li>
+<li><p>Root节点 一般在地面
+<img src="../images/games104/L08_RootJoint1.png" alt="L08_RootJoint1" style="zoom: 25%;" /><img src="../images/games104/L08_RootJoint2.png" alt="L08_RootJoint2" style="zoom: 25%;" /></p></li>
+<li><p>物体之间的骨骼Attach，骑马/开车等情况
+<img src="../images/games104/L08_AttachJoint.png" alt="L08_AttachJoint" style="zoom: 15%;" /></p></li>
+<li><p>绑定初始状态 T-Pose和A-Pose</p>
+<ul>
+<li>T-Pose肩部受到挤压，精度不够</li>
+<li>目前大多采用A-Pose
+<img src="../images/games104/L08_TA-Pose.png" alt="L08_TA-Pose" style="zoom: 25%;" /></li>
+</ul></li>
+<li><p>Pose：一个骨骼的状态</p>
+<ul>
+<li><p>Joint Pose (9DoF)</p>
+<ul>
+<li>Position</li>
+<li>Orientation</li>
+<li>Scale &gt; Math of 3D Rotation （略）</li>
+</ul></li>
+<li><p>Affine Matrix 仿射矩阵 <span class="math display">\[
+M=R_{HM}T_{HM}S_{HM}=\begin{bmatrix}SR &amp; T\\0&amp;1\end{bmatrix}
+\]</span></p></li>
+<li><p>从Local Space到Model Space <span class="math display">\[
+M_J^{\rm Model}=\prod_{j=J}^0 M_{p(J)}^{\rm Local}
+\]</span></p></li>
+<li><p>Interpolation
+<img src="../images/games104/L08_JointInterpolation.png" alt="L08_JointInterpolation" style="zoom: 25%;" />
+左：Local Space 右：Model Space 故在Local Space进行插值，再转换至Model
+Space</p></li>
+</ul></li>
+</ul>
+<h5 id="skin---蒙皮怎样运动">Skin - 蒙皮怎样运动</h5>
+<ul>
+<li><p><strong>Skinning Matrix</strong></p>
+<ul>
+<li><p><span class="math inline">\(V^{\rm Local}(t)\)</span>：顶点 <span
+class="math inline">\(V\)</span> 在Local Space，<span
+class="math inline">\(t\)</span> 时间的位置： <span
+class="math display">\[
+V^{\rm Local}(t)\equiv V_b^{\rm Local}=(M_{b(j)}^{\rm Model})^{-1}\cdot
+V_b^{\rm Model}
+\]</span>
+<img src="../images/games104/L08_SkinningMatrix.jpg" alt="L08_SkinningMatrix" style="zoom: 33%;" /></p></li>
+<li><p><span class="math inline">\(M_J^{\rm Model}(t)\)</span>：Joint
+<span class="math inline">\(J\)</span> 在Model Space，<span
+class="math inline">\(t\)</span> 时间的pose： <span
+class="math display">\[
+M_J^{\rm Model}(t)=\prod_{j=J}^0 M_{p(j)}^{\rm Local}(t)
+\]</span></p></li>
+<li><p><span class="math inline">\(V^{\rm Model}(t)\)</span>：顶点 <span
+class="math inline">\(V\)</span> 在Model Space，<span
+class="math inline">\(t\)</span> 时间的位置： <span
+class="math display">\[
+V^{\rm Model}(t)=M_J^{\rm Model}(t)\cdot V_J^{\rm Local}=M_J^{\rm
+Model}(t)\cdot(M_{b(j)}^{\rm Model})^{-1}\cdot V_b^{\rm Model}
+\]</span></p></li>
+<li><p><strong>Skinning Matrix</strong> <span class="math display">\[
+K_J=M_J^{\rm Model}(t)\cdot(M_{b(j)}^{\rm Model})^{-1}
+\]</span></p></li>
+</ul></li>
+<li><p>Skinning Matrix Palette</p>
+<ul>
+<li><p>存储每个Joint的Skinning Matrix</p></li>
+<li><p>Model Space to World Space <span class="math display">\[
+K_J&#39;=M^{\rm World}\cdot M_J^{\rm Model}(t)\cdot(M_{b(j)}^{\rm
+Model})^{-1}
+\]</span> 存储该Skinning Matrix’</p></li>
+<li><p>Bind Pose Matrix的逆需提前计算存储，以提高效率
+<img src="../images/games104/L08_InverseBindPoseMatrix.jpg" alt="L08_InverseBindPoseMatrix" style="zoom: 50%;" /></p></li>
+</ul></li>
+<li><p><strong>Weighted Skinning with Multi-joints</strong></p>
+<ul>
+<li><p>加权平均（一般不超过4个），加权总和为1</p></li>
+<li><p>Weighted Skinned Blend</p>
+<ul>
+<li><p>顶点 <span class="math inline">\(V\)</span> 关于Joint <span
+class="math inline">\(J_i\)</span> 的Local Space to Model Space： <span
+class="math display">\[
+V_{J_i}^M(t)=K_{J_i}(t)\cdot V_{b_{J_i}}^M
+\]</span></p></li>
+<li><p>顶点 <span class="math inline">\(V\)</span> 在Model Space： <span
+class="math display">\[
+V^M(t)=\sum_{i=0}^{N-1}W_i\cdot V_{J_i}^M(t)
+\]</span></p></li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="clips-动画片段">Clips 动画片段</h5>
+<ul>
+<li><p>Interpolation</p>
+<ul>
+<li><p>LERP - Translation / Scale <span class="math display">\[
+f(x)=(1-\alpha)f(x_1)+\alpha f(x_2)\\
+\alpha=\dfrac{x-x_1}{x_2-x_1},\,x_1&lt;x_2,\,x\in[x_1,x_2];\quad
+f(x):T(t),S(t)
+\]</span></p></li>
+<li><p>NLERP for Quaternion - Rotation
+<img src="../images/games104/L08_LerpVsNLerp.png" alt="L08_LerpVsNLerp" style="zoom: 25%;" /></p>
+<ul>
+<li><p>Linear Interpolation <span class="math display">\[
+q_t={\rm Lerp}(q_{t_1},q_{t_2},t)=(1-\alpha)q_{t_1}+\alpha q_{t_2}\\
+\]</span></p></li>
+<li><p>Normalization <span class="math display">\[
+q_t&#39;={\rm NLerp}(q_{t_1},q_{t_2},t)=\dfrac{(1-\alpha)q_{t_1}+\alpha
+q_{t_2}}{\|(1-\alpha)q_{t_1}+\alpha q_{t_2}\|}
+\]</span></p></li>
+<li><p>最短路径
+<img src="../images/games104/L08_ShortestPath.png" alt="L08_ShortestPath" style="zoom: 33%;" /></p></li>
+</ul></li>
+<li><p>SLERP for Quaternion - Rotation</p>
+<ul>
+<li><p>NLERP在弦上插值，故旋转不均匀；SLERP在球面上插值，但开销较大</p></li>
+<li><p><span class="math display">\[
+q_t={\rm
+SLerp}(q_{t_1},q_{t_2},t)=\dfrac{\sin((1-t)\theta)}{\sin\theta}\cdot
+q_{t_1}+\dfrac{\sin(t\theta)}{\sin\theta}\cdot q_{t_2}\\
+\theta=\arccos(q_{t_1}\cdot q_{t_2})
+\]</span>
+<img src="../images/games104/L08_SLERP.jpg" alt="L08_SLERP" style="zoom: 25%;" /></p></li>
+<li><p>一般设置阈值，插值角度小，则NLerp，插值角度非常大时使用SLerp</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="simple-animation-runtime-pipeline">Simple Animation Runtime
+Pipeline</h5>
+<p><img src="../images/games104/L08_SimpleAnimationRuntimePipeline.png" alt="L08_SimpleAnimationRuntimePipeline" style="zoom: 33%;" /></p>
+<h4 id="animation-compression">Animation Compression</h4>
+<ul>
+<li><p>大部分数据不变</p>
+<ul>
+<li>部分Joint整个固定</li>
+<li>部分Joint的Translation/Rotation/Scale有部分保持不变（尤其是Translation和Scale）</li>
+</ul></li>
+<li><p>DoF Reduction 减少不变的自由度</p></li>
+<li><p>Keyframe 记录关键帧，其他帧插值</p>
+<ul>
+<li><p>使用插值方法测试</p>
+<ul>
+<li>若插值结果与真实结果差异小于阈值，则不记录为关键帧</li>
+<li>若插值结果与真实结果差异较大，则以真实结果为关键帧
+<img src="../images/games104/L08_Keyframe1.jpg" alt="L08_Keyframe1" style="zoom: 80%;" />
+<img src="../images/games104/L08_Keyframe2.png" alt="L08_Keyframe2" style="zoom: 33%;" /></li>
+</ul></li>
+<li><p>采用Catmull-Rom Spline插值 ——
+比线性插值更平滑（开销大但这里不是Runtime） <span
+class="math display">\[
+P(t)=\begin{bmatrix}1&amp;t&amp;t^2&amp;t^3\end{bmatrix}
+\begin{bmatrix}0&amp;1&amp;0&amp;0\\
+-\alpha&amp;0&amp;\alpha&amp;0\\
+2\alpha&amp;\alpha-3&amp;3-2\alpha&amp;-\alpha\\
+-\alpha&amp;2-\alpha&amp;\alpha-2&amp;\alpha
+\end{bmatrix}
+\begin{bmatrix}P_0\\P_1\\P_2\\P_3\end{bmatrix}
+\]</span>
+<img src="../images/games104/L08_Catmull-RomSpline.png" alt="L08_Catmull-RomSpline" style="zoom: 33%;" /></p>
+<ul>
+<li>减少了关键帧</li>
+</ul></li>
+</ul></li>
+<li><p>Float Quantization</p>
+<ul>
+<li>32bit浮点存储量大</li>
+<li>将关键帧中数据的最小值、最大值mapping到 <span
+class="math inline">\([0, 1]\)</span></li>
+<li>所有数值mapping到16bit unsigned int来存储</li>
+<li>四元数的特性： <span class="math display">\[
+a^2+b^2+c^2+d^2=1,\,|a|\ge\max(|b|,|c|,|d|)\\
+\Rightarrow b,c,d\in[-\frac{\sqrt 2}{2}, \frac{\sqrt 2}{2}]
+\]</span> 因此，经验证四元数中除模最大的数 <span
+class="math inline">\(a\)</span> 以外的三个数 <span
+class="math inline">\(b,c,d\)</span>
+可以用15bit精度表示，另有2bit表示哪个数最大；三个元共用48bit表示
+<img src="../images/games104/L08_QuaternionQuantization.jpg" alt="L08_QuaternionQuantization" style="zoom: 67%;" /></li>
+<li>经过压缩：
+<img src="../images/games104/L08_SizeReduction.png" alt="L08_SizeReduction" style="zoom: 20%;" /></li>
+</ul></li>
+<li><p>误差传播
+<img src="../images/games104/L08_ErrorPropagation.png" alt="L08_ErrorPropagation" style="zoom: 25%;" /></p>
+<ul>
+<li><p>结果会导致人物手部、手上武器等末端Joint发生抖动</p></li>
+<li><p>特殊情况需要高精度存储</p>
+<ul>
+<li>最简单的判定方法 —— 直接给误差设定阈值</li>
+<li>Visual Error 视觉误差
+<ul>
+<li>为Joint在两个垂直方向设定两个Fake Vertex，计算运动后Fake
+Vertex的距离
+<img src="../images/games104/L08_FakeVertex.png" alt="L08_FakeVertex" style="zoom: 25%;" /></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>误差补偿</p>
+<ul>
+<li>处理方法：
+<ul>
+<li>除Root外，每根bone上选一个点</li>
+<li>计算每根压缩后的bone的旋转，使标记点在Model Space中接近实际位置</li>
+<li>增加一个旋转来补偿误差
+<img src="../images/games104/L08_ErrorCompensation.png" alt="L08_ErrorCompensation" style="zoom: 25%;" /></li>
+</ul></li>
+<li>问题：末端骨骼的信息变成高频</li>
+<li>更新的方法：FIK, Forward Inverse Kinematics</li>
+</ul></li>
+</ul>
+<h4 id="animation-dcc">Animation DCC</h4>
+<ul>
+<li>Mesh
+<ul>
+<li>关节处Mesh更细分</li>
+</ul></li>
+<li>Skeleton Binding 骨骼绑定
+<ul>
+<li>DCC的基础骨架</li>
+<li>增加武器等Gameplay中特殊的Joint</li>
+</ul></li>
+<li>Skinning 蒙皮，刷权重
+<ul>
+<li>自动计算 —— 结果会像橡皮</li>
+<li>手动部分校正权重</li>
+</ul></li>
+<li>设计关键帧动画</li>
+<li>Root要保持在Model Space中不变</li>
+<li>FBX File</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>
