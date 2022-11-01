@@ -12,10 +12,10 @@
 减少Taylor展开次数得： \[ y(x_{n&#43;1})=y(x_n)&#43;hy&#39;(\xi)=y(x_n)&#43;hf(\xi,y(\xi)),\quad x_n\le\xi\le x_{n&#43;1} \] 构造差分方法即利用适当的函数值来近似计算 \(f(\xi,y(\xi))\) 。
 Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(2\) 项一致。为 \(1\) 阶方法。 改进Euler方法用 \(K_1,K_2\) 的线性组合作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(3\) 项一致。为 \(2\) 阶方法。 能否增加计算 \(f(x,y)\) 的次数来提高方法阶数？ Runge-Kutta方法 \[ \left\{\begin{array}{l} y_{n&#43;1}=y_n&#43;h(\lambda_1K_1&#43;\lambda_2K_2&#43;\dots&#43;\lambda_pK_p)\\ K_1=f(x_n,y_n)\\ K_2=f(x_n&#43;\alpha_2h,y_n&#43;h\beta_{21}K_1)\\ \dots\\ K_p=f(x_n&#43;\alpha_ph,y_n&#43;h\sum\limits_{i=1}^{p-1}\beta_{pi}K_i) \end{array}\right.">
 <meta name="author" content="xα">
-<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
+<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法 | xα&#39;s blog" />
 <meta name="twitter:description" content="7.5 - 7.7 Runge-Kutta方法 单步高阶方法构造思路 设 \(y(x)\) 是一阶常微分方程初值问题的精确解，Taylor展开得： \[ \begin{aligned} \displaystyle y(x_{n&#43;1})&amp;=y(x_n)&#43;y&#39;(x_n)h&#43;\frac{y&#39;&#39;(x_n)}{2!}h^2&#43;\dots&#43;\frac{y^{(p)}(x_n)}{p!}h^p&#43;\frac{y^{({p&#43;1})}(x_n)}{(p&#43;1)!}h^{p&#43;1}\\ &amp;=y(x_n)&#43;hf(x_n,y(x_n))&#43;\frac{h^2}{2!}f^{(1)}(x_n,y(x_n))&#43;\dots&#43;\frac{h^p}{p!}f^{(p-1)}(x_n,y(x_n))&#43;O(h^{p&#43;1})\end{aligned} \] 因此可建立节点处近似值 \(y_n\) 满足的差分公式： \[ \left\{\begin{array}{l}\displaystyle y_{n&#43;1}=y_n&#43;hf(x_n,y_n)&#43;\frac{h^2}{2!}f^{(1)}(x_n,y_n)&#43;\dots&#43;\frac{h^p}{p!}f^{(p-1)}(x_n,y_n)\\y_0=\alpha,\quad n=0,1,\dots,N-1\end{array}\right. \] 称之为 \(\mathbf p\) 阶Taylor展开方法。 其中： \(\begin{array}{l}\displaystyle f^{(1)}(x,y)=\frac{\partial f(x,y)}{\partial x}&#43;\frac{\partial f(x,y)}{\partial y}f(x,y)\\\displaystyle f^{(2)}(x,y)=\frac{\partial^2f}{\partial x^2}&#43;2\frac{\partial^2f}{\partial x\partial y}f&#43;\frac{\partial^2 f}{\partial y^2}f^2&#43;\frac{\partial f}{\partial x}\frac{\partial f}{\partial y}&#43;\left(\frac{\partial f}{\partial y}\right)^2f\\\dots\end{array}\)
@@ -28,8 +28,8 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
 减少Taylor展开次数得： \[ y(x_{n&#43;1})=y(x_n)&#43;hy&#39;(\xi)=y(x_n)&#43;hf(\xi,y(\xi)),\quad x_n\le\xi\le x_{n&#43;1} \] 构造差分方法即利用适当的函数值来近似计算 \(f(\xi,y(\xi))\) 。
 Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(2\) 项一致。为 \(1\) 阶方法。 改进Euler方法用 \(K_1,K_2\) 的线性组合作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(3\) 项一致。为 \(2\) 阶方法。 能否增加计算 \(f(x,y)\) 的次数来提高方法阶数？ Runge-Kutta方法 \[ \left\{\begin{array}{l} y_{n&#43;1}=y_n&#43;h(\lambda_1K_1&#43;\lambda_2K_2&#43;\dots&#43;\lambda_pK_p)\\ K_1=f(x_n,y_n)\\ K_2=f(x_n&#43;\alpha_2h,y_n&#43;h\beta_{21}K_1)\\ \dots\\ K_p=f(x_n&#43;\alpha_ph,y_n&#43;h\sum\limits_{i=1}^{p-1}\beta_{pi}K_i) \end{array}\right." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-11T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-11T17:00:00&#43;08:00" />
@@ -44,13 +44,13 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "https://elderlyaugustus.github.io/posts/"
+      "item": "//elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法",
-      "item": "https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"
+      "item": "//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"
     }
   ]
 }
@@ -75,14 +75,14 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"
+    "@id": "//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://elderlyaugustus.github.io/favicon.ico"
+      "url": "//elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -223,7 +223,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -249,22 +249,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="https://elderlyaugustus.github.io/about/" title="About"
+                <a href="//elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -275,12 +275,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</h1>
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-03-11</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
       
       
@@ -647,13 +647,13 @@ class="math inline">\(r\)</span> 相等）。</p>
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</span>
   </a>
-  <a class="next" href="https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/">
+  <a class="next" href="//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -666,7 +666,7 @@ class="math inline">\(r\)</span> 相等）。</p>
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -754,7 +754,7 @@ class="math inline">\(r\)</span> 相等）。</p>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="../../js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -881,7 +881,7 @@ class="math inline">\(r\)</span> 相等）。</p>
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="/js/instantclick.min.js" data-no-instant
+<script src="../../js/instantclick.min.js" data-no-instant
 ></script>
 <script data-no-instant>
   
