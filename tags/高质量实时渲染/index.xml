@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>高质量实时渲染 on xα&#39;s blog</title>
-    <link>//elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93.html</link>
+    <link>https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link>
     <description>Recent content in 高质量实时渲染 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 16 Apr 2021 16:00:00 +0800</lastBuildDate><atom:link href="//elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Apr 2021 16:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</link>
       <pubDate>Fri, 16 Apr 2021 16:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/</guid>
       <description>Lecture 5-6 Environment Lighting Recap
 环境光贴图 球面贴图 Spherical Map / 立方体贴图 Cube Map Shading from Environment Lighting / Image-Based Lighting (IBL) 解渲染方程（不考虑阴影） \[ L_o(\mathrm p,\omega_o)=\int_{\Omega^+}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\xcancel{V(\mathrm p,\omega_i)}\,\mathrm d\omega_i \]
 蒙特卡洛积分——数值解、大量采样，非常慢 PS: 一旦涉及采样，就很难实时，近年开始有一些进展 观察：
@@ -303,10 +303,10 @@ src="/images/games202/Wavelet2.jpg" alt="Wavelet2" /></li>
     
     <item>
       <title>2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</link>
       <pubDate>Wed, 14 Apr 2021 12:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/</guid>
       <description>Lecture 14 Practical Industrial Solutions Temporal Anti-Aliasing, TAA Recall: why aliasing
 光栅化的采样数不够 终极解决方案：加样本（MSAA） TAA：应用Temporal信息，与RTRT的降噪思路一致
 每四帧复用：
@@ -462,10 +462,10 @@ global</strong></li>
     
     <item>
       <title>2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</link>
       <pubDate>Mon, 12 Apr 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/</guid>
       <description>Lecture 12-13 Real-Time Ray-Tracing RTX : 10G rays per second == 1 sample per pixel
 1 SPP path tracing == 1 rasterization (primary) + 1 ray (primary visibility) + 1 ray (primary bounce) + 1 ray (primary vis.) +
 1 SPP is Extremely Noisy
@@ -665,10 +665,10 @@ Tracing结果降噪，神经网络方法。</p>
     
     <item>
       <title>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</title>
-      <link>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</link>
       <pubDate>Mon, 05 Apr 2021 16:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</guid>
       <description>Lecture 3-4 Soft Shadow Recap of Shadow Mapping - 点光源 从“Light”处看向场景，生成场景关于光源的深度图，即Shadow Map； 从相机处看向场景渲染画面，利用Shadow Map判断像素是否在阴影中。 Feature：
 基于二维图像的算法，而不需要三维几何场景 使用透视投影后Z值或透视投影前实际距离生成深度图皆可，Shadow Map与阴影生成时的深度判定方式一致即可 Problem
 Self occlusion 自遮挡
@@ -978,10 +978,10 @@ href="https://github.com/protectwise/troika/tree/master/packages/troika-3d-text"
     
     <item>
       <title>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</title>
-      <link>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</link>
       <pubDate>Fri, 02 Apr 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/</guid>
       <description>Lecture 10-11 Physically-Based Material Content
 Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR</description>
@@ -1355,10 +1355,10 @@ class="math display">\[
     
     <item>
       <title>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space</title>
-      <link>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</link>
       <pubDate>Thu, 11 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/</guid>
       <description>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
 Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
 Key idea :
@@ -1594,10 +1594,10 @@ Tracing无异——仅假设被反射物（非反射材质）和次级光源为d
     
     <item>
       <title>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</title>
-      <link>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi.html</link>
+      <link>https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</link>
       <pubDate>Tue, 02 Mar 2021 15:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi.html</guid>
+      <guid>https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/</guid>
       <description>Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
 Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR：直接光照 + 一次间接光照
 一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果 核心问题：

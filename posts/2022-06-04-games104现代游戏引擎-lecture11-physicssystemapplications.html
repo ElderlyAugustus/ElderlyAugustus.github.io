@@ -10,8 +10,7 @@
 <meta name="description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用">
 <meta name="author" content="xα">
 <link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications.html">
-
-<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -736,7 +735,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
 
 
 
-<script src="../js/medium-zoom.min.js" data-no-instant
+<script src="../js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -863,7 +862,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../js/instantclick.min.js" data-no-instant
+<script src="../js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   

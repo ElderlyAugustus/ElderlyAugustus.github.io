@@ -11,10 +11,10 @@
 Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR">
 <meta name="author" content="xα">
-<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/">
-<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material | xα&#39;s blog" />
 <meta name="twitter:description" content="Lecture 10-11 Physically-Based Material Content
@@ -25,8 +25,8 @@ Physically-Based Rendering (PBR) Everything in rendering should be physically ba
 Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/" />
-    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-02T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-02T15:00:00&#43;08:00" />
@@ -41,13 +41,13 @@ Physically-Based Rendering (PBR) Everything in rendering should be physically ba
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "//elderlyaugustus.github.io/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material",
-      "item": "//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/"
+      "item": "https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/"
     }
   ]
 }
@@ -72,14 +72,14 @@ Physically-Based Rendering (PBR) Everything in rendering should be physically ba
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/"
+    "@id": "https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "//elderlyaugustus.github.io/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -220,7 +220,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -246,22 +246,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="//elderlyaugustus.github.io/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -272,12 +272,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-04-02</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 
       
       
@@ -349,11 +349,11 @@ Physically-Based Material</h3>
 scattering</p></li>
 </ul>
 <h4 id="recap-microfacet-brdf">Recap: Microfacet BRDF</h4>
-<p><img src="../../images/games202/MicrofacetBRDF.png" alt="MicrofacetBRDF" style="zoom: 25%;" /></p>
+<p><img src="/images/games202/MicrofacetBRDF.png" alt="MicrofacetBRDF" style="zoom: 25%;" /></p>
 <h5 id="fresnel-term">Fresnel term</h5>
 <ul>
 <li><p>精确表达非常复杂，需要考虑S/P极化
-<img src="../../images/games202/FresnelTerm.png" alt="FresnelTerm" style="zoom:30%;" /></p></li>
+<img src="/images/games202/FresnelTerm.png" alt="FresnelTerm" style="zoom:30%;" /></p></li>
 <li><p>Schlick’s approximation 近似为基础反射率 <span
 class="math inline">\(R_0\)</span> 的变化 <span class="math display">\[
 R(\theta)=R_0+(1-R_0)(1-\cos\theta)^5\\
@@ -368,9 +368,9 @@ Distribution”中的Normal区分</p>
 </blockquote>
 <ul>
 <li><p>法线分布集中 ==&gt; glossy
-<img src="../../images/games202/NDF1.png" alt="NDF1" style="zoom: 33%;" /></p>
+<img src="/images/games202/NDF1.png" alt="NDF1" style="zoom: 33%;" /></p>
 <p>法线分布分散 ==&gt; diffuse
-<img src="../../images/games202/NDF2.png" alt="NDF2" style="zoom:33%;" /></p>
+<img src="/images/games202/NDF2.png" alt="NDF2" style="zoom:33%;" /></p>
 <p>（diffuse的微表面可以视作specular的微表面纵向scale而得到，而纵向scale使得diffuse的微表面“沟壑”较深）</p></li>
 <li><p>描述NDF的模型</p>
 <ul>
@@ -384,7 +384,7 @@ D(h)=\dfrac{e^{-\frac{\tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2\cos^4\theta_h}\\
 <li>在slope space（坡度空间）上定义 如图即定义在 <span
 class="math inline">\(\tan\theta\)</span>
 所在平面上（可以保证不出现面朝下的微表面，但较难解决反射光朝下的情况）
-<img src="../../images/games202/NDF3.png" alt="NDF3" style="zoom: 25%;" /></li>
+<img src="/images/games202/NDF3.png" alt="NDF3" style="zoom: 25%;" /></li>
 <li>在project solid angle上积分为1</li>
 </ul></li>
 <li><p>GGX （or Trowbridge-Reitz） <span class="math display">\[
@@ -395,16 +395,16 @@ D_{\rm GGX}(\theta_h) = \frac{\alpha^2}{\pi\cos^4\theta_ m(\alpha^2 +
 <ul>
 <li>特征：long tail 长尾巴
 衰减到一定程度后非常慢，可使Specular出现“光晕”
-<img src="../../images/games202/NDF4.jpg" alt="NDF4" style="zoom: 50%;" /></li>
+<img src="/images/games202/NDF4.jpg" alt="NDF4" style="zoom: 50%;" /></li>
 <li>对比
-<img src="../../images/games202/NDF5.png" alt="NDF5" style="zoom: 25%;" /></li>
+<img src="/images/games202/NDF5.png" alt="NDF5" style="zoom: 25%;" /></li>
 </ul></li>
 <li><p>Extending GGX</p>
 <ul>
 <li>GTR (Generalized Trowbridge-Reitz) （<span
 class="math inline">\(\gamma\)</span>
 较大时，接近Beckmann，相当于统一了两种model）
-<img src="../../images/games202/NDF6.jpg" alt="NDF6" style="zoom:50%;" /></li>
+<img src="/images/games202/NDF6.jpg" alt="NDF6" style="zoom:50%;" /></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -413,10 +413,10 @@ class="math inline">\(\gamma\)</span>
 <ul>
 <li><p>解决微表面之间的自遮挡问题</p></li>
 <li><p>Shadowing 光线照射到微表面 <img
-src="../../images/games202/ShadowingMaskingTerm1.jpg"
+src="/images/games202/ShadowingMaskingTerm1.jpg"
 alt="ShadowingMaskingTerm1" /></p>
 <p>Masking 光线反射进入眼睛 <img
-src="../../images/games202/ShadowingMaskingTerm2.jpg"
+src="/images/games202/ShadowingMaskingTerm2.jpg"
 alt="ShadowingMaskingTerm2" /></p></li>
 <li><p>变暗操作，靠近垂直方向时几乎不变暗（G值为1），Grazing
 angle（掠视）时变暗（G值减小，直至接近0）</p></li>
@@ -428,7 +428,7 @@ class="math display">\[
 G(i,o,m)\approx G_1(i,m)G_1(o,m)
 \]</span></p></li>
 <li><p>Beckmann（绿）和GGX（红）分别的Shadowing-Masking项
-<img src="../../images/games202/ShadowingMaskingTerm3.jpg" alt="ShadowingMaskingTerm3" style="zoom: 40%;" /></p></li>
+<img src="/images/games202/ShadowingMaskingTerm3.jpg" alt="ShadowingMaskingTerm3" style="zoom: 40%;" /></p></li>
 <li><p>eg. 与GGX法线分布匹配的Smith模型 <span class="math display">\[
 G_{\rm Smith}(\mathbf{i},\mathbf{o},\mathbf{h})=G_{\rm
 Schlick}(\mathbf{l},\mathbf{h})G_{\rm Schlick}(\mathbf{v},\mathbf{h})\\
@@ -445,8 +445,8 @@ Test</strong>：在完全均匀的全局环境光下渲染物体，若物体与�
 </blockquote>
 <ul>
 <li><p>发现，Roughness值增大会导致能量损失（图2为白炉测试）
-<img src="../../images/games202/MissingEnergy1.jpg" alt="MissingEnergy1" style="zoom: 50%;" />
-<img src="../../images/games202/MissingEnergy2.jpg" alt="MissingEnergy2" style="zoom: 50%;" /></p></li>
+<img src="/images/games202/MissingEnergy1.jpg" alt="MissingEnergy1" style="zoom: 50%;" />
+<img src="/images/games202/MissingEnergy2.jpg" alt="MissingEnergy2" style="zoom: 50%;" /></p></li>
 <li><p>Roughness越大，微表面沟壑越多，越容易自遮挡（Shadowing-Masking程度大）
 ——而现实中，自遮挡的光线经过多次弹射最终会反射出来，不会损失能量，此时Microfacet模型中只考虑了一次弹射</p></li>
 <li><p>精确地还原损失的能量（Heitz et
@@ -489,7 +489,7 @@ avg}=2\int_0^1E(\mu)\mu\,\mathrm d \mu\)</span> 未知且计算困难</p>
 <li>形成一张二维的表在渲染时直接查询</li>
 </ul></li>
 <li><p>效果
-<img src="../../images/games202/MissingEnergy3.jpg" alt="MissingEnergy3" style="zoom:50%;" /></p></li>
+<img src="/images/games202/MissingEnergy3.jpg" alt="MissingEnergy3" style="zoom:50%;" /></p></li>
 <li><p>问题2：若BRDF含有颜色</p>
 <ul>
 <li><p>颜色意味着有额外的能量损失（属于应该损失的）</p></li>
@@ -514,9 +514,9 @@ avg}(1-E_{\rm avg})}\)</span></p></li>
 <li><p>将Color
 Term乘到没有考虑颜色的补全BRDF上，得到最终的补全BRDF，加入渲染方程积分</p></li>
 <li><p>结果
-<img src="../../images/games202/MissingEnergy4.jpg" alt="MissingEnergy4" style="zoom:50%;" />
+<img src="/images/games202/MissingEnergy4.jpg" alt="MissingEnergy4" style="zoom:50%;" />
 ↓
-<img src="../../images/games202/MissingEnergy5.jpg" alt="MissingEnergy5" style="zoom:50%;" /></p></li>
+<img src="/images/games202/MissingEnergy5.jpg" alt="MissingEnergy5" style="zoom:50%;" /></p></li>
 </ul></li>
 </ul></li>
 <li><p>近年出现的不用Kulla-County方法的、不好的Hack： 直接对Microfacet
@@ -537,7 +537,7 @@ Cosines (LTC)</h4>
 <li>不考虑阴影</li>
 <li>在多边形光源的情况下（不需要采样的方法）</li>
 </ul>
-<p><img src="../../images/games202/LTC1.png" alt="LTC1" style="zoom: 25%;" /></p>
+<p><img src="/images/games202/LTC1.png" alt="LTC1" style="zoom: 25%;" /></p>
 <blockquote>
 <p>Lobe：瓣，如图蓝色区域，表示从视点发射的光线反射的分布，分布的形状类似一片花瓣。严格定义：BRDF的二维切片（BRDF输入两维、输出两维，
 <span class="math inline">\(\theta\)</span> 和 <span
@@ -549,7 +549,7 @@ class="math inline">\(\phi\)</span> ，共四维）。</p>
 <li>多边形光源也可以作同样的线性变换</li>
 <li>在这种情况下，在余弦Lobe上积分变形后的光源可以得到<strong>解析解</strong></li>
 </ul>
-<p><img src="../../images/games202/LTC2.png" alt="LTC2" style="zoom: 40%;" /></p>
+<p><img src="/images/games202/LTC2.png" alt="LTC2" style="zoom: 40%;" /></p>
 <p><strong>具体做法</strong>：</p>
 <ul>
 <li><p><span class="math display">\[
@@ -557,8 +557,8 @@ class="math inline">\(\phi\)</span> ，共四维）。</p>
 方向:\omega_i\xrightarrow{M^{-1}}\omega_i&#39;\\
 积分域:P\xrightarrow{M^{-1}}P&#39;
 \]</span>
-<img src="../../images/games202/LTC3.jpg" alt="LTC3" style="zoom: 25%;" />
-<img src="../../images/games202/LTC4.png" alt="LTC4" style="zoom: 40%;" /></p></li>
+<img src="/images/games202/LTC3.jpg" alt="LTC3" style="zoom: 25%;" />
+<img src="/images/games202/LTC4.png" alt="LTC4" style="zoom: 40%;" /></p></li>
 <li><p>替换一个变量 假设多边形光源是uniform的，即<span
 class="math inline">\(L_i\)</span>对各方向保持一致，则 <span
 class="math display">\[
@@ -622,7 +622,7 @@ class="math inline">\(k\)</span></li>
 <li>阴影分界线</li>
 </ul>
 <p><strong>轮廓</strong></p>
-<p><img src="../../images/games202/NPR1.jpg" alt="NPR1" style="zoom: 25%;" /></p>
+<p><img src="/images/games202/NPR1.jpg" alt="NPR1" style="zoom: 25%;" /></p>
 <ul>
 <li><p>分类</p>
 <ul>
@@ -655,7 +655,7 @@ class="math display">\[
 \end{bmatrix}
 \]</span></p>
 <center>
-<p><img src="../../images/games202/NPR2.jpg" alt="NPR2" style="zoom:50%;" /><img src="../../images/games202/NPR3.jpg" alt="NPR3" style="zoom:50%;" /></p>
+<p><img src="/images/games202/NPR2.jpg" alt="NPR2" style="zoom:50%;" /><img src="/images/games202/NPR3.jpg" alt="NPR3" style="zoom:50%;" /></p>
 <center/></li>
 <li><p>利用G-Buffer信息，深度、法线等</p></li>
 </ul></li>
@@ -671,7 +671,7 @@ class="math display">\[
 <li>提前设计不同密度的格状纹理查询（结果邻近像素查询纹理邻近像素，保证笔触连续）</li>
 <li>对每种纹理做MIPMAP时，保证每一级MIPMAP的密度一致（类似裁切而非等比缩小）</li>
 </ul>
-<p><img src="../../images/games202/NPR4.jpg" alt="NPR4" style="zoom: 33%;" /></p></li>
+<p><img src="/images/games202/NPR4.jpg" alt="NPR4" style="zoom: 33%;" /></p></li>
 </ul>
 <p><strong>真实感模型是非真实感渲染的基础。</strong></p>
 
@@ -679,13 +679,13 @@ class="math display">\[
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</span>
   </a>
-  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -698,7 +698,7 @@ class="math display">\[
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -786,7 +786,7 @@ class="math display">\[
 
 
 
-<script src="../../js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -913,7 +913,7 @@ class="math display">\[
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../../js/instantclick.min.js" data-no-instant
+<script src="/js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   

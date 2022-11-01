@@ -10,10 +10,10 @@
 <meta name="description" content="Lecture08 Animation System - Basics 挑战：
 不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces">
 <meta name="author" content="xα">
-<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/">
-<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics | xα&#39;s blog" />
 <meta name="twitter:description" content="Lecture08 Animation System - Basics 挑战：
@@ -22,8 +22,8 @@
 <meta property="og:description" content="Lecture08 Animation System - Basics 挑战：
 不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/" />
-    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-05-13T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-05-13T17:00:00&#43;08:00" />
@@ -38,13 +38,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "//elderlyaugustus.github.io/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics",
-      "item": "//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/"
+      "item": "https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/"
     }
   ]
 }
@@ -69,14 +69,14 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/"
+    "@id": "https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "//elderlyaugustus.github.io/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -217,7 +217,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -243,22 +243,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="//elderlyaugustus.github.io/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -269,12 +269,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2022-05-13</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
       
       
@@ -345,12 +345,12 @@ function toggleThemeListener() {
 <h5 id="live2d">Live2D</h5>
 <ul>
 <li>把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴
-<img src="../../images/games104/L08_Live2D1.jpg" alt="L08_Live2D1" style="zoom: 50%;" /></li>
+<img src="/images/games104/L08_Live2D1.jpg" alt="L08_Live2D1" style="zoom: 50%;" /></li>
 <li>仿射变换
-<img src="../../images/games104/L08_Live2D2.jpg" alt="L08_Live2D2" style="zoom: 67%;" /></li>
+<img src="/images/games104/L08_Live2D2.jpg" alt="L08_Live2D2" style="zoom: 67%;" /></li>
 <li>图元的前后遮挡由深度决定</li>
 <li>每一个图元有控制网格
-<img src="../../images/games104/L08_Live2D3.jpg" alt="L08_Live2D3" style="zoom: 50%;" /></li>
+<img src="/images/games104/L08_Live2D3.jpg" alt="L08_Live2D3" style="zoom: 50%;" /></li>
 <li>Key frame</li>
 </ul>
 <h5 id="d-skinned-animation-2d蒙皮动画">2D Skinned Animation
@@ -359,7 +359,7 @@ function toggleThemeListener() {
 <blockquote>
 <p>DoF, Degrees of Freedom 自由度 6DoF + Translation X Y Z + Rotation
 Pan/Yaw Tilt/Pitch Roll
-<img src="../../images/games104/L08_DoF.jpg" alt="L08_DoF" style="zoom: 67%;" /></p>
+<img src="/images/games104/L08_DoF.jpg" alt="L08_DoF" style="zoom: 67%;" /></p>
 </blockquote>
 <h5 id="rigid-hierarchical-animation-基于刚体的层次结构动画">Rigid
 Hierarchical Animation 基于刚体的层次结构动画</h5>
@@ -411,11 +411,11 @@ Implementation</h4>
 <h5 id="骨骼">骨骼</h5>
 <ul>
 <li><p>Humanoid 两足动物
-<img src="../../images/games104/L08_HumanoidSkeleton.jpg" alt="L08_HumanoidSkeleton" style="zoom: 50%;" /></p></li>
+<img src="/images/games104/L08_HumanoidSkeleton.jpg" alt="L08_HumanoidSkeleton" style="zoom: 50%;" /></p></li>
 <li><p>Non-humanoid 四足动物
-<img src="../../images/games104/L08_Non-humanoidSkeleton.jpg" alt="L08_Non-humanoidSkeleton" style="zoom: 50%;" /></p></li>
+<img src="/images/games104/L08_Non-humanoidSkeleton.jpg" alt="L08_Non-humanoidSkeleton" style="zoom: 50%;" /></p></li>
 <li><p>Joint 和 Bone 关节和骨段，存储/处理的是Joint
-<img src="../../images/games104/L08_JointVsBone.png" alt="L08_JointVsBone" style="zoom: 25%;" /></p></li>
+<img src="/images/games104/L08_JointVsBone.png" alt="L08_JointVsBone" style="zoom: 25%;" /></p></li>
 <li><p>真实情况中的附加骨骼</p>
 <ul>
 <li>复杂的表情</li>
@@ -423,14 +423,14 @@ Implementation</h4>
 <li>eg. 武器可能是单个Joint绑定在手上</li>
 </ul></li>
 <li><p>Root节点 一般在地面
-<img src="../../images/games104/L08_RootJoint1.png" alt="L08_RootJoint1" style="zoom: 25%;" /><img src="../../images/games104/L08_RootJoint2.png" alt="L08_RootJoint2" style="zoom: 25%;" /></p></li>
+<img src="/images/games104/L08_RootJoint1.png" alt="L08_RootJoint1" style="zoom: 25%;" /><img src="/images/games104/L08_RootJoint2.png" alt="L08_RootJoint2" style="zoom: 25%;" /></p></li>
 <li><p>物体之间的骨骼Attach，骑马/开车等情况
-<img src="../../images/games104/L08_AttachJoint.png" alt="L08_AttachJoint" style="zoom: 15%;" /></p></li>
+<img src="/images/games104/L08_AttachJoint.png" alt="L08_AttachJoint" style="zoom: 15%;" /></p></li>
 <li><p>绑定初始状态 T-Pose和A-Pose</p>
 <ul>
 <li>T-Pose肩部受到挤压，精度不够</li>
 <li>目前大多采用A-Pose
-<img src="../../images/games104/L08_TA-Pose.png" alt="L08_TA-Pose" style="zoom: 25%;" /></li>
+<img src="/images/games104/L08_TA-Pose.png" alt="L08_TA-Pose" style="zoom: 25%;" /></li>
 </ul></li>
 <li><p>Pose：一个骨骼的状态</p>
 <ul>
@@ -447,7 +447,7 @@ M=R_{HM}T_{HM}S_{HM}=\begin{bmatrix}SR &amp; T\\0&amp;1\end{bmatrix}
 M_J^{\rm Model}=\prod_{j=J}^0 M_{p(J)}^{\rm Local}
 \]</span></p></li>
 <li><p>Interpolation
-<img src="../../images/games104/L08_JointInterpolation.png" alt="L08_JointInterpolation" style="zoom: 25%;" />
+<img src="/images/games104/L08_JointInterpolation.png" alt="L08_JointInterpolation" style="zoom: 25%;" />
 左：Local Space 右：Model Space 故在Local Space进行插值，再转换至Model
 Space</p></li>
 </ul></li>
@@ -463,7 +463,7 @@ class="math display">\[
 V^{\rm Local}(t)\equiv V_b^{\rm Local}=(M_{b(j)}^{\rm Model})^{-1}\cdot
 V_b^{\rm Model}
 \]</span>
-<img src="../../images/games104/L08_SkinningMatrix.jpg" alt="L08_SkinningMatrix" style="zoom: 33%;" /></p></li>
+<img src="/images/games104/L08_SkinningMatrix.jpg" alt="L08_SkinningMatrix" style="zoom: 33%;" /></p></li>
 <li><p><span class="math inline">\(M_J^{\rm Model}(t)\)</span>：Joint
 <span class="math inline">\(J\)</span> 在Model Space，<span
 class="math inline">\(t\)</span> 时间的pose： <span
@@ -489,7 +489,7 @@ K_J&#39;=M^{\rm World}\cdot M_J^{\rm Model}(t)\cdot(M_{b(j)}^{\rm
 Model})^{-1}
 \]</span> 存储该Skinning Matrix’</p></li>
 <li><p>Bind Pose Matrix的逆需提前计算存储，以提高效率
-<img src="../../images/games104/L08_InverseBindPoseMatrix.jpg" alt="L08_InverseBindPoseMatrix" style="zoom: 50%;" /></p></li>
+<img src="/images/games104/L08_InverseBindPoseMatrix.jpg" alt="L08_InverseBindPoseMatrix" style="zoom: 50%;" /></p></li>
 </ul></li>
 <li><p><strong>Weighted Skinning with Multi-joints</strong></p>
 <ul>
@@ -518,7 +518,7 @@ f(x)=(1-\alpha)f(x_1)+\alpha f(x_2)\\
 f(x):T(t),S(t)
 \]</span></p></li>
 <li><p>NLERP for Quaternion - Rotation
-<img src="../../images/games104/L08_LerpVsNLerp.png" alt="L08_LerpVsNLerp" style="zoom: 25%;" /></p>
+<img src="/images/games104/L08_LerpVsNLerp.png" alt="L08_LerpVsNLerp" style="zoom: 25%;" /></p>
 <ul>
 <li><p>Linear Interpolation <span class="math display">\[
 q_t={\rm Lerp}(q_{t_1},q_{t_2},t)=(1-\alpha)q_{t_1}+\alpha q_{t_2}\\
@@ -528,7 +528,7 @@ q_t&#39;={\rm NLerp}(q_{t_1},q_{t_2},t)=\dfrac{(1-\alpha)q_{t_1}+\alpha
 q_{t_2}}{\|(1-\alpha)q_{t_1}+\alpha q_{t_2}\|}
 \]</span></p></li>
 <li><p>最短路径
-<img src="../../images/games104/L08_ShortestPath.png" alt="L08_ShortestPath" style="zoom: 33%;" /></p></li>
+<img src="/images/games104/L08_ShortestPath.png" alt="L08_ShortestPath" style="zoom: 33%;" /></p></li>
 </ul></li>
 <li><p>SLERP for Quaternion - Rotation</p>
 <ul>
@@ -539,14 +539,14 @@ SLerp}(q_{t_1},q_{t_2},t)=\dfrac{\sin((1-t)\theta)}{\sin\theta}\cdot
 q_{t_1}+\dfrac{\sin(t\theta)}{\sin\theta}\cdot q_{t_2}\\
 \theta=\arccos(q_{t_1}\cdot q_{t_2})
 \]</span>
-<img src="../../images/games104/L08_SLERP.jpg" alt="L08_SLERP" style="zoom: 25%;" /></p></li>
+<img src="/images/games104/L08_SLERP.jpg" alt="L08_SLERP" style="zoom: 25%;" /></p></li>
 <li><p>一般设置阈值，插值角度小，则NLerp，插值角度非常大时使用SLerp</p></li>
 </ul></li>
 </ul></li>
 </ul>
 <h5 id="simple-animation-runtime-pipeline">Simple Animation Runtime
 Pipeline</h5>
-<p><img src="../../images/games104/L08_SimpleAnimationRuntimePipeline.png" alt="L08_SimpleAnimationRuntimePipeline" style="zoom: 33%;" /></p>
+<p><img src="/images/games104/L08_SimpleAnimationRuntimePipeline.png" alt="L08_SimpleAnimationRuntimePipeline" style="zoom: 33%;" /></p>
 <h4 id="animation-compression">Animation Compression</h4>
 <ul>
 <li><p>大部分数据不变</p>
@@ -561,8 +561,8 @@ Pipeline</h5>
 <ul>
 <li>若插值结果与真实结果差异小于阈值，则不记录为关键帧</li>
 <li>若插值结果与真实结果差异较大，则以真实结果为关键帧
-<img src="../../images/games104/L08_Keyframe1.jpg" alt="L08_Keyframe1" style="zoom: 80%;" />
-<img src="../../images/games104/L08_Keyframe2.png" alt="L08_Keyframe2" style="zoom: 33%;" /></li>
+<img src="/images/games104/L08_Keyframe1.jpg" alt="L08_Keyframe1" style="zoom: 80%;" />
+<img src="/images/games104/L08_Keyframe2.png" alt="L08_Keyframe2" style="zoom: 33%;" /></li>
 </ul></li>
 <li><p>采用Catmull-Rom Spline插值 ——
 比线性插值更平滑（开销大但这里不是Runtime） <span
@@ -575,7 +575,7 @@ P(t)=\begin{bmatrix}1&amp;t&amp;t^2&amp;t^3\end{bmatrix}
 \end{bmatrix}
 \begin{bmatrix}P_0\\P_1\\P_2\\P_3\end{bmatrix}
 \]</span>
-<img src="../../images/games104/L08_Catmull-RomSpline.png" alt="L08_Catmull-RomSpline" style="zoom: 33%;" /></p>
+<img src="/images/games104/L08_Catmull-RomSpline.png" alt="L08_Catmull-RomSpline" style="zoom: 33%;" /></p>
 <ul>
 <li>减少了关键帧</li>
 </ul></li>
@@ -593,12 +593,12 @@ a^2+b^2+c^2+d^2=1,\,|a|\ge\max(|b|,|c|,|d|)\\
 class="math inline">\(a\)</span> 以外的三个数 <span
 class="math inline">\(b,c,d\)</span>
 可以用15bit精度表示，另有2bit表示哪个数最大；三个元共用48bit表示
-<img src="../../images/games104/L08_QuaternionQuantization.jpg" alt="L08_QuaternionQuantization" style="zoom: 67%;" /></li>
+<img src="/images/games104/L08_QuaternionQuantization.jpg" alt="L08_QuaternionQuantization" style="zoom: 67%;" /></li>
 <li>经过压缩：
-<img src="../../images/games104/L08_SizeReduction.png" alt="L08_SizeReduction" style="zoom: 20%;" /></li>
+<img src="/images/games104/L08_SizeReduction.png" alt="L08_SizeReduction" style="zoom: 20%;" /></li>
 </ul></li>
 <li><p>误差传播
-<img src="../../images/games104/L08_ErrorPropagation.png" alt="L08_ErrorPropagation" style="zoom: 25%;" /></p>
+<img src="/images/games104/L08_ErrorPropagation.png" alt="L08_ErrorPropagation" style="zoom: 25%;" /></p>
 <ul>
 <li><p>结果会导致人物手部、手上武器等末端Joint发生抖动</p></li>
 <li><p>特殊情况需要高精度存储</p>
@@ -608,7 +608,7 @@ class="math inline">\(b,c,d\)</span>
 <ul>
 <li>为Joint在两个垂直方向设定两个Fake Vertex，计算运动后Fake
 Vertex的距离
-<img src="../../images/games104/L08_FakeVertex.png" alt="L08_FakeVertex" style="zoom: 25%;" /></li>
+<img src="/images/games104/L08_FakeVertex.png" alt="L08_FakeVertex" style="zoom: 25%;" /></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -619,7 +619,7 @@ Vertex的距离
 <li>除Root外，每根bone上选一个点</li>
 <li>计算每根压缩后的bone的旋转，使标记点在Model Space中接近实际位置</li>
 <li>增加一个旋转来补偿误差
-<img src="../../images/games104/L08_ErrorCompensation.png" alt="L08_ErrorCompensation" style="zoom: 25%;" /></li>
+<img src="/images/games104/L08_ErrorCompensation.png" alt="L08_ErrorCompensation" style="zoom: 25%;" /></li>
 </ul></li>
 <li>问题：末端骨骼的信息变成高频</li>
 <li>更新的方法：FIK, Forward Inverse Kinematics</li>
@@ -650,13 +650,13 @@ Vertex的距离
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced</span>
   </a>
-  <a class="next" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -669,7 +669,7 @@ Vertex的距离
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -757,7 +757,7 @@ Vertex的距离
 
 
 
-<script src="../../js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -884,7 +884,7 @@ Vertex的距离
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../../js/instantclick.min.js" data-no-instant
+<script src="/js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   
