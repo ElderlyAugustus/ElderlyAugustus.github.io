@@ -20,10 +20,10 @@ Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\
 不可压缩流体 Navier-Stokes 方程 \[ 动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf u}{\partial t}}_{非稳态加速度}&#43;\underbrace{\mathbf u\cdot\nabla\mathbf u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm Dt}}&#43;\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf g}_{外力加速度}&#43;\underbrace{\nu\nabla\cdot\nabla\mathbf u}_{粘滞力加速度(经常忽略)}\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
 补充数学： \[ 哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)\quad\\ {\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\ 拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)^2\\ {\bf梯度}的{\bf散度}\ \Delta\vec F \]">
 <meta name="author" content="xα">
-<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/">
-<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2021-12-05-影片技术分析Pre-基于物理的动画-流体系统 | xα&#39;s blog" />
 <meta name="twitter:description" content="流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
@@ -52,8 +52,8 @@ Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\
 不可压缩流体 Navier-Stokes 方程 \[ 动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf u}{\partial t}}_{非稳态加速度}&#43;\underbrace{\mathbf u\cdot\nabla\mathbf u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm Dt}}&#43;\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf g}_{外力加速度}&#43;\underbrace{\nu\nabla\cdot\nabla\mathbf u}_{粘滞力加速度(经常忽略)}\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
 补充数学： \[ 哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)\quad\\ {\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\ 拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)^2\\ {\bf梯度}的{\bf散度}\ \Delta\vec F \]" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/" />
-    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-12-05T00:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-12-05T00:00:00&#43;08:00" />
@@ -68,13 +68,13 @@ Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "//elderlyaugustus.github.io/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2021-12-05-影片技术分析Pre-基于物理的动画-流体系统",
-      "item": "//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/"
+      "item": "https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/"
     }
   ]
 }
@@ -99,14 +99,14 @@ Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/"
+    "@id": "https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "//elderlyaugustus.github.io/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -247,7 +247,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -273,22 +273,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="//elderlyaugustus.github.io/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -299,12 +299,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-12-05-影片技术分析Pre-基于物理的动画-流体系统</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-12-05-影片技术分析Pre-基于物理的动画-流体系统</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-12-05</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
 
       
       
@@ -435,9 +435,9 @@ z}\right)^2\\
 <p>首先我们来解释一下“光滑”的概念。先给大家讲一种比较形象的解释方式，两个小球，不接触（手做演示）时互不影响，一旦接触就反弹，这叫<strong>不光滑</strong>；而如果这两个小球接触时不会立即弹开，而是有一个缓冲，先接触、重合然后慢慢地弹开，就叫做<strong>光滑</strong>。严谨的表述是，两个粒子的相互影响在相近一定距离时发生（接触），相互影响的程度随着距离的接近从0开始逐渐增大（缓冲），即形成下图右图这样的相互影响程度
 - 距离函数，我们称之为<strong>光滑核函数</strong>。</p>
 <center>
-<img src="../../images/filmtechanalysis-PBA/不光滑核函数.png" alt="不光滑核函数" style="zoom:40%;" /><img src="../../images/filmtechanalysis-PBA/光滑核函数.png" alt="光滑核函数" style="zoom:40%;" />
+<img src="/images/filmtechanalysis-PBA/不光滑核函数.png" alt="不光滑核函数" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/光滑核函数.png" alt="光滑核函数" style="zoom:40%;" />
 <center/>
-<p><img src="../../images/filmtechanalysis-PBA/光滑核函数3D.png" alt="光滑核函数3D" style="zoom:10%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/光滑核函数3D.png" alt="光滑核函数3D" style="zoom:10%;" /></p>
 <p>设第 <span class="math inline">\(i\)</span> 个粒子的坐标是 <span
 class="math inline">\(\mathbf x_i\)</span> ，对空间中任一点 <span
 class="math inline">\(\mathbf x\)</span> ， <span
@@ -506,7 +506,7 @@ Relaxed Jacobi Method 求解，PCISPH</li>
 不仅保证密度恒定，还要保证速度的散度为0</li>
 </ul>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/PCISPH.gif" alt="PCISPH" />
+<img src="/images/filmtechanalysis-PBA/PCISPH.gif" alt="PCISPH" />
 <figcaption aria-hidden="true">PCISPH</figcaption>
 </figure>
 <p>如这张图中的效果就是PCISPH方法在二维中的一个呈现，通过Taichi编程显示。</p>
@@ -541,7 +541,7 @@ u+\mathbf g)\\
 p)
 \]</span>
 在拉格朗日方法中，我们把粒子的所有受力计算出来、叠加得到合力，最后再来做时间积分的。然而欧拉方法中我们是逐项逐步来做计算，每一步得到一次速度，每一步的输出要作为下一步的输入，如下图依次执行。
-<img src="../../images/filmtechanalysis-PBA/StableFluidsSteps.png" alt="Semi-StableFluidsSteps" style="zoom:20%;" /></p>
+<img src="/images/filmtechanalysis-PBA/StableFluidsSteps.png" alt="Semi-StableFluidsSteps" style="zoom:20%;" /></p>
 <ul>
 <li><strong>Add force</strong>
 处理统一的外力，这一步相对简单，就是给流体一个统一的外力，比如重力</li>
@@ -563,11 +563,11 @@ class="math inline">\(-\dfrac{1}{\rho}\nabla p\)</span> 。</li>
 Pattern”。</li>
 </ul>
 <center>
-<img src="../../images/filmtechanalysis-PBA/均匀网格-中心.png" alt="均匀网格-中心" style="zoom:20%;" /><img src="../../images/filmtechanalysis-PBA/均匀网格-周围.png" alt="均匀网格-周围" style="zoom:20%;" />
+<img src="/images/filmtechanalysis-PBA/均匀网格-中心.png" alt="均匀网格-中心" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/均匀网格-周围.png" alt="均匀网格-周围" style="zoom:20%;" />
 <center/>
 <h4 id="grid">Grid</h4>
 <p>在这个基础上，我们的下一个问题是，我在空间中任意取一点并不在网格存储点位置的点，怎样去求其状态——这里我们使用的就是简单的双线性插值。就像下图，用它周围的四个点的状态计算、用面积作为权重。</p>
-<p><img src="../../images/filmtechanalysis-PBA/双线性插值.png" alt="双线性插值" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/双线性插值.png" alt="双线性插值" style="zoom:25%;" /></p>
 <h4 id="advection">Advection</h4>
 <p>在计算对流项这一步，Stable
 fluid实现的方法被称为<strong>半拉格朗日法</strong>，为什么又要“拉格朗日”？</p>
@@ -582,9 +582,9 @@ class="math inline">\(\mathbf x_{old}\)</span>
 就不一定在网格中心了，用它周围的速度场插值得到它的速度 <span
 class="math inline">\(\mathbf u_{old}\)</span> 也就是我们要更新的 <span
 class="math inline">\(\mathbf u_{new}\)</span> 。</p>
-<p><img src="../../images/filmtechanalysis-PBA/Semi-Lagrangian_1.png" alt="Semi-Lagrangian_1" style="zoom:24%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Semi-Lagrangian_1.png" alt="Semi-Lagrangian_1" style="zoom:24%;" /></p>
 <p>但是这时可能会存在下图这种现象，尤其是时间步长较大时非常明显：运动方向与我们的追溯方向偏差较大，不断地偏差下去就会一次比一次大，最终出现整个流体速度场的整体性偏移。那么怎么解决它呢：</p>
-<p><img src="../../images/filmtechanalysis-PBA/Semi-Lagrangian_2.png" alt="Semi-Lagrangian_2" style="zoom:15%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Semi-Lagrangian_2.png" alt="Semi-Lagrangian_2" style="zoom:15%;" /></p>
 <p>那根据我们之前做正向速度更新时的经验，我们就可以“往回走两步”，或者说是“先走半步、再走半步”，即我们熟悉的“中点法”，这样我们就能够追溯地更加精准。当然也可以走三步，相对来说就没那么必要了。这个过程，其实本质上是在解非线性常微分方程的数值解，用的方法叫做Runge-Kutta方法，我们最简单的走一步就是RK1，走两步就是RK2，三步就是RK3方法。</p>
 <p>此外呢，在插值问题上，后来也有人用样条插值（比如Catmull-Rom）来对线性插值做改进。</p>
 <h4 id="diffusion">Diffusion</h4>
@@ -666,7 +666,7 @@ class="math inline">\(3\times 3\)</span> 的网格，作为 P2G 或 G2P
 <span class="math inline">\(\omega\|\mathbf x_i-\mathbf x_p\|\)</span>
 。</li>
 </ul>
-<p><img src="../../images/filmtechanalysis-PBA/P2G&G2P.png" alt="P2G&G2P" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/P2G&G2P.png" alt="P2G&G2P" style="zoom:50%;" /></p>
 <p>那么我们就可以实现我们的想法：在网格中做<strong>Projection</strong>（就如欧拉方法中那样），在粒子中做<strong>Advection</strong>（直接使用粒子携带的速度值移动）了。程序变得简单了起来（二维）：</p>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P2G</span></span>
@@ -704,7 +704,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a hr
 class="math inline">\(3\times 3\)</span>
 网格中有两个粒子，它们的速度都被均摊到了这九个网格上，在迭代完成后再次从这九个网格中收集到新的速度时，A粒子的新速度就包含了B粒子的旧速度的一部分，同理B也是——因此，在不断地迭代过程中，其实是一个速度的细节丢失、不断平均化的过程——尤其是旋转、拉伸等运动，动着动着可能就停下来了。</p>
 <p>换一种理解方式，我们的二维中9个网格有18个运动的自由度（每个网格xy两个方向），而转换到的粒子却只有2个移动的自由度，如果是三维的话这个数字会是：81/3——因此信息就会丢失掉非常多。</p>
-<p><img src="../../images/filmtechanalysis-PBA/2DoF.png" alt="2DoF" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/2DoF.png" alt="2DoF" style="zoom:25%;" /></p>
 <p>所以人们就带来了新的思路，主要分为这两类：</p>
 <ul>
 <li><strong>APIC</strong>、<strong>PolyPIC</strong>：让粒子携带更多自由度的信息</li>
@@ -712,17 +712,17 @@ class="math inline">\(3\times 3\)</span>
 </ul>
 <h4 id="apic-affine-particle-in-cell">APIC, Affine Particle in Cell</h4>
 <p>第一种思路我们先说说<strong>APIC</strong>[5]。<strong>APIC</strong>其实就是通过给粒子增加一个<strong>Affine矩阵</strong>，来存储粒子的更多种速度信息——网格的不同自由度的作用中，就有下图（二维）这几种，刚好可以通过仿射变换包含进来。从而就将粒子的自由度拓展为原来的三倍，二维中就是6自由度，三维就是9个。</p>
-<p><img src="../../images/filmtechanalysis-PBA/6DoF.png" alt="2DoF" style="zoom:33%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/6DoF.png" alt="2DoF" style="zoom:33%;" /></p>
 <p>当然这个方法还涉及到怎样来计算这个Affine矩阵的问题，数学推导非常复杂就不给大家讲解了。代码实现却非常简单：用一个张量积来计算这个Affine矩阵即可。也不演示了。效果上带来的区别非常明显：流体可以正常的旋转、拉伸、剪切运动了。</p>
 <center>
-<img src="../../images/filmtechanalysis-PBA/APIC_math_P2G.jpg" alt="APIC_math_P2G" style="zoom:22.5%;" /><img src="../../images/filmtechanalysis-PBA/APIC_math_G2P.jpg" alt="APIC_math_G2P" style="zoom:22.5%;" />
+<img src="/images/filmtechanalysis-PBA/APIC_math_P2G.jpg" alt="APIC_math_P2G" style="zoom:22.5%;" /><img src="/images/filmtechanalysis-PBA/APIC_math_G2P.jpg" alt="APIC_math_G2P" style="zoom:22.5%;" />
 <center/>
-<p><img src="../../images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom: 25%;" /></p>
-<img src="../../images/filmtechanalysis-PBA/APIC_code.png" alt="APIC_code" style="zoom:20%;" />
+<p><img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom: 25%;" /></p>
+<img src="/images/filmtechanalysis-PBA/APIC_code.png" alt="APIC_code" style="zoom:20%;" />
 <center/>
 <p>而<strong>PolyPIC</strong>[6]则是进一步拓展了粒子的自由度——达到与网格一样的级别，当然复杂度也进一步提升了。</p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/PolyPIC.jpg" alt="PolyPIC" />
+<img src="/images/filmtechanalysis-PBA/PolyPIC.jpg" alt="PolyPIC" />
 <figcaption aria-hidden="true">PolyPIC</figcaption>
 </figure>
 <p><strong>APIC</strong>也逐渐在影视制作中使用，尤其适合海洋、瀑布等水体的模拟，在迪士尼影片《海洋奇缘》中就有应用。</p>
@@ -740,48 +740,48 @@ class="math display">\[
 这样，A粒子中包含B粒子的速度成分就只有B粒子速度对加速度的一点点影响，而不会被“平均”掉了。</p>
 <p>但是<strong>FLIP</strong>方法中，由于加速度的因素“成分”和原速度“成分”不一致，最终得到的结果会有很大的噪声——大家可以看到：毛毛刺刺的。到这里呢，我们刚好可以做一个多种常用模拟水的流体方法的对比（欧拉、PIC、APIC、FLIP）：</p>
 <center>
-<img src="../../images/filmtechanalysis-PBA/Demo_Eulerian.gif" alt="Demo_Eulerian" style="zoom:25%;" /><img src="../../images/filmtechanalysis-PBA/Demo_PIC.gif" alt="Demo_PIC" style="zoom:25%;" /><img src="../../images/filmtechanalysis-PBA/Demo_APIC.gif" alt="Demo_APIC" style="zoom:25%;" /><img src="../../images/filmtechanalysis-PBA/Demo_FLIP.gif" alt="Demo_FLIP" style="zoom:25%;" />
+<img src="/images/filmtechanalysis-PBA/Demo_Eulerian.gif" alt="Demo_Eulerian" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_PIC.gif" alt="Demo_PIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_APIC.gif" alt="Demo_APIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_FLIP.gif" alt="Demo_FLIP" style="zoom:25%;" />
 <center/>
 <p>那么怎么办呢：非常简单，我们把PIC方法和我们的FLIP做一个Blend，而且这个比例呢只需要混一点点PIC，可以通过这个网站例子来玩一下<a
 href="http://yuanming-hu.github.io/fluid/">GPU-based Fluid Simulation
 (yuanming-hu.github.io)</a>： <span class="math display">\[
 \rm FLIP0.99=0.99*FLIP+0.01*PIC
 \]</span> 这是跟前面对比的<strong>FLIP0.97</strong>方法的效果</p>
-<p><img src="../../images/filmtechanalysis-PBA/Demo_FLIP0.97.gif" alt="Demo_FLIP0.97" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Demo_FLIP0.97.gif" alt="Demo_FLIP0.97" style="zoom:25%;" /></p>
 <p><strong>FLIP</strong>方法其实只是一个<strong>Advection</strong>步骤的实现方法，影视工业界通常把结合了<strong>FLIP</strong>的<strong>Advection</strong>和<strong>Chorin-Style
 pressure
 projection</strong>，再加上相应需要的粒子网格的工程实现（例如OpenVDB…）的整个流体解算器也称为<strong>FLIP</strong>——比如我们Houdini工具架上的<strong>FLIP</strong>模块。我们也利用这个工具制作了一小段流体动画。</p>
 <p>在我们的Houdini中，大家可以看到一个完整的FLIP
 Fluid包括了Geometry的导入、渲染和一个AutoDopNetwork，AutoDopNetwork中是我们的流体解算环节，其中最核心的节点是Filpsolver，大家可以看看这个Flipsolver中，是非常复杂的一个解算结构——但是在学习完前面的所有过程之后，根据每一个部分的名字，我们就逐渐能够看懂了。</p>
-<p><img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_1.png" alt="Houdini_FLIP_1" style="zoom:25%;" /></p>
-<p><img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_2.png" alt="Houdini_FLIP_2" style="zoom: 25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Houdini_FLIP_1.png" alt="Houdini_FLIP_1" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/Houdini_FLIP_2.png" alt="Houdini_FLIP_2" style="zoom: 25%;" /></p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_3.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_3.png"
 alt="Houdini_FLIP_3" />
 <figcaption aria-hidden="true">Houdini_FLIP_3</figcaption>
 </figure>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_4.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_4.png"
 alt="Houdini_FLIP_4" />
 <figcaption aria-hidden="true">Houdini_FLIP_4</figcaption>
 </figure>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_5.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_5.png"
 alt="Houdini_FLIP_5" />
 <figcaption aria-hidden="true">Houdini_FLIP_5</figcaption>
 </figure>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_6.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_6.png"
 alt="Houdini_FLIP_6" />
 <figcaption aria-hidden="true">Houdini_FLIP_6</figcaption>
 </figure>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_7.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_7.png"
 alt="Houdini_FLIP_7" />
 <figcaption aria-hidden="true">Houdini_FLIP_7</figcaption>
 </figure>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/Houdini_FLIP_8.png"
+<img src="/images/filmtechanalysis-PBA/Houdini_FLIP_8.png"
 alt="Houdini_FLIP_8" />
 <figcaption aria-hidden="true">Houdini_FLIP_8</figcaption>
 </figure>
@@ -816,20 +816,20 @@ v_i^n)\omega_{ip}^n\end{array}\)</span></li>
 <li>更新粒子位置 <span class="math inline">\(\mathbf
 x_p^{n+1}=x_p^n+\Delta t \mathbf v_p^{n+1}\)</span></li>
 </ol>
-<p><img src="../../images/filmtechanalysis-PBA/MPM_Overview.png" alt="MPM_Overview" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/MPM_Overview.png" alt="MPM_Overview" style="zoom:50%;" /></p>
 <p>而近年，又有人在<strong>APIC</strong>的基础上简化了这么复杂的一套<strong>MPM</strong>方法，提出了<strong>MLS-MPM(Moving
 Least Squares MPM) 移动最小二乘物质点法</strong>。</p>
 <center>
-<img src="../../images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom:20%;" /><img src="../../images/filmtechanalysis-PBA/MPM_pipeline.png" alt="MPM_pipeline" style="zoom: 20%;" />
+<img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/MPM_pipeline.png" alt="MPM_pipeline" style="zoom: 20%;" />
 <center/>
 <p>从代码上呈现，就是在前面<strong>APIC</strong>的代码上，除了Affine分量，还增加一个Stress分量，在更新速度和Affine分量时，利用该Stress分量参与计算，并且需要加上体积的更新。因此实现上相比较经典的<strong>MPM</strong>方法简单了非常多，也是目前比较流行的一个方法。</p>
 <p>这里MPM的数学原理相对复杂了非常多，就不再给大家推导了。</p>
 <p>MPM方法非常适合多种材质固体、流体的耦合模拟，处理自碰撞、大形变等等，因此也逐渐在影视工业中投入使用。其中最著名的一个应用案例，就是《冰雪奇缘》中的雪的交互。大家可以欣赏一下影片。当然，发明<strong>MLS-MPM</strong>的胡渊明博士还有非常火的一篇知乎分享，叫做《99行代码实现〈冰雪奇缘〉》，其实就是<strong>MLS-MPM</strong>的一个Taichi实现。</p>
 <center>
-<img src="../../images/filmtechanalysis-PBA/mls-mpm88-lowres.gif" alt="mls-mpm88-lowres" style="zoom:40%;" /><img src="../../images/filmtechanalysis-PBA/mls-mpm88-highres.gif" alt="mls-mpm88-highres" style="zoom:40%;" />
+<img src="/images/filmtechanalysis-PBA/mls-mpm88-lowres.gif" alt="mls-mpm88-lowres" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/mls-mpm88-highres.gif" alt="mls-mpm88-highres" style="zoom:40%;" />
 <center/>
 <center>
-<img src="../../images/filmtechanalysis-PBA/MPMDemo_water_wheel.gif" alt="MPMDemo_water_wheel" style="zoom: 50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_sand_paddles.gif" alt="MPMDemo_sand_paddles" style="zoom: 50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_banana.gif" alt="MPMDemo_banana" style="zoom: 50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_robot_forward.gif" alt="MPMDemo_robot_forward" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_bunny.gif" alt="MPMDemo_bunny" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_sand_stir.gif" alt="MPMDemo_sand_stir" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_sand-sweep.gif" alt="MPMDemo_sand-sweep" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_debris_flow.gif" alt="MPMDemo_debris_flow" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_armodillo.gif" alt="MPMDemo_armodillo" style="zoom:50%;" /><img src="../../images/filmtechanalysis-PBA/MPMDemo_cheese.gif" alt="MPMDemo_cheese" style="zoom:50%;" />
+<img src="/images/filmtechanalysis-PBA/MPMDemo_water_wheel.gif" alt="MPMDemo_water_wheel" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_paddles.gif" alt="MPMDemo_sand_paddles" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_banana.gif" alt="MPMDemo_banana" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_robot_forward.gif" alt="MPMDemo_robot_forward" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_bunny.gif" alt="MPMDemo_bunny" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_stir.gif" alt="MPMDemo_sand_stir" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand-sweep.gif" alt="MPMDemo_sand-sweep" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_debris_flow.gif" alt="MPMDemo_debris_flow" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_armodillo.gif" alt="MPMDemo_armodillo" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_cheese.gif" alt="MPMDemo_cheese" style="zoom:50%;" />
 <center/>
 <h3 id="案例分析与欣赏">案例分析与欣赏</h3>
 <p>最后还是为大家准备了一些影片中的流体案例。包括《夏日友情天》《寻龙传说》《蜘蛛侠：英雄归来》《沙丘》等。</p>
@@ -847,13 +847,13 @@ material point method for snow simulation</p>
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用</span>
   </a>
-  <a class="next" href="//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -866,7 +866,7 @@ material point method for snow simulation</p>
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -954,7 +954,7 @@ material point method for snow simulation</p>
 
 
 
-<script src="../../js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -1081,7 +1081,7 @@ material point method for snow simulation</p>
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../../js/instantclick.min.js" data-no-instant
+<script src="/js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   

@@ -17,10 +17,10 @@
 为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。
 角速度 我们知道 \(R\) 的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标，因此， $ $ 由这些方向向量的导数组成： \[ \displaystyle\dot{R} = [\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ] \] 于是 \(\dot{R}\) 就被简化成为求旋转矢量的导数的问题。旋转中心位置是 \(\mathbf x\) ，旋转点位置是 \(\mathbf p\) ，旋转中心到位置 \(\mathbf p\) 的向量为 \(r\) 。我们的目的是测定 \(r\) 的变化率。由于 \(\mathbf p\) 以角速度 \(\omega\) 旋转，所以其瞬时速度与 \(r\) 和 \(\omega\) 垂直。瞬时速度方向由 \(\omega\times r\) 表示，大小与向量积大小一致。于是我们可以得到： $ = r$">
 <meta name="author" content="xα">
-<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/">
-<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY | xα&#39;s blog" />
 <meta name="twitter:description" content="注：本篇由同组同学LLY编写，本人代完成格式化
@@ -43,8 +43,8 @@
 为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。
 角速度 我们知道 \(R\) 的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标，因此， $ $ 由这些方向向量的导数组成： \[ \displaystyle\dot{R} = [\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ] \] 于是 \(\dot{R}\) 就被简化成为求旋转矢量的导数的问题。旋转中心位置是 \(\mathbf x\) ，旋转点位置是 \(\mathbf p\) ，旋转中心到位置 \(\mathbf p\) 的向量为 \(r\) 。我们的目的是测定 \(r\) 的变化率。由于 \(\mathbf p\) 以角速度 \(\omega\) 旋转，所以其瞬时速度与 \(r\) 和 \(\omega\) 垂直。瞬时速度方向由 \(\omega\times r\) 表示，大小与向量积大小一致。于是我们可以得到： $ = r$" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/" />
-    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-12-05T00:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-12-05T00:00:00&#43;08:00" />
@@ -59,13 +59,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "//elderlyaugustus.github.io/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY",
-      "item": "//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/"
+      "item": "https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/"
     }
   ]
 }
@@ -90,14 +90,14 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/"
+    "@id": "https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "//elderlyaugustus.github.io/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -238,7 +238,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -264,22 +264,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="//elderlyaugustus.github.io/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -290,12 +290,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2021-12-05</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
 
       
       
@@ -380,7 +380,7 @@ function toggleThemeListener() {
 class="math inline">\(\mathbf v\)</span>
 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为<strong>局部坐标系</strong>。刚体及模拟的其他对象被放置在<strong>世界坐标系</strong>中。</p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/质心.png" alt="质心" />
+<img src="/images/filmtechanalysis-PBA/质心.png" alt="质心" />
 <figcaption aria-hidden="true">质心</figcaption>
 </figure>
 <p>为了指定刚体在世界坐标系中的放置方式，我们指定其位置 <span
@@ -390,7 +390,7 @@ class="math inline">\(\mathbf p_0\)</span>
 的点，世界坐标系下的坐标为：<span class="math inline">\(\mathbf p =
 \mathbf x + R \mathbf p_0\)</span></p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/物体坐标系和世界坐标系.png"
+<img src="/images/filmtechanalysis-PBA/物体坐标系和世界坐标系.png"
 alt="物体坐标系和世界坐标系" />
 <figcaption aria-hidden="true">物体坐标系和世界坐标系</figcaption>
 </figure>
@@ -401,7 +401,7 @@ $ = + R + p_0 $</p>
 v\)</span> 和 $ $ 就可以描述刚体随时间的运动状态了。</p>
 <p>为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。</p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/角速度.png" alt="角速度" />
+<img src="/images/filmtechanalysis-PBA/角速度.png" alt="角速度" />
 <figcaption aria-hidden="true">角速度</figcaption>
 </figure>
 <p>我们知道 <strong><span class="math inline">\(R\)</span>
@@ -423,7 +423,7 @@ class="math inline">\(\omega\)</span> 垂直。瞬时速度方向由 <span
 class="math inline">\(\omega\times r\)</span>
 表示，大小与向量积大小一致。于是我们可以得到： $ = r$</p>
 <figure>
-<img src="../../images/filmtechanalysis-PBA/半径的变化率.png"
+<img src="/images/filmtechanalysis-PBA/半径的变化率.png"
 alt="半径的变化率" />
 <figcaption aria-hidden="true">半径的变化率</figcaption>
 </figure>
@@ -467,7 +467,7 @@ class="math inline">\(I_0\)</span>
 <span class="math display">\[
 \mathbf I=\mathbf R\mathbf I_0\mathbf R^T
 \]</span> 线性运动与旋转运动中，有这样的对应关系：</p>
-<p><img src="../../images/filmtechanalysis-PBA/线运动和角运动物理量对比.png" alt="线运动和角运动物理量对比" style="zoom:75%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/线运动和角运动物理量对比.png" alt="线运动和角运动物理量对比" style="zoom:75%;" /></p>
 <h5 id="力矩">力矩</h5>
 <p><strong>线性动量</strong> <span class="math inline">\(P=mv\)</span>
 ，对于 <span class="math inline">\(F\)</span> ，有 $ F = ma = m = $ ，即
@@ -476,7 +476,7 @@ class="math inline">\(I_0\)</span>
 </strong> <span class="math inline">\(\tau\)</span>。</p>
 <p>力矩对应力的旋转 <span class="math inline">\(\tau =
 \dot{L}\)</span></p>
-<p><img src="../../images/filmtechanalysis-PBA/力矩_1.png" alt="力矩_1" style="zoom:67%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/力矩_1.png" alt="力矩_1" style="zoom:67%;" /></p>
 <p>已知质心为 <span class="math inline">\(\mathbf x\)</span> ，假定在点
 <span class="math inline">\(\mathbf p\)</span> 施加力 <span
 class="math inline">\(F\)</span>
@@ -485,7 +485,7 @@ class="math inline">\(F\)</span>
 class="math inline">\(\tau = r \times f\)</span>
 。力矩是一个矢量，方向同时垂直于力臂及作用力。方向为物体因力矩旋转时围绕的轴的方向。</p>
 <p>力矩作用于整个刚体，可理解为力矩通过了质心。力矩的叠加满足矢量加法。</p>
-<p><img src="../../images/filmtechanalysis-PBA/力矩_2.png" alt="力矩_2" style="zoom: 80%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/力矩_2.png" alt="力矩_2" style="zoom: 80%;" /></p>
 <p>于是，我们很容易就能得出 <span
 class="math inline">\(\displaystyle\Delta \omega = \frac{\Delta L}{I} =
 \Delta t \frac{\tau}{I}\)</span></p>
@@ -505,21 +505,21 @@ class="math inline">\(\displaystyle\Delta \omega = \frac{\Delta L}{I} =
 </ul></li>
 <li><p><strong>四元数：</strong>
 一个四元数的第一位表示旋转角度，后三位表示旋转轴方向。
-<img src="../../images/filmtechanalysis-PBA/旋转的四元数表示_1.png" alt="旋转的四元数表示_1" style="zoom: 45%;" /></p>
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_1.png" alt="旋转的四元数表示_1" style="zoom: 45%;" /></p>
 <p>并且四元数可以和旋转矩阵互相转换：
-<img src="../../images/filmtechanalysis-PBA/旋转的四元数表示_2.png" alt="旋转的四元数表示_2" style="zoom: 50%;" /></p>
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_2.png" alt="旋转的四元数表示_2" style="zoom: 50%;" /></p>
 <p>于是我们用四元数来表示旋转的状态更新方程可以表示为：
-<img src="../../images/filmtechanalysis-PBA/旋转的四元数表示_3.png" alt="旋转的四元数表示_3" style="zoom: 50%;" /></p></li>
+<img src="/images/filmtechanalysis-PBA/旋转的四元数表示_3.png" alt="旋转的四元数表示_3" style="zoom: 50%;" /></p></li>
 </ul>
 <p>总结一下，我们的刚体运动模拟过程由下图所示：线性运动和角度运动的物理量都有相互对应的关系。</p>
-<p><img src="../../images/filmtechanalysis-PBA/线性运动与角度运动的对比.png" alt="线性运动与角度运动的对比" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/线性运动与角度运动的对比.png" alt="线性运动与角度运动的对比" style="zoom:50%;" /></p>
 <h3 id="刚体的碰撞与接触">刚体的碰撞与接触</h3>
 <h4 id="rigid-collision-detection-and-response-by-impulse">Rigid
 Collision Detection and Response by Impulse</h4>
 <p>之前我们在粒子系统中已经介绍了一个点与面的两种碰撞方式，在Mesh表达的刚体碰撞处理中，我们一般采用Impulse的碰撞响应方式。</p>
 <p>当物体有许多点构成时，我们可以检测每个点是否发生碰撞。</p>
-<p><img src="../../images/filmtechanalysis-PBA/碰撞_1.png" alt="碰撞_1" style="zoom:50%;" /></p>
-<p><img src="../../images/filmtechanalysis-PBA/碰撞_2.png" alt="碰撞_2" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/碰撞_1.png" alt="碰撞_1" style="zoom:50%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/碰撞_2.png" alt="碰撞_2" style="zoom:50%;" /></p>
 <p>每一个点由 $x_i $ 表示，计算点到表面的距离 $ (x) $
 是否小于0。若大于零，说明没有发生碰撞。若小于零，则发生碰撞。</p>
 <p>然后将线性速度与角速度合成为此时该点的速度，若速度方向远离刚体内部，则不需要改变力，碰撞结束。若方向继续深入刚体内部，则继续运算。</p>
@@ -531,7 +531,7 @@ Collision Detection and Response by Impulse</h4>
 {\rm collision}\quad\mathbf x^{new}\leftarrow\mathbf x+|\phi(\mathbf
 x)|\mathbf N=\mathbf x=\phi(\mathbf x)\nabla\phi(\mathbf x)
 \]</span>
-<img src="../../images/filmtechanalysis-PBA/Impulse碰撞.png" alt="Impulse碰撞" style="zoom:67%;" /></p>
+<img src="/images/filmtechanalysis-PBA/Impulse碰撞.png" alt="Impulse碰撞" style="zoom:67%;" /></p>
 <p>又因为刚体的属性中只有线性速度和角速度，求得的点速度无法用于更新，所以引入冲量
 <span class="math inline">\(j\)</span> 。因为冲量 $ j = Ft $</p>
 <p>易得 $ v = t = j $ ， $ = t= t = I^{-1}(r j)$</p>
@@ -544,7 +544,7 @@ r_i\end{array}\)</span></p>
 <h4 id="shape-matching">Shape Matching</h4>
 <p>Shape Matching
 方法将物体上的点当作粒子进行状态更新，允许点有自己的速度，点与点之间没有任何相互作用力，然后再强行将其约束成为一个刚体。将点云的质心作为下一时刻刚体的质心，然后让刚体尽可能接近点云的形态。但是因为实际应用不多，具体方法不再赘述。</p>
-<p><img src="../../images/filmtechanalysis-PBA/ShapeMatching.png" alt="ShapeMatching" style="zoom:75%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/ShapeMatching.png" alt="ShapeMatching" style="zoom:75%;" /></p>
 <h3 id="约束">约束</h3>
 <p>到目前为止，我们都讨论的是无约束系统的动力学。意思就是说，粒子或者刚体可以沿任何方向运动，仅受外力影响。但在基于物理的动画中，存在许多内在和约束有关的问题。比如轨道上的列车，车轮因为钢轨施加的作用力受到约束，沿轨道运行。轨道产生向上的作用力，支撑列车的重量，在转弯时，轨道也会产生横向作用力，保证车轮沿轨道前行。</p>
 <p>我们把约束视为减少运动的<strong>自由度</strong>。没有约束的刚体存在6个自由度——3个平移自由度和3个旋转自由度。刚体可以沿
@@ -563,7 +563,7 @@ class="math display">\[
 \mathbf F_p=-k_p\mathbf e
 \]</span>
 使用这种方法，灰珠会沿着约束路径运动，但两者之间仍存在较大的偏差，灰珠会在约束路径附近振动。并且当灰珠趋于静止时，和路径有一个恒定的偏差，此时控制器施加的力正好与重力抵消。</p>
-<p><img src="../../images/filmtechanalysis-PBA/P控制器.png" alt="P控制器" style="zoom: 25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/P控制器.png" alt="P控制器" style="zoom: 25%;" /></p>
 <h5 id="pd比例微分控制器">PD（比例微分）控制器</h5>
 <p>给P控制器加一个微分项可以预防未来的误差变化。施加一个误差向量方向上的力，该力正比于误差变化率，因此控制器合力为：
 <span class="math display">\[
@@ -577,14 +577,14 @@ class="math display">\[
 \dot{\mathbf e}^{[n]}\approx(\mathbf e^{[n]}-\mathbf e^{[n-1]})/h
 \]</span>
 使用PD控制器仍然解决不了当灰珠趋于静止时，和路径有一个恒定的偏差。因为除非误差在一直变化，否则微分项不会施加力。</p>
-<p><img src="../../images/filmtechanalysis-PBA/PD控制器.png" alt="PD控制器" style="zoom:25%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/PD控制器.png" alt="PD控制器" style="zoom:25%;" /></p>
 <h5 id="pid比例积分微分控制器">PID（比例积分微分）控制器</h5>
 <p>静止状态下的误差问题可以通过添加积分项解决。这意味着只要灰珠与约束路径存在误差，就会施加作用力：
 <span class="math display">\[
 \mathbf F_{pid}=-\left[k_p\mathbf e+k_d(\dot{\mathbf e}\cdot\hat{\mathbf
 e})\hat{\mathbf e}+k_i\int_0^t\mathbf edt\right]
 \]</span>
-<img src="../../images/filmtechanalysis-PBA/PID控制器.png" alt="PID控制器" style="zoom:25%;" /></p>
+<img src="/images/filmtechanalysis-PBA/PID控制器.png" alt="PID控制器" style="zoom:25%;" /></p>
 <p>使用PID控制器的小球运动如图所示。最初小球的运动路径与PD控制器基本一致，担当小球减速，其运动轨迹更接近约束路径。当小球最终静止时，几乎完全符合约束。这是因为只要未回到约束，积分项将一直施加逐渐变大的力，使其刚好抵消重力。</p>
 <h4 id="约束动力学">约束动力学</h4>
 <p>约束动力学通过产生作用力来抵消所施加的力，防止违反约束从而确保维持刚性约束。</p>
@@ -593,7 +593,7 @@ e})\hat{\mathbf e}+k_i\int_0^t\mathbf edt\right]
 的杆末端，杆是刚性的且质量忽略不计。摆球中心记为变量 $ x $
 ，所有施加在摆球上的合外力为 $ f_a $ 。我们的目标是产生一个刚好可以抵消
 $ f_a $ 中可能导致杆长度发生变化的约束力 $ f_c $ 。</p>
-<p><img src="../../images/filmtechanalysis-PBA/约束动力学_1.png" alt="约束动力学_1" style="zoom: 33%;" /></p>
+<p><img src="/images/filmtechanalysis-PBA/约束动力学_1.png" alt="约束动力学_1" style="zoom: 33%;" /></p>
 <p>约束动力学的关键是创建一个约束函数。这个函数是一个判定函数，当满足约束条件时，该函数值
 =
 0。我们想要让系统永远满足约束条件，也就是约束函数恒为0。故该函数对时间的一阶导数始终为0。同时，我们还必须确保该函数的变化率也恒为0，也就是没有发生变化的趋势，所以我们需要该函数对时间的二阶导数也为0。对于钟摆问题，我们选择一个最为明显的约束函数：
@@ -779,13 +779,13 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY</span>
   </a>
-  <a class="next" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -798,7 +798,7 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -886,7 +886,7 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
 
 
 
-<script src="../../js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -1013,7 +1013,7 @@ FFD）类似。FFD框架可以使其内部的任何几何体变形，因此很�
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../../js/instantclick.min.js" data-no-instant
+<script src="/js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   

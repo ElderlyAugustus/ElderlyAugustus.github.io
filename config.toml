@@ -11,10 +11,9 @@
 # buildExpired = false
 # enableEmoji = true
 
-baseURL = "//elderlyaugustus.github.io/"
-# baseURL = ""
-relativeURLs = true
-uglyURLs = true
+baseURL = "https://elderlyaugustus.github.io/"
+# relativeURLs = true
+# uglyURLs = true
 title = '''xα's blog'''
 paginate = 10
 theme = "PaperModX"
@@ -71,6 +70,9 @@ enableEmoji = true
   TocSide = "right"
   EnableInstantClick = true
   EnableImageZoom = true
+
+  [params.assets]
+    disableFingerprinting = true
 
   # [params.commentSystems.disqus]
   #   shortname = "xa"

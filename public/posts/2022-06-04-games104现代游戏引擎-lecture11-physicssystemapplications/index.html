@@ -9,18 +9,18 @@
 <meta name="keywords" content="现代游戏引擎">
 <meta name="description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用">
 <meta name="author" content="xα">
-<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/">
-<link crossorigin="anonymous" href="../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="sha256-hVdne5au&#43;asXczvQMbZumlFtUKUoi6oFAQs8tzNvt0g=" rel="preload stylesheet" as="style">
-<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
-<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications | xα&#39;s blog" />
 <meta name="twitter:description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用" />
 <meta property="og:title" content="2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications | xα&#39;s blog" />
 <meta property="og:description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/" />
-    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-06-04T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-06-04T17:00:00&#43;08:00" />
@@ -35,13 +35,13 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "//elderlyaugustus.github.io/posts/"
+      "item": "https://elderlyaugustus.github.io/posts/"
     }, 
     {
       "@type": "ListItem",
       "position":  2 ,
       "name": "2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications",
-      "item": "//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/"
+      "item": "https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/"
     }
   ]
 }
@@ -66,14 +66,14 @@
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "//elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/"
+    "@id": "https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "xα's blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "//elderlyaugustus.github.io/favicon.ico"
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
     }
   }
 }
@@ -214,7 +214,7 @@ function toggleThemeListener() {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
             <span class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -240,22 +240,22 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="//elderlyaugustus.github.io/about/" title="About"
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
                 >About
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
                 >Archives
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
                 >Search
                 </a>
             </li>
             <li>
-                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
                 >Tags
                 </a>
             </li>
@@ -266,12 +266,12 @@ function toggleThemeListener() {
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="//elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications</h1>
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
   <span>2022-06-04</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
       
       
@@ -339,9 +339,9 @@ System - Applications</h3>
 <ul>
 <li>Sweep Test 判断</li>
 <li>Sliding：撞到墙上时左右滑动
-<img src="../../images/games104/L11_Sliding.png" alt="L11_Sliding" style="zoom: 25%;" /></li>
+<img src="/images/games104/L11_Sliding.png" alt="L11_Sliding" style="zoom: 25%;" /></li>
 <li>Auto Stepping：台阶 每帧尝试抬升高度前进
-<img src="../../images/games104/L11_AutoStepping.gif" alt="L11_AutoStepping" style="zoom:25%;" /></li>
+<img src="/images/games104/L11_AutoStepping.gif" alt="L11_AutoStepping" style="zoom:25%;" /></li>
 <li>Slope 斜坡
 <ul>
 <li>坡度大于多少时，冲上去会滑下来</li>
@@ -365,14 +365,14 @@ System - Applications</h3>
 <li>不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg.
 在悬崖边，悬空挂在坡面上甚至插入地形</li>
 <li>用Rigid Body将关键的Joint连结起来
-<img src="../../images/games104/L11_RigdollJoints.jpg" alt="L11_RigdollJoints" style="zoom:30%;" />
+<img src="/images/games104/L11_RigdollJoints.jpg" alt="L11_RigdollJoints" style="zoom:30%;" />
 <ul>
 <li>考虑Constraints</li>
 <li>将Ragdoll中较少Joints的运动映射到Skeleton
 <ul>
 <li><strong>Animation Retargeting</strong></li>
 <li>三种Joints
-<img src="../../images/games104/L11_RagdollAnimation.png" alt="L11_RagdollAnimation" style="zoom:25%;" />
+<img src="/images/games104/L11_RagdollAnimation.png" alt="L11_RagdollAnimation" style="zoom:25%;" />
 <ul>
 <li>Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据</li>
 <li>Leaf Joints：一般不动，例如手掌脚掌</li>
@@ -388,7 +388,7 @@ Joints插值</li>
 <li>纯Ragdoll：效果不像人类</li>
 <li>纯动画：循环播放，有模式感</li>
 <li>两种混合
-<img src="../../images/games104/L11_PoweredRagdoll.jpg" alt="L11_PoweredRagdoll" style="zoom:25%;" /></li>
+<img src="/images/games104/L11_PoweredRagdoll.jpg" alt="L11_PoweredRagdoll" style="zoom:25%;" /></li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -423,7 +423,7 @@ System</h5>
 \]</span></p></li>
 </ul></li>
 <li><p>横向、纵向、斜向、跨越质点加弹簧，提高精度
-<img src="../../images/games104/L11_MassSpringCloth.png" alt="L11_MassSpringCloth" style="zoom:20%;" /></p></li>
+<img src="/images/games104/L11_MassSpringCloth.png" alt="L11_MassSpringCloth" style="zoom:20%;" /></p></li>
 <li><p>受力</p>
 <ul>
 <li>重力</li>
@@ -488,7 +488,7 @@ Value</p></li>
 <li><p>Damage Calculation，受力超过Connectivity Value则破坏连接</p>
 <ul>
 <li>Impact Point向外扩散
-<img src="../../images/games104/L11_DamageRange.png" alt="L11_DamageRange" style="zoom:15%;" />
+<img src="/images/games104/L11_DamageRange.png" alt="L11_DamageRange" style="zoom:15%;" />
 <span class="math display">\[
 D_d=\left\{\begin{aligned}
 &amp;D &amp;&amp;d\le R_\min\\
@@ -511,7 +511,7 @@ D_d=\left\{\begin{aligned}
 <li>Chunk的分布 =&gt; 取点的分布</li>
 </ul></li>
 <li><p>Pipeline
-<img src="../../images/games104/L11_DestructionPipeline.jpg" alt="L11_DestructionPipeline" style="zoom: 50%;" /></p></li>
+<img src="/images/games104/L11_DestructionPipeline.jpg" alt="L11_DestructionPipeline" style="zoom: 50%;" /></p></li>
 <li><p>增加其他真实感效果</p>
 <ul>
 <li>音效</li>
@@ -523,39 +523,39 @@ D_d=\left\{\begin{aligned}
 <h4 id="vehicle">Vehicle</h4>
 <ul>
 <li><p>A rigidbody actor
-<img src="../../images/games104/L11_RigidbodyVehicle.jpg" alt="L11_RigidbodyVehicle" style="zoom: 50%;" /></p></li>
+<img src="/images/games104/L11_RigidbodyVehicle.jpg" alt="L11_RigidbodyVehicle" style="zoom: 50%;" /></p></li>
 <li><p>驱动力 Traction Force
-<img src="../../images/games104/L11_TractionForce1.png" alt="L11_TractionForce1" style="zoom: 20%;" /></p>
+<img src="/images/games104/L11_TractionForce1.png" alt="L11_TractionForce1" style="zoom: 20%;" /></p>
 <ul>
 <li>扭矩 Torque <span class="math inline">\(T=T_{\rm
 engine}X_gX_dn\)</span>
-<img src="../../images/games104/L11_TractionForce2.png" alt="L11_TractionForce2" style="zoom:20%;" /></li>
+<img src="/images/games104/L11_TractionForce2.png" alt="L11_TractionForce2" style="zoom:20%;" /></li>
 <li>驱动力 Traction <span class="math inline">\(\vec F_{\rm
 Traction}=\dfrac{T}{R_w}\vec u\)</span></li>
 </ul></li>
 <li><p>悬挂力 Suspension Force
-<img src="../../images/games104/L11_SuspensionForce1.png" alt="L11_SuspensionForce1" style="zoom:20%;" />
+<img src="/images/games104/L11_SuspensionForce1.png" alt="L11_SuspensionForce1" style="zoom:20%;" />
 <span class="math display">\[
 |\vec F_{\rm suspension}|=k(L_{\rm rest}-(L_{
 \rm hit}-R_W))
 \]</span>
-<img src="../../images/games104/L11_SuspensionForce2.png" alt="L11_SuspensionForce2" style="zoom:20%;" /></p></li>
+<img src="/images/games104/L11_SuspensionForce2.png" alt="L11_SuspensionForce2" style="zoom:20%;" /></p></li>
 <li><p>轮胎力 Tire Forces</p>
 <ul>
 <li>径向力 Longitudinal force <span class="math inline">\(F_{\rm
 long}=F_{\rm traction}+F_{\rm drag}+F_{rr}\)</span>
-<img src="../../images/games104/L11_TireForce1.png" alt="L11_TireForce1" style="zoom:20%;" /></li>
+<img src="/images/games104/L11_TireForce1.png" alt="L11_TireForce1" style="zoom:20%;" /></li>
 <li>切向力 Lateral force <span class="math inline">\(F_{\rm
 lateral}=C_c*a\)</span>
-<img src="../../images/games104/L11_TireForce2.png" alt="L11_TireForce2" style="zoom:20%;" />
-<img src="../../images/games104/L11_TireForce3.png" alt="L11_TireForce3" style="zoom:20%;" /></li>
+<img src="/images/games104/L11_TireForce2.png" alt="L11_TireForce2" style="zoom:20%;" />
+<img src="/images/games104/L11_TireForce3.png" alt="L11_TireForce3" style="zoom:20%;" /></li>
 </ul></li>
 <li><p>重心 Center of Mass
-<img src="../../images/games104/L11_CenterOfMass1.png" alt="L11_CenterOfMass1" style="zoom:20%;" />
+<img src="/images/games104/L11_CenterOfMass1.png" alt="L11_CenterOfMass1" style="zoom:20%;" />
 <span class="math display">\[
 M=M_1+M_2\quad \vec x_{cm}=\dfrac{M_1\vec x_1+M_2\vec x_2}{M}
 \]</span>
-<img src="../../images/games104/L11_CenterOfMass2.png" alt="L11_CenterOfMass2" style="zoom:20%;" /></p>
+<img src="/images/games104/L11_CenterOfMass2.png" alt="L11_CenterOfMass2" style="zoom:20%;" /></p>
 <ul>
 <li>重心太靠前在飞跃时容易栽，重心准确则稳定</li>
 <li>重心靠前转向力不足，靠后转向力过大</li>
@@ -567,15 +567,15 @@ M=M_1+M_2\quad \vec x_{cm}=\dfrac{M_1\vec x_1+M_2\vec x_2}{M}
 <li><p>转向时，若内外侧轮转向角相同，则外侧轮打滑空转</p></li>
 <li><p>转向时，外侧轮转向角要大于内侧轮</p></li>
 <li><p>根据旋转中心计算
-<img src="../../images/games104/L11_SteeringAngles1.png" alt="L11_SteeringAngles1" style="zoom:20%;" />
+<img src="/images/games104/L11_SteeringAngles1.png" alt="L11_SteeringAngles1" style="zoom:20%;" />
 <span class="math display">\[
 \alpha_l=\tan^{-1}\dfrac{L_{wb}}{R_t+\frac{L_r}{2}}\\
 \alpha_r=\tan^{-1}\dfrac{L_{wb}}{R_t-\frac{L_r}{2}}
 \]</span>
-<img src="../../images/games104/L11_SteeringAngles2.png" alt="L11_SteeringAngles2" style="zoom:20%;" /></p></li>
+<img src="/images/games104/L11_SteeringAngles2.png" alt="L11_SteeringAngles2" style="zoom:20%;" /></p></li>
 </ul></li>
 <li><p>轮胎接触
-<img src="../../images/games104/L11_WheelContact.gif" alt="L11_WheelContact" style="zoom:20%;" /></p>
+<img src="/images/games104/L11_WheelContact.gif" alt="L11_WheelContact" style="zoom:20%;" /></p>
 <ul>
 <li>单方向垂直向下的 Single Raycast 效果不真实，易发生穿插</li>
 <li>球面 Spherecast 实现真实的接触</li>
@@ -602,7 +602,7 @@ class="math inline">\(\mathbf J^T\cdot\mathbf v=0\)</span></li>
 <li>弹簧质点等系统也都可用约束表示 eg. 弹簧质点系统拉伸时：<span
 class="math inline">\(C_{\rm stretch}(\mathbf x_1, \mathbf
 x_2)=\|\mathbf x_1-\mathbf x_2\|-d\)</span>
-<img src="../../images/games104/L11_StringConstraints2.png" alt="L11_StringConstraints2" style="zoom:15%;" /><img src="../../images/games104/L11_StringConstraints1.png" alt="L11_StringConstraints1" style="zoom:15%;" /></li>
+<img src="/images/games104/L11_StringConstraints2.png" alt="L11_StringConstraints2" style="zoom:15%;" /><img src="/images/games104/L11_StringConstraints1.png" alt="L11_StringConstraints1" style="zoom:15%;" /></li>
 </ul>
 <h5 id="pbd-position-based-dynamics">PBD, Position Based Dynamics</h5>
 <ul>
@@ -613,9 +613,9 @@ x_2)=\|\mathbf x_1-\mathbf x_2\|-d\)</span>
 <li>布料应用广泛</li>
 <li>NVIDIA Flex</li>
 </ul>
-<p><img src="../../images/games104/L11_PBD2.png" alt="L11_PBD2" style="zoom:25%;" /></p>
-<p><img src="../../images/games104/L11_PBD1.png" alt="L11_PBD1" style="zoom:25%;" /></p>
-<p><img src="../../images/games104/L11_PBD3.jpg" alt="L11_PBD3" style="zoom: 67%;" /></p>
+<p><img src="/images/games104/L11_PBD2.png" alt="L11_PBD2" style="zoom:25%;" /></p>
+<p><img src="/images/games104/L11_PBD1.png" alt="L11_PBD1" style="zoom:25%;" /></p>
+<p><img src="/images/games104/L11_PBD3.jpg" alt="L11_PBD3" style="zoom: 67%;" /></p>
 <h5 id="xpbd-extended-position-based-dynamics">XPBD, Extended Position
 Based Dynamics</h5>
 <ul>
@@ -634,13 +634,13 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
 
   <footer class="post-footer">
 <nav class="paginav">
-  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
     <span class="title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
     <br>
     <span>2022-06-18-GAMES104现代游戏引擎-Lecture12-Effects</span>
   </a>
-  <a class="next" href="//elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/">
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/">
     <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
     </span>
     <br>
@@ -653,7 +653,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
@@ -741,7 +741,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
 
 
 
-<script src="../../js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -868,7 +868,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../../js/instantclick.min.js" data-no-instant
+<script src="/js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   

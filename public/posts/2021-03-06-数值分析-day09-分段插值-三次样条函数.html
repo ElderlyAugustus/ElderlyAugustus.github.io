@@ -16,8 +16,7 @@ PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_
 分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\) ，给出插值条件： \(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\ (k=0,1,\dots,n)\) 。则每区间 \([x_{i-1},x_i]\) 具有四个插值条件。构造三次多项式 \(H_3^{(i)}(x)\) ： \[ \begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}&#43;\varphi_i(x)y_i&#43;\psi_{i-1}(x)y&#39;_{i-1}&#43;\psi_i(x)y&#39;_i\\ \left\{\begin{aligned} &amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0 &amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0 &amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\ &amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1 &amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\ &amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0 &amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\ &amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0 &amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\ \end{aligned}\right.">
 <meta name="author" content="xα">
 <link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html">
-
-<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -591,7 +590,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 
 
 
-<script src="../js/medium-zoom.min.js" data-no-instant
+<script src="../js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -718,7 +717,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
   mediumZoom('.post-content img:not([no-zoom])');
 </script>
 
-<script src="../js/instantclick.min.js" data-no-instant
+<script src="../js/instantclick.min.js" data-no-instantintegrity=""
 ></script>
 <script data-no-instant>
   
