@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>笔记 | xα&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="xα&#39;s blog">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html">
+
+<link crossorigin="anonymous" href="../../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/index.xml">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="笔记 | xα&#39;s blog" />
+<meta name="twitter:description" content="xα&#39;s blog" />
+<meta property="og:title" content="笔记 | xα&#39;s blog" />
+<meta property="og:description" content="xα&#39;s blog" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class="list-page type-series kind-term layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div>
+  <h1>
+    series: 笔记</h1><div class="inline-links">
+  
+  
+  <span><a href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/index.xml" target="_blank">RSS</a></span></div>
+</header>
+
+
+
+
+
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>注：本篇由同组同学LLY编写，本人代完成格式化
+刚体 在物理学里，刚体是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。
+刚体属性与表达 为了表示一个刚体，我们首先需要知道刚体的质心。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标 \(\mathbf x\) 和速度 \(\mathbf v\) 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为局部坐标系。刚体及模拟的其他对象被放置在世界坐标系中。
+质心 为了指定刚体在世界坐标系中的放置方式，我们指定其位置 \(\mathbf x\) 和 方向 \(R\) 。局部坐标为 \(\mathbf p_0\) 的点，世界坐标系下的坐标为：\(\mathbf p = \mathbf x &#43; R \mathbf p_0\)
+物体坐标系和世界坐标系 我们想知道这个点在世界坐标系中如何随时间变化，所以对时间进行求导，得出： $ = &#43; R &#43; p_0 $
+因为在局部坐标系中 $ $ = 0 , 所以得出： $ = v &#43; p_0 $
+所以我们只需要求出每个时间的 \(\mathbf v\) 和 $ $ 就可以描述刚体随时间的运动状态了。
+为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。
+角速度 我们知道 \(R\) 的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标，因此， $ $ 由这些方向向量的导数组成： \[ \displaystyle\dot{R} = [\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ] \] 于是 \(\dot{R}\) 就被简化成为求旋转矢量的导数的问题。旋转中心位置是 \(\mathbf x\) ，旋转点位置是 \(\mathbf p\) ，旋转中心到位置 \(\mathbf p\) 的向量为 \(r\) 。我们的目的是测定 \(r\) 的变化率。由于 \(\mathbf p\) 以角速度 \(\omega\) 旋转，所以其瞬时速度与 \(r\) 和 \(\omega\) 垂直。瞬时速度方向由 \(\omega\times r\) 表示，大小与向量积大小一致。于是我们可以得到： $ = r$...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-12-05</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB.html">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>影视制作中的最新进展与应用 学术界发展动向 在讨论影视工业中物理模拟的最新方向之前，我们先看看学界这两年都在做什么——技术的发展顺序大部分情况下都是先从学术界开始的。
+我整理出了近三年国际图形学顶级学术会议Siggraph发表的论文中，基于物理的动画方向的所有论文：
+Siggraph 2021 Revisiting Integration in the Material Point Method: A Scheme for Easier Separation and Less Dissipation 重新审视物质点法（MPM）：更易分离、更少耗散的方法 Mechanics-Aware Deformation of Yarn Pattern Geometry 纱织物几何体的力学感知变形 Kelvin Transformations for Simulations on Infinite Domains 无限域模拟的开尔文变换 QuanTaichi: A Compiler for Quantized Simulations QuanTaichi：一种量化模拟编译器 A Unified Second-Order Accurate in Time MPM Formulation for Simulating Viscoelastic Liquids with Phase Change 相变粘弹性液体模拟的统一二阶时间精确MPM公式 Bijective and Coarse High-Order Tetrahedral Meshes 双射和粗高阶四面体网格 Physical validation of simulators in Computer Graphics: A new framework dedicated to slender elastic structures and frictional contact 计算机图形学模拟器的物理验证：一种细长弹性结构和摩擦接触的新型框架 Stream-Guided Smoke Simulations 流向烟雾模拟 Solid-Fluid Interaction with Surface-Tension-Dominant Contact 表面张力主导接触的固液相互作用 Fire in Paradise: Mesoscale Simulation of Wildfires 天堂之火：野火尺度模拟 Systematically Differentiating Parametric Discontinuities 系统区分参数不连续性 Thin-Film Smoothed Particle Hydrodynamics Fluid 薄膜平滑粒子流体动力学（SPH）流体 Clebsch Gauge Fluid Clebsch规范流体 Incompressible Flow Simulation on Vortex Segment Clouds 涡段云上的不可压缩流体 Codimensional Incremental Potential Contact 共维增量潜在接触（C-IPC） Intersection-free Rigid Body Dynamics 无交点刚体动力学 Medial IPC: Accelerated Incremental Potential Contact With Medial Elastics Medial IPC：结合Medial Elastics的IPC方法 High-order Differentiable Autoencoder for Nonlinear Model Reduction 非线性模型重建的高阶可微自动编码器 Fast Linking Numbers for Topology Verification 拓扑验证的快速链接数 of Loopy Structures 环状结构 Learning Contact Corrections for Handle-Based Subspace Dynamics 基于句柄的子空间动力学的接触修正学习 The Shape Matching Element Method: Direct Animation of Curved Surface Models 形状匹配元素方法：曲面模型的直接动画 GPU-Based Simulation of Cloth Wrinkles at Submillimeter Levels 基于 GPU 的亚毫米级布料皱纹模拟 Multiscale Cholesky Preconditioning for Ill-conditioned Problems 病态问题的多尺度Cholesky预处理 A Momentum-Conserving Implicit Material Point Method for Surface Tension with Contact Angles and Spatial Gradients 具有接触角和空间梯度的表面张力动量守恒隐式材料点法 SANM: A Symbolic Asymptotic Numerical Solver with Applications in Mesh Deformation SANM：网格变形中应用的符号渐近数值求解器 Learning Meaningful Controls for Fluids 流体有意义控制学习 Unified Particle System for Multiple-fluid Flow and Porous Material 多流体流动和多孔材料的统一粒子系统 Constrained Projective Dynamics: Real-time Simulation of Deformable Objects With Energy-momentum Conservation 约束投影动力学：能量-动量守恒的可形变物体的实时模拟 TOG:...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-12-05</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB.html">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-12-05-影片技术分析Pre-基于物理的动画-最新进展与应用" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95%E4%B8%8E%E5%BA%94%E7%94%A8.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-12-05-影片技术分析Pre-基于物理的动画-流体系统
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
+流体与流体力学 首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。
+所有液体 所有气体 具备流动特征的固体：如沙丘 流体主要具备以下性质：
+流动性（fluidity）：流体间的分子作用力较小，难以保持一定的形状，在受到外界的作用力或能量不平衡时，流体会发生流动。
+变形性（deformability）：在受到剪切力持续作用时，与固体的微小变形或有限变形不同，流体产生程度很大的、甚至作用时间无限长的变形。
+粘性（viscosity）：相邻两层流体之间发生相对运动时，在两层流体的接触面会产生对于变形的抗力，与固体的摩擦力不同，这种抗力不与流体的变形大小有关，而与流体的变形速度正相关，这种抵抗变形的特性称为粘性。
+正相关的形式：
+线性相关 - 牛顿流体 \(\tau=\mu\dfrac{du}{dy}\) 非线性相关 - 非牛顿流体 \(\tau=\mu(T,p)\left(\dfrac{du}{dy}\right)^2\) 可压缩性（compressibility）/不可压缩性（incompressibility）：在一定的温度下，单位压强增量引起的体积变化率定义为流体的压缩性系数(coefficients of compressibility)，其值越大，流体越容易压缩，反之，不容易压缩。
+在影视制作的物理模拟中，一般模拟的是不可压缩流体。
+Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\frac{\mathrm D\mathbf u}{\mathrm Dt}}_{\frac{\partial\mathbf u}{\partial t}&#43;\mathbf u\cdot\nabla\mathbf u}=\frac{1}{\rho}\nabla\cdot\underbrace\sigma_{应力加速度张量}&#43;\mathbf g\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+不可压缩流体 Navier-Stokes 方程 \[ 动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf u}{\partial t}}_{非稳态加速度}&#43;\underbrace{\mathbf u\cdot\nabla\mathbf u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm Dt}}&#43;\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf g}_{外力加速度}&#43;\underbrace{\nu\nabla\cdot\nabla\mathbf u}_{粘滞力加速度(经常忽略)}\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+补充数学： \[ 哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)\quad\\ {\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\ 拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)^2\\ {\bf梯度}的{\bf散度}\ \Delta\vec F \]...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-12-05</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB.html">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-12-05-影片技术分析Pre-基于物理的动画-流体系统" href="//elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>这节课开始我们将花两节课的时间从粒子、刚体、流体三种系统，来简要介绍一些基于物理的动画的基本原理与实现，并给大家展示一些具体的制作方法和成果。
+粒子系统 基于粒子的模型是基于物理的动画的一个基础模型，是拉格朗日方法中最典型的一种。这里的粒子系统个人认为广义地来说就是基于粒子的模型，是以粒子视点对物理现象做点采样的所有动画系统，但业界我们往往狭义地认为其典型就是特指由发射器发射大规模粒子、通过外力驱动运动、渲染成具体的无定形形象的系统。我们这一章的陈述主要还是以典型的粒子系统为主，会拓展些基于粒子的、但并不一定称为粒子系统的模型。
+粒子系统一般用来表现雨、雪、火、烟、尘、沙尘暴、烟花、水花、喷雾等等“无定形现象（Amorphous Phenomena[1]）”，当然也包括我们常见的一些“非物理现象”，诸如哥斯拉的吐息、猩红女巫的魔法光效等等，这些非物理现象同样要通过我们的物理系统去驱动粒子来产生这些效果。
+一个粒子 在开始讲粒子系统之前，我们还是要讲一下一个粒子的运动：粒子的运动只有位移——就如我们中学物理中常做的质点模型一样，对一个粒子而言，所需要的动力学参数仅有、位置、速度、加速度、受力、质量等。在这之中，质量将受力与加速度联系为同一个概念，位置的变化（位移）是速度的积分、速度的变化又是加速度的积分。而且与中学物理不同的是，这里的每一个量都是三维空间中的向量了。
+那么在这里，我们就第一次涉及到了时间积分概念的应用，也就是我们上节课刚刚讲过的如何在时间离散系统里做积分。
+我们用上图这样的近似积分方式，就能够表达粒子随着时间的运动。那么知道了如何描述一个粒子的运动，我们就能够描述一堆粒子的运动了——换言之，我们可以开始了解一个基本的粒子系统。
+基本粒子系统 我们来了解一个基本的粒子系统。在一个基本粒子系统的模拟过程中，通常包含了生成、模拟、消失三个过程，再加上把模拟过程渲染出来的渲染环节，我们分别讲解。
+粒子生成 粒子生成器 粒子生成字面含义就是粒子是怎样初始化的，怎样给大量的粒子赋予初始的参数。因此我们设计了“生成器”，或者也可以称为“发射器”。
+从发射器的形状说起，我们一般有点发射、平面发射、三维表面发射三种。
+点发射顾名思义就是从同一个位置发射所有粒子，方向上有朝单一矢量、全方向两种。 平面发射中，平面主要有圆盘平面和多边形（三角形）平面两种。 三维表面发射中，以模型表面为发射器，可以认为是多个多边形平面发射的组合；另一种是在体积内发射，即在一个区域内随即发射。 生成器分类 粒子生成的随机算法 我们想象，以相同的质量、速度、加速度、方向、位置等参数来初始化大量粒子会出现什么现象：所有粒子会以相同或平行的轨迹运动。所以我们这里需要使用随机算法来初始化粒子的参数、方向矢量、位置，也就是需要生成随机数、随机矢量和随机点三种数据类型。
+随机数 —— 为了控制粒子形态，我们一般不会直接使用系统的 rand() 来产生均匀分布的随机数，这就涉及到随机分布的概念：
+均匀分布：均匀分布即每一个数出现的概率是均等的，经典案例就是抛硬币。只有我们希望空间中充满随机的点运动时才会使用。
+高斯分布 / 正态分布：概率密度函数 \(p(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{\frac{(x-\mu)^2}{2\sigma^2}}\) （概率密度函数 PDF 指的是概率密度 - 数值，概率密度大家可以类比中学统计中的概率/区间宽度，区间宽度 -&gt; 0） 利用高斯分布，我们就可以得到一个“大部分粒子以这个参数运动，少量随机发散”的结果，比如火花飞溅时，大部分火花都会溅射在一个区域范围内，有少量迸发到外面的样子。能够让我们更好地控制粒子的运动。
+随机矢量：首先我们要了解如何生成一个均匀的球面分布，大家想象我们的地球上的任意一个点，做与球心的连线投影到赤道平面上得到长度 \(r\) ，与子午分割线成 \(\theta\) 角，那么我们只要随机 \(h=\sqrt{1-r^2}\) 和 \(\theta\) 两个值就能够得到随机矢量 \(\begin{bmatrix}r\cos\theta\\h\\r\sin\theta\end{bmatrix}\) ，经数学证明，球面上的点随 \(\theta\) 和 \(h\) 线性分布，因此，只要控制这两个随机数就可以控制球面的随机矢量。
+同理我们可以得到控制下图两种：点向圆盘方向发射、圆盘发射时控制随机矢量的参数，分别是\(\theta \ \phi\) 和 \(\theta\ r\) 。也就是把随机向量转换成了两个随机数的问题。
+随机点：三维空间中的一个点其实就是三个数，我们按照需要来生成三个随机数即可。当然也可以用一个随机矢量（两个随机数）&#43;随机长度（一个随机数）的方式生成。随机点主要应用于表面发射的偏移和体积内发射。
+粒子模拟 碰撞 在不考虑交互的情况下（后面会专门讨论），粒子在模拟过程中除了随着力场一步一步地迭代和人工控制之外的会产生剧变的现象就是碰撞了。粒子系统通常工作在含有模型的场景中，我们就需要考虑与模型的碰撞，其实也就是与一个个平面三角形的碰撞。问题在于，粒子是一个无体积的点，而粒子所处的位置又是离散的点，粒子恰好停在一个表面的概率微乎其微，那么我们如何判定碰撞而不是让粒子直接穿越表面呢？下面我们就会讲到。
+碰撞主要分为两个步骤，分别是碰撞检测和碰撞响应。首先我们得发现产生了碰撞，在发现碰撞之后，就可以执行相应的碰撞响应，这里的响应可以是让粒子消失、吸附、飞出去各种，下面举例说最简单的反弹这种。
+处理一个点与一个面的碰撞主要有Penalty（惩罚）和Impulse（冲击）两种思路：
+Penalty 碰撞检测：通过点与面的距离 \(\phi(x)\) 判断 碰撞响应：更新 \(f\) ，判定碰撞后的下一个时间步更新粒子状态...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-11-23</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB.html">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型" href="//elderlyaugustus.github.io/posts/2021-11-23-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E7%B2%92%E5%AD%90%E7%B3%BB%E7%BB%9F.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>基于物理的动画/物理模拟 Physically Based Animation
+今天我和李乐游给大家讲一下基于物理的动画这个题目。首先我们来解释一下这个题目，这个动画指的不是一部动画片的那个动画，是指在动画片/视效制作中的一个环节，也是计算机图形学的三个大方向之一：建模Modeling、动画Animation、渲染Rendering。也就是驱动我们的模型动起来的过程——那么怎样驱动我们的模型动起来呢。大家最熟悉的一种方式就是Key关键帧，比如大家建了一个肖翱的模型，要驱动我去运动，那自然是要把我绑定到骨骼上，对每个关节去打关键帧，比如把我的手十秒后挪到这里。但是呢，不是所有的动画都适合用关键帧来驱动，比如窗外雪花飘飘、一辆车跌落悬崖、瀑布飞流直下，这样的镜头如果用Key关键帧的方法去完成，那就不是Key我身上的几十个关节这么“容易”的事了。但这种物理现象往往是遵循物理规律的，我们想让他看起来真实，那么我们就可以用物理规律去驱动它运动；又或者是一个非自然的物理现象，我们也可以创造非自然的物理规律去驱动它运动。这样的动画方法我们称之为基于物理的动画，也称为物理模拟，也有人将模拟Simulation单独作为图形学的第四个方向。下面我们说到这两个词大家知道都是指同一个东西就行了。
+那么基于物理的动画，在我们的电影中能做出什么样的效果呢，我们剪了一段经典影片中的Showreel给大家欣赏一下。然后我们将从发展历史、基本概念出发，介绍影视制作中的物理模拟制作流程、几种系统的算法原理与实现、展示一些我们自己制作的和经典影片中的基于物理的动画镜头，最后对物理模拟这项技术的未来再做一个分析和展望。
+发展历史 1940年代和1950年代 基于物理的动画来源于计算机模拟技术。它的首次大规模开发是著名的曼哈顿计划中的一个重要部分。在第二次世界大战中，为了模拟核爆炸的过程，人们应用蒙特·卡罗方法用12个坚球模型进行了模拟。计算机模拟最初被作为其他的方面研究的补充，但当人们发现它的重要性之后，它便作为一门单独的课题被使用得相当广泛。 之后便逐渐应用于军事和制造业。但在很长一段时间内，计算机计算非常昂贵，通常只有军事会使用这项技术。
+20世纪70年代和80年代初 计算机图像生成技术兴起，1972年，第一部计算机生成的动画《A Computer Animated Hand》诞生，其中的一部分在1976年的电影《未来世界》中出现。这是电影第一次使用计算机生成图像。1982年《星际迷航II：可汗之怒》中的“创世纪”片段被普遍认为是VFX和计算机图形学的里程碑。这个片段首次使用了粒子系统，用CG的形式表现了爆炸效果。它是SIGGRAPH军事研究和电影工业早期交叉的产物之一。
+20世纪80年代初至90年代 20世纪80年代的技术进步使电脑比前几十年更便宜、功能更强，这促进了Xbox游戏等的兴起。1985年，任天堂发布了任天堂娱乐系统（NES），NES成为视频游戏史上最畅销的游戏机之一。20世纪90年代，随着模拟人生、命令与征服等游戏的发布，以及台式电脑的不断增强，电脑游戏变得越来越流行。
+1993年，电影《侏罗纪公园》成为第一部广泛使用计算机生成图形的电影，将计算机模拟的模拟恐龙几乎无缝地融入到实景中，这一事件改变了电影业。1995年，《玩具总动员》是第一部只使用计算机生成图像的电影，1998年，《蚁哥正传》第一次在动画中使用流体模拟。到了21世纪，计算机生成图像成为电影特效的主要选择。
+21世纪初至今 计算机图形学技术走向成熟，游戏和电影领域普遍使用基于物理的动画，在虚拟世界中模拟真实世界中物体之间的相互作用。
+基本概念 讲完发展历史，我们要开始正式进入基于物理的动画的世界。我把影视制作中基于物理的动画的制作归结为：“在计算机系统中、建立一定的物理模型、模拟生成动画并渲染成画面”。那么我们就需要首先了解一些基本概念。
+物理学的运动 在进入计算机之前，我们就需要把我们想要表现的画面、或者说想要模拟的现象，依据物理定律建构为物理模型。所以我们所有模拟首先要依赖于物理定律，由于目前影视制作的物理特效还很少涉及微观物理世界和超宏观物理世界（《蚁人2》、《星际穿越》这样的影片也仅仅是通过物理学家作为顾问来补齐一些“科幻设定”），所以我们使用的物理定律主要还是一般宏观视角的规律，如牛顿三大运动定律、各种守恒：
+牛顿运动定律 第一定律 假若施加于某物体的外力为零，则该物体的运动速度不变（惯性定律）【力是改变物体运动状态的原因】 第二定律 \(F = ma\) 【核心】 第三定律 当两个物体相互作用于对方时，彼此施加于对方的力，其大小相等、方向相反（作用力与反作用力定律） 三大守恒 质量守恒 动量守恒 \(\dfrac{d}{dt}mv=0\Rightarrow mv={\bf constant}\) 【来源自牛二定律】 能量守恒 在力学模拟中常常体现为机械能守恒 \(\dfrac{1}{2}mv^2&#43;mgh&#43;\dfrac{1}{2}k\Delta x^2(\Delta x=\int adt)&#43;\dots={\bf constant}\) 有了基本定律，我们就可以考虑要建构怎样的模型了。不同性质的物体，所形成的物理模型显然是不同的，典型的物体性质按材料分有刚体、软体、流体等等，针对不同的物体，我们有不同的物理模型，用各种系统去做模拟方法，第二节课我们就会说到其中一些代表性的模拟系统。
+计算机的离散系统 计算机与真实的物理世界最大的不同在于离散与连续。真实世界是一个连续的世界，我手在空中划过，我可以任取无数个时间点、我的手所在的位置，我的手的运动轨迹上的每一个点都是存在的。而如果在计算机系统中，这就是不可能的，我的手在计算机中一定会有一个计算精度，导致大量的点是不存在的，我手的运动其实是一次次“瞬移”组合而成的。这种离散化体现在两个方面：空间上和时间上。
+空间上的离散化 两种基本的观察视点 我们在观测一个物理现象时，一般有两种观察的方法：一种是盯着某个物体，观察物体的运动，视线随着物体走；一种是盯着某个区域，观察物体在这个区域的运动。到计算机中离散存储空间运动时，也需要用这两种观察方法：记录物体、把物体的状态信息存储在物体上，即拉格朗日视点；把空间网格化，记录某一位置是否有物体、物体的属性是什么，即欧拉视点（需要强调，这里的欧拉与前面的欧拉法解线性方程并不一样，我们伟大的数学、物理学家的名字可不能只用在一种地方啊）。
+拉格朗日视点 欧拉视点 视效工作中常用的三种表达方法 我们再具体一点，在视效工作中，离散化一个物理系统通常有以下几种：
+粒子 Particle 粒子就是把物体作为一个个“质点”的组合，假设还是观察挥手这个动作，那么把我的手当成一群点组成的点集（大家可以理解为细胞？或者我手上的所有分子？），追溯每一个点的位置、速度、加速度，对每一个点去迭代。这是一个很典型的拉格朗日视点方法。 物体网格 Mesh （粒子的复合体） 第二种大家应该是比较熟悉的。我们在雪松老师的建模课上、在MAYA中处理的大多数模型都是这种离散化方法。用一个个的面去组成我们的风车、无人机、甲壳虫，再如我的手。而我们建模课上，雪松老师无数次强调要用“四边面”来方便进一步细分曲面处理，但无论是四边面还是最终渲染管线中的三角面，都是由一个个的点组成的。我们在模拟迭代计算时，仍然考虑点的状态，因此这也是一种拉格朗日视点的方法。 空间网格/体素 Grid/Voxel 现在大家考虑把我手的运动的这个区域框成一个空间，把这个空间网格化，这个过程可以类比二维情况下的像素化，我们称为“体素”，以1mm*1mm*1mm的立方体作为一个体素来描述这个空间。我的手从左到右挥过这个空间，首先是左边的空间有物体存在，然后中间，最后右边。我们记录每一个体素上是否有物体、物体的运动速度、加速度等信息，来迭代。这种方法就是欧拉视点的方法了。 在后面我们的具体方法介绍中，大多数都使用的拉格朗日视点的方法，到流体部分会涉及到欧拉视点和两种视点混合的新型方法。
+时间上的离散化 时间维度上，我们用“时间步”的概念来离散化我们的物理模型，每一次需要计算的“点”称为一个时间步。假定我们的时间步长是1/24s，那么我们就会对相应物理模型每1/24s做一次计算（这个1/24s是物理模型的1/24s，不是我计算花的时间，事实上计算一个时间步所花的时间一般要比时间步长长得多），例如我的手花了1s挥过，那么我只计算其中的24个点、我的手位于什么位置，最终组合成一个动画。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-11-18</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB.html">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念" href="//elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture07 Rendering Pipeline, Post-Process and Everything Ambient Occlusion 接触阴影，满足渲染方程，但在渲染过程中直接渲染很难做到，因为计算尺度小（称为中尺度）。
+AO：单目视觉中形成3D感的重要元素
+不考虑尺度差异，AO和BRDF中的Geometry项（Shadowing-Masking）非常相似。
+Precomputed AO 使用Ray Tracing预计算成AO贴图。最为传统，但目前在角色等高精度需求中仍应用广泛。
+效果好，计算复杂，且无法处理多物体之间的AO。
+SSAO, Screen Space AO @GAMES202 SSAO
+HBAO, Horizon-based Ambient Occlusion 在法线方向半球空间内积分 \[ A=1-\dfrac{1}{2\pi}\int_{\theta=-\pi}^\pi\int_{\alpha=t(\theta)}^h(\theta)W(\vec\omega)\cos\alpha\,\mathrm d\alpha\mathrm d\theta \] 利用深度图做Ray Marching GTAO, Ground Truth - based AO SSAO和HBAO假定了各方向射入的光贡献相同，因此物理上错误。(法线方向照射来的光贡献更多。)
+\[ \hat A(x)=\dfrac{1}{\pi}\int_0^\pi\int_{\theta_1(\phi)}^{\theta_2(\phi)}\cos(\theta-\gamma)^&#43;|\sin(\theta)|\,\mathrm d\theta\mathrm d\phi\\\gamma={\rm angle}(\vec n, \vec v) \]
+根据大量的AO数据，拟合了一个三阶多项式，实现了有颜色的AO
+Ray-Tracing AO @GAMES202 RTRT
+Fog Depth Fog 随着深度透明度下降
+Linear fog: factor = (end-z) / (end - start) Exp fog: factor = exp(- density * z) Exp Squared fog: factor = exp(- (density * z) ^ 2) Height Fog 设定某一高度阈值，阈值以下恒定Fog强度，阈值以上指数递减...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-05-03</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything" href="//elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture06-2 Sky and Atmosphere Atmosphere 大气 Analytic Atmosphere Appearance Modeling 不必按照物理模拟，根据观察找模型拟合
+两个参数
+观察向量与垂直向上向量的夹角 \(\theta\) 观察向量与太阳方向的夹角 \(\gamma\) \[ \mathbb{F}(\theta,\gamma)=(1&#43;Ae^{\frac{B}{\cos\theta&#43;0.01}})\cdot(C&#43;De^{E\gamma}&#43;F\cos^2\gamma&#43;G\cdot\chi(H,\gamma)&#43;I\cdot\cos^{\frac{1}{2}}\theta)\\ L_\lambda = \mathbb{F}(\theta,\gamma)\cdot L_{M\lambda} \]
+优势：简单快捷，直接代入计算即可
+劣势：只能在地表观察，无法完成空中观察视角；参数固定，无法完成各种天气
+Participating Media 物理属性 大气中：空气、气溶胶，形成各种折射和反射
+光在Participating Media中：
+Absorption 吸收 \[ \dfrac{\mathrm dL(\mathrm x,\omega)}{\mathrm d\mathrm x}=-\sigma_\alpha\cdot L(\mathrm x,\omega)\\ \sigma_\alpha:\text{Absorption Coeffcient} \]
+Out-scattering 对外散射 \[ -\sigma_sL(\mathrm x,\omega)\\ \sigma_s:\text{Scattering Coeffcient} \]
+Emission 自发光（火焰、辉光等） \[ \sigma_\alpha L_e(\mathrm x,\omega) \]
+In-Scattering 对内散射 接收周围分子的Out-Scattering \[ \sigma_s\int_{S^2}f_p(\mathrm x,\omega,\omega&#39;)L(\mathrm x,\omega&#39;)\,\mathrm d\omega&#39;\\ f_p(\mathrm x,\omega,\omega&#39;):\text{Phase Function} \]...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-30</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere" href="//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-28</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering" href="//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-04-17-GAMES104现代游戏引擎-Lecture5-Lighting, Materials and Shaders
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture05 Lighting, Materials and Shaders The Rendering Equation \[ {\displaystyle L_{\text{o}}(\mathbf {x} ,\omega _{\text{o}},\lambda ,t)=L_{\text{e}}(\mathbf {x} ,\omega _{\text{o}},\lambda ,t)\ &#43;\int _{\Omega }f_{\text{r}}(\mathbf {x} ,\omega _{\text{i}},\omega _{\text{o}},\lambda ,t)L_{\text{i}}(\mathbf {x} ,\omega _{\text{i}},\lambda ,t)(\omega _{\text{i}}\cdot \mathbf {n} )\operatorname {d} \omega _{\text{i}}} \]
+多重挑战：
+如何得到入射光 Visibility to Lights, Shadow Light Source Complexity, 尤其面光源 如何快速地积分 如何计算次级光源，全局光照，无限递归 从简单开始 Ambient &#43; Simple Light == Result
+环境光贴图反射
+相当于Rendering Equation特例化
+Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#43;L_{\text{specular}}\\ &amp;=k_{\text{ambient}}I_{\text{ambient}}&#43;k_{\text{diffuse}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)&#43;k_{\text{specular}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)^p \end{aligned} \] 问题：...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-17</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-17-GAMES104现代游戏引擎-Lecture5-Lighting, Materials and Shaders" href="//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture04 Rendering in Game Engine 挑战
+场景极其复杂 实时，帧率稳定 大纲
+基础 硬件架构 渲染数据结构 可见性 材质、Shader、光照 PBR Shader Permutation 光照 点/方向光照 IBL / Simple GI 特殊的渲染 地形 天空 / 雾 后处理 Pipeline 前向渲染 Forward、延迟渲染 Deferred、Forward Plus Ring buffer and V-Sync Tiled-based Rendering @GAMES101
+Vertex Data -&gt; Triangle Data -&gt; Material Parameters -&gt; Textures
+投影 -&gt; 光栅化
+eg. Computation - Texture Sampling
+Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 Step 3 : 结果像素之间的线性插值 GPU SIMD and SIMT SIMD : Single Instruction Multiple Data eg....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-17</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine" href="//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering.html"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html">« Prev Page</a>
+    <a class="next" href="//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/page/3.html">Next Page »</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../../../js/medium-zoom.min.js" data-no-instant
+></script>
+<script src="../../../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

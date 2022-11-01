@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>数值分析 | xα&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="xα&#39;s blog">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">
+
+<link crossorigin="anonymous" href="../../../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/index.xml">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="数值分析 | xα&#39;s blog" />
+<meta name="twitter:description" content="xα&#39;s blog" />
+<meta property="og:title" content="数值分析 | xα&#39;s blog" />
+<meta property="og:description" content="xα&#39;s blog" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class="list-page type-tags kind-term layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags" class="active"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div>
+  <h1>
+    tag: 数值分析</h1><div class="inline-links">
+  
+  
+  <span><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/index.xml" target="_blank">RSS</a></span></div>
+</header>
+
+
+
+
+
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
+工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
+通法：
+将 \(Ax=b\) 改写为 \(x=B_0x&#43;f\) 任取初始值，如 \(x^{(0)}=(0,0,0)^T\) ，将其带入得到方程组解 \(x^{(1)}=B_0x^{(0)}&#43;f\) 依次得： \(x^{(2)}=B_0x^{(1)}&#43;f,\ x^{(2)}=B_0x^{(1)}&#43;f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}&#43;f,\ \dots\) 即得向量序列 \(x^{(0)},x^{(1)},\dots,x^{(k)}\) ，迭代公式 \(x^{(k)}=B_0x^{(k-1)}&#43;f\) 迭代次数较高时，向量序列 \(x^{(k)}\) 有可能收敛至逼近精确解的值（不一定）。 根据 \(x=Bx&#43;f\) 变形方式的不同，存在多种迭代算法。
+定义1：
+对于给定方程组 \(x=Bx&#43;f\) ，用公式 \(x^{k&#43;1}=Bx^{(k)}&#43;f,\ (k=0,1,2,3,\dots)\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \(B\) 与 \(k\) 无关）。
+如果 \(\lim\limits_{k\to\infty}x^{(k)}=x^*\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。
+由于需要研究 \(\{x^{(k)}\}\) 的收敛性，引进误差向量 \(\varepsilon^{(k&#43;1)}=x^{(k&#43;1)}-x^*\) 。易得到： \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\) ，递推得： \(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\) 。
+Jacobi迭代 通法细节：
+将 \(A\) 分裂成 \(A=M-N\) ，其中 \(M\) 为可选择的非奇异矩阵，使 \(Mx=d\) 易解，一般选择为 \(A\) 的某种近似，称 \(M\) 为分裂矩阵。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-01</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-01-数值分析-Day04-Jacobi-GaussSeidel" href="//elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-02-28-数值分析-Day03-范数-迭代改善算法
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。
+向量的范数 定义1：设 \(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)
+将实数 \((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)（或复数 \((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\) ）称为向量x,y的数量积（内积）。
+将非负实数 \(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}\) 或 \(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}|x_i|^2)^{1\over2}\) 称为向量 \(x\) 的欧式范数。
+引理：向量的内积运算支持交换律、分配律、与实数乘时的结合律。
+Cauchy-Schwarz不等式 \(|(x,y)|\le \|x\|_2\cdot\|y\|_2\) 当且仅当 \(x\) 与 \(y\) 线性相关时取等。
+三角不等式 \(\|x&#43;y\|_2\le\|x\|_2&#43;\|y\|_2\)
+定义2-向量的范数：若向量 \(x\in R^n\) （或 \(C^n\) ）的某个实值函数 \(N(x)=\|x\|\) ，满足条件： \[ \begin{aligned} &amp; (1)\ \|x\|\ge 0\ (\|x\|=0当且仅当x=0)\quad\textbf{正定条件}\\ &amp; (2)\ \|\alpha x\|=|\alpha|\|x\|,\ \forall\alpha\in R(或\alpha\in C)\quad\textbf{齐次性}\\ &amp; (3)\ \|x&#43;y\|_2\le\|x\|_2&#43;\|y\|_2\quad\textbf{三角不等式}\\ &amp; (3\to 4)\ \|x-y\|_2\ge\|x\|_2-\|y\|_2 \end{aligned} \] 则称 \(N(x)\) 是 \(R^n\) （或 \(C^n\) ）上的一个向量范数（或模）...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-02-28</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-28-数值分析-Day03-范数-迭代改善算法" href="//elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-02-27-数值分析-Day02-三角分解
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵
+若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\) ，记： \(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\ -l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31} &amp;&amp;&amp;&amp; 1 \end{pmatrix}\)
+则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-02-27</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-27-数值分析-Day02-三角分解" href="//elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3.html"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2021-02-26-数值分析-Day01-顺序Gauss消元
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>1.1 - 1.2 数值分析的算法要求 结构简单，易于计算机实现 理论上保证方法的收敛性和数值稳定性 计算效率高：速度快，内存开销小 经过数值实验验证 误差的来源和分类 模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免 观测误差：观测实验得到的参数带来的误差 截断误差：近似方法产生的误差 舍入误差：计算机有限位计算产生的误差 （后两者为本课程主要研究对象）
+绝对误差和相对误差
+设 \(x\) 是精确值 \(x^{*}\) 的一个近似值，则 \(e=x^{*}-x\) 为近似值 \(x\) 的绝对误差，简称误差。
+若 \(\varepsilon\) 满足 \(|e|\le\varepsilon\) ，则称 \(\varepsilon\) 为 \(x\) 的绝对误差限，简称误差限，有量纲。则满足 \(x-\varepsilon \le x^{*} \le x&#43;\varepsilon\) ，简写为 \(x^{*} = x\pm\varepsilon\) 。
+\(e_{r} = \displaystyle\frac{e}{x^{*}} = \frac{x^{*}-x}{x^{*}}\) 称相对误差。
+\(\varepsilon_{r} = \displaystyle\frac{\varepsilon}{|x|}\) 称相对误差限， \(|e_{r}| \le \varepsilon_{r}\) ，无量纲。
+（其中误差与相对误差用于理论分析，误差限与相对误差限用于实际应用。）
+1.3 有效数字 定义1：设数 \(x\) 是数 \(x^{*}\) 的近似值，如果 \(x\) 的绝对误差限是它的某一数位的半个单位，并且从 \(x\) 左起第一个非零数到该数位共有 \(n\) 位，则称这 \(n\) 个数字为 \(x\) 的有效数字，也称用 \(x\) 近似 \(x*\) 时具有 \(n\) 位有效数字。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-02-26</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-26-数值分析-Day01-顺序Gauss消元" href="//elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83.html"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">« Prev Page</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../../../js/medium-zoom.min.js" data-no-instant
+></script>
+<script src="../../../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

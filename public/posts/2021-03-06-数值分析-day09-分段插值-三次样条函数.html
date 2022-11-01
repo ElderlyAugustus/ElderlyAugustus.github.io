@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-03-06-数值分析-Day09-分段插值-三次样条函数 | xα&#39;s blog</title>
+<meta name="keywords" content="数值分析">
+<meta name="description" content="5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
+分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\) ，记 \(h_k=x_{k&#43;1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
+余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
+分段二次插值 相邻三个插值点作二次插值。
+课程中以线性插值中两邻点中间值，作为补充条件，即取 \(x_{i-0.5}=(x_i&#43;x_{i-1})/2\) 作为每组中的第三个插值点，使得两点间距为 \(h_k/2\) 。按照这种方式得到余项估计 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;&#39;(x)|}{72\sqrt{3}}h^3\) 。
+PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_2,x_3,x_4\}\ \{x_4,x_5,x_6\}\ \dots\) 作为插值点进行二次插值。
+分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\) ，给出插值条件： \(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\ (k=0,1,\dots,n)\) 。则每区间 \([x_{i-1},x_i]\) 具有四个插值条件。构造三次多项式 \(H_3^{(i)}(x)\) ： \[ \begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}&#43;\varphi_i(x)y_i&#43;\psi_{i-1}(x)y&#39;_{i-1}&#43;\psi_i(x)y&#39;_i\\ \left\{\begin{aligned} &amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0 &amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0 &amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\ &amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1 &amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\ &amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0 &amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\ &amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0 &amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\ \end{aligned}\right.">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-03-06-数值分析-Day09-分段插值-三次样条函数 | xα&#39;s blog" />
+<meta name="twitter:description" content="5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
+分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\) ，记 \(h_k=x_{k&#43;1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
+余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
+分段二次插值 相邻三个插值点作二次插值。
+课程中以线性插值中两邻点中间值，作为补充条件，即取 \(x_{i-0.5}=(x_i&#43;x_{i-1})/2\) 作为每组中的第三个插值点，使得两点间距为 \(h_k/2\) 。按照这种方式得到余项估计 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;&#39;(x)|}{72\sqrt{3}}h^3\) 。
+PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_2,x_3,x_4\}\ \{x_4,x_5,x_6\}\ \dots\) 作为插值点进行二次插值。
+分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\) ，给出插值条件： \(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\ (k=0,1,\dots,n)\) 。则每区间 \([x_{i-1},x_i]\) 具有四个插值条件。构造三次多项式 \(H_3^{(i)}(x)\) ： \[ \begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}&#43;\varphi_i(x)y_i&#43;\psi_{i-1}(x)y&#39;_{i-1}&#43;\psi_i(x)y&#39;_i\\ \left\{\begin{aligned} &amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0 &amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0 &amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\ &amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1 &amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\ &amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0 &amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\ &amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0 &amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\ \end{aligned}\right." />
+<meta property="og:title" content="2021-03-06-数值分析-Day09-分段插值-三次样条函数 | xα&#39;s blog" />
+<meta property="og:description" content="5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
+分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\) ，记 \(h_k=x_{k&#43;1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
+余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
+分段二次插值 相邻三个插值点作二次插值。
+课程中以线性插值中两邻点中间值，作为补充条件，即取 \(x_{i-0.5}=(x_i&#43;x_{i-1})/2\) 作为每组中的第三个插值点，使得两点间距为 \(h_k/2\) 。按照这种方式得到余项估计 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;&#39;(x)|}{72\sqrt{3}}h^3\) 。
+PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_2,x_3,x_4\}\ \{x_4,x_5,x_6\}\ \dots\) 作为插值点进行二次插值。
+分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\) ，给出插值条件： \(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\ (k=0,1,\dots,n)\) 。则每区间 \([x_{i-1},x_i]\) 具有四个插值条件。构造三次多项式 \(H_3^{(i)}(x)\) ： \[ \begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}&#43;\varphi_i(x)y_i&#43;\psi_{i-1}(x)y&#39;_{i-1}&#43;\psi_i(x)y&#39;_i\\ \left\{\begin{aligned} &amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0 &amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0 &amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\ &amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1 &amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\ &amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0 &amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\ &amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0 &amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\ \end{aligned}\right." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-06T17:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-06T17:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2021-03-06-数值分析-Day09-分段插值-三次样条函数",
+      "item": "//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-03-06-数值分析-Day09-分段插值-三次样条函数 | xα's blog",
+  "name": "2021-03-06-数值分析-Day09-分段插值-三次样条函数",
+  "description": "5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。\n分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \\(a=x_0\u0026lt;x_1\u0026lt;\\dots\u0026lt;x_n=b\\) ，记 \\(h_k=x_{k+1}-x_k,\\ h=\\max\\limits_{0\\le k\\le n-1}h_k\\) ，记分段插值函数为 \\(I_h(x)\\) ，为 \\(n-1\\) 段折线。\n余项估计有 \\(|f(x)-I_h(x)|\\le \\displaystyle\\frac{\\max\\limits_{a\\le x\\le b}|f\u0026#39;\u0026#39;(x)|}{8}h^2\\) ，说明分段线性插值函数具有一致收敛性。\n分段二次插值 相邻三个插值点作二次插值。\n课程中以线性插值中两邻点中间值，作为补充条件，即取 \\(x_{i-0.5}=(x_i+x_{i-1})/2\\) 作为每组中的第三个插值点，使得两点间距为 \\(h_k/2\\) 。按照这种方式得到余项估计 \\(|f(x)-I_h(x)|\\le \\displaystyle\\frac{\\max\\limits_{a\\le x\\le b}|f\u0026#39;\u0026#39;\u0026#39;(x)|}{72\\sqrt{3}}h^3\\) 。\nPS：个人认为应直接取连续三个插值点，即 \\(\\{x_0,x_1,x_2\\}\\ \\{x_2,x_3,x_4\\}\\ \\{x_4,x_5,x_6\\}\\ \\dots\\) 作为插值点进行二次插值。\n分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \\(a\\le x_0\u0026lt;x_1\u0026lt;\\dots\u0026lt;x_n\\le b,\\ h_i=x_i-x_{i-1}\\ (i=1,2,\\dots,n)\\) ，给出插值条件： \\(y_k=f(x_k),\\ y\u0026#39;_k=f\u0026#39;(x_k),\\ (k=0,1,\\dots,n)\\) 。则每区间 \\([x_{i-1},x_i]\\) 具有四个插值条件。构造三次多项式 \\(H_3^{(i)}(x)\\) ： \\[ \\begin{array}{c}H_3^{(i)}(x)=\\varphi_{i-1}(x)y_{i-1}+\\varphi_i(x)y_i+\\psi_{i-1}(x)y\u0026#39;_{i-1}+\\psi_i(x)y\u0026#39;_i\\\\ \\left\\{\\begin{aligned} \u0026amp;\\varphi_{i-1}(x_{i-1})=1 \u0026amp;\u0026amp;\\varphi_{i-1}(x_i)=0 \u0026amp;\u0026amp;\\varphi\u0026#39;_{i-1}(x_{i-1})=0 \u0026amp;\u0026amp;\\varphi\u0026#39;_{i-1}(x_i)=0\\\\ \u0026amp;\\varphi_i(x_{i-1})=0 \u0026amp;\u0026amp;\\varphi_i(x_i)=1 \u0026amp;\u0026amp;\\varphi\u0026#39;_i(x_{i-1})=0 \u0026amp;\u0026amp;\\varphi\u0026#39;_i(x_i)=0\\\\ \u0026amp;\\psi_{i-1}(x_{i-1})=0 \u0026amp;\u0026amp;\\psi_{i-1}(x_i)=0 \u0026amp;\u0026amp;\\psi\u0026#39;_{i-1}(x_{i-1})=1 \u0026amp;\u0026amp;\\psi\u0026#39;_{i-1}(x_i)=0\\\\ \u0026amp;\\psi_i(x_{i-1})=0 \u0026amp;\u0026amp;\\psi_i(x_i)=0 \u0026amp;\u0026amp;\\psi\u0026#39;_i(x_{i-1})=0 \u0026amp;\u0026amp;\\psi\u0026#39;_i(x_i)=1\\\\ \\end{aligned}\\right.",
+  "keywords": [
+    "数值分析"
+  ],
+  "wordCount" : "378",
+  "inLanguage": "en",
+  "datePublished": "2021-03-06T17:00:00+08:00",
+  "dateModified": "2021-03-06T17:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2021-03-06-数值分析-Day09-分段插值-三次样条函数</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-06</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%88%86%e6%ae%b5%e6%8f%92%e5%80%bc" aria-label="5.6 - 5.7 分段插值">5.6 - 5.7 分段插值</a><ul>
+                        
+                <li>
+                    <a href="#%e5%88%86%e6%ae%b5lagrange%e6%8f%92%e5%80%bc" aria-label="分段Lagrange插值">分段Lagrange插值</a><ul>
+                        
+                <li>
+                    <a href="#%e5%88%86%e6%ae%b5%e7%ba%bf%e6%80%a7%e6%8f%92%e5%80%bc" aria-label="分段线性插值">分段线性插值</a></li>
+                <li>
+                    <a href="#%e5%88%86%e6%ae%b5%e4%ba%8c%e6%ac%a1%e6%8f%92%e5%80%bc" aria-label="分段二次插值">分段二次插值</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%88%86%e6%ae%b5hermite%e6%8f%92%e5%80%bc" aria-label="分段Hermite插值">分段Hermite插值</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%b8%89%e6%ac%a1%e6%a0%b7%e6%9d%a1%e6%8f%92%e5%80%bc" aria-label="5.8 - 5.10 三次样条插值">5.8 - 5.10 三次样条插值</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81hermite%e6%8f%92%e5%80%bc" aria-label="代码：Hermite插值">代码：Hermite插值</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="分段插值">5.6 - 5.7 分段插值</h3>
+<p><strong>Runge现象</strong>：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。</p>
+<h4 id="分段lagrange插值">分段Lagrange插值</h4>
+<h5 id="分段线性插值">分段线性插值</h5>
+<p>通过相邻两个插值点作线性插值。已知节点 <span
+class="math inline">\(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\)</span> ，记 <span
+class="math inline">\(h_k=x_{k+1}-x_k,\ h=\max\limits_{0\le k\le
+n-1}h_k\)</span> ，记分段插值函数为 <span
+class="math inline">\(I_h(x)\)</span> ，为 <span
+class="math inline">\(n-1\)</span> 段折线。</p>
+<p>余项估计有 <span class="math inline">\(|f(x)-I_h(x)|\le
+\displaystyle\frac{\max\limits_{a\le x\le
+b}|f&#39;&#39;(x)|}{8}h^2\)</span>
+，说明分段线性插值函数具有一致收敛性。</p>
+<h5 id="分段二次插值">分段二次插值</h5>
+<p>相邻三个插值点作二次插值。</p>
+<p>课程中以线性插值中两邻点中间值，作为补充条件，即取 <span
+class="math inline">\(x_{i-0.5}=(x_i+x_{i-1})/2\)</span>
+作为每组中的第三个插值点，使得两点间距为 <span
+class="math inline">\(h_k/2\)</span> 。按照这种方式得到余项估计 <span
+class="math inline">\(|f(x)-I_h(x)|\le
+\displaystyle\frac{\max\limits_{a\le x\le
+b}|f&#39;&#39;&#39;(x)|}{72\sqrt{3}}h^3\)</span> 。</p>
+<p>PS：个人认为应直接取连续三个插值点，即 <span
+class="math inline">\(\{x_0,x_1,x_2\}\ \{x_2,x_3,x_4\}\ \{x_4,x_5,x_6\}\
+\dots\)</span> 作为插值点进行二次插值。</p>
+<h5
+id="分段lagrange插值的问题区间内出现不可导点">分段Lagrange插值的问题：区间内出现不可导点</h5>
+<h4 id="分段hermite插值">分段Hermite插值</h4>
+<p>设节点 <span class="math inline">\(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le
+b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\)</span> ，给出插值条件： <span
+class="math inline">\(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\
+(k=0,1,\dots,n)\)</span> 。则每区间 <span
+class="math inline">\([x_{i-1},x_i]\)</span>
+具有四个插值条件。构造三次多项式 <span
+class="math inline">\(H_3^{(i)}(x)\)</span> ： <span
+class="math display">\[
+\begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}+\varphi_i(x)y_i+\psi_{i-1}(x)y&#39;_{i-1}+\psi_i(x)y&#39;_i\\
+\left\{\begin{aligned}
+&amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0
+&amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0
+&amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\
+&amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1
+&amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\
+&amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0
+&amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\
+&amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0
+&amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\
+\end{aligned}\right.\\\Longrightarrow\quad\left\{\begin{aligned}
+&amp;H_3^{(i)}(x_{i-1})=y_{i-1}&amp;&amp;H_3^{(i)}(x_i)=y_i\\
+&amp;H_3&#39;^{(i)}(x_{i-1})=y&#39;_{i-1}&amp;&amp;H_3&#39;^{(i)}(x_i)=y&#39;_i
+\end{aligned}\right.\end{array}
+\]</span> 其中，称 <span class="math inline">\(\varphi_{i-1}(x),\
+\varphi_i(x),\ \psi_{i-1}(x),\ \psi_i(x)\)</span>
+为<strong>三次Hermite插值基函数</strong>。<br />
+求得： <span class="math display">\[
+\begin{array}{c}\left\{\begin{aligned}\displaystyle
+&amp;\varphi_{i-1}(x_{i-1})=\frac{1}{h_i^3}(2x-3x_{i-1}+x_i)(x-x_i)^2\\
+&amp;\varphi_i(x_{i-1})=\frac{1}{h_i^3}(-2x-x_{i-1}+3x_i)(x-x_{i-1})^2\\
+&amp;\psi_{i-1}(x_{i-1})=\frac{1}{h_i^2}(x-x_{i-1})(x-x_i)^2\\
+&amp;\psi_i(x_{i-1})=\frac{1}{h_i^2}(x-x_{i-1})^2(x-x_i)
+\end{aligned}\right.\\
+\begin{aligned}\displaystyle H_3^{(i)}(x)&amp;=\frac{
+(2x-3x_{i-1}+x_i)(x-x_i)^2y_{i-1}+(-2x-x_{i-1}+3x_i)(x-x_{i-1})^2y_i
+}{h_i^3}\\
+&amp;+\frac{
+(x-x_{i-1})(x-x_i)[(x-x_i)y&#39;_{i-1}+(x-x_{i-1})y&#39;_i]
+}{h_i^2}
+\end{aligned}\end{array}
+\]</span></p>
+<p><strong>余项分析</strong>：若 <span class="math inline">\(f(x)\in
+C^4[a,b]\)</span> （四阶连续可微），则当 <span
+class="math inline">\(x\in[x_{i-1},x_i]\)</span> 时，有： <span
+class="math display">\[
+\begin{array}{c}\displaystyle
+f(x)-H_3^{(i)}(x)=\frac{f^{(4)}(\xi_i)}{4!}(x-x_{i-1})^2(x-x_i)^2,\quad\xi\in[x_{i-1},x_i]\\
+\displaystyle |f(x)-H_3(x)|\le\frac{\max\limits_{a\le x\le
+b}|f^{(4)}(x)|\times h^4}{4!\times16}=\frac{\max\limits_{a\le x\le
+b}|f^{(4)}(x)|\times h^4}{384}\end{array}
+\]</span> 可知 <span class="math inline">\(H_3(x)\)</span>
+是收敛的，且在 <span class="math inline">\([a,b]\)</span>
+内具有一阶连续导数。</p>
+<h3 id="三次样条插值">5.8 - 5.10 三次样条插值</h3>
+<p>Hermite分段插值只能保证一阶连续可导，引入三次样条插值保证二阶连续可导。</p>
+<p><strong>三次样条函数</strong>：若函数 <span
+class="math inline">\(S(x)\in C^2[a,b]\)</span> ，且在每个小区间 <span
+class="math inline">\([x_j,x_{j+1}]\)</span> 上是三次多项式，其中 <span
+class="math inline">\(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\)</span>
+是给定节点，则称 <span class="math inline">\(S(x)\)</span> 是节点 <span
+class="math inline">\(x_0,x_1,\dots,x_n\)</span>
+上的<strong>三次样条函数</strong>。</p>
+<p><strong>分段三次多项式</strong>： <span
+class="math inline">\(S(x)=a_jx^3+b_jx^2+c_jx+d_j,\
+j=0,1,2,\dots,n-1\)</span> ，其中 <span class="math inline">\(a_j\ b_j\
+c_j\ d_j\)</span> 为待定系数，因此函数共有 <span
+class="math inline">\(4n\)</span> 个待定参数。函数满足关系： <span
+class="math inline">\(\left\{\begin{array}{l}S(x_j-0)=S(x_j+0)\\S&#39;(x_j-0)=S&#39;(x_j+0)\\S&#39;&#39;(x_j-0)=S&#39;&#39;(x_j+0)\end{array}\right.\)</span>
+，共 <span class="math inline">\(3n-3\)</span> 个条件，加上插值条件
+<span class="math inline">\(S(x_j)=f_j,\ j=0,1,\dots,n\)</span> 共 <span
+class="math inline">\(4n-2\)</span>
+个条件。在此基础上在区间端点处添加一对<strong>边界条件</strong>即可满足唯一确定
+<span class="math inline">\(4n\)</span> 个待定参数的 <span
+class="math inline">\(4n\)</span> 个条件。</p>
+<p><strong>边界条件</strong>：一般来说有两种边界条件，即两端点的一阶导数值或二阶导数值。</p>
+<p><strong>周期边界条件</strong>：当 <span
+class="math inline">\(f(x)\)</span> 是以 <span
+class="math inline">\(x_n-x_0\)</span> 为周期的周期函数时，要求 <span
+class="math inline">\(S(x)\)</span> 也是周期函数，此时边界条件满足：
+<span
+class="math inline">\(\left\{\begin{array}{l}S(x_0+0)=S(x_n-0)\\S&#39;(x_0+0)=S&#39;(x_n-0)\\S&#39;&#39;(x_0+0)=S&#39;&#39;(x_n-0)\end{array}\right.\)</span>
+，且端点二阶导数值均为 <span class="math inline">\(0\)</span>
+。称这样的样条函数为<strong>周期样条函数</strong>。</p>
+<h3 id="代码hermite插值">代码：Hermite插值</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-06.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>vector<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> x_im1<span class="op">;</span> <span class="dt">double</span> x_i<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y_im1<span class="op">;</span> <span class="dt">double</span> y_i<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> y_1_im1<span class="op">;</span> <span class="dt">double</span> y_1_i<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">// x, y, y_1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> array<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> H<span class="op">(</span><span class="dt">double</span> x<span class="op">);</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> <span class="va">array_</span> <span class="op">{{</span><span class="dv">100</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span><span class="dv">20</span><span class="op">},</span> <span class="op">{</span><span class="dv">121</span><span class="op">,</span> <span class="dv">11</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span><span class="dv">22</span><span class="op">},</span> <span class="op">{</span><span class="dv">144</span><span class="op">,</span> <span class="dv">12</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span><span class="dv">24</span><span class="op">},</span> <span class="op">{</span><span class="dv">169</span><span class="op">,</span> <span class="dv">13</span><span class="op">,</span> <span class="dv">1</span><span class="op">/</span><span class="dv">26</span><span class="op">}};</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    array<span class="op">.</span>assign<span class="op">(</span><span class="va">array_</span><span class="op">.</span>begin<span class="op">(),</span> <span class="va">array_</span><span class="op">.</span>end<span class="op">());</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> H<span class="op">(</span><span class="dv">125</span><span class="op">);</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> H<span class="op">(</span><span class="dt">double</span> x<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    sort<span class="op">(</span>array<span class="op">.</span>begin<span class="op">(),</span> array<span class="op">.</span>end<span class="op">(),</span> <span class="op">[](</span><span class="at">const</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="op">&amp;</span>a<span class="op">,</span> <span class="at">const</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="op">&amp;</span>b<span class="op">)</span> <span class="op">{</span><span class="cf">return</span> a<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;</span> b<span class="op">[</span><span class="dv">0</span><span class="op">];</span> <span class="op">});</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> array<span class="op">.</span>size<span class="op">();</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span> x <span class="op">&lt;</span> array<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">])</span> <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            x_im1 <span class="op">=</span> array<span class="op">[</span>i<span class="op">][</span><span class="dv">0</span><span class="op">];</span> x_i <span class="op">=</span> array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>            y_im1 <span class="op">=</span> array<span class="op">[</span>i<span class="op">][</span><span class="dv">1</span><span class="op">];</span> y_i <span class="op">=</span> array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>            y_1_im1 <span class="op">=</span> array<span class="op">[</span>i<span class="op">][</span><span class="dv">2</span><span class="op">];</span> y_1_i <span class="op">=</span> array<span class="op">[</span>i<span class="op">+</span><span class="dv">1</span><span class="op">][</span><span class="dv">2</span><span class="op">];</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> h_i <span class="op">=</span> x_i <span class="op">-</span> x_im1<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> h <span class="op">=</span> <span class="op">(</span> <span class="op">(</span> <span class="op">(</span><span class="dv">2</span> <span class="op">*</span> x <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> x_im1 <span class="op">+</span> x_i<span class="op">)</span> <span class="op">*</span> pow<span class="op">((</span>x <span class="op">-</span> x_i<span class="op">),</span> <span class="dv">2</span><span class="op">)</span> <span class="op">*</span> y_im1</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                 <span class="op">+</span> <span class="op">(-</span> <span class="dv">2</span> <span class="op">*</span> x <span class="op">-</span> x_im1 <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x_i<span class="op">)</span> <span class="op">*</span> pow<span class="op">((</span>x <span class="op">-</span> x_im1<span class="op">),</span> <span class="dv">2</span><span class="op">)</span> <span class="op">*</span> y_i <span class="op">)</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>             <span class="op">+</span> h_i <span class="op">*</span> <span class="op">(</span>x <span class="op">-</span> x_im1<span class="op">)</span> <span class="op">*</span> <span class="op">(</span>x <span class="op">-</span> x_i<span class="op">)</span> <span class="op">*</span> <span class="op">((</span>x <span class="op">-</span> x_i<span class="op">)</span> <span class="op">*</span> y_1_im1 <span class="op">+</span> <span class="op">(</span>x <span class="op">-</span> x_im1<span class="op">)</span> <span class="op">*</span> y_1_i <span class="op">)</span> <span class="op">)</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>             <span class="op">/</span> pow<span class="op">(</span>h_i<span class="op">,</span> <span class="dv">3</span><span class="op">);</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h<span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

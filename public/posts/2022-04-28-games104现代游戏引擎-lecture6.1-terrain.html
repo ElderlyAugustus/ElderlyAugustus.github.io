@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation" />
+<meta property="og:title" content="2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering | xα&#39;s blog" />
+<meta property="og:description" content="Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-04-28T15:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-04-28T15:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering",
+      "item": "//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering | xα's blog",
+  "name": "2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering",
+  "description": "Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -\u0026gt; 非均匀网格 -\u0026gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -\u0026gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -\u0026gt; Runtime Tessellation -\u0026gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "247",
+  "inLanguage": "en",
+  "datePublished": "2021-04-28T15:00:00+08:00",
+  "dateModified": "2021-04-28T15:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-28</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E.html">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#simple-idea---heightfield" aria-label="Simple Idea - Heightfield">Simple Idea - Heightfield</a></li>
+                <li>
+                    <a href="#tessellation" aria-label="Tessellation">Tessellation</a><ul>
+                        
+                <li>
+                    <a href="#triangle-based-subdivision" aria-label="Triangle-Based Subdivision">Triangle-Based Subdivision</a></li>
+                <li>
+                    <a href="#gpu-based-tessellation" aria-label="GPU-Based Tessellation">GPU-Based Tessellation</a></li></ul>
+                </li>
+                <li>
+                    <a href="#paint-terrain-materials" aria-label="Paint Terrain Materials">Paint Terrain Materials</a><ul>
+                        
+                <li>
+                    <a href="#%e6%b7%b7%e5%90%88%e8%b4%b4%e5%9b%be" aria-label="混合贴图">混合贴图</a></li>
+                <li>
+                    <a href="#%e6%b5%ae%e7%82%b9%e6%95%b0%e7%b2%be%e5%ba%a6%e6%ba%a2%e5%87%ba" aria-label="浮点数精度溢出">浮点数精度溢出</a></li></ul>
+                </li>
+                <li>
+                    <a href="#tree-rendering" aria-label="Tree Rendering">Tree Rendering</a></li>
+                <li>
+                    <a href="#road-and-decals-rendering" aria-label="Road and Decals Rendering">Road and Decals Rendering</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="lecture06-rendering-of-mother-nature">Lecture06 Rendering of
+Mother Nature</h2>
+<h3 id="lecture06-1-terrain-rendering-地形渲染">Lecture06-1 Terrain
+Rendering 地形渲染</h3>
+<h4 id="simple-idea---heightfield">Simple Idea - Heightfield</h4>
+<center>
+<img src="../images/games104/L06_HeightMap.jpg" alt="L06_HeightMap" style="zoom:22.5%;" /><img src="../images/games104/L06_ContourMap.jpg" alt="L06_ContourMap" style="zoom:15%;" />
+<center/>
+<center>
+Height Map / Contour Map
+<center/>
+<ul>
+<li>符合分形原则</li>
+<li>渲染
+<ul>
+<li>均匀网格，依据Heightfield位移每一个顶点
+问题：世界过大时过于复杂</li>
+<li>解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀
+<strong>Adaptive Mesh Tessellation</strong>
+<img src="../images/games104/L06_AdaptiveMeshTessellation.jpg" alt="L06_AdaptiveMeshTessellation" style="zoom: 33%;" /></li>
+<li>优化原则
+<ul>
+<li>依据Distance to Camera和FoV做LoD</li>
+<li><strong>Error
+Bound</strong>：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小）</li>
+</ul></li>
+</ul></li>
+</ul>
+<h4 id="tessellation">Tessellation</h4>
+<h5 id="triangle-based-subdivision">Triangle-Based Subdivision</h5>
+<p><img src="../images/games104/L06_TriangleBasedSubdivision.jpg" alt="L06_TriangleBasedSubdivision" style="zoom: 33%;" /></p>
+<ul>
+<li>在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形
+<img src="../images/games104/L06_TriangleBasedSubdivisionLevels.jpg" alt="L06_TriangleBasedSubdivisionLevels" style="zoom:30%;" /></li>
+<li>二叉树结构，因此又称<strong>Binary Triangle-Based
+Subdivision</strong></li>
+<li><strong>T-Junctions</strong>
+<img src="../images/games104/L06_T-Junction.jpg" alt="L06_T-Junction" style="zoom: 20%;" />
+解决方法：判断若邻边切分更密，则当前边也需同样进行切分
+<img src="../images/games104/L06_T-JunctionSolution.jpg" alt="L06_T-JunctionSolution" style="zoom: 50%;" /></li>
+<li>实际应用中不广泛</li>
+</ul>
+<h5 id="quadtree-based-subdivision-四叉树分割">QuadTree-Based
+Subdivision 四叉树分割</h5>
+<p><img src="../images/games104/L06_QuadTreeBasedSubdivision.jpg" alt="L06_QuadTreeBasedSubdivision" style="zoom: 33%;" /></p>
+<ul>
+<li>优势
+<ul>
+<li>易于建构</li>
+<li>易于管理几何分区数据，Objects Culling和Data Streaming</li>
+<li>符合Texture存储规范</li>
+</ul></li>
+<li>劣势
+<ul>
+<li>Mesh细分没有三角形细分灵活</li>
+<li>叶子节点的网格层级锁定</li>
+</ul></li>
+<li>符合直觉，应用主流
+<img src="../images/games104/L06_QuadTreeTerrain.png" alt="L06_QuadTreeTerrain" style="zoom:25%;" /></li>
+<li><strong>T-Junctions</strong>
+<ul>
+<li>与三角形分割类似的问题，细分层级边界处产生</li>
+<li>解决方法：<strong>Stitching 吸附</strong>
+<img src="../images/games104/L06_Stitching.png" alt="L06_Stitching" style="zoom: 25%;" />
+吸附生成的三角形：<strong>退化三角形</strong></li>
+</ul></li>
+<li><strong>Triangulated Irregular Network (TIN)</strong>
+<img src="../images/games104/L06_TIN.jpg" alt="L06_TIN" style="zoom:33%;" />
+<ul>
+<li>几何细节不丰富处，用较粗的三角形</li>
+<li>优势
+<ul>
+<li>易于Runtime渲染</li>
+<li>更少的三角形</li>
+</ul></li>
+<li>劣势
+<ul>
+<li>需要预计算</li>
+<li>不够通用</li>
+</ul></li>
+<li>特殊的游戏会用</li>
+</ul></li>
+</ul>
+<h5 id="gpu-based-tessellation">GPU-Based Tessellation</h5>
+<ul>
+<li><p>DX11开始：
+<img src="../images/games104/L06_GPUBasedTessllation.jpg" alt="L06_GPUBasedTessllation" style="zoom: 33%;" /></p>
+<ul>
+<li>Hull-Shader Stage：生成Subdivision用的Patch，告诉Control
+point数据和Tessellation数量</li>
+<li>Tessellator Stage：做Tessellation</li>
+<li>Domain-Shader Stage：根据高度图移动顶点</li>
+<li>Geometry Shader Stage：算Vertex
+<img src="../images/games104/L06_DX11TerrainShaders.png" alt="L06_DX11TerrainShaders" style="zoom: 50%;" /></li>
+</ul></li>
+<li><p><strong>Mesh Shader Pipeline</strong> (DX12)
+<img src="../images/games104/L06_MeshShaderPipeline.jpg" alt="L06_MeshShaderPipeline" style="zoom: 80%;" /></p></li>
+<li><p>GPU-Based Tessellation -&gt; Runtime Tessellation -&gt;
+<strong>Real-Time Deformable Terrain</strong>
+假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation</p></li>
+</ul>
+<h4 id="non-heightfield-terrain-悬崖山洞等">Non-Heightfield Terrain
+悬崖、山洞等</h4>
+<ul>
+<li>传统做法：在悬崖、山洞处悬空插入物体</li>
+<li>一种Trick：山洞处的顶点做标记，GPU处理退化消除；再向山洞中加入物体</li>
+<li>目前用的较少一种的方法——体素化
+<ul>
+<li>体素化表达世界，在每个体素上存当前空间物质密度</li>
+<li><strong>Marching Cube</strong>：14种方法把cube切分成三角面
+<img src="../images/games104/L06_MarchingCube.jpg" alt="L06_MarchingCube" style="zoom:50%;" /></li>
+<li>问题：Marching Cube怎么解决近密远疏并保证密封，LUT方法解决</li>
+<li>全动态地形——支持打洞</li>
+</ul></li>
+</ul>
+<h4 id="paint-terrain-materials">Paint Terrain Materials</h4>
+<h5 id="混合贴图">混合贴图</h5>
+<ul>
+<li><p>问题：边缘过渡羽化
+<img src="../images/games104/L06_SimpleTextureSplatting.jpg" alt="L06_SimpleTextureSplatting" style="zoom: 67%;" /></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> texture1<span class="op">.</span><span class="fu">rgb</span> <span class="op">*</span> a1 <span class="op">+</span> texture2<span class="op">.</span><span class="fu">rgb</span> <span class="op">*</span> a2<span class="op">;</span></span></code></pre></div></li>
+<li><p>解决：Height作为Alpha
+<img src="../images/games104/L06_HeightMapsAlphaBlending.png" alt="L06_HeightMapsAlphaBlending" style="zoom: 33%;" /></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> height1 <span class="op">&gt;</span> height2 <span class="op">?</span> texture1<span class="op">.</span><span class="fu">rgb</span> <span class="op">:</span> texture2<span class="op">.</span><span class="fu">rgb</span></span></code></pre></div></li>
+<li><p>问题：0-1切换信息高频，在远观时过于Sharp 解决：Biased 扰动
+<img src="../images/games104/L06_HeightMapsAlphaBlendingBiased.png" alt="L06_HeightMapsAlphaBlendingBiased" style="zoom: 33%;" /></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode glsl"><code class="sourceCode glsl"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> depth <span class="op">=</span> <span class="fl">0.2</span><span class="op">;</span> <span class="co">//Height Bias</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> ma <span class="op">=</span> <span class="bu">max</span><span class="op">(</span>texture1<span class="op">.</span><span class="fu">a</span> <span class="op">+</span> height1<span class="op">,</span> texture2<span class="op">.</span><span class="fu">a</span> <span class="op">+</span> height2<span class="op">)</span> <span class="op">-</span> depth<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> b1 <span class="op">=</span> <span class="bu">max</span><span class="op">(</span>texture1<span class="op">.</span><span class="fu">a</span> <span class="op">+</span> height1 <span class="op">-</span> ma<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="dt">float</span> b2 <span class="op">=</span> <span class="bu">max</span><span class="op">(</span>texture2<span class="op">.</span><span class="fu">a</span> <span class="op">+</span> height2 <span class="op">-</span> ma<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">return</span> <span class="op">(</span>texture1<span class="op">.</span><span class="fu">rgb</span> <span class="op">*</span> b1 <span class="op">+</span> texture2<span class="op">.</span><span class="fu">rgb</span> <span class="op">*</span> b2<span class="op">)</span> <span class="op">/</span> <span class="op">(</span>b1 <span class="op">+</span> b2<span class="op">);</span></span></code></pre></div></li>
+<li><p>实战中：更多Texture -&gt; <strong>Texture Array</strong>
+<code>TextureArray[Index]</code></p></li>
+<li><p><strong>Parallax and Displacement Mapping</strong>
+由于表面高度，看到位置B而非A
+<img src="../images/games104/L06_ParallaxMapping.jpg" alt="L06_ParallaxMapping" style="zoom: 33%;" />
+更彻底的方法：Displacement Mapping，直接改变Mesh
+<img src="../images/games104/L06_ParallaxAndDisplacementMapping.png" alt="L06_ParallaxAndDisplacementMapping" style="zoom: 33%;" /></p></li>
+<li><p>大量材质图读写的性能开销 -&gt; <strong>Virture
+Texture</strong></p>
+<ul>
+<li>核心思想：把用到的部分装载在内存中，不用的放在硬盘上</li>
+<li>把地形分成块（2的幂次切割），只加载能看到的地形</li>
+<li><img src="../images/games104/L06_VirtualTexture.jpg" alt="L06_VirtualTexture" style="zoom: 50%;" /></li>
+</ul></li>
+</ul>
+<h5 id="virtual-texture-implementation-directstorage-dma">Virtual
+Texture Implementation, DirectStorage &amp; DMA</h5>
+<ul>
+<li>GPU cache管理
+<img src="../images/games104/L06_GPUCacheManagement.jpg" alt="L06_GPUCacheManagement" style="zoom: 25%;" /></li>
+<li>DirectStorage
+<img src="../images/games104/L06_DirectStorage.jpg" alt="L06_DirectStorage" style="zoom: 67%;" /></li>
+<li>DMA
+<img src="../images/games104/L06_DMA.jpg" alt="L06_DMA" style="zoom: 50%;" /></li>
+</ul>
+<h5 id="浮点数精度溢出">浮点数精度溢出</h5>
+<ul>
+<li><p>浮点数数值小时精度高、数值大时精度低</p></li>
+<li><p>摄影机离物体过远时，出现严重抖动与闪烁</p></li>
+<li><p><strong>Camera-Relative Rendering 相机相对性渲染</strong>
+在MVP变换之前，将相机位置设为世界坐标系原点；重新计算MVP矩阵</p></li>
+<li><p>其他方法 eg. UE Sublevels，每个Sublevel重置坐标系</p></li>
+</ul>
+<h4 id="tree-rendering">Tree Rendering</h4>
+<h4 id="decorator-rendering-装饰物草灌木等">Decorator Rendering
+装饰物，草、灌木等</h4>
+<h4 id="road-and-decals-rendering">Road and Decals Rendering</h4>
+<ul>
+<li>Road
+<ul>
+<li>Spline</li>
+<li>Spline to Mesh，放置在地形上</li>
+<li>路面侵蚀地形，处理高度场</li>
+</ul></li>
+<li>Decal 贴片，贴花</li>
+<li>全部直接Bake到Virtual Texture上</li>
+</ul>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-04-17-GAMES104现代游戏引擎-Lecture5-Lighting, Materials and Shaders</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2021-03-04-数值分析-Day07-Newton迭代法 | xα&#39;s blog</title>
+<meta name="keywords" content="数值分析">
+<meta name="description" content="4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \(\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)
+泰勒展开公式： \(\displaystyle f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n&#43;R_n(x)\)
+皮亚诺型余项： \(R_n(x)=o[(x-a)^n]\) ，即当 \(x\to a\) 时，余项为 \((x-a)^n\) 的高阶无穷小 拉格朗日型余项： \(R_n(x)=\displaystyle\frac{f^{(n&#43;1)}(\theta)}{(n&#43;1)!}(x-a)^{(n&#43;1)},\ \theta\in(a,x)\)
+积分型余项： \(R_{n}(x)=\displaystyle\int_{a}^{x}{\frac{f^{{(n&#43;1)}}(t)}{n!}}(x-t)^{n}\,dt\) 原理：将非线性方程线性化——Taylor展开
+取 \(x_0\) 作为初始近似值，将 \(f(x)\) 在 \(x_0\) 处做一阶Taylor展开： \[ \begin{array}{c}f(x)=f(x_0)&#43;f&#39;(x_0)(x-x_0)&#43;\displaystyle{f&#39;&#39;(\xi)}{2!}(x-x_0)^2,\quad \xi\in(x_0,x)\\ 0=f(x^*)\approx f(x_0)&#43;f&#39;(x_0)(x-x_0)\quad\Rightarrow\quad x^*\approx x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ \left\{\begin{array}{l}x_1=x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ x_{k&#43;1}=x_k-\displaystyle\frac{f(x_k)}{f&#39;(x_k)}\quad\leftarrow\ \textbf{Newton迭代公式}\end{array}\right.\end{array} \]
+Newton迭代法的收敛性 定理：设 \(f\in C^2[a,b]\) （二阶连续可微），若 \(x^*\) 为 \(f(x)=0\) 在 \([a,b]\) 上的根，且 \(f&#39;(x^*)\neq0\) ，则Newton迭代法是二阶收敛的，且有 \(\displaystyle\lim_{k\to\infty}\frac{x_{k&#43;1}-x^*}{(x_k-x^*)^2}=\frac{f&#39;&#39;(x^*)}{2f&#39;(x^*)}\) 。
+初值的选取：令 \(c=\displaystyle\frac{\max|f&#39;&#39;(x)|}{2\min|f&#39;(x)|}\) ，则有： \[ c|x_{k&#43;1}-x^*|\le(c|x_{k}-x^*|)^2\le(c|x_{k-1}-x^*|)^4\le\dots\le\le(c|x_{k&#43;1}-x^*|)^{2^{k&#43;1}} \] 因此， \(c|x_0-x^*|=1\ \Rightarrow\ |x_0-x^*|\le\displaystyle\frac{2\min|f&#39;(x)|}{\max|f&#39;&#39;(x)|}\) 时，Newton迭代法收敛。
+Newton下山法 调整 \(x_0\) 的选取来使得Newton迭代法满足收敛条件。">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2021-03-04-数值分析-Day07-Newton迭代法 | xα&#39;s blog" />
+<meta name="twitter:description" content="4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \(\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)
+泰勒展开公式： \(\displaystyle f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n&#43;R_n(x)\)
+皮亚诺型余项： \(R_n(x)=o[(x-a)^n]\) ，即当 \(x\to a\) 时，余项为 \((x-a)^n\) 的高阶无穷小 拉格朗日型余项： \(R_n(x)=\displaystyle\frac{f^{(n&#43;1)}(\theta)}{(n&#43;1)!}(x-a)^{(n&#43;1)},\ \theta\in(a,x)\)
+积分型余项： \(R_{n}(x)=\displaystyle\int_{a}^{x}{\frac{f^{{(n&#43;1)}}(t)}{n!}}(x-t)^{n}\,dt\) 原理：将非线性方程线性化——Taylor展开
+取 \(x_0\) 作为初始近似值，将 \(f(x)\) 在 \(x_0\) 处做一阶Taylor展开： \[ \begin{array}{c}f(x)=f(x_0)&#43;f&#39;(x_0)(x-x_0)&#43;\displaystyle{f&#39;&#39;(\xi)}{2!}(x-x_0)^2,\quad \xi\in(x_0,x)\\ 0=f(x^*)\approx f(x_0)&#43;f&#39;(x_0)(x-x_0)\quad\Rightarrow\quad x^*\approx x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ \left\{\begin{array}{l}x_1=x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ x_{k&#43;1}=x_k-\displaystyle\frac{f(x_k)}{f&#39;(x_k)}\quad\leftarrow\ \textbf{Newton迭代公式}\end{array}\right.\end{array} \]
+Newton迭代法的收敛性 定理：设 \(f\in C^2[a,b]\) （二阶连续可微），若 \(x^*\) 为 \(f(x)=0\) 在 \([a,b]\) 上的根，且 \(f&#39;(x^*)\neq0\) ，则Newton迭代法是二阶收敛的，且有 \(\displaystyle\lim_{k\to\infty}\frac{x_{k&#43;1}-x^*}{(x_k-x^*)^2}=\frac{f&#39;&#39;(x^*)}{2f&#39;(x^*)}\) 。
+初值的选取：令 \(c=\displaystyle\frac{\max|f&#39;&#39;(x)|}{2\min|f&#39;(x)|}\) ，则有： \[ c|x_{k&#43;1}-x^*|\le(c|x_{k}-x^*|)^2\le(c|x_{k-1}-x^*|)^4\le\dots\le\le(c|x_{k&#43;1}-x^*|)^{2^{k&#43;1}} \] 因此， \(c|x_0-x^*|=1\ \Rightarrow\ |x_0-x^*|\le\displaystyle\frac{2\min|f&#39;(x)|}{\max|f&#39;&#39;(x)|}\) 时，Newton迭代法收敛。
+Newton下山法 调整 \(x_0\) 的选取来使得Newton迭代法满足收敛条件。" />
+<meta property="og:title" content="2021-03-04-数值分析-Day07-Newton迭代法 | xα&#39;s blog" />
+<meta property="og:description" content="4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \(\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)
+泰勒展开公式： \(\displaystyle f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n&#43;R_n(x)\)
+皮亚诺型余项： \(R_n(x)=o[(x-a)^n]\) ，即当 \(x\to a\) 时，余项为 \((x-a)^n\) 的高阶无穷小 拉格朗日型余项： \(R_n(x)=\displaystyle\frac{f^{(n&#43;1)}(\theta)}{(n&#43;1)!}(x-a)^{(n&#43;1)},\ \theta\in(a,x)\)
+积分型余项： \(R_{n}(x)=\displaystyle\int_{a}^{x}{\frac{f^{{(n&#43;1)}}(t)}{n!}}(x-t)^{n}\,dt\) 原理：将非线性方程线性化——Taylor展开
+取 \(x_0\) 作为初始近似值，将 \(f(x)\) 在 \(x_0\) 处做一阶Taylor展开： \[ \begin{array}{c}f(x)=f(x_0)&#43;f&#39;(x_0)(x-x_0)&#43;\displaystyle{f&#39;&#39;(\xi)}{2!}(x-x_0)^2,\quad \xi\in(x_0,x)\\ 0=f(x^*)\approx f(x_0)&#43;f&#39;(x_0)(x-x_0)\quad\Rightarrow\quad x^*\approx x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ \left\{\begin{array}{l}x_1=x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\ x_{k&#43;1}=x_k-\displaystyle\frac{f(x_k)}{f&#39;(x_k)}\quad\leftarrow\ \textbf{Newton迭代公式}\end{array}\right.\end{array} \]
+Newton迭代法的收敛性 定理：设 \(f\in C^2[a,b]\) （二阶连续可微），若 \(x^*\) 为 \(f(x)=0\) 在 \([a,b]\) 上的根，且 \(f&#39;(x^*)\neq0\) ，则Newton迭代法是二阶收敛的，且有 \(\displaystyle\lim_{k\to\infty}\frac{x_{k&#43;1}-x^*}{(x_k-x^*)^2}=\frac{f&#39;&#39;(x^*)}{2f&#39;(x^*)}\) 。
+初值的选取：令 \(c=\displaystyle\frac{\max|f&#39;&#39;(x)|}{2\min|f&#39;(x)|}\) ，则有： \[ c|x_{k&#43;1}-x^*|\le(c|x_{k}-x^*|)^2\le(c|x_{k-1}-x^*|)^4\le\dots\le\le(c|x_{k&#43;1}-x^*|)^{2^{k&#43;1}} \] 因此， \(c|x_0-x^*|=1\ \Rightarrow\ |x_0-x^*|\le\displaystyle\frac{2\min|f&#39;(x)|}{\max|f&#39;&#39;(x)|}\) 时，Newton迭代法收敛。
+Newton下山法 调整 \(x_0\) 的选取来使得Newton迭代法满足收敛条件。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-03-04T19:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-03-04T19:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2021-03-04-数值分析-Day07-Newton迭代法",
+      "item": "//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2021-03-04-数值分析-Day07-Newton迭代法 | xα's blog",
+  "name": "2021-03-04-数值分析-Day07-Newton迭代法",
+  "description": "4.11 - 15 牛顿迭代法 Newton迭代法 泰勒级数： \\(\\displaystyle f(x)=\\sum_{n=0}^{\\infty}\\frac{f^{(n)}(a)}{n!}(x-a)^n\\)\n泰勒展开公式： \\(\\displaystyle f(x)=\\sum_{n=0}^n\\frac{f^{(n)}(a)}{n!}(x-a)^n+R_n(x)\\)\n皮亚诺型余项： \\(R_n(x)=o[(x-a)^n]\\) ，即当 \\(x\\to a\\) 时，余项为 \\((x-a)^n\\) 的高阶无穷小 拉格朗日型余项： \\(R_n(x)=\\displaystyle\\frac{f^{(n+1)}(\\theta)}{(n+1)!}(x-a)^{(n+1)},\\ \\theta\\in(a,x)\\)\n积分型余项： \\(R_{n}(x)=\\displaystyle\\int_{a}^{x}{\\frac{f^{{(n+1)}}(t)}{n!}}(x-t)^{n}\\,dt\\) 原理：将非线性方程线性化——Taylor展开\n取 \\(x_0\\) 作为初始近似值，将 \\(f(x)\\) 在 \\(x_0\\) 处做一阶Taylor展开： \\[ \\begin{array}{c}f(x)=f(x_0)+f\u0026#39;(x_0)(x-x_0)+\\displaystyle{f\u0026#39;\u0026#39;(\\xi)}{2!}(x-x_0)^2,\\quad \\xi\\in(x_0,x)\\\\ 0=f(x^*)\\approx f(x_0)+f\u0026#39;(x_0)(x-x_0)\\quad\\Rightarrow\\quad x^*\\approx x_0-\\displaystyle\\frac{f(x_0)}{f\u0026#39;(x_0)}\\\\ \\left\\{\\begin{array}{l}x_1=x_0-\\displaystyle\\frac{f(x_0)}{f\u0026#39;(x_0)}\\\\ x_{k+1}=x_k-\\displaystyle\\frac{f(x_k)}{f\u0026#39;(x_k)}\\quad\\leftarrow\\ \\textbf{Newton迭代公式}\\end{array}\\right.\\end{array} \\]\nNewton迭代法的收敛性 定理：设 \\(f\\in C^2[a,b]\\) （二阶连续可微），若 \\(x^*\\) 为 \\(f(x)=0\\) 在 \\([a,b]\\) 上的根，且 \\(f\u0026#39;(x^*)\\neq0\\) ，则Newton迭代法是二阶收敛的，且有 \\(\\displaystyle\\lim_{k\\to\\infty}\\frac{x_{k+1}-x^*}{(x_k-x^*)^2}=\\frac{f\u0026#39;\u0026#39;(x^*)}{2f\u0026#39;(x^*)}\\) 。\n初值的选取：令 \\(c=\\displaystyle\\frac{\\max|f\u0026#39;\u0026#39;(x)|}{2\\min|f\u0026#39;(x)|}\\) ，则有： \\[ c|x_{k+1}-x^*|\\le(c|x_{k}-x^*|)^2\\le(c|x_{k-1}-x^*|)^4\\le\\dots\\le\\le(c|x_{k+1}-x^*|)^{2^{k+1}} \\] 因此， \\(c|x_0-x^*|=1\\ \\Rightarrow\\ |x_0-x^*|\\le\\displaystyle\\frac{2\\min|f\u0026#39;(x)|}{\\max|f\u0026#39;\u0026#39;(x)|}\\) 时，Newton迭代法收敛。\nNewton下山法 调整 \\(x_0\\) 的选取来使得Newton迭代法满足收敛条件。",
+  "keywords": [
+    "数值分析"
+  ],
+  "wordCount" : "612",
+  "inLanguage": "en",
+  "datePublished": "2021-03-04T19:00:00+08:00",
+  "dateModified": "2021-03-04T19:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2021-03-04-数值分析-Day07-Newton迭代法</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-03-04</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90.html">数值分析</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%89%9b%e9%a1%bf%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="4.11 - 15 牛顿迭代法">4.11 - 15 牛顿迭代法</a><ul>
+                        
+                <li>
+                    <a href="#newton%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="Newton迭代法">Newton迭代法</a></li>
+                <li>
+                    <a href="#newton%e8%bf%ad%e4%bb%a3%e6%b3%95%e7%9a%84%e6%94%b6%e6%95%9b%e6%80%a7" aria-label="Newton迭代法的收敛性">Newton迭代法的收敛性</a></li>
+                <li>
+                    <a href="#newton%e4%b8%8b%e5%b1%b1%e6%b3%95" aria-label="Newton下山法">Newton下山法</a></li>
+                <li>
+                    <a href="#newton%e8%bf%ad%e4%bb%a3%e6%b3%95%e7%9a%84%e5%8f%98%e5%bd%a2" aria-label="Newton迭代法的变形">Newton迭代法的变形</a><ul>
+                        
+                <li>
+                    <a href="#%e7%ae%80%e5%8c%96newton%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="简化Newton迭代法">简化Newton迭代法</a></li>
+                <li>
+                    <a href="#%e5%89%b2%e7%ba%bf%e6%b3%95" aria-label="割线法">割线法</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%b1%82%e9%87%8d%e6%a0%b9%e7%9a%84newton%e8%bf%ad%e4%bb%a3%e6%b3%95" aria-label="求重根的Newton迭代法">求重根的Newton迭代法</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81newton%e8%bf%ad%e4%bb%a3%e6%b3%95%e4%b8%89%e7%a7%8d" aria-label="代码：Newton迭代法（三种）">代码：Newton迭代法（三种）</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="牛顿迭代法">4.11 - 15 牛顿迭代法</h3>
+<h4 id="newton迭代法">Newton迭代法</h4>
+<blockquote>
+<p>泰勒级数： <span class="math inline">\(\displaystyle
+f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n\)</span></p>
+<p>泰勒展开公式： <span class="math inline">\(\displaystyle
+f(x)=\sum_{n=0}^n\frac{f^{(n)}(a)}{n!}(x-a)^n+R_n(x)\)</span></p>
+<ul>
+<li>皮亚诺型余项： <span
+class="math inline">\(R_n(x)=o[(x-a)^n]\)</span> ，即当 <span
+class="math inline">\(x\to a\)</span> 时，余项为 <span
+class="math inline">\((x-a)^n\)</span> 的高阶无穷小</li>
+<li>拉格朗日型余项： <span
+class="math inline">\(R_n(x)=\displaystyle\frac{f^{(n+1)}(\theta)}{(n+1)!}(x-a)^{(n+1)},\
+\theta\in(a,x)\)</span><br />
+</li>
+<li>积分型余项： <span
+class="math inline">\(R_{n}(x)=\displaystyle\int_{a}^{x}{\frac{f^{{(n+1)}}(t)}{n!}}(x-t)^{n}\,dt\)</span></li>
+</ul>
+</blockquote>
+<p><strong>原理</strong>：将非线性方程线性化——Taylor展开</p>
+<p>取 <span class="math inline">\(x_0\)</span> 作为初始近似值，将 <span
+class="math inline">\(f(x)\)</span> 在 <span
+class="math inline">\(x_0\)</span> 处做一阶Taylor展开： <span
+class="math display">\[
+\begin{array}{c}f(x)=f(x_0)+f&#39;(x_0)(x-x_0)+\displaystyle{f&#39;&#39;(\xi)}{2!}(x-x_0)^2,\quad
+\xi\in(x_0,x)\\
+0=f(x^*)\approx f(x_0)+f&#39;(x_0)(x-x_0)\quad\Rightarrow\quad
+x^*\approx x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\
+\left\{\begin{array}{l}x_1=x_0-\displaystyle\frac{f(x_0)}{f&#39;(x_0)}\\
+x_{k+1}=x_k-\displaystyle\frac{f(x_k)}{f&#39;(x_k)}\quad\leftarrow\
+\textbf{Newton迭代公式}\end{array}\right.\end{array}
+\]</span></p>
+<h4 id="newton迭代法的收敛性">Newton迭代法的收敛性</h4>
+<p><strong>定理</strong>：设 <span class="math inline">\(f\in
+C^2[a,b]\)</span> （二阶连续可微），若 <span
+class="math inline">\(x^*\)</span> 为 <span
+class="math inline">\(f(x)=0\)</span> 在 <span
+class="math inline">\([a,b]\)</span> 上的根，且 <span
+class="math inline">\(f&#39;(x^*)\neq0\)</span>
+，则Newton迭代法是二阶收敛的，且有 <span
+class="math inline">\(\displaystyle\lim_{k\to\infty}\frac{x_{k+1}-x^*}{(x_k-x^*)^2}=\frac{f&#39;&#39;(x^*)}{2f&#39;(x^*)}\)</span>
+。</p>
+<p><strong>初值的选取</strong>：令 <span
+class="math inline">\(c=\displaystyle\frac{\max|f&#39;&#39;(x)|}{2\min|f&#39;(x)|}\)</span>
+，则有： <span class="math display">\[
+c|x_{k+1}-x^*|\le(c|x_{k}-x^*|)^2\le(c|x_{k-1}-x^*|)^4\le\dots\le\le(c|x_{k+1}-x^*|)^{2^{k+1}}
+\]</span> 因此， <span class="math inline">\(c|x_0-x^*|=1\ \Rightarrow\
+|x_0-x^*|\le\displaystyle\frac{2\min|f&#39;(x)|}{\max|f&#39;&#39;(x)|}\)</span>
+时，Newton迭代法收敛。</p>
+<h4 id="newton下山法">Newton下山法</h4>
+<p>调整 <span class="math inline">\(x_0\)</span>
+的选取来使得Newton迭代法满足收敛条件。</p>
+<p><strong>定义</strong>：对Newton迭代过程附加单调性要求： <span
+class="math inline">\(|f(x_{k+1})|&lt;|x_k|\)</span>
+，满足该条件的Newton迭代法称为<strong>Newton下山法</strong>。</p>
+<p><strong>实现</strong>：若由 <span class="math inline">\(x_k\)</span>
+得到的 <span class="math inline">\(x_{k+1}\)</span> 不能使得 <span
+class="math inline">\(|f|\)</span> 减小，则在 <span
+class="math inline">\(x_k\)</span> 和 <span
+class="math inline">\(x_{k+1}\)</span> 之间找点 <span
+class="math inline">\(\overline{x_{k+1}}\)</span> ，使得 <span
+class="math inline">\(|f(\overline{x_{k+1}})|&lt;|f(x_k)|\)</span> ，
+<span class="math display">\[
+\begin{aligned}\overline{x_{k+1}}&amp;=\lambda x_{k+1}+(1-\lambda)x_k\\
+&amp;=\lambda[x_k-\frac{f(x_k)}{f&#39;(x_k)}]+(1-\lambda)x_k\\
+&amp;=x_k-\lambda\frac{f(x_k)}{f&#39;(x_k)}\end{aligned}
+\]</span> 其中， <span class="math inline">\(\lambda=1\)</span>
+时即Newton迭代法，当 <span class="math inline">\(\lambda=1\)</span>
+效果不好时，将 <span class="math inline">\(\lambda\)</span>
+减半计算。</p>
+<h4 id="newton迭代法的变形">Newton迭代法的变形</h4>
+<p>Newton下山法中计算每次迭代都需要计算一阶导数，试图简化计算。</p>
+<h5 id="简化newton迭代法">简化Newton迭代法</h5>
+<p>采用迭代格式： <span
+class="math inline">\(x_{k+1}=x_k-\displaystyle\frac{f(x_k)}{M},\
+k=0,1,2,\dots\)</span> ，即用常数来代替一阶导，通常取 <span
+class="math inline">\(M=f&#39;(x_0)\)</span>
+。一般，简化Newton迭代法只具有线性收敛。</p>
+<h5 id="割线法">割线法</h5>
+<p>采用迭代格式： <span
+class="math inline">\(x_{k+1}=x_k-\displaystyle\frac{f(x_k)}{f(x_k)-f(x_{k-1})}\
+k=0,1,2,3,\dots\)</span> ，需要取两个初值 <span
+class="math inline">\(x_0,x_1\)</span> 。收敛阶 <span
+class="math inline">\(p\approx1.618\)</span> 。</p>
+<h4 id="求重根的newton迭代法">求重根的Newton迭代法</h4>
+<blockquote>
+<p><strong>重根</strong>：称 <span class="math inline">\(x^*\)</span>
+为方程 <span class="math inline">\(f(x)=0\)</span> 的 <span
+class="math inline">\(m\)</span> 重根时，是指 <span
+class="math inline">\(f(x)=(x-x^*)^mh(x)\)</span> ，其中 <span
+class="math inline">\(h(x)\)</span> 在 <span
+class="math inline">\(x=x^*\)</span> 处连续且 <span
+class="math inline">\(h(x^*)\neq0\)</span> ，若 <span
+class="math inline">\(h(x)\)</span> 在 <span
+class="math inline">\(x^*\)</span> 处充分可微，则 <span
+class="math inline">\(f(x^*)=f&#39;(x^*)=\dots=f^{(m-1)}(x^*)=0,\
+f^{(m)}(x^*)\neq0\)</span> 。</p>
+</blockquote>
+<p>由于 <span
+class="math inline">\([f(x)]^{\frac{1}{m}}=(x-x^*)[h(x)]^{\frac{1}{m}}\)</span>
+，知 <span class="math inline">\(x^*\)</span> 恰是方程 <span
+class="math inline">\([f(x)]^{\frac{1}{m}}\)</span>
+的单根。应用Newton迭代法对该方程求解，得到： <span
+class="math display">\[
+\begin{aligned}x_{k+1}&amp;=x_k-\frac{[f(x_k)]^{\frac{1}{m}}}{\frac{1}{m}[f(x_k)]^{\frac{1}{m}-1}f&#39;(x_k)}\\
+&amp;=x_k-m\frac{f(x_k)}{f&#39;(x_k)},\quad k=0,1,2,\dots\end{aligned}
+\]</span> 也称之为<strong>带参数的Newton迭代法</strong>，求方程 <span
+class="math inline">\(f(x)=0\)</span> 的 <span
+class="math inline">\(m\)</span> 重根时具有平方收敛。</p>
+<p>当 <span class="math inline">\(m\)</span> 未知时：</p>
+<p>根据函数 <span class="math inline">\(\displaystyle
+u(x)=\frac{f(x)}{f&#39;(x)}=\frac{(x-x^*)h(x)}{mh(x)+(x-x^*)h&#39;(x)}\)</span>
+，可见 <span class="math inline">\(x^*\)</span> 恰是方程 <span
+class="math inline">\(u(x)\)</span> 的单根。对之应用Newton迭代法有：
+<span class="math display">\[
+x_{k+1}=x_k-\frac{u(x_k)}{u&#39;(x_k)}=x_k-\frac{f(x_k)f&#39;(x_k)}{[f&#39;(x_k)]^2-f(x_k)f&#39;&#39;(x_k)},\quad
+k=0,1,2,\dots
+\]</span> 在该迭代过程中，不需要知道根的重数，具有平方收敛。</p>
+<h3 id="代码newton迭代法三种">代码：Newton迭代法（三种）</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-03-04.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;functional&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">//已知一阶导函数求单根</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_1<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">);</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">//已知二阶导函数求重根（重数任意）</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_1<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_2<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">);</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">//未知导函数，有二初值，利用割线法求单根</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">,</span> <span class="dt">double</span> x_1<span class="op">);</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> f <span class="op">=</span> <span class="op">[&amp;](</span><span class="dt">double</span> x<span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">double</span> <span class="op">{</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pow<span class="op">(</span>x<span class="op">,</span><span class="dv">4</span><span class="op">)</span> <span class="op">-</span> <span class="fl">8.6</span><span class="op">*</span>pow<span class="op">(</span>x<span class="op">,</span><span class="dv">3</span><span class="op">)</span> <span class="op">-</span> <span class="fl">35.51</span><span class="op">*</span>pow<span class="op">(</span>x<span class="op">,</span><span class="dv">2</span><span class="op">)</span> <span class="op">+</span> <span class="fl">464.4</span><span class="op">*</span>x <span class="op">-</span> <span class="fl">998.46</span><span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> f_1 <span class="op">=</span> <span class="op">[&amp;](</span><span class="dt">double</span> x<span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">double</span> <span class="op">{</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">4</span><span class="op">*</span>pow<span class="op">(</span>x<span class="op">,</span><span class="dv">3</span><span class="op">)</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span><span class="fl">8.6</span><span class="op">*</span>pow<span class="op">(</span>x<span class="op">,</span><span class="dv">2</span><span class="op">)</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span><span class="fl">35.51</span><span class="op">*</span>x <span class="op">+</span> <span class="fl">464.4</span><span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> f_2 <span class="op">=</span> <span class="op">[&amp;](</span><span class="dt">double</span> x<span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">double</span> <span class="op">{</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">3</span><span class="op">*</span><span class="dv">4</span><span class="op">*</span>pow<span class="op">(</span>x<span class="op">,</span><span class="dv">2</span><span class="op">)</span> <span class="op">-</span> <span class="dv">2</span><span class="op">*</span><span class="dv">3</span><span class="op">*</span><span class="fl">8.6</span><span class="op">*</span>x <span class="op">-</span> <span class="dv">2</span><span class="op">*</span><span class="fl">35.51</span><span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    iterate<span class="op">(</span>f<span class="op">,</span> f_1<span class="op">,</span> <span class="dv">7</span><span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    iterate<span class="op">(</span>f<span class="op">,</span> f_1<span class="op">,</span> f_2<span class="op">,</span> <span class="dv">4</span><span class="op">);</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    iterate<span class="op">(</span>f<span class="op">,</span> <span class="dv">7</span><span class="op">,</span> <span class="dv">8</span><span class="op">);</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_1<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> x <span class="op">=</span> x_0<span class="op">;</span> <span class="dt">double</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span> <span class="dt">double</span> f_1_x <span class="op">=</span> f_1<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> next_x <span class="op">=</span> x <span class="op">-</span> f_x <span class="op">/</span> f_1_x<span class="op">;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>next_x <span class="op">-</span> x<span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>count<span class="op">;</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> next_x<span class="op">;</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span> f_1_x <span class="op">=</span> f_1<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot;第&quot;</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">&quot;次：&quot;</span> <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        next_x <span class="op">=</span> x <span class="op">-</span> f_x <span class="op">/</span> f_1_x<span class="op">;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>f<span class="op">(</span>next_x<span class="op">))</span> <span class="op">&gt;</span> <span class="bu">std::</span>abs<span class="op">(</span>f_x<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            lambda <span class="op">/=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>            next_x <span class="op">=</span> x <span class="op">-</span> lambda <span class="op">*</span> f_x <span class="op">/</span> f_1_x<span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_1<span class="op">,</span> <span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f_2<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> x <span class="op">=</span> x_0<span class="op">;</span> <span class="dt">double</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span> <span class="dt">double</span> f_1_x <span class="op">=</span> f_1<span class="op">(</span>x<span class="op">);</span> <span class="dt">double</span> f_2_x <span class="op">=</span> f_2<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> next_x <span class="op">=</span> x <span class="op">-</span> f_x<span class="op">*</span>f_1_x<span class="op">/(</span>f_1_x<span class="op">*</span>f_1_x<span class="op">-</span>f_x<span class="op">*</span>f_2_x<span class="op">);</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>next_x <span class="op">-</span> x<span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>count<span class="op">;</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> next_x<span class="op">;</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span> f_1_x <span class="op">=</span> f_1<span class="op">(</span>x<span class="op">);</span> f_2_x<span class="op">=</span>f_2<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot;第&quot;</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">&quot;次：&quot;</span> <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>        next_x <span class="op">=</span> x <span class="op">-</span> f_x<span class="op">*</span>f_1_x<span class="op">/(</span>f_1_x<span class="op">*</span>f_1_x<span class="op">-</span>f_x<span class="op">*</span>f_2_x<span class="op">);</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>f<span class="op">(</span>next_x<span class="op">))</span> <span class="op">&gt;</span> <span class="bu">std::</span>abs<span class="op">(</span>f_x<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>            lambda <span class="op">/=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>            next_x <span class="op">=</span> x <span class="op">-</span> lambda <span class="op">*</span> f_x<span class="op">*</span>f_1_x<span class="op">/(</span>f_1_x<span class="op">*</span>f_1_x<span class="op">-</span>f_x<span class="op">*</span>f_2_x<span class="op">);</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot;OK&quot;</span><span class="op">;</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> iterate<span class="op">(</span><span class="bu">std::</span>function<span class="op">&lt;</span><span class="dt">double</span> <span class="op">(</span><span class="dt">double</span><span class="op">)&gt;</span> <span class="at">const</span><span class="op">&amp;</span> f<span class="op">,</span> <span class="dt">double</span> x_0<span class="op">,</span> <span class="dt">double</span> x_1<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> pre_x <span class="op">=</span> x_0<span class="op">;</span> <span class="dt">double</span> f_pre_x <span class="op">=</span> f<span class="op">(</span>pre_x<span class="op">);</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> x <span class="op">=</span> x_1<span class="op">;</span> <span class="dt">double</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> <span class="va">g_x</span> <span class="op">=</span> f_x <span class="op">-</span> f_pre_x<span class="op">;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> next_x <span class="op">=</span> x <span class="op">-</span> f_x <span class="op">/</span> <span class="va">g_x</span><span class="op">;</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="dt">double</span> lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>next_x <span class="op">-</span> x<span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1e-6</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>        <span class="op">++</span>count<span class="op">;</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>        pre_x <span class="op">=</span> x<span class="op">;</span> x <span class="op">=</span> next_x<span class="op">;</span> f_pre_x <span class="op">=</span> f<span class="op">(</span>pre_x<span class="op">);</span> f_x <span class="op">=</span> f<span class="op">(</span>x<span class="op">);</span> <span class="va">g_x</span> <span class="op">=</span> f_x <span class="op">-</span> f_pre_x<span class="op">;</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="st">&quot;第&quot;</span> <span class="op">&lt;&lt;</span> count <span class="op">&lt;&lt;</span> <span class="st">&quot;次：&quot;</span> <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>        lambda <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>        next_x <span class="op">=</span> x <span class="op">-</span> f_x <span class="op">/</span> <span class="va">g_x</span><span class="op">;</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="bu">std::</span>abs<span class="op">(</span>f<span class="op">(</span>next_x<span class="op">))</span> <span class="op">&gt;</span> <span class="bu">std::</span>abs<span class="op">(</span>f_x<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>            lambda <span class="op">/=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>            next_x <span class="op">=</span> x <span class="op">-</span> lambda <span class="op">*</span> f_x <span class="op">/</span> <span class="va">g_x</span><span class="op">;</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

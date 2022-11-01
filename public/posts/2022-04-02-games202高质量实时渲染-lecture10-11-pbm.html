@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material | xα&#39;s blog</title>
+<meta name="keywords" content="高质量实时渲染">
+<meta name="description" content="Lecture 10-11 Physically-Based Material Content
+Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
+Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR">
+<meta name="author" content="xα">
+<link rel="canonical" href="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html">
+
+<link crossorigin="anonymous" href="../assets/css/stylesheet.min.8557677b96aef9ab17733bd031b66e9a516d50a5288baa05010b3cb7336fb748.css" integrity="" rel="preload stylesheet" as="style">
+<link rel="icon" href="//elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="//elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material | xα&#39;s blog" />
+<meta name="twitter:description" content="Lecture 10-11 Physically-Based Material Content
+Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
+Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR" />
+<meta property="og:title" content="2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material | xα&#39;s blog" />
+<meta property="og:description" content="Lecture 10-11 Physically-Based Material Content
+Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
+Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html" />
+    <meta property="og:image" content="//elderlyaugustus.github.io/cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2021-04-02T15:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2021-04-02T15:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material",
+      "item": "//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material | xα's blog",
+  "name": "2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material",
+  "description": "Lecture 10-11 Physically-Based Material Content\nReal-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept\nPhysically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR",
+  "keywords": [
+    "高质量实时渲染"
+  ],
+  "wordCount" : "523",
+  "inLanguage": "en",
+  "datePublished": "2021-04-02T15:00:00+08:00",
+  "dateModified": "2021-04-02T15:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "//elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "//elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="//elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="//elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="//elderlyaugustus.github.io/">Home</a></div><h1 class="post-title">2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>2021-04-02</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="//elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93.html">高质量实时渲染</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#recap-microfacet-brdf" aria-label="Recap: Microfacet BRDF">Recap: Microfacet BRDF</a><ul>
+                        
+                <li>
+                    <a href="#fresnel-term" aria-label="Fresnel term">Fresnel term</a></li>
+                <li>
+                    <a href="#shadowing-masking-term" aria-label="Shadowing-Masking Term">Shadowing-Masking Term</a></li>
+                <li>
+                    <a href="#%e9%97%ae%e9%a2%98%e8%83%bd%e9%87%8f%e6%8d%9f%e5%a4%b1" aria-label="问题：能量损失">问题：能量损失</a></li></ul>
+                </li>
+                <li>
+                    <a href="#disney-principled-brdf" aria-label="Disney Principled BRDF">Disney Principled BRDF</a></li>
+                <li>
+                    <a href="#non-photorealistic-rendering" aria-label="Non-Photorealistic Rendering">Non-Photorealistic Rendering</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h3 id="lecture-10-11-physically-based-material">Lecture 10-11
+Physically-Based Material</h3>
+<p><strong>Content</strong></p>
+<ul>
+<li>Real-Time Physically-Based Materials
+<ul>
+<li>Microfacet BRDF</li>
+<li>Disney principled BRDF</li>
+</ul></li>
+<li>Shading with microfacet BRDFs under polygonal lighting
+<ul>
+<li>Linearly Transformed Cosines (LTC)</li>
+</ul></li>
+</ul>
+<p><strong>Concept</strong></p>
+<ul>
+<li>Physically-Based Rendering (PBR)
+<ul>
+<li>Everything in rendering should be physically based</li>
+<li>Materials, lighting, camera, light transport, etc.</li>
+<li>Not just materials, but usually referred to as materials</li>
+</ul></li>
+<li>PBR materials in RTR
+<ul>
+<li>The RTR community is much behind the offline community</li>
+<li>“PB” in RTR is usually not actually physically based</li>
+</ul></li>
+</ul>
+<p><strong>PBR materials in RTR</strong></p>
+<ul>
+<li><p>For surfaces</p>
+<ul>
+<li>Microfacet models (used wrong so not “PBR”)</li>
+<li>Disney principled BRDFs (artist friendly but still not “PBR”)</li>
+</ul></li>
+<li><p>For volumes (cloud, hair, skin, etc.)</p>
+<p>focused on fast and approximate single scattering and multiple
+scattering</p></li>
+</ul>
+<h4 id="recap-microfacet-brdf">Recap: Microfacet BRDF</h4>
+<p><img src="../images/games202/MicrofacetBRDF.png" alt="MicrofacetBRDF" style="zoom: 25%;" /></p>
+<h5 id="fresnel-term">Fresnel term</h5>
+<ul>
+<li><p>精确表达非常复杂，需要考虑S/P极化
+<img src="../images/games202/FresnelTerm.png" alt="FresnelTerm" style="zoom:30%;" /></p></li>
+<li><p>Schlick’s approximation 近似为基础反射率 <span
+class="math inline">\(R_0\)</span> 的变化 <span class="math display">\[
+R(\theta)=R_0+(1-R_0)(1-\cos\theta)^5\\
+R_0=\left(\dfrac{n_1-n_2}{n_1+n_2}\right)^2
+\]</span></p></li>
+</ul>
+<h5 id="normal-distribution-function-ndf">Normal Distribution Function
+(NDF)</h5>
+<blockquote>
+<p>此处NDF中的Normal为“法线”，须与表示“正态分布”的“Normal
+Distribution”中的Normal区分</p>
+</blockquote>
+<ul>
+<li><p>法线分布集中 ==&gt; glossy
+<img src="../images/games202/NDF1.png" alt="NDF1" style="zoom: 33%;" /></p>
+<p>法线分布分散 ==&gt; diffuse
+<img src="../images/games202/NDF2.png" alt="NDF2" style="zoom:33%;" /></p>
+<p>（diffuse的微表面可以视作specular的微表面纵向scale而得到，而纵向scale使得diffuse的微表面“沟壑”较深）</p></li>
+<li><p>描述NDF的模型</p>
+<ul>
+<li><p>Beckmann NDF <span class="math display">\[
+D(h)=\dfrac{e^{-\frac{\tan^2\theta_h}{\alpha^2}}}{\pi\alpha^2\cos^4\theta_h}\\
+\alpha:\text{roughness of the surface}\\
+\theta_h:\text{angle between half vector }h\text{ and normal }n
+\]</span></p>
+<ul>
+<li>类似Gaussian</li>
+<li>在slope space（坡度空间）上定义 如图即定义在 <span
+class="math inline">\(\tan\theta\)</span>
+所在平面上（可以保证不出现面朝下的微表面，但较难解决反射光朝下的情况）
+<img src="../images/games202/NDF3.png" alt="NDF3" style="zoom: 25%;" /></li>
+<li>在project solid angle上积分为1</li>
+</ul></li>
+<li><p>GGX （or Trowbridge-Reitz） <span class="math display">\[
+D_{\rm GGX}(\theta_h) = \frac{\alpha^2}{\pi\cos^4\theta_ m(\alpha^2 +
+\tan^2\theta_h)^2}\\
+\alpha:\text{roughness}^2
+\]</span></p>
+<ul>
+<li>特征：long tail 长尾巴
+衰减到一定程度后非常慢，可使Specular出现“光晕”
+<img src="../images/games202/NDF4.jpg" alt="NDF4" style="zoom: 50%;" /></li>
+<li>对比
+<img src="../images/games202/NDF5.png" alt="NDF5" style="zoom: 25%;" /></li>
+</ul></li>
+<li><p>Extending GGX</p>
+<ul>
+<li>GTR (Generalized Trowbridge-Reitz) （<span
+class="math inline">\(\gamma\)</span>
+较大时，接近Beckmann，相当于统一了两种model）
+<img src="../images/games202/NDF6.jpg" alt="NDF6" style="zoom:50%;" /></li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="shadowing-masking-term">Shadowing-Masking Term</h5>
+<p>Or <strong>Geometry Term</strong> : <strong>G</strong></p>
+<ul>
+<li><p>解决微表面之间的自遮挡问题</p></li>
+<li><p>Shadowing 光线照射到微表面 <img
+src="../images/games202/ShadowingMaskingTerm1.jpg"
+alt="ShadowingMaskingTerm1" /></p>
+<p>Masking 光线反射进入眼睛 <img
+src="../images/games202/ShadowingMaskingTerm2.jpg"
+alt="ShadowingMaskingTerm2" /></p></li>
+<li><p>变暗操作，靠近垂直方向时几乎不变暗（G值为1），Grazing
+angle（掠视）时变暗（G值减小，直至接近0）</p></li>
+<li><p>常用的Shadowing-Masking Term</p>
+<ul>
+<li><p>Smith Shadowing-Masking Term</p></li>
+<li><p>把Shadowing和Masking拆开（假定两者无关，事实上有关） <span
+class="math display">\[
+G(i,o,m)\approx G_1(i,m)G_1(o,m)
+\]</span></p></li>
+<li><p>Beckmann（绿）和GGX（红）分别的Shadowing-Masking项
+<img src="../images/games202/ShadowingMaskingTerm3.jpg" alt="ShadowingMaskingTerm3" style="zoom: 40%;" /></p></li>
+<li><p>eg. 与GGX法线分布匹配的Smith模型 <span class="math display">\[
+G_{\rm Smith}(\mathbf{i},\mathbf{o},\mathbf{h})=G_{\rm
+Schlick}(\mathbf{l},\mathbf{h})G_{\rm Schlick}(\mathbf{v},\mathbf{h})\\
+k=\dfrac{({\rm roughness}+1)^2}{8}\\
+G_{\rm Schlick}(\mathbf{v},\mathbf{n})=\dfrac{\mathbf{n}\cdot
+\mathbf{v}}{\mathbf{n}\cdot \mathbf{v}(1-k)+k}
+\]</span></p></li>
+</ul></li>
+</ul>
+<h5 id="问题能量损失">问题：能量损失</h5>
+<blockquote>
+<p><strong>白炉测试 White Furnace
+Test</strong>：在完全均匀的全局环境光下渲染物体，若物体与背景同色，说明不存在能量损失，若变暗说明存在能量损失。</p>
+</blockquote>
+<ul>
+<li><p>发现，Roughness值增大会导致能量损失（图2为白炉测试）
+<img src="../images/games202/MissingEnergy1.jpg" alt="MissingEnergy1" style="zoom: 50%;" />
+<img src="../images/games202/MissingEnergy2.jpg" alt="MissingEnergy2" style="zoom: 50%;" /></p></li>
+<li><p>Roughness越大，微表面沟壑越多，越容易自遮挡（Shadowing-Masking程度大）
+——而现实中，自遮挡的光线经过多次弹射最终会反射出来，不会损失能量，此时Microfacet模型中只考虑了一次弹射</p></li>
+<li><p>精确地还原损失的能量（Heitz et
+al. 2016）对实时渲染来说开销过大</p></li>
+<li><p><strong>Kulla-County Approximation</strong></p>
+<ul>
+<li><p>被遮挡 ==
+发生下次弹射，从而有该经验性补全多次反射丢失能量的方法</p></li>
+<li><p>考虑一次反射时有多少能量能够保留：假定入射光 <span
+class="math inline">\(L_i=1\)</span> ，BRDF项为 <span
+class="math inline">\(f(\mu_o,\mu_i,\phi)\)</span>
+，则出射能量（BRDF、cosine、Lighting乘积）的积分为： <span
+class="math display">\[
+E(\mu_0)=\int_0^{2\pi}\int_0^1f(\mu_o,\mu_i,\phi)\mu_i\,\mathrm d
+\mu_i\mathrm d\phi\\\mu=\sin\theta\quad(\text{用}\ \theta,\phi\
+\text{定义立体角，换元积分})
+\]</span></p></li>
+<li><p>则损失能量为 <span class="math inline">\(1-E(\mu_o)\)</span>
+，则只需补上这部分能量</p></li>
+<li><p><span class="math inline">\(E(\mu_o)\)</span>
+的积分值与观察方向有关</p></li>
+<li><p>由于BRDF的可逆性（入射出射互相可逆），则其表示应具有对称性，因此损失能量的形式为：
+<span class="math display">\[
+c(1-E(\mu_i))(1-E(\mu_o))
+\]</span> （凑积分简化的一种思路）</p></li>
+<li><p>可得： <span class="math display">\[
+f_{\rm ms}(\mu_o,\mu_i)=\dfrac{(1-E(\mu_i))(1-E(\mu_o))}{\pi(1-E_{\rm
+avg})},\quad E_{\rm avg}=2\int_0^1E(\mu)\mu\,\mathrm d \mu
+\]</span> （推导略）</p></li>
+<li><p>此时将 <span class="math inline">\(f_{\rm
+ms}(\mu_o,\mu_i)\)</span>
+作为<strong>补全BRDF</strong>加入到渲染方程的积分中，就能够补全丢失的能量</p></li>
+<li><p><strong>总结：设计一个function，即“补充的BRDF”，使得其积分等于丢失能量</strong></p></li>
+<li><p>问题1： <span class="math inline">\(E_{\rm
+avg}=2\int_0^1E(\mu)\mu\,\mathrm d \mu\)</span> 未知且计算困难</p>
+<ul>
+<li>预计算/打表</li>
+<li>维度/依赖的参数 —— <span class="math inline">\(\mu_o\)</span>
+和roughness</li>
+<li>形成一张二维的表在渲染时直接查询</li>
+</ul></li>
+<li><p>效果
+<img src="../images/games202/MissingEnergy3.jpg" alt="MissingEnergy3" style="zoom:50%;" /></p></li>
+<li><p>问题2：若BRDF含有颜色</p>
+<ul>
+<li><p>颜色意味着有额外的能量损失（属于应该损失的）</p></li>
+<li><p>先考虑没有颜色的全局能量损失，求出补全BRDF，再考虑由于颜色造成的能量损失</p></li>
+<li><p><strong>Average
+Fresnel</strong>：不管入射角大小平均反射的能量占比 <span
+class="math display">\[
+F_{\rm avg}=\dfrac{\int_0^1F(\mu)\mu\,\mathrm d\mu}{\int_0^1\mu\,\mathrm
+d\mu}=2\int_0^1F(\mu)\mu\,\mathrm d\mu
+\]</span></p></li>
+<li><p><span class="math inline">\(E_{\rm avg}\)</span>
+不参与后续弹射，因此将能量逐步计算</p></li>
+<li><p>可以直接看到的 <span class="math inline">\(F_{\rm avg}E_{\rm
+avg}\)</span></p></li>
+<li><p>1次弹射后可以看到 <span class="math inline">\(F_{\rm
+avg}(1-E_{\rm avg})\cdot F_{\rm avg}E_{\rm avg}\)</span></p></li>
+<li><p>k次弹射后可以看到 <span class="math inline">\(F_{\rm
+avg}^k(1-E_{\rm avg})^k\cdot F_{\rm avg}E_{\rm avg}\)</span></p></li>
+<li><p>求和求级数得<strong>Color Term</strong> <span
+class="math inline">\(\dfrac{F_{\rm avg}E_{\rm avg}}{1-F_{\rm
+avg}(1-E_{\rm avg})}\)</span></p></li>
+<li><p>将Color
+Term乘到没有考虑颜色的补全BRDF上，得到最终的补全BRDF，加入渲染方程积分</p></li>
+<li><p>结果
+<img src="../images/games202/MissingEnergy4.jpg" alt="MissingEnergy4" style="zoom:50%;" />
+↓
+<img src="../images/games202/MissingEnergy5.jpg" alt="MissingEnergy5" style="zoom:50%;" /></p></li>
+</ul></li>
+</ul></li>
+<li><p>近年出现的不用Kulla-County方法的、不好的Hack： 直接对Microfacet
+BRDF增加一个diffuse lobe</p>
+<ul>
+<li>eg. 在CV领域作材质识别时</li>
+<li>“完全错误” “不能更糟糕” “我从来没有这么教过你”</li>
+<li>物理错误，无法保证能量守恒</li>
+</ul></li>
+</ul>
+<h4
+id="shading-with-microfacet-brdfs-under-polygonal-lighting-linearly-transformed-cosines-ltc">Shading
+with Microfacet BRDFs under polygonal lighting – Linearly Transformed
+Cosines (LTC)</h4>
+<p>解决微表面模型着色问题</p>
+<ul>
+<li>主要针对GGX的NDF时（当然其他NDF也可以）</li>
+<li>不考虑阴影</li>
+<li>在多边形光源的情况下（不需要采样的方法）</li>
+</ul>
+<p><img src="../images/games202/LTC1.png" alt="LTC1" style="zoom: 25%;" /></p>
+<blockquote>
+<p>Lobe：瓣，如图蓝色区域，表示从视点发射的光线反射的分布，分布的形状类似一片花瓣。严格定义：BRDF的二维切片（BRDF输入两维、输出两维，
+<span class="math inline">\(\theta\)</span> 和 <span
+class="math inline">\(\phi\)</span> ，共四维）。</p>
+</blockquote>
+<p><strong>核心想法</strong>：</p>
+<ul>
+<li>BRDF的入射/出射的Lobe可以通过线性变换转换成余弦函数（转换到顶部，90度时最大，逐步向外减小）</li>
+<li>多边形光源也可以作同样的线性变换</li>
+<li>在这种情况下，在余弦Lobe上积分变形后的光源可以得到<strong>解析解</strong></li>
+</ul>
+<p><img src="../images/games202/LTC2.png" alt="LTC2" style="zoom: 40%;" /></p>
+<p><strong>具体做法</strong>：</p>
+<ul>
+<li><p><span class="math display">\[
+{\rm BRDF}\xrightarrow{M^{-1}}{\rm Cosine}\\
+方向:\omega_i\xrightarrow{M^{-1}}\omega_i&#39;\\
+积分域:P\xrightarrow{M^{-1}}P&#39;
+\]</span>
+<img src="../images/games202/LTC3.jpg" alt="LTC3" style="zoom: 25%;" />
+<img src="../images/games202/LTC4.png" alt="LTC4" style="zoom: 40%;" /></p></li>
+<li><p>替换一个变量 假设多边形光源是uniform的，即<span
+class="math inline">\(L_i\)</span>对各方向保持一致，则 <span
+class="math display">\[
+\text{渲染方程}\quad L(\omega_o)=L_i\cdot\int_P F(\omega_i)\,\mathrm
+d\omega_i\text{（BRDF、Cosine合并为$F()$）}\\
+\omega_i=\dfrac{M\omega&#39;_i}{\|M\omega&#39;_i\|}\quad\text{代入替换得}\\
+\begin{aligned}L(\omega_o)&amp;=L_i\cdot\int_P\cos(\omega&#39;_i)\,\mathrm
+d\dfrac{M\omega&#39;_i}{\|M\omega&#39;_i\|}\\&amp;=L_i\cdot\int_{P&#39;}\cos(\omega&#39;_i)J\,\mathrm
+d\omega&#39;_i\end{aligned}
+\]</span></p></li>
+<li><p>如何得到<span
+class="math inline">\(M\)</span>：预计算（给初始值通过优化方法计算）</p></li>
+</ul>
+<h4 id="disney-principled-brdf">Disney Principled BRDF</h4>
+<p>为什么需要？</p>
+<ul>
+<li>Microfacet模型不能表征所有真实感材质
+<ul>
+<li>不够Diffuse</li>
+<li>无法解释多层材质（eg.刷有清漆的表面）</li>
+</ul></li>
+<li>Microfacet模型不够Artist-friendly
+<ul>
+<li>eg. 定义折射率的<span class="math inline">\(n\)</span>和<span
+class="math inline">\(k\)</span></li>
+</ul></li>
+</ul>
+<p>Disney Principled BRDF设计原则</p>
+<ul>
+<li>Art directable，不必须物理真实</li>
+<li>还是一定程度上基于物理的（在实时渲染中）</li>
+</ul>
+<p><strong>Principle 原则</strong></p>
+<ul>
+<li>看起来直观，不用物理量</li>
+<li>尽可能减少参数</li>
+<li>0-1范围</li>
+<li>允许&lt;0和&gt;1情况，呈现特殊效果</li>
+<li>具有稳健性</li>
+</ul>
+<p>Disney Principled BRDF建立在拟合的基础上，有开放源码</p>
+<blockquote>
+<p>sheen : 绒毛，在grazing angle上有类似羽化效果 clearcoat :
+类似清漆的透明层</p>
+</blockquote>
+<p>维度多时，会出现多种参数呈现类似结果的现象</p>
+<p><strong>优劣势</strong></p>
+<ul>
+<li>易于理解/控制</li>
+<li>能描述的材质广泛</li>
+<li>开源的实现</li>
+<li>不完全基于物理</li>
+<li>巨大的参数空间</li>
+</ul>
+<h4 id="non-photorealistic-rendering">Non-Photorealistic Rendering</h4>
+<p>== (fast and reliable) stylization</p>
+<p><strong>风格化</strong></p>
+<ul>
+<li>描边</li>
+<li>模型简化、色块</li>
+<li>阴影分界线</li>
+</ul>
+<p><strong>轮廓</strong></p>
+<p><img src="../images/games202/NPR1.jpg" alt="NPR1" style="zoom: 25%;" /></p>
+<ul>
+<li><p>分类</p>
+<ul>
+<li>边界 Boundary / Border edge</li>
+<li>折痕 Crease</li>
+<li>材质边缘 Material edge</li>
+<li>有多个面共享的外轮廓线 Silhouette edge</li>
+</ul></li>
+<li><p>Silhouette edge 描边绘制</p>
+<ul>
+<li><p>Silhouette edge处观察方向与法线方向几乎垂直</p>
+<ul>
+<li>设定观察方向与发现夹角的阈值，超过的像素设黑</li>
+<li>问题：描边粗细不一样</li>
+</ul></li>
+<li><p>背面的三角形/模型扩大一小圈渲染为黑</p></li>
+<li><p>图像后处理：Edge Detect</p>
+<ul>
+<li><p>Sobel Detector 纵向/横向，色块处两侧抵消，分界线两侧不抵消 <span
+class="math display">\[
+\begin{bmatrix}
+1 &amp; 0 &amp; -1\\
+2 &amp; 0 &amp; -2\\
+1 &amp; 0 &amp; -1
+\end{bmatrix}\quad
+\begin{bmatrix}
+-1 &amp; -2 &amp; -1\\
+0 &amp; 0 &amp; 0\\
+1 &amp; 2 &amp; 1
+\end{bmatrix}
+\]</span></p>
+<center>
+<p><img src="../images/games202/NPR2.jpg" alt="NPR2" style="zoom:50%;" /><img src="../images/games202/NPR3.jpg" alt="NPR3" style="zoom:50%;" /></p>
+<center/></li>
+<li><p>利用G-Buffer信息，深度、法线等</p></li>
+</ul></li>
+</ul></li>
+<li><p>色块</p>
+<ul>
+<li>先得到正常的shading结果，再做一个阈值化（多值化 Quantization）</li>
+<li>在不同的部分（Diffuse、Specular…）应用不同的阈值化方法</li>
+</ul></li>
+<li><p>素描效果</p>
+<ul>
+<li>阴影部分打横竖线格，格子密度与阴影明暗相关</li>
+<li>提前设计不同密度的格状纹理查询（结果邻近像素查询纹理邻近像素，保证笔触连续）</li>
+<li>对每种纹理做MIPMAP时，保证每一级MIPMAP的密度一致（类似裁切而非等比缩小）</li>
+</ul>
+<p><img src="../images/games202/NPR4.jpg" alt="NPR4" style="zoom: 33%;" /></p></li>
+</ul>
+<p><strong>真实感模型是非真实感渲染的基础。</strong></p>
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="//elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow.html">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</span>
+  </a>
+  <a class="next" href="//elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95.html">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2022 <a href="//elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '1' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="../js/medium-zoom.min.js" data-no-instant
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+<script>
+  mediumZoom('.entry-cover img');
+  mediumZoom('.post-content img:not([no-zoom])');
+</script>
+
+<script src="../js/instantclick.min.js" data-no-instant
+></script>
+<script data-no-instant>
+  
+  
+  
+  
+  
+  
+  InstantClick.init();
+</script>
+</body>
+
+</html>

@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Series on xα&#39;s blog</title>
-    <link>//elderlyaugustus.github.io/series/</link>
+    <link>//elderlyaugustus.github.io/series.html</link>
     <description>Recent content in Series on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 31 Oct 2022 12:02:25 +0800</lastBuildDate><atom:link href="//elderlyaugustus.github.io/series/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Misc</title>
-      <link>//elderlyaugustus.github.io/series/misc/</link>
+      <link>//elderlyaugustus.github.io/series/misc.html</link>
       <pubDate>Mon, 31 Oct 2022 12:02:25 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/series/misc/</guid>
+      <guid>//elderlyaugustus.github.io/series/misc.html</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>笔记</title>
-      <link>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/</link>
+      <link>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html</link>
       <pubDate>Sun, 23 Oct 2022 09:00:00 +0800</pubDate>
       
-      <guid>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/</guid>
+      <guid>//elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0.html</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
