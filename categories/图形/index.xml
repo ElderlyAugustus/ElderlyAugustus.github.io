@@ -5,6 +5,7 @@
     <link>https://elderlyaugustus.github.io/categories/%E5%9B%BE%E5%BD%A2/</link>
     <description>Recent content in 图形 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
     <lastBuildDate>Sun, 23 Oct 2022 09:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/categories/%E5%9B%BE%E5%BD%A2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen</title>
@@ -4243,28 +4244,31 @@ Scattering计算衰减百分比的级数求和即可</p></li>
       <pubDate>Wed, 28 Apr 2021 15:00:00 +0800</pubDate>
       
       <guid>https://elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/</guid>
-      <description>Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map / Contour Map 符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂 解决方法：LoD -&amp;gt; 非均匀网格 -&amp;gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation 优化原则 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&amp;gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&amp;gt; Runtime Tessellation -&amp;gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation</description>
+      <description>Lecture06 Rendering of Mother Nature Lecture06-1 Terrain Rendering 地形渲染 Simple Idea - Heightfield Height Map Contour Map
+符合分形原则 渲染 均匀网格，依据Heightfield位移每一个顶点 问题：世界过大时过于复杂
+解决方法：LoD -&amp;gt; 非均匀网格 -&amp;gt; 保证场景连续，保证LoD过渡均匀 Adaptive Mesh Tessellation
+优化原则
+依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&amp;gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&amp;gt; Runtime Tessellation -&amp;gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation</description>
       <content:encoded><![CDATA[<h2 id="lecture06-rendering-of-mother-nature">Lecture06 Rendering of
 Mother Nature</h2>
 <h3 id="lecture06-1-terrain-rendering-地形渲染">Lecture06-1 Terrain
 Rendering 地形渲染</h3>
 <h4 id="simple-idea---heightfield">Simple Idea - Heightfield</h4>
-<center>
-<img src="/images/games104/L06_HeightMap.jpg" alt="L06_HeightMap" style="zoom:22.5%;" /><img src="/images/games104/L06_ContourMap.jpg" alt="L06_ContourMap" style="zoom:15%;" />
-<center/>
-<center>
-Height Map / Contour Map
-<center/>
+<p>Height
+Map<img src="/images/games104/L06_HeightMap.jpg" alt="L06_HeightMap" style="zoom:22.5%;" />
+Contour
+Map<img src="/images/games104/L06_ContourMap.jpg" alt="L06_ContourMap" style="zoom:15%;" /></p>
 <ul>
 <li>符合分形原则</li>
 <li>渲染
 <ul>
-<li>均匀网格，依据Heightfield位移每一个顶点
-问题：世界过大时过于复杂</li>
-<li>解决方法：LoD -&gt; 非均匀网格 -&gt; 保证场景连续，保证LoD过渡均匀
-<strong>Adaptive Mesh Tessellation</strong>
-<img src="/images/games104/L06_AdaptiveMeshTessellation.jpg" alt="L06_AdaptiveMeshTessellation" style="zoom: 33%;" /></li>
-<li>优化原则
+<li><p>均匀网格，依据Heightfield位移每一个顶点
+问题：世界过大时过于复杂</p></li>
+<li><p>解决方法：LoD -&gt; 非均匀网格 -&gt;
+保证场景连续，保证LoD过渡均匀 <strong>Adaptive Mesh
+Tessellation</strong></p>
+<p><img src="/images/games104/L06_AdaptiveMeshTessellation.jpg" alt="L06_AdaptiveMeshTessellation" style="zoom: 33%;" /></p></li>
+<li><p>优化原则</p>
 <ul>
 <li>依据Distance to Camera和FoV做LoD</li>
 <li><strong>Error
