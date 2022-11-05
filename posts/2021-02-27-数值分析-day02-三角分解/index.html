@@ -12,7 +12,7 @@
 则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -26,7 +26,7 @@
 则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-02-27T18:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-02-27T18:00:00&#43;08:00" />
@@ -83,9 +83,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -107,7 +105,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -276,7 +273,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-02-27-数值分析-Day02-三角分解</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-02-27</span></span><span class="meta-item">
+  <span>February 27, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
@@ -310,8 +307,8 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="续-2.1---2.4">续 2.1 - 2.4</h3>
-<h4 id="矩阵三角分解法">矩阵三角分解法</h4>
+  <div class="post-content"><h3 id="续-2.1---2.4">续 2.1 - 2.4<a hidden class="anchor" aria-hidden="true" href="#续-2.1---2.4">¶</a></h3>
+<h4 id="矩阵三角分解法">矩阵三角分解法<a hidden class="anchor" aria-hidden="true" href="#矩阵三角分解法">¶</a></h4>
 <p>初等行变换 <span class="math inline">\(\Leftrightarrow\)</span>
 矩阵左乘初等矩阵 消元 <span
 class="math inline">\(\Leftrightarrow\)</span> 矩阵左乘 <span
@@ -356,7 +353,7 @@ class="math inline">\(L=\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\
 a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp;
 \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\
 &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span> 为一个上三角矩阵</p>
-<h3 id="直接三角分解法">2.5 - 2.6 直接三角分解法</h3>
+<h3 id="直接三角分解法">2.5 - 2.6 直接三角分解法<a hidden class="anchor" aria-hidden="true" href="#直接三角分解法">¶</a></h3>
 <p><strong>定理1</strong>：设 <span class="math inline">\(n\)</span>
 阶方阵 <span class="math inline">\(A\)</span>
 的各阶顺序主子式不为零，则存在<strong>唯一</strong>单位下三角矩阵 <span
@@ -410,7 +407,7 @@ x_i=(y_i-\sum_{j=i+1}^{n}{u_{ij}x_j})\div u_{ii},\quad i=n-1,n-2m\dots,1
 \end{array}\right.
 \end{array}
 \]</span></p>
-<h3 id="平方根法">2.7 平方根法</h3>
+<h3 id="平方根法">2.7 平方根法<a hidden class="anchor" aria-hidden="true" href="#平方根法">¶</a></h3>
 <p>针对系数矩阵 <span class="math inline">\(A\)</span>
 为对称正定矩阵情况，有 <span
 class="math inline">\(A=LU,u_{kk}&gt;0\)</span> ，而：</p>
@@ -449,7 +446,7 @@ class="math inline">\(\left\{\begin{aligned}Gy=b\\G^Tx=y\end{aligned}\right.\)</
 class="math inline">\(\left\{\begin{array}{l}y_k=(b_k-\sum_{m=1}^{k-1}{g_{km}y_m})\div
 g_{kk},\quad k=1,2,\dots,n\\x_k=(y_k-\sum_{m=k+1}^{n}g_{mk})\div
 g_{kk},\quad k=n,n-1,\dots,1\end{array}\right.\)</span></p>
-<h3 id="追赶法">2.8 追赶法</h3>
+<h3 id="追赶法">2.8 追赶法<a hidden class="anchor" aria-hidden="true" href="#追赶法">¶</a></h3>
 <p>追赶法是求三对角线性方程组的三角分解法： <span
 class="math inline">\(\begin{pmatrix}a_1&amp;c_1\\d_2&amp;a_2&amp;c_2\\&amp;\ddots&amp;\ddots&amp;\ddots\\&amp;&amp;d_{n-1}&amp;a_{n-1}&amp;c_{n-1}\\&amp;&amp;&amp;d_n&amp;a_n\end{pmatrix}
 \begin{pmatrix}x_1\\x_2\\\vdots\\x_{n-1}\\x_n\end{pmatrix} =
@@ -468,7 +465,7 @@ class="math inline">\(A=\begin{pmatrix}\alpha_1\\\gamma_2&amp;\alpha_2\\&amp;\dd
 \beta_1=c_1\div\alpha_1,\ \gamma_i=d_i,\ i=1,2,3,\dots,n\\
 \alpha_i=a_i-d_i\beta_{i-1},\ i=2,3,\dots,n\\ \beta_i=c_i\div\alpha_i,\
 i=2,3,\dots,n-1 \end{array}\right.\)</span></p>
-<h3 id="代码lu分解法doolittle">代码：LU分解法（Doolittle）</h3>
+<h3 id="代码lu分解法doolittle">代码：LU分解法（Doolittle）<a hidden class="anchor" aria-hidden="true" href="#代码lu分解法doolittle">¶</a></h3>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Created by xa on 2021-02-27.</span></span>
@@ -549,6 +546,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 
+
   </div>
 
   <footer class="post-footer">
@@ -614,7 +612,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -660,7 +658,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -782,22 +780,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

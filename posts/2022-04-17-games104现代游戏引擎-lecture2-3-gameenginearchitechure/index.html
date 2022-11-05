@@ -26,7 +26,7 @@ SIMD 一条指令完成四个数操作（非常适合齐次坐标运算）
 vector / map / tree / … 为什么要在STL外单独写 - 效率 STL中经常有浪费内存的操作 内存管理 - 追求最高效率">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -68,7 +68,7 @@ SIMD 一条指令完成四个数操作（非常适合齐次坐标运算）
 vector / map / tree / … 为什么要在STL外单独写 - 效率 STL中经常有浪费内存的操作 内存管理 - 追求最高效率" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture2-3-gameenginearchitechure/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-17T08:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-17T08:00:00&#43;08:00" />
@@ -125,9 +125,7 @@ vector / map / tree / … 为什么要在STL外单独写 - 效率 STL中经常�
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -149,7 +147,6 @@ vector / map / tree / … 为什么要在STL外单独写 - 效率 STL中经常�
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -318,7 +315,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-17-GAMES104现代游戏引擎-Lecture2-3-游戏引擎架构</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-17</span></span><span class="meta-item">
+  <span>April 17, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -349,7 +346,7 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="lecture02-游戏引擎分层结构">Lecture02 游戏引擎分层结构</h3>
+  <div class="post-content"><h3 id="lecture02-游戏引擎分层结构">Lecture02 游戏引擎分层结构<a hidden class="anchor" aria-hidden="true" href="#lecture02-游戏引擎分层结构">¶</a></h3>
 <ul>
 <li><p><strong>工具层 Tool Layer</strong> 编辑器</p></li>
 <li><p><strong>功能层 Function Layer</strong>
@@ -462,8 +459,8 @@ function toggleThemeListener() {
 <li>上层变化大，底层较稳定</li>
 </ul></li>
 </ul>
-<h3 id="lecture03-如何构建游戏世界">Lecture03 如何构建游戏世界</h3>
-<h4 id="game-object-go-游戏对象">Game Object (GO) 游戏对象</h4>
+<h3 id="lecture03-如何构建游戏世界">Lecture03 如何构建游戏世界<a hidden class="anchor" aria-hidden="true" href="#lecture03-如何构建游戏世界">¶</a></h3>
+<h4 id="game-object-go-游戏对象">Game Object (GO) 游戏对象<a hidden class="anchor" aria-hidden="true" href="#game-object-go-游戏对象">¶</a></h4>
 <ul>
 <li>动态游戏对象 eg.坦克、飞机…</li>
 <li>静态游戏对象 eg.建筑、陈设…</li>
@@ -508,7 +505,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>游戏复杂后，没有那么清晰的从属关系——<strong>组件化</strong></p>
 <p><img src="/images/games104/L03_Component.png" alt="L03_Component" style="zoom:25%;" /></p>
-<h4 id="如何让世界动起来">如何让世界动起来</h4>
+<h4 id="如何让世界动起来">如何让世界动起来<a hidden class="anchor" aria-hidden="true" href="#如何让世界动起来">¶</a></h4>
 <p>Tick()</p>
 <ul>
 <li>每个物体、每个组件Tick()</li>
@@ -546,6 +543,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
 <li><p>Event系统GO互相发消息的问题：多个消息冲突，引入中心发信机构，“邮局”</p></li>
 <li><p>GO之间的循环依赖</p></li>
 </ul>
+
 
   </div>
 
@@ -612,7 +610,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -658,7 +656,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -780,22 +778,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

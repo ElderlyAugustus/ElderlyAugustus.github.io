@@ -11,7 +11,7 @@
 不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -23,7 +23,7 @@
 不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-05-13T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-05-13T17:00:00&#43;08:00" />
@@ -80,9 +80,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -104,7 +102,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -273,7 +270,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-05-13</span></span><span class="meta-item">
+  <span>May 13, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -333,8 +330,8 @@ function toggleThemeListener() {
 <li>实时，计算和存储开销</li>
 <li>真实感（表情、Ragdoll、Motion Matching …）</li>
 </ul>
-<h4 id="d-animation">2D Animation</h4>
-<h5 id="sprite-animation">Sprite Animation</h5>
+<h4 id="d-animation">2D Animation<a hidden class="anchor" aria-hidden="true" href="#d-animation">¶</a></h4>
+<h5 id="sprite-animation">Sprite Animation<a hidden class="anchor" aria-hidden="true" href="#sprite-animation">¶</a></h5>
 <ul>
 <li>逐帧绘制，循环播放</li>
 <li>Sprite-like animation technique in pseudo-3D game
@@ -343,7 +340,7 @@ function toggleThemeListener() {
 </ul></li>
 <li>Sprite Animation in Modern Game</li>
 </ul>
-<h5 id="live2d">Live2D</h5>
+<h5 id="live2d">Live2D<a hidden class="anchor" aria-hidden="true" href="#live2d">¶</a></h5>
 <ul>
 <li>把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴
 <img src="/images/games104/L08_Live2D1.jpg" alt="L08_Live2D1" style="zoom: 50%;" /></li>
@@ -356,7 +353,7 @@ function toggleThemeListener() {
 </ul>
 <h5 id="d-skinned-animation-2d蒙皮动画">2D Skinned Animation
 2D蒙皮动画</h5>
-<h4 id="d-animation-1">3D Animation</h4>
+<h4 id="d-animation-1">3D Animation<a hidden class="anchor" aria-hidden="true" href="#d-animation-1">¶</a></h4>
 <blockquote>
 <p>DoF, Degrees of Freedom 自由度 6DoF + Translation X Y Z + Rotation
 Pan/Yaw Tilt/Pitch Roll
@@ -368,32 +365,32 @@ Hierarchical Animation 基于刚体的层次结构动画</h5>
 <li>“皮影戏”</li>
 <li>直接连接Mesh，会导致Mesh互相产生穿插</li>
 </ul>
-<h5 id="per-vertex-animation">Per-vertex Animation</h5>
+<h5 id="per-vertex-animation">Per-vertex Animation<a hidden class="anchor" aria-hidden="true" href="#per-vertex-animation">¶</a></h5>
 <ul>
 <li>旗帜、布料、流体等（从物理烘焙而来的顶点动画实现）</li>
 <li>VAT, Virtual Animation Texture：用贴图存储顶点</li>
 </ul>
-<h5 id="morph-target-animation">Morph Target Animation</h5>
+<h5 id="morph-target-animation">Morph Target Animation<a hidden class="anchor" aria-hidden="true" href="#morph-target-animation">¶</a></h5>
 <ul>
 <li>顶点动画的变种</li>
 <li>顶点带有权重，邻近顶点相互影响</li>
 </ul>
 <h5 id="d-skinned-animation-2d蒙皮动画-见下章">3D Skinned Animation
 2D蒙皮动画 （见下章）</h5>
-<h5 id="physics-based-animation">Physics-based Animation</h5>
+<h5 id="physics-based-animation">Physics-based Animation<a hidden class="anchor" aria-hidden="true" href="#physics-based-animation">¶</a></h5>
 <ul>
 <li>Ragdoll</li>
 <li>布料和流体</li>
 <li>IK, Inverse kinematics 反向动力学</li>
 </ul>
-<h5 id="animation-创作方式">Animation 创作方式</h5>
+<h5 id="animation-创作方式">Animation 创作方式<a hidden class="anchor" aria-hidden="true" href="#animation-创作方式">¶</a></h5>
 <ul>
 <li>Key frame</li>
 <li>动作捕捉</li>
 </ul>
 <h4 id="skinned-animation-implementation">Skinned Animation
 Implementation</h4>
-<h5 id="怎样将mesh运动起来">怎样将Mesh运动起来</h5>
+<h5 id="怎样将mesh运动起来">怎样将Mesh运动起来<a hidden class="anchor" aria-hidden="true" href="#怎样将mesh运动起来">¶</a></h5>
 <ul>
 <li>创建一个绑定姿态的Mesh</li>
 <li>创建绑定骨骼Skeleton</li>
@@ -409,7 +406,7 @@ Implementation</h4>
 <li>World Space</li>
 </ul>
 </blockquote>
-<h5 id="骨骼">骨骼</h5>
+<h5 id="骨骼">骨骼<a hidden class="anchor" aria-hidden="true" href="#骨骼">¶</a></h5>
 <ul>
 <li><p>Humanoid 两足动物
 <img src="/images/games104/L08_HumanoidSkeleton.jpg" alt="L08_HumanoidSkeleton" style="zoom: 50%;" /></p></li>
@@ -453,7 +450,7 @@ M_J^{\rm Model}=\prod_{j=J}^0 M_{p(J)}^{\rm Local}
 Space</p></li>
 </ul></li>
 </ul>
-<h5 id="skin---蒙皮怎样运动">Skin - 蒙皮怎样运动</h5>
+<h5 id="skin---蒙皮怎样运动">Skin - 蒙皮怎样运动<a hidden class="anchor" aria-hidden="true" href="#skin---蒙皮怎样运动">¶</a></h5>
 <ul>
 <li><p><strong>Skinning Matrix</strong></p>
 <ul>
@@ -509,7 +506,7 @@ V^M(t)=\sum_{i=0}^{N-1}W_i\cdot V_{J_i}^M(t)
 </ul></li>
 </ul></li>
 </ul>
-<h5 id="clips-动画片段">Clips 动画片段</h5>
+<h5 id="clips-动画片段">Clips 动画片段<a hidden class="anchor" aria-hidden="true" href="#clips-动画片段">¶</a></h5>
 <ul>
 <li><p>Interpolation</p>
 <ul>
@@ -548,7 +545,7 @@ q_{t_1}+\dfrac{\sin(t\theta)}{\sin\theta}\cdot q_{t_2}\\
 <h5 id="simple-animation-runtime-pipeline">Simple Animation Runtime
 Pipeline</h5>
 <p><img src="/images/games104/L08_SimpleAnimationRuntimePipeline.png" alt="L08_SimpleAnimationRuntimePipeline" style="zoom: 33%;" /></p>
-<h4 id="animation-compression">Animation Compression</h4>
+<h4 id="animation-compression">Animation Compression<a hidden class="anchor" aria-hidden="true" href="#animation-compression">¶</a></h4>
 <ul>
 <li><p>大部分数据不变</p>
 <ul>
@@ -626,7 +623,7 @@ Vertex的距离
 <li>更新的方法：FIK, Forward Inverse Kinematics</li>
 </ul></li>
 </ul>
-<h4 id="animation-dcc">Animation DCC</h4>
+<h4 id="animation-dcc">Animation DCC<a hidden class="anchor" aria-hidden="true" href="#animation-dcc">¶</a></h4>
 <ul>
 <li>Mesh
 <ul>
@@ -646,6 +643,7 @@ Vertex的距离
 <li>Root要保持在Model Space中不变</li>
 <li>FBX File</li>
 </ul>
+
 
   </div>
 
@@ -712,7 +710,7 @@ Vertex的距离
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -758,7 +756,7 @@ Vertex的距离
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -880,22 +878,7 @@ Vertex的距离
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

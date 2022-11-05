@@ -12,7 +12,7 @@ Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shad
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -26,7 +26,7 @@ Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shad
 Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-02T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-02T15:00:00&#43;08:00" />
@@ -83,9 +83,7 @@ Physically-Based Rendering (PBR) Everything in rendering should be physically ba
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -107,7 +105,6 @@ Physically-Based Rendering (PBR) Everything in rendering should be physically ba
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -276,7 +273,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-02</span></span><span class="meta-item">
+  <span>April 2, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 
@@ -349,9 +346,9 @@ Physically-Based Material</h3>
 <p>focused on fast and approximate single scattering and multiple
 scattering</p></li>
 </ul>
-<h4 id="recap-microfacet-brdf">Recap: Microfacet BRDF</h4>
+<h4 id="recap-microfacet-brdf">Recap: Microfacet BRDF<a hidden class="anchor" aria-hidden="true" href="#recap-microfacet-brdf">¶</a></h4>
 <p><img src="/images/games202/MicrofacetBRDF.png" alt="MicrofacetBRDF" style="zoom: 25%;" /></p>
-<h5 id="fresnel-term">Fresnel term</h5>
+<h5 id="fresnel-term">Fresnel term<a hidden class="anchor" aria-hidden="true" href="#fresnel-term">¶</a></h5>
 <ul>
 <li><p>精确表达非常复杂，需要考虑S/P极化
 <img src="/images/games202/FresnelTerm.png" alt="FresnelTerm" style="zoom:30%;" /></p></li>
@@ -409,7 +406,7 @@ class="math inline">\(\gamma\)</span>
 </ul></li>
 </ul></li>
 </ul>
-<h5 id="shadowing-masking-term">Shadowing-Masking Term</h5>
+<h5 id="shadowing-masking-term">Shadowing-Masking Term<a hidden class="anchor" aria-hidden="true" href="#shadowing-masking-term">¶</a></h5>
 <p>Or <strong>Geometry Term</strong> : <strong>G</strong></p>
 <ul>
 <li><p>解决微表面之间的自遮挡问题</p></li>
@@ -439,7 +436,7 @@ G_{\rm Schlick}(\mathbf{v},\mathbf{n})=\dfrac{\mathbf{n}\cdot
 \]</span></p></li>
 </ul></li>
 </ul>
-<h5 id="问题能量损失">问题：能量损失</h5>
+<h5 id="问题能量损失">问题：能量损失<a hidden class="anchor" aria-hidden="true" href="#问题能量损失">¶</a></h5>
 <blockquote>
 <p><strong>白炉测试 White Furnace
 Test</strong>：在完全均匀的全局环境光下渲染物体，若物体与背景同色，说明不存在能量损失，若变暗说明存在能量损失。</p>
@@ -573,7 +570,7 @@ d\omega&#39;_i\end{aligned}
 <li><p>如何得到<span
 class="math inline">\(M\)</span>：预计算（给初始值通过优化方法计算）</p></li>
 </ul>
-<h4 id="disney-principled-brdf">Disney Principled BRDF</h4>
+<h4 id="disney-principled-brdf">Disney Principled BRDF<a hidden class="anchor" aria-hidden="true" href="#disney-principled-brdf">¶</a></h4>
 <p>为什么需要？</p>
 <ul>
 <li>Microfacet模型不能表征所有真实感材质
@@ -614,7 +611,7 @@ class="math inline">\(k\)</span></li>
 <li>不完全基于物理</li>
 <li>巨大的参数空间</li>
 </ul>
-<h4 id="non-photorealistic-rendering">Non-Photorealistic Rendering</h4>
+<h4 id="non-photorealistic-rendering">Non-Photorealistic Rendering<a hidden class="anchor" aria-hidden="true" href="#non-photorealistic-rendering">¶</a></h4>
 <p>== (fast and reliable) stylization</p>
 <p><strong>风格化</strong></p>
 <ul>
@@ -675,6 +672,7 @@ class="math display">\[
 <p><img src="/images/games202/NPR4.jpg" alt="NPR4" style="zoom: 33%;" /></p></li>
 </ul>
 <p><strong>真实感模型是非真实感渲染的基础。</strong></p>
+
 
   </div>
 
@@ -741,7 +739,7 @@ class="math display">\[
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -787,7 +785,7 @@ class="math display">\[
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -909,22 +907,7 @@ class="math display">\[
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

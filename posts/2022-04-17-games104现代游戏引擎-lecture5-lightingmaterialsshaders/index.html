@@ -15,7 +15,7 @@
 Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#43;L_{\text{specular}}\\ &amp;=k_{\text{ambient}}I_{\text{ambient}}&#43;k_{\text{diffuse}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)&#43;k_{\text{specular}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)^p \end{aligned} \] 问题：">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -35,7 +35,7 @@ Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#
 Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#43;L_{\text{specular}}\\ &amp;=k_{\text{ambient}}I_{\text{ambient}}&#43;k_{\text{diffuse}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)&#43;k_{\text{specular}}(I/r^2)\max(0,\mathbf n\cdot\mathbf l)^p \end{aligned} \] 问题：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture5-lightingmaterialsshaders/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-17T12:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-17T12:00:00&#43;08:00" />
@@ -92,9 +92,7 @@ Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -116,7 +114,6 @@ Blinn-Phong \[ \begin{aligned}L&amp;=L_{\text{ambient}}&#43;L_{\text{diffuse}}&#
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -285,7 +282,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-17-GAMES104现代游戏引擎-Lecture5-Lighting, Materials and Shaders</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-17</span></span><span class="meta-item">
+  <span>April 17, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -337,7 +334,7 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture05-lighting-materials-and-shaders">Lecture05 Lighting,
 Materials and Shaders</h3>
-<h4 id="the-rendering-equation">The Rendering Equation</h4>
+<h4 id="the-rendering-equation">The Rendering Equation<a hidden class="anchor" aria-hidden="true" href="#the-rendering-equation">¶</a></h4>
 <p><span class="math display">\[
 {\displaystyle L_{\text{o}}(\mathbf {x} ,\omega _{\text{o}},\lambda
 ,t)=L_{\text{e}}(\mathbf {x} ,\omega _{\text{o}},\lambda ,t)\ +\int
@@ -357,7 +354,7 @@ _{\text{i}},\lambda ,t)(\omega _{\text{i}}\cdot \mathbf {n}
 <li>如何快速地积分</li>
 <li>如何计算次级光源，全局光照，无限递归</li>
 </ul>
-<h4 id="从简单开始">从简单开始</h4>
+<h4 id="从简单开始">从简单开始<a hidden class="anchor" aria-hidden="true" href="#从简单开始">¶</a></h4>
 <ul>
 <li><p>Ambient + Simple Light == Result</p></li>
 <li><p>环境光贴图反射</p></li>
@@ -380,13 +377,13 @@ l)^p
 <li>加入阈值 -&gt; 阴影与实体有距离</li>
 </ul></li>
 </ul>
-<h4 id="预计算gi">预计算GI</h4>
+<h4 id="预计算gi">预计算GI<a hidden class="anchor" aria-hidden="true" href="#预计算gi">¶</a></h4>
 <ul>
 <li><p><span class="citation" data-cites="GAME202">@GAME202</span>
 PRT</p></li>
 <li><p>利用SH，用24bit就可以存储一个点的光场</p></li>
 </ul>
-<h5 id="sh-lightmap">SH Lightmap</h5>
+<h5 id="sh-lightmap">SH Lightmap<a hidden class="anchor" aria-hidden="true" href="#sh-lightmap">¶</a></h5>
 <ul>
 <li>UV Atlas
 <img src="/images/games104/L05_UVAtlas.jpg" alt="L05_UVAtlas" style="zoom:50%;" /></li>
@@ -394,7 +391,7 @@ PRT</p></li>
 <li>优点：高效、细节
 缺点：预计算量大；只能处理静态（动态物体可以有Hack方法，但有问题）；GPU存储量大</li>
 </ul>
-<h5 id="light-probe">Light Probe</h5>
+<h5 id="light-probe">Light Probe<a hidden class="anchor" aria-hidden="true" href="#light-probe">¶</a></h5>
 <ul>
 <li>在空间中撒采样点（Probe）</li>
 <li>每个Probe计算其光照</li>
@@ -408,7 +405,7 @@ PRT</p></li>
 <li>优点：高效，静态动态均可用，可以处理diffuse和specular
 缺点：效果没有Lightmap好（采样稀疏）</li>
 </ul>
-<h4 id="physical-based-material">Physical-Based Material</h4>
+<h4 id="physical-based-material">Physical-Based Material<a hidden class="anchor" aria-hidden="true" href="#physical-based-material">¶</a></h4>
 <p><span class="citation" data-cites="GAME202">@GAME202</span>
 Physically-Based Material</p>
 <ul>
@@ -432,32 +429,32 @@ Physically-Based Material</p>
 </ul>
 <p><img src="/images/games104/L05_MR.png" alt="L05_MR" style="zoom: 33%;" /></p></li>
 </ul>
-<h4 id="image-based-lighting">Image-Based Lighting</h4>
+<h4 id="image-based-lighting">Image-Based Lighting<a hidden class="anchor" aria-hidden="true" href="#image-based-lighting">¶</a></h4>
 <p><span class="citation" data-cites="GAMES202">@GAMES202</span>
 Environment Lighting</p>
 <ul>
 <li>Diffuse Irradiance Map</li>
 <li>Specular : Split Sum</li>
 </ul>
-<h4 id="classic-shadow-solution">Classic Shadow Solution</h4>
-<h5 id="cascaded-shadow-map">Cascaded Shadow Map</h5>
+<h4 id="classic-shadow-solution">Classic Shadow Solution<a hidden class="anchor" aria-hidden="true" href="#classic-shadow-solution">¶</a></h4>
+<h5 id="cascaded-shadow-map">Cascaded Shadow Map<a hidden class="anchor" aria-hidden="true" href="#cascaded-shadow-map">¶</a></h5>
 <p><img src="/images/games104/L05_CSM.png" alt="L05_CSM" style="zoom: 25%;" /></p>
 <p>挑战：不同层级之间的Blend</p>
 <p>缺点：计算开销大（4ms）</p>
-<h5 id="软阴影">软阴影</h5>
+<h5 id="软阴影">软阴影<a hidden class="anchor" aria-hidden="true" href="#软阴影">¶</a></h5>
 <p><span class="citation" data-cites="GAMES202">@GAMES202</span> Soft
 Shadow</p>
 <ul>
 <li>PCF -&gt; PCSS</li>
 <li>Variance Soft Shadow Map</li>
 </ul>
-<h4 id="上一世代的3a游戏渲染">上一世代的3A游戏渲染</h4>
+<h4 id="上一世代的3a游戏渲染">上一世代的3A游戏渲染<a hidden class="anchor" aria-hidden="true" href="#上一世代的3a游戏渲染">¶</a></h4>
 <ul>
 <li>Lightmap + Lightprobe</li>
 <li>PBR + IBL</li>
 <li>CSM + VSSM</li>
 </ul>
-<h4 id="现代3a游戏渲染">现代3A游戏渲染</h4>
+<h4 id="现代3a游戏渲染">现代3A游戏渲染<a hidden class="anchor" aria-hidden="true" href="#现代3a游戏渲染">¶</a></h4>
 <p><span class="citation" data-cites="GAMES202">@GAMES202</span> GI
 &amp; RTRT</p>
 <ul>
@@ -479,7 +476,7 @@ Shadow</p>
 <li>Virtual Shadow Maps 把Shadow Maps放到一个巨大的Shadow
 Map上（类似Virtual Texture）</li>
 </ul>
-<h4 id="shader管理">Shader管理</h4>
+<h4 id="shader管理">Shader管理<a hidden class="anchor" aria-hidden="true" href="#shader管理">¶</a></h4>
 <ul>
 <li>Uber Shader 宏定义做分支，GPU不适合分支，再将Uber
 Shader编译成大量Shader。需要修改时，只需要修改Uber
@@ -489,6 +486,7 @@ Shader，一次编译所有结果。</li>
 <li>SPIR-V</li>
 </ul></li>
 </ul>
+
 
   </div>
 
@@ -555,7 +553,7 @@ Shader，一次编译所有结果。</li>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -601,7 +599,7 @@ Shader，一次编译所有结果。</li>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -723,22 +721,7 @@ Shader，一次编译所有结果。</li>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

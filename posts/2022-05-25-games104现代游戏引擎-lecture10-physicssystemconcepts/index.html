@@ -12,7 +12,7 @@ Physics Actors and Shapes Actor Static Actor 静态固定的，不受物理影�
 Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction / Restitution 摩擦力 / 弹力 (and more …) Forces Force eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -26,7 +26,7 @@ Physics Actors and Shapes Actor Static Actor 静态固定的，不受物理影�
 Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction / Restitution 摩擦力 / 弹力 (and more …) Forces Force eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-05-25T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-05-25T17:00:00&#43;08:00" />
@@ -83,9 +83,7 @@ Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction /
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -107,7 +105,6 @@ Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction /
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -276,7 +273,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-05-25-GAMES104现代游戏引擎-Lecture10-Physics System - Basic Concepts</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-05-25</span></span><span class="meta-item">
+  <span>May 25, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -325,8 +322,8 @@ function toggleThemeListener() {
 System - Basic Concepts</h3>
 <p>物理的作用： + 物理直觉 + 动态环境，《彩六》破坏环境 +
 环境交互，VR等《Alyx》 + 艺术效果，粒子、流体、布料</p>
-<h4 id="physics-actors-and-shapes">Physics Actors and Shapes</h4>
-<h5 id="actor">Actor</h5>
+<h4 id="physics-actors-and-shapes">Physics Actors and Shapes<a hidden class="anchor" aria-hidden="true" href="#physics-actors-and-shapes">¶</a></h4>
+<h5 id="actor">Actor<a hidden class="anchor" aria-hidden="true" href="#actor">¶</a></h5>
 <ul>
 <li>Static Actor 静态固定的，不受物理影响</li>
 <li>Dynamic Actor 按照动力学原理运动的，受力/动量/冲量驱动</li>
@@ -346,24 +343,24 @@ Kinematic与受物理约束的Actor碰撞时，可能会产生“飞掉”</li>
 </ul>
 <p><img src="/images/games104/L10_ActorShapes.png" alt="L10_ActorShapes" style="zoom: 25%;" /></p>
 <p>！尽量使用简单的Shape（从前到后越来越复杂）</p>
-<h5 id="shape-properties">Shape Properties</h5>
+<h5 id="shape-properties">Shape Properties<a hidden class="anchor" aria-hidden="true" href="#shape-properties">¶</a></h5>
 <ul>
 <li>Mass / Density 质量 / 密度</li>
 <li>Center of Mass 质心</li>
 <li>Friction / Restitution 摩擦力 / 弹力 (and more …)</li>
 </ul>
-<h4 id="forces">Forces</h4>
+<h4 id="forces">Forces<a hidden class="anchor" aria-hidden="true" href="#forces">¶</a></h4>
 <ul>
 <li><strong>Force</strong> eg. Gravity / Drag / Friction / …</li>
 <li><strong>Impulse</strong> 冲量 eg. simulating an explosion</li>
 </ul>
-<h4 id="movements">Movements</h4>
+<h4 id="movements">Movements<a hidden class="anchor" aria-hidden="true" href="#movements">¶</a></h4>
 <p>（略，<span class="citation"
 data-cites="GAMES201/103">@GAMES201/103</span>）</p>
-<h4 id="rigid-body-dynamics">Rigid Body Dynamics</h4>
+<h4 id="rigid-body-dynamics">Rigid Body Dynamics<a hidden class="anchor" aria-hidden="true" href="#rigid-body-dynamics">¶</a></h4>
 <p>（略，<span class="citation"
 data-cites="GAMES103">@GAMES103</span>）</p>
-<h4 id="collision-detection">Collision Detection</h4>
+<h4 id="collision-detection">Collision Detection<a hidden class="anchor" aria-hidden="true" href="#collision-detection">¶</a></h4>
 <ul>
 <li><p>Two phase
 <img src="/images/games104/L10_TwoPhase.jpg" alt="L10_TwoPhase" style="zoom: 33%;" /></p></li>
@@ -427,7 +424,7 @@ Difference上一顶点，判断O是否在C上，若否则下一步
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="collision-resolution">Collision Resolution</h4>
+<h4 id="collision-resolution">Collision Resolution<a hidden class="anchor" aria-hidden="true" href="#collision-resolution">¶</a></h4>
 <ul>
 <li>Penalty Force （略，<span class="citation"
 data-cites="PBA">@PBA</span>）</li>
@@ -435,7 +432,7 @@ data-cites="PBA">@PBA</span>）</li>
 data-cites="PBA">@PBA</span>）
 <img src="/images/games104/L10_Constraints.png" alt="L10_Constraints" style="zoom:25%;" /></li>
 </ul>
-<h4 id="scene-query">Scene Query</h4>
+<h4 id="scene-query">Scene Query<a hidden class="anchor" aria-hidden="true" href="#scene-query">¶</a></h4>
 <ul>
 <li>Raycast
 <ul>
@@ -456,7 +453,7 @@ data-cites="PBA">@PBA</span>）
 </blockquote>
 <h4 id="efficiency-accuracy-and-determinism">Efficiency, Accuracy, and
 Determinism</h4>
-<h5 id="simulation-optimization">Simulation Optimization</h5>
+<h5 id="simulation-optimization">Simulation Optimization<a hidden class="anchor" aria-hidden="true" href="#simulation-optimization">¶</a></h5>
 <ul>
 <li>Island 把一个个需要模拟的单元分离</li>
 <li>Sleeping Island在不施加力的时候可以Sleep</li>
@@ -486,6 +483,7 @@ Solution：
 <li>时间步、算法顺序、浮点数精度等等须保持一致</li>
 <li>目前很难解决，大部分在线游戏中不用物理做游戏逻辑，而只做表现效果</li>
 </ul>
+
 
   </div>
 
@@ -552,7 +550,7 @@ Solution：
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -598,7 +596,7 @@ Solution：
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -720,22 +718,7 @@ Solution：
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

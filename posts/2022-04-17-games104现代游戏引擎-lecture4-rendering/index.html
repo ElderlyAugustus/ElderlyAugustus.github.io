@@ -16,7 +16,7 @@ eg. Computation - Texture Sampling
 Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 Step 3 : 结果像素之间的线性插值 GPU SIMD and SIMT SIMD : Single Instruction Multiple Data eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -38,7 +38,7 @@ eg. Computation - Texture Sampling
 Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 Step 3 : 结果像素之间的线性插值 GPU SIMD and SIMT SIMD : Single Instruction Multiple Data eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-17T09:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-17T09:00:00&#43;08:00" />
@@ -95,9 +95,7 @@ Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -119,7 +117,6 @@ Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -288,7 +285,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-17</span></span><span class="meta-item">
+  <span>April 17, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -373,15 +370,15 @@ Textures</p>
 <li>Step 2 : 在两层MIPMAP之间双线性插值</li>
 <li>Step 3 : 结果像素之间的线性插值</li>
 </ul>
-<h4 id="gpu">GPU</h4>
-<h5 id="simd-and-simt">SIMD and SIMT</h5>
+<h4 id="gpu">GPU<a hidden class="anchor" aria-hidden="true" href="#gpu">¶</a></h4>
+<h5 id="simd-and-simt">SIMD and SIMT<a hidden class="anchor" aria-hidden="true" href="#simd-and-simt">¶</a></h5>
 <ul>
 <li><p>SIMD : Single Instruction Multiple Data
 eg.四维向量同时加减</p></li>
 <li><p>SIMT : Single Instruction Multiple Threads
 同时处理大量SIMD任务</p></li>
 </ul>
-<h5 id="计算单元">计算单元</h5>
+<h5 id="计算单元">计算单元<a hidden class="anchor" aria-hidden="true" href="#计算单元">¶</a></h5>
 <ul>
 <li>GPC Graphics Processing Cluster</li>
 <li>SM Streaming Multiprocessor</li>
@@ -419,7 +416,7 @@ eg.四维向量同时加减</p></li>
 <p><img src="/images/games104/L04_Renderable3.png" alt="L04_Renderable3" style="zoom: 25%;" /></p>
 <p>对场景按场景排序渲染 —— 对GPU友好，可以加速</p>
 <p>GPU Batch Rendering 渲染一次，再做Offset</p>
-<h5 id="visibility-culling">Visibility Culling</h5>
+<h5 id="visibility-culling">Visibility Culling<a hidden class="anchor" aria-hidden="true" href="#visibility-culling">¶</a></h5>
 <ul>
 <li>View Frustum之外的不渲染</li>
 <li>对空间做划分（前文介绍，四叉树 / <strong>BVH</strong>）
@@ -429,26 +426,27 @@ BVH构建块，应用多</li>
 现在已应用不广，但思想可以用于资源加载等场景</li>
 <li>GPU Culling 利用G-Buffer，延迟渲染</li>
 </ul>
-<h5 id="纹理压缩">纹理压缩</h5>
+<h5 id="纹理压缩">纹理压缩<a hidden class="anchor" aria-hidden="true" href="#纹理压缩">¶</a></h5>
 <ul>
 <li>不能用JPG/PNG等复杂压缩</li>
 <li>Block Compression：将图片切分为一个个小块（例如4*4）压缩 eg.
 在小块中保留最大值最小值，其他值使用这两值的线性插值</li>
 </ul>
-<h5 id="authoring-tools-of-modeling">Authoring Tools of Modeling</h5>
+<h5 id="authoring-tools-of-modeling">Authoring Tools of Modeling<a hidden class="anchor" aria-hidden="true" href="#authoring-tools-of-modeling">¶</a></h5>
 <ul>
 <li><strong>Polygon</strong> : MAX / MAYA / Blender</li>
 <li><strong>Sculpting</strong> : Zbrush</li>
 <li><strong>Scanning</strong></li>
 <li><strong>Procedural</strong> : Houdini</li>
 </ul>
-<h5 id="cluster-based-mesh-pipeline">Cluster-Based Mesh Pipeline</h5>
+<h5 id="cluster-based-mesh-pipeline">Cluster-Based Mesh Pipeline<a hidden class="anchor" aria-hidden="true" href="#cluster-based-mesh-pipeline">¶</a></h5>
 <ul>
 <li>核心思想：对于非常精细的模型，将其分成无数一组面片组成的Cluster</li>
 <li>提供Mesh Shader：GPU处理同样的Cluster，实现更精细的细节</li>
 <li>可以基于Cluster做裁剪</li>
 <li>Nanite in UE5</li>
 </ul>
+
 
   </div>
 
@@ -515,7 +513,7 @@ BVH构建块，应用多</li>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -561,7 +559,7 @@ BVH构建块，应用多</li>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -683,22 +681,7 @@ BVH构建块，应用多</li>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

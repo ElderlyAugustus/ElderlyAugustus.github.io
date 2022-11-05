@@ -15,7 +15,7 @@
 存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -35,7 +35,7 @@
 存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-05-19T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-05-19T17:00:00&#43;08:00" />
@@ -92,9 +92,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -116,7 +114,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -285,7 +282,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-05-19</span></span><span class="meta-item">
+  <span>May 19, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -360,23 +357,23 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture09-animation-system---advanced">Lecture09 Animation
 System - Advanced</h3>
-<h4 id="animation-blending">Animation Blending</h4>
-<h5 id="lerp">LERP</h5>
+<h4 id="animation-blending">Animation Blending<a hidden class="anchor" aria-hidden="true" href="#animation-blending">¶</a></h4>
+<h5 id="lerp">LERP<a hidden class="anchor" aria-hidden="true" href="#lerp">¶</a></h5>
 <ul>
 <li>LERP / NLERP / SLERP</li>
 <li>两个动画clip之间的LERP</li>
 </ul>
-<h5 id="权重">权重</h5>
+<h5 id="权重">权重<a hidden class="anchor" aria-hidden="true" href="#权重">¶</a></h5>
 <p>eg. 走路与跑步动画，依据运动速度切换 <span class="math display">\[
 {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\
 {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\
 \]</span></p>
-<h5 id="对齐时间线">对齐时间线</h5>
+<h5 id="对齐时间线">对齐时间线<a hidden class="anchor" aria-hidden="true" href="#对齐时间线">¶</a></h5>
 <ul>
 <li>eg.走路和跑步的步频不同，怎样对齐混合的帧</li>
 <li>每一段动画为一步，对每一段动画时间线做归一化</li>
 </ul>
-<h5 id="blend-space">Blend Space</h5>
+<h5 id="blend-space">Blend Space<a hidden class="anchor" aria-hidden="true" href="#blend-space">¶</a></h5>
 <p>eg. 左右前后走/跑</p>
 <ul>
 <li><p>1D Blend Space： eg.
@@ -395,13 +392,13 @@ System - Advanced</h3>
 </ul></li>
 </ul></li>
 </ul>
-<h5 id="skeleton-masked-blending">Skeleton Masked Blending</h5>
+<h5 id="skeleton-masked-blending">Skeleton Masked Blending<a hidden class="anchor" aria-hidden="true" href="#skeleton-masked-blending">¶</a></h5>
 <p>针对只应用于半身或身体局部的动画，实现多种动画的混合
 eg.各种姿态下的鼓掌</p>
 <ul>
 <li>绘制一个Mask，只应用于部分Joints</li>
 </ul>
-<h5 id="additive-blending">Additive Blending</h5>
+<h5 id="additive-blending">Additive Blending<a hidden class="anchor" aria-hidden="true" href="#additive-blending">¶</a></h5>
 <p>eg. 向着摄影机点头</p>
 <ul>
 <li>存储动画的变化量，在基础动画上叠加一层动画</li>
@@ -432,7 +429,7 @@ eg.各种姿态下的鼓掌</p>
 <li>多层状态机
 <img src="/images/games104/L09_LayeredASM.jpg" alt="L09_LayeredASM" style="zoom: 50%;" /></li>
 </ul>
-<h5 id="animation-blend-tree">Animation Blend Tree</h5>
+<h5 id="animation-blend-tree">Animation Blend Tree<a hidden class="anchor" aria-hidden="true" href="#animation-blend-tree">¶</a></h5>
 <ul>
 <li>多层状态机在复杂动画中非常复杂</li>
 <li>用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树
@@ -469,13 +466,13 @@ eg.各种姿态下的鼓掌</p>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="inverse-kinematics">Inverse Kinematics</h4>
+<h4 id="inverse-kinematics">Inverse Kinematics<a hidden class="anchor" aria-hidden="true" href="#inverse-kinematics">¶</a></h4>
 <ul>
 <li>Forward Kinematics 前向传递动画</li>
 <li>Inverse Kinematics 对末端Joint Key动画 eg.
 崎岖地面走路，脚步顶点反向传递</li>
 </ul>
-<h5 id="two-bones-ik">Two Bones IK</h5>
+<h5 id="two-bones-ik">Two Bones IK<a hidden class="anchor" aria-hidden="true" href="#two-bones-ik">¶</a></h5>
 <ul>
 <li><p>2根Bone组成三角形的两边
 <img src="/images/games104/L09_2BonesIK1.jpg" alt="L09_2BonesIK1" style="zoom:25%;" /></p></li>
@@ -498,7 +495,7 @@ class="math inline">\(\cos\theta=\dfrac{a^2+c^2-b^2}{2ac}\)</span>
 <li>Full Body</li>
 </ul></li>
 </ul>
-<h5 id="multi-joint-ik-solving">Multi-Joint IK Solving</h5>
+<h5 id="multi-joint-ik-solving">Multi-Joint IK Solving<a hidden class="anchor" aria-hidden="true" href="#multi-joint-ik-solving">¶</a></h5>
 <ul>
 <li>更多种可能性
 <img src="/images/games104/L09_MultiJointIK1.jpg" alt="L09_MultiJointIK1" style="zoom:33%;" /></li>
@@ -538,7 +535,7 @@ Kinematics</strong>
 </ul></li>
 </ul></li>
 </ul>
-<h5 id="ik-with-multiple-end-effects">IK with Multiple End-Effects</h5>
+<h5 id="ik-with-multiple-end-effects">IK with Multiple End-Effects<a hidden class="anchor" aria-hidden="true" href="#ik-with-multiple-end-effects">¶</a></h5>
 <p>eg. 爬墙、攀岩灯多个目标点的IK
 <img src="/images/games104/L09_IKwithMultipleEnd-Effectors.png" alt="L09_IKwithMultipleEnd-Effectors" style="zoom:20%;" /></p>
 <ul>
@@ -552,7 +549,7 @@ Kinematics</strong>
 <li>Fullbody IK in UE5 (XPBD, Extended PBD)</li>
 </ul></li>
 </ul>
-<h5 id="ik的挑战">IK的挑战</h5>
+<h5 id="ik的挑战">IK的挑战<a hidden class="anchor" aria-hidden="true" href="#ik的挑战">¶</a></h5>
 <ul>
 <li>蒙皮后的自我穿插、交叠</li>
 <li>对环境的感知</li>
@@ -564,8 +561,8 @@ Kinematics</strong>
 <h4 id="animation-pipeline-with-blending-and-ik">Animation Pipeline with
 Blending and IK</h4>
 <p><img src="/images/games104/L09_AnimationPipelineWithBlendingAndIK.png" alt="L09_AnimationPipelineWithBlendingAndIK" style="zoom: 25%;" /></p>
-<h4 id="facial-animation">Facial Animation</h4>
-<h5 id="facial-action-coding-system">Facial Action Coding System</h5>
+<h4 id="facial-animation">Facial Animation<a hidden class="anchor" aria-hidden="true" href="#facial-animation">¶</a></h4>
+<h5 id="facial-action-coding-system">Facial Action Coding System<a hidden class="anchor" aria-hidden="true" href="#facial-action-coding-system">¶</a></h5>
 <ul>
 <li>把表情分成46种，并进行编码</li>
 <li>多种表情可以进行组合</li>
@@ -574,17 +571,17 @@ Blending and IK</h4>
 Face”的Offset，实现Additive Blending 即<strong>Morph Target
 Animation</strong></li>
 </ul>
-<h5 id="morph-target-animation">Morph Target Animation</h5>
-<h5 id="facial-skeleton">Facial Skeleton</h5>
+<h5 id="morph-target-animation">Morph Target Animation<a hidden class="anchor" aria-hidden="true" href="#morph-target-animation">¶</a></h5>
+<h5 id="facial-skeleton">Facial Skeleton<a hidden class="anchor" aria-hidden="true" href="#facial-skeleton">¶</a></h5>
 <p>骨骼非常复杂
 <img src="/images/games104/L09_FacialSkeleton.png" alt="L09_FacialSkeleton" style="zoom: 15%;" /></p>
-<h5 id="uv-texture-facial-animation">UV Texture Facial Animation</h5>
+<h5 id="uv-texture-facial-animation">UV Texture Facial Animation<a hidden class="anchor" aria-hidden="true" href="#uv-texture-facial-animation">¶</a></h5>
 <p>简单用贴图实现</p>
-<h5 id="muscle-model-animation">Muscle Model Animation</h5>
+<h5 id="muscle-model-animation">Muscle Model Animation<a hidden class="anchor" aria-hidden="true" href="#muscle-model-animation">¶</a></h5>
 <p>前沿研究，如果运动脸部肌肉（影视行业开始使用）
 <img src="/images/games104/L09_MuscleModelAnimation.jpg" alt="L09_MuscleModelAnimation" style="zoom: 50%;" /></p>
-<h4 id="animation-retargeting">Animation Retargeting</h4>
-<h5 id="skeleton-retargeting">Skeleton Retargeting</h5>
+<h4 id="animation-retargeting">Animation Retargeting<a hidden class="anchor" aria-hidden="true" href="#animation-retargeting">¶</a></h4>
+<h5 id="skeleton-retargeting">Skeleton Retargeting<a hidden class="anchor" aria-hidden="true" href="#skeleton-retargeting">¶</a></h5>
 <ul>
 <li>把同一个骨骼动画应用到不同角色</li>
 <li>Source Character + Target Character Source Animation + Target
@@ -610,12 +607,13 @@ Animation</li>
 <li>有语义动作偏移带来语义偏移，例如鼓掌动画，Retargeting后掌合不起来</li>
 </ul></li>
 </ul>
-<h5 id="morph-animation-retargeting">Morph Animation Retargeting</h5>
+<h5 id="morph-animation-retargeting">Morph Animation Retargeting<a hidden class="anchor" aria-hidden="true" href="#morph-animation-retargeting">¶</a></h5>
 <p>eg. 表情动画 + 直接存储的是相对于Neutral
 Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
 闭眼，眼睛大小不同时，直接Apply可能无法闭上 + 增加约束条件 eg.
 闭眼动画限制眼睛必须闭上 +
 手动调整，利用拉普拉斯算子计算，拉眼睑使相近脸部一起运动</p>
+
 
   </div>
 
@@ -682,7 +680,7 @@ Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -728,7 +726,7 @@ Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -850,22 +848,7 @@ Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

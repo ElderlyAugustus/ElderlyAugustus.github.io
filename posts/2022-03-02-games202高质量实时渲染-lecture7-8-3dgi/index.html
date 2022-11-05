@@ -15,7 +15,7 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 \[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -35,7 +35,7 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 \[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-02T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-02T15:00:00&#43;08:00" />
@@ -92,9 +92,7 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -116,7 +114,6 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -285,7 +282,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-03-02</span></span><span class="meta-item">
+  <span>March 2, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 
@@ -311,7 +308,7 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture-7-8-real-time-global-illumination-3d-gi">Lecture 7-8
 Real-time Global Illumination （3D GI）</h3>
-<h4 id="introduction">Introduction</h4>
+<h4 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">¶</a></h4>
 <ul>
 <li><p>GI is complex</p>
 <ul>
@@ -335,7 +332,7 @@ Real-time Global Illumination （3D GI）</h3>
 <li>每一个次级光源作为一个Area Light</li>
 </ul></li>
 </ul>
-<h4 id="reflective-shadow-maps-rsm">Reflective Shadow Maps (RSM)</h4>
+<h4 id="reflective-shadow-maps-rsm">Reflective Shadow Maps (RSM)<a hidden class="anchor" aria-hidden="true" href="#reflective-shadow-maps-rsm">¶</a></h4>
 <ul>
 <li>获得光源的Shadow
 Map，存储光源“可见”的<strong>深度/世界坐标/法线/Flux</strong>等（即Reflective
@@ -460,6 +457,7 @@ trace（eg.8个，空隙可忽略）
 <li><p>问题：计算量较大、实时体素化开销较大</p></li>
 </ul>
 
+
   </div>
 
   <footer class="post-footer">
@@ -525,7 +523,7 @@ trace（eg.8个，空隙可忽略）
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -571,7 +569,7 @@ trace（eg.8个，空隙可忽略）
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -693,22 +691,7 @@ trace（eg.8个，空隙可忽略）
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>
