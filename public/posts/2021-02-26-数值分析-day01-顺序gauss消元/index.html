@@ -17,7 +17,7 @@
 1.3 有效数字 定义1：设数 \(x\) 是数 \(x^{*}\) 的近似值，如果 \(x\) 的绝对误差限是它的某一数位的半个单位，并且从 \(x\) 左起第一个非零数到该数位共有 \(n\) 位，则称这 \(n\) 个数字为 \(x\) 的有效数字，也称用 \(x\) 近似 \(x*\) 时具有 \(n\) 位有效数字。">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -41,7 +41,7 @@
 1.3 有效数字 定义1：设数 \(x\) 是数 \(x^{*}\) 的近似值，如果 \(x\) 的绝对误差限是它的某一数位的半个单位，并且从 \(x\) 左起第一个非零数到该数位共有 \(n\) 位，则称这 \(n\) 个数字为 \(x\) 的有效数字，也称用 \(x\) 近似 \(x*\) 时具有 \(n\) 位有效数字。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-02-26T18:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-02-26T18:00:00&#43;08:00" />
@@ -98,9 +98,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -122,7 +120,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -291,7 +288,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-02-26-数值分析-Day01-顺序Gauss消元</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-02-26</span></span><span class="meta-item">
+  <span>February 26, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
@@ -335,15 +332,15 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="section">1.1 - 1.2</h3>
-<h4 id="数值分析的算法要求">数值分析的算法要求</h4>
+  <div class="post-content"><h3 id="section">1.1 - 1.2<a hidden class="anchor" aria-hidden="true" href="#section">¶</a></h3>
+<h4 id="数值分析的算法要求">数值分析的算法要求<a hidden class="anchor" aria-hidden="true" href="#数值分析的算法要求">¶</a></h4>
 <ul>
 <li>结构简单，易于计算机实现</li>
 <li>理论上保证方法的收敛性和数值稳定性</li>
 <li>计算效率高：速度快，内存开销小</li>
 <li>经过数值实验验证</li>
 </ul>
-<h4 id="误差的来源和分类">误差的来源和分类</h4>
+<h4 id="误差的来源和分类">误差的来源和分类<a hidden class="anchor" aria-hidden="true" href="#误差的来源和分类">¶</a></h4>
 <ul>
 <li><ul>
 <li>模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免</li>
@@ -374,7 +371,7 @@ x\pm\varepsilon\)</span> 。</p>
 \varepsilon_{r}\)</span> ，无量纲。</p>
 <p>（其中误差与相对误差用于理论分析，误差限与相对误差限用于实际应用。）</p></li>
 </ul>
-<h3 id="有效数字">1.3 有效数字</h3>
+<h3 id="有效数字">1.3 有效数字<a hidden class="anchor" aria-hidden="true" href="#有效数字">¶</a></h3>
 <p><strong>定义1</strong>：设数 <span class="math inline">\(x\)</span>
 是数 <span class="math inline">\(x^{*}\)</span> 的近似值，如果 <span
 class="math inline">\(x\)</span>
@@ -406,7 +403,7 @@ class="math display">\[
 \varepsilon_{r} \le \frac{1}{2(a_{1}+1)}\times10^{-n+1}
 \]</span> 则 <span class="math inline">\(x\)</span> 至少有 <span
 class="math inline">\(n\)</span> 位有效数字。</p>
-<h3 id="数值计算中的若干原则">1.4 - 1.6 数值计算中的若干原则</h3>
+<h3 id="数值计算中的若干原则">1.4 - 1.6 数值计算中的若干原则<a hidden class="anchor" aria-hidden="true" href="#数值计算中的若干原则">¶</a></h3>
 <p>为减少舍入误差</p>
 <ul>
 <li><p>避免两个相近的数相减</p>
@@ -419,7 +416,7 @@ class="math inline">\(n\)</span> 位有效数字。</p>
 <li><p>选用数值稳定性好的算法</p>
 <p>计算舍入误差积累是可控制的。</p></li>
 </ul>
-<h3 id="gauss消去法">2.1 - 2.4 Gauss消去法</h3>
+<h3 id="gauss消去法">2.1 - 2.4 Gauss消去法<a hidden class="anchor" aria-hidden="true" href="#gauss消去法">¶</a></h3>
 <p>求解线性方程组 <span class="math display">\[
 \left\{
 \begin{aligned}
@@ -457,7 +454,7 @@ b=
 \]</span></p>
 <p>Cramer法则：直接方法，计算量过大，不适合实际应用</p>
 <p><strong>Gauss消去法</strong>：直接方法，逐次消元，转换为上三角方程组。</p>
-<h4 id="顺序gauss消去法">顺序Gauss消去法</h4>
+<h4 id="顺序gauss消去法">顺序Gauss消去法<a hidden class="anchor" aria-hidden="true" href="#顺序gauss消去法">¶</a></h4>
 <p>顺序Gauss消去法求解线性方程组 <span
 class="math inline">\((1)\)</span>：</p>
 <p>记 <span class="math inline">\(A^{(1)}=A, b^{(1)}=b,
@@ -569,7 +566,7 @@ class="math inline">\(\displaystyle\sum_{k=1}^{n}(k^{2}-1)\ +\
 <p><strong>顺序Gauss消去法</strong>也简称为<strong>Gauss消去法</strong>，其中
 <span class="math inline">\(a_{kk}^{(k)}(k=1,2,\dots,n)\)</span>
 也称为<strong>主元素</strong>，且主元素不为零（使用顺序Gauss消去法的充要条件）。</p>
-<h4 id="列主元gauss消去法">列主元Gauss消去法</h4>
+<h4 id="列主元gauss消去法">列主元Gauss消去法<a hidden class="anchor" aria-hidden="true" href="#列主元gauss消去法">¶</a></h4>
 <p>顺序Gauss消去法的局限性：主元素过小时出现“大数吃小数”情况，舍入误差较大。常采用<strong>列主元Gauss消去法</strong>和<strong>全主元Gauss消去法</strong>解决。</p>
 <p>线性方程组 <span class="math inline">\(Ax=b\)</span>，记 <span
 class="math inline">\(A^{(1)}=A, b^{(1)}=b,\)</span>
@@ -595,9 +592,9 @@ class="math inline">\(A^{(n)}x=b^{(n)}\)</span>
 是与原方程组等价的上三角方程组，回代求解。 + <strong>易证：只要 <span
 class="math inline">\(|A|\neq 0\)</span>
 列主元Gauss消去法就可顺利进行。</strong></p>
-<h4 id="全主元gauss消去法">全主元Gauss消去法</h4>
+<h4 id="全主元gauss消去法">全主元Gauss消去法<a hidden class="anchor" aria-hidden="true" href="#全主元gauss消去法">¶</a></h4>
 <p>在每一步消元前，在所有元素中选取绝对值最大的元素作为主元素。但由于运算量大增，实际应用中不经常使用。</p>
-<h3 id="代码顺序gauss消去法">代码：顺序Gauss消去法</h3>
+<h3 id="代码顺序gauss消去法">代码：顺序Gauss消去法<a hidden class="anchor" aria-hidden="true" href="#代码顺序gauss消去法">¶</a></h3>
 <p>在每一步消元前，在所有元素中选取绝对值最大的元素作为主元素。但由于运算量大增，实际应用中不经常使用。</p>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
@@ -694,6 +691,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 <span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 
+
   </div>
 
   <footer class="post-footer">
@@ -759,7 +757,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -805,7 +803,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -927,22 +925,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

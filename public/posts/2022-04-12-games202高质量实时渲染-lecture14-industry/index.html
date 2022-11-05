@@ -16,7 +16,7 @@ MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开
 提升分辨率 eg. DLSS DLSS 1.0 全靠猜，每个游戏/场景单独训练一个网络 DLSS 2.0 利用Temporal信息 应用类似TAA的思路 重用Samples 问题：Temporal failure时不能clamp——因为每一个像素需要一个明确的值 DL不输出图像，而是输出关于上一帧的Temporal信息如何利用 Deferred Shading 延迟渲染 提高Shading效率 传统管线 Triangles -&gt; Fragments -&gt; Depth Test -&gt; Shading -&gt; Pixel 每一个Fragment都需要做Shading 复杂度：\(O(\text{\#Fragment}*\text{\#Light})\) 关键想法：有很多Fragment不会被看到 -&gt; 只对被看到的Fragment做Shading 修改管线 光栅化两次场景 Pass 1 : 不做Shading，更新Depth Buffer Pass 2 : 对可见的Fragment做Shading 复杂度：\(O(\text{\#Vis.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -38,7 +38,7 @@ MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开
 提升分辨率 eg. DLSS DLSS 1.0 全靠猜，每个游戏/场景单独训练一个网络 DLSS 2.0 利用Temporal信息 应用类似TAA的思路 重用Samples 问题：Temporal failure时不能clamp——因为每一个像素需要一个明确的值 DL不输出图像，而是输出关于上一帧的Temporal信息如何利用 Deferred Shading 延迟渲染 提高Shading效率 传统管线 Triangles -&gt; Fragments -&gt; Depth Test -&gt; Shading -&gt; Pixel 每一个Fragment都需要做Shading 复杂度：\(O(\text{\#Fragment}*\text{\#Light})\) 关键想法：有很多Fragment不会被看到 -&gt; 只对被看到的Fragment做Shading 修改管线 光栅化两次场景 Pass 1 : 不做Shading，更新Depth Buffer Pass 2 : 对可见的Fragment做Shading 复杂度：\(O(\text{\#Vis." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-14T12:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-14T12:00:00&#43;08:00" />
@@ -95,9 +95,7 @@ MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -119,7 +117,6 @@ MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -288,7 +285,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-14</span></span><span class="meta-item">
+  <span>April 14, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 
@@ -322,7 +319,7 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture-14-practical-industrial-solutions">Lecture 14 Practical
 Industrial Solutions</h3>
-<h4 id="temporal-anti-aliasing-taa">Temporal Anti-Aliasing, TAA</h4>
+<h4 id="temporal-anti-aliasing-taa">Temporal Anti-Aliasing, TAA<a hidden class="anchor" aria-hidden="true" href="#temporal-anti-aliasing-taa">¶</a></h4>
 <p>Recall: why aliasing</p>
 <ul>
 <li>光栅化的采样数不够</li>
@@ -353,7 +350,7 @@ Industrial Solutions</h3>
 </ul></li>
 <li><strong>G-Buffer一定不能反走样！</strong>（信息会出错）</li>
 </ul>
-<h4 id="temporal-super-resolution">Temporal Super Resolution</h4>
+<h4 id="temporal-super-resolution">Temporal Super Resolution<a hidden class="anchor" aria-hidden="true" href="#temporal-super-resolution">¶</a></h4>
 <p>Super resolution == Super sampling</p>
 <ul>
 <li>提升分辨率</li>
@@ -370,7 +367,7 @@ failure时不能clamp——因为每一个像素需要一个明确的值</li>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="deferred-shading-延迟渲染">Deferred Shading 延迟渲染</h4>
+<h4 id="deferred-shading-延迟渲染">Deferred Shading 延迟渲染<a hidden class="anchor" aria-hidden="true" href="#deferred-shading-延迟渲染">¶</a></h4>
 <ul>
 <li>提高Shading效率</li>
 <li>传统管线
@@ -394,7 +391,7 @@ class="math inline">\(O(\text{\#Vis.Fragment}*\text{\#Light})\)</span></li>
 </ul></li>
 <li>【疑惑：延迟渲染更广义地应该是指两次光栅化，一次记录G-Buffer，一次着色的渲染方式？这里闫老师只讲了深度Buffer的应用。】</li>
 </ul>
-<h4 id="tiled-shading">Tiled Shading</h4>
+<h4 id="tiled-shading">Tiled Shading<a hidden class="anchor" aria-hidden="true" href="#tiled-shading">¶</a></h4>
 <ul>
 <li>在Deferred Shading基础上，考虑减少光源的复杂度</li>
 <li>把屏幕分成Tile
@@ -404,7 +401,7 @@ class="math inline">\(O(\text{\#Vis.Fragment}*\text{avg(\#Light per
 tile)})\)</span></li>
 </ul>
 <p><img src="/images/games202/TiledShading.png" alt="TiledShading" style="zoom:25%;" /></p>
-<h4 id="clustered-shading">Clustered Shading</h4>
+<h4 id="clustered-shading">Clustered Shading<a hidden class="anchor" aria-hidden="true" href="#clustered-shading">¶</a></h4>
 <ul>
 <li>在Tiled Shading基础上，把空间分成网格</li>
 <li>进一步减少了需要计算的光源数量</li>
@@ -447,7 +444,7 @@ global</strong></li>
 </ul></li>
 </ul>
 <blockquote>
-<h4 id="more-topics">More Topics</h4>
+<h4 id="more-topics">More Topics<a hidden class="anchor" aria-hidden="true" href="#more-topics">¶</a></h4>
 <ul>
 <li>Texturing an SDF</li>
 <li>透明材质，透明材质的渲染顺序</li>
@@ -463,6 +460,7 @@ global</strong></li>
 <li>…</li>
 </ul>
 </blockquote>
+
 
   </div>
 
@@ -529,7 +527,7 @@ global</strong></li>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -575,7 +573,7 @@ global</strong></li>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -697,22 +695,7 @@ global</strong></li>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

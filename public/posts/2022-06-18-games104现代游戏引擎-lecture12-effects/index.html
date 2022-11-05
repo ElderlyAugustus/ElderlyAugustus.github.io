@@ -18,7 +18,7 @@ GPU并行Merge sort
 Advanced Particle Animated Particle Mesh 动画可以编码成Texture：Particle Animation Texture 状态机可以通过切换贴图实现 Navigation Texture 从SDF计算Direction Texture（RG通道贴图） 实现群集运动的运动方向 eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -44,7 +44,7 @@ GPU并行Merge sort
 Advanced Particle Animated Particle Mesh 动画可以编码成Texture：Particle Animation Texture 状态机可以通过切换贴图实现 Navigation Texture 从SDF计算Direction Texture（RG通道贴图） 实现群集运动的运动方向 eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-06-18-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture12-effects/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-06-18T18:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-06-18T18:00:00&#43;08:00" />
@@ -101,9 +101,7 @@ Advanced Particle Animated Particle Mesh 动画可以编码成Texture：Particle
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -125,7 +123,6 @@ Advanced Particle Animated Particle Mesh 动画可以编码成Texture：Particle
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -294,7 +291,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-18-GAMES104现代游戏引擎-Lecture12-Effects</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-06-18</span></span><span class="meta-item">
+  <span>June 18, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -335,11 +332,11 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="lecture12-effects">Lecture12 Effects</h3>
-<h4 id="particle">Particle</h4>
+  <div class="post-content"><h3 id="lecture12-effects">Lecture12 Effects<a hidden class="anchor" aria-hidden="true" href="#lecture12-effects">¶</a></h3>
+<h4 id="particle">Particle<a hidden class="anchor" aria-hidden="true" href="#particle">¶</a></h4>
 <h5 id="一个粒子-pba">一个粒子 <span class="citation"
 data-cites="PBA">@PBA</span></h5>
-<h5 id="粒子形态">粒子形态</h5>
+<h5 id="粒子形态">粒子形态<a hidden class="anchor" aria-hidden="true" href="#粒子形态">¶</a></h5>
 <ul>
 <li>Billboard Particle 永远朝向相机的面片</li>
 <li>Mesh Particle eg. 碎石</li>
@@ -348,7 +345,7 @@ data-cites="PBA">@PBA</span></h5>
 <li>样条插值，一般用Catmull</li>
 </ul></li>
 </ul>
-<h5 id="粒子渲染">粒子渲染</h5>
+<h5 id="粒子渲染">粒子渲染<a hidden class="anchor" aria-hidden="true" href="#粒子渲染">¶</a></h5>
 <ul>
 <li>透明混合顺序
 <ul>
@@ -360,7 +357,7 @@ data-cites="PBA">@PBA</span></h5>
 <li>Low-Resolution Particles 低分辨率渲染粒子，再与普通画面混合</li>
 </ul></li>
 </ul>
-<h5 id="gpu粒子">GPU粒子</h5>
+<h5 id="gpu粒子">GPU粒子<a hidden class="anchor" aria-hidden="true" href="#gpu粒子">¶</a></h5>
 <ul>
 <li><p>定义Particle Pool</p></li>
 <li><p>管理Dead list和Alive list</p></li>
@@ -377,7 +374,7 @@ data-cites="PBA">@PBA</span></h5>
 </blockquote></li>
 <li><p>Depth Buffer Collision 利用Depth Buffer做碰撞</p></li>
 </ul>
-<h5 id="advanced-particle">Advanced Particle</h5>
+<h5 id="advanced-particle">Advanced Particle<a hidden class="anchor" aria-hidden="true" href="#advanced-particle">¶</a></h5>
 <ul>
 <li>Animated Particle Mesh
 <ul>
@@ -398,13 +395,13 @@ data-cites="PBA">@PBA</span></h5>
 </ul></li>
 <li>群集模拟</li>
 </ul>
-<h5 id="游戏中的粒子系统工具">游戏中的粒子系统工具</h5>
+<h5 id="游戏中的粒子系统工具">游戏中的粒子系统工具<a hidden class="anchor" aria-hidden="true" href="#游戏中的粒子系统工具">¶</a></h5>
 <ul>
 <li>早期：设定emitter参数，增加各种效果</li>
 <li>现代：节点式，更复杂的处理</li>
 <li>eg. Niagara</li>
 </ul>
-<h4 id="sound-system">Sound System</h4>
+<h4 id="sound-system">Sound System<a hidden class="anchor" aria-hidden="true" href="#sound-system">¶</a></h4>
 <ul>
 <li>声音基础知识（略）</li>
 <li>Panning</li>
@@ -443,6 +440,7 @@ data-cites="PBA">@PBA</span></h5>
 <li>引擎中间件 eg. Wwise</li>
 <li>建模整个声音世界</li>
 </ul>
+
 
   </div>
 
@@ -509,7 +507,7 @@ data-cites="PBA">@PBA</span></h5>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -555,7 +553,7 @@ data-cites="PBA">@PBA</span></h5>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -677,22 +675,7 @@ data-cites="PBA">@PBA</span></h5>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

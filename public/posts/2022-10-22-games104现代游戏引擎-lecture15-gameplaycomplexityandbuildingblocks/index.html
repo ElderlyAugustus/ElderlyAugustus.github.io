@@ -10,7 +10,7 @@
 <meta name="description" content="Lecture15 Gameplay Complexity and Building Blocks Overview Gameplay的挑战 多个系统之间的合作 同一个游戏中Gameplay的多样性 快速迭代 Event Mechanism Hard Code写在函数中：无数的if/else、非常难以修改 Event/Message Mechanism：GO之间的“通讯协议” Publish-subscribe Pattern 发行-订阅设计模式 Event Definition 信息的定义 方法1：Event作为类设计 -&gt; 不适合交给设计师修改 方法2：允许定义任意的Event 再通过代码渲染系统编译，但每次修改都需要重新编译过于麻烦 在引擎核心代码之外定义 dll注入 用脚本层语言实现 Callback Registration 响应注册 注册和调用不在同一处 –&gt; 对象的生命周期和回调函数安全性问题 Strong Reference 强引用：引用关系绑定 Weak Reference 弱引用：引用关系弱，可手动进行逻辑判断，使用较多 Event Dispatching 信息分发 遍历每个GO，逐个分发调用函数 —— 效率过低 Immediate：发送消息立即调用函数 会打断前一任务，等待Callback执行后再继续 单次打断引发连锁Callback，易导致Callstack非常深，难以Debug 难以并行 Event Queue 把Event存储至队列，依次执行 Event Queue的序列化和反序列化 实现：利用反射，获取每个对象的描述结构 存储结构：Ring Buffer 不用重复申请新内存 Batching，将多个独立系统分开处理 问题： 无法保证多个系统间的执行顺序 =&gt; 保留一定的Immediate处理能力 同时具备Pre、Post、Immediate处理方式 有系统延迟，削弱动作游戏打击感 =&gt; 经常Hardcode绕过Delay Script System Game Logic 直接在游戏引擎代码内，使用编译语言编写 （C/C&#43;&#43;） 每次修改Gameplay，需要重新编译游戏引擎 极难支持热更新 对设计师极不友好 脚本语言 Script System 支持快速迭代 易于学习、编写 支持热更新 沙盒运行，稳定、更少Crash 如何运行 基于虚拟机 Script Text -&gt; [Compiler] -&gt; Bytecode [Virtual Machine] 速度略慢 如何管理GO 强调效率：引擎内核管理，脚本触发引擎执行 编写难度大 执行过程非常复杂 直接交给脚本系统管理 脚本如何处理GO的生命周期：GC, Garbage Collection 优势：不需要手动管理对象生命周期，自动处理 问题：每次需要扫描内存，处理效率低 对于玩法相对简单的单机游戏，大多交给引擎管理； MMORPG等玩法非常复杂的游戏，大多脚本系统管理 架构 引擎调用脚本 eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -20,7 +20,7 @@
 <meta property="og:description" content="Lecture15 Gameplay Complexity and Building Blocks Overview Gameplay的挑战 多个系统之间的合作 同一个游戏中Gameplay的多样性 快速迭代 Event Mechanism Hard Code写在函数中：无数的if/else、非常难以修改 Event/Message Mechanism：GO之间的“通讯协议” Publish-subscribe Pattern 发行-订阅设计模式 Event Definition 信息的定义 方法1：Event作为类设计 -&gt; 不适合交给设计师修改 方法2：允许定义任意的Event 再通过代码渲染系统编译，但每次修改都需要重新编译过于麻烦 在引擎核心代码之外定义 dll注入 用脚本层语言实现 Callback Registration 响应注册 注册和调用不在同一处 –&gt; 对象的生命周期和回调函数安全性问题 Strong Reference 强引用：引用关系绑定 Weak Reference 弱引用：引用关系弱，可手动进行逻辑判断，使用较多 Event Dispatching 信息分发 遍历每个GO，逐个分发调用函数 —— 效率过低 Immediate：发送消息立即调用函数 会打断前一任务，等待Callback执行后再继续 单次打断引发连锁Callback，易导致Callstack非常深，难以Debug 难以并行 Event Queue 把Event存储至队列，依次执行 Event Queue的序列化和反序列化 实现：利用反射，获取每个对象的描述结构 存储结构：Ring Buffer 不用重复申请新内存 Batching，将多个独立系统分开处理 问题： 无法保证多个系统间的执行顺序 =&gt; 保留一定的Immediate处理能力 同时具备Pre、Post、Immediate处理方式 有系统延迟，削弱动作游戏打击感 =&gt; 经常Hardcode绕过Delay Script System Game Logic 直接在游戏引擎代码内，使用编译语言编写 （C/C&#43;&#43;） 每次修改Gameplay，需要重新编译游戏引擎 极难支持热更新 对设计师极不友好 脚本语言 Script System 支持快速迭代 易于学习、编写 支持热更新 沙盒运行，稳定、更少Crash 如何运行 基于虚拟机 Script Text -&gt; [Compiler] -&gt; Bytecode [Virtual Machine] 速度略慢 如何管理GO 强调效率：引擎内核管理，脚本触发引擎执行 编写难度大 执行过程非常复杂 直接交给脚本系统管理 脚本如何处理GO的生命周期：GC, Garbage Collection 优势：不需要手动管理对象生命周期，自动处理 问题：每次需要扫描内存，处理效率低 对于玩法相对简单的单机游戏，大多交给引擎管理； MMORPG等玩法非常复杂的游戏，大多脚本系统管理 架构 引擎调用脚本 eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-10-22T09:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-10-22T09:00:00&#43;08:00" />
@@ -77,9 +77,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -101,7 +99,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -270,7 +267,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-10-22</span></span><span class="meta-item">
+  <span>October 22, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -311,7 +308,7 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture15-gameplay-complexity-and-building-blocks">Lecture15
 Gameplay Complexity and Building Blocks</h3>
-<h4 id="overview">Overview</h4>
+<h4 id="overview">Overview<a hidden class="anchor" aria-hidden="true" href="#overview">¶</a></h4>
 <ul>
 <li>Gameplay的挑战
 <ul>
@@ -320,7 +317,7 @@ Gameplay Complexity and Building Blocks</h3>
 <li>快速迭代</li>
 </ul></li>
 </ul>
-<h4 id="event-mechanism">Event Mechanism</h4>
+<h4 id="event-mechanism">Event Mechanism<a hidden class="anchor" aria-hidden="true" href="#event-mechanism">¶</a></h4>
 <ul>
 <li>Hard Code写在函数中：无数的if/else、非常难以修改</li>
 <li><strong>Event/Message Mechanism：GO之间的“通讯协议”</strong>
@@ -377,7 +374,7 @@ Publish-subscribe Pattern 发行-订阅设计模式
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="script-system">Script System</h4>
+<h4 id="script-system">Script System<a hidden class="anchor" aria-hidden="true" href="#script-system">¶</a></h4>
 <ul>
 <li>Game Logic
 <ul>
@@ -445,7 +442,7 @@ MMORPG等玩法非常复杂的游戏，大多脚本系统管理</li>
 <li>C# Mono等库/.NET官方支持，将原生编译语言变成脚本语言</li>
 </ul></li>
 </ul>
-<h4 id="visual-script">Visual Script</h4>
+<h4 id="visual-script">Visual Script<a hidden class="anchor" aria-hidden="true" href="#visual-script">¶</a></h4>
 <ul>
 <li>eg. UE Blueprint, Unity Visual Script</li>
 <li>对设计师和艺术家更友好</li>
@@ -466,8 +463,8 @@ MMORPG等玩法非常复杂的游戏，大多脚本系统管理</li>
 <li>Visual Script和脚本本质同类 Script Graph -&gt; Graph Compiler -&gt;
 Bytecode -&gt; Virtual Machine</li>
 </ul>
-<h4 id="character-control-and-camera">Character, Control and Camera</h4>
-<h5 id="character">Character</h5>
+<h4 id="character-control-and-camera">Character, Control and Camera<a hidden class="anchor" aria-hidden="true" href="#character-control-and-camera">¶</a></h4>
+<h5 id="character">Character<a hidden class="anchor" aria-hidden="true" href="#character">¶</a></h5>
 <ul>
 <li>Movement
 <ul>
@@ -480,7 +477,7 @@ Bytecode -&gt; Virtual Machine</li>
 <li>Skills</li>
 <li>…</li>
 </ul>
-<h5 id="control">Control</h5>
+<h5 id="control">Control<a hidden class="anchor" aria-hidden="true" href="#control">¶</a></h5>
 <ul>
 <li>不同的输入设备，输入设备 -&gt; 游戏逻辑
 <img src="/images/games104/L15_Control.png" alt="L15_Control" style="zoom: 15%;" /></li>
@@ -490,7 +487,7 @@ Bytecode -&gt; Virtual Machine</li>
 <li>Context Awareness 不同的游戏片段，输入响应不同</li>
 <li>Chord &amp; Key Sequences 按键触发、多个按键序列触发</li>
 </ul>
-<h5 id="camera">Camera</h5>
+<h5 id="camera">Camera<a hidden class="anchor" aria-hidden="true" href="#camera">¶</a></h5>
 <ul>
 <li>基础：POV和FOV Point of View, Field of View</li>
 <li>相机绑定
@@ -504,6 +501,7 @@ Bytecode -&gt; Virtual Machine</li>
 </ul>
 <p>引擎针对3C系统要公开足够多的接口到 Script / Visual Script
 提供给设计师、艺术家</p>
+
 
   </div>
 
@@ -570,7 +568,7 @@ Bytecode -&gt; Virtual Machine</li>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -616,7 +614,7 @@ Bytecode -&gt; Virtual Machine</li>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -738,22 +736,7 @@ Bytecode -&gt; Virtual Machine</li>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

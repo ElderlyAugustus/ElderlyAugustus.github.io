@@ -12,97 +12,17 @@ buildDrafts = false
 buildFuture = false
 buildExpired = false
 enableEmoji = true
+pygmentsUseClasses = true
+# googleAnalytics = UA-123-45
 
-[params]
-  math = true
+[minify]
+  disableXML = true
+  # minifyOutput = true
 
-  # env = "production" # to enable google analytics, opengraph, twitter-cards and schema.
-  description = '''xα's blog'''
-  author = [ "xα" ]
-  # mainSections = [ "posts" ]
-  disableAnchoredHeadings = true
-  images = [ "cover.png" ]
-  DateFormat = "2006-01-02"
-  # useCustomAnalytics = true
-  
-  defaultTheme = "auto"
-  ShowShareButtons = true
-  # ShowReadingTime = true
-  # ShowWordCount = true
-  displayFullLangName = true
-  ShowPostNavLinks = true
-  ShowBreadCrumbs = true
-  ShowCodeCopyButtons = true
-  ShowToc = true
-  TocOpen = true
-  TocSide = "right"
-  EnableInstantClick = true
-  EnableImageZoom = true
-
-  [params.assets]
-    disableFingerprinting = true
-
-  [params.homeInfoParams]
-    # Title = "xα"
-    Content = '''<div class="-mt-4 mb-20 flex items-start">
-    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
-    <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80" src="icons/xa_blog.png" alt="xa.png">
-    </div>
-    <div>
-    <h1 class="mt-1.5 mb-3 text-3xl font-bold">xα</h1>
-    <div class="break-words">
-    游戏引擎研发，技术美术
-    </div>
-    </div>
-    </div>
-    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
-    '''
-
-  [[params.socialIcons]]
-    name = "github-simple"
-    url = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
-
-  [params.editPost]
-    URL = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io/content"
-    Text = "Suggest Changes" # edit text
-    appendFilePath = true # to append file path to Edit link
-
-  # [params.label]
-  #   text = "Home"
-  #   icon = "/icons/icon.png"
-  #   iconHeight = 35
-
-  # [params.assets]
-  #   favicon = "/icons/favicon.ico"
-  #   favicon16x16 = "/icons/favicon.ico"
-  #   favicon32x32 = "/icons/favicon.ico"
-  #   apple_touch_icon = "/icons/icon.png"
-  #   safari_pinned_tab = "<link / abs url>"
-
-  # [params.cover]
-  #   hidden = true
-  #   hiddenInList = true
-  #   hiddenInSingle = true
-
-  # [params.fuseOpts]
-  #   isCaseSensitive = false
-  #   shouldSort = true
-  #   location = 0
-  #   distance = 1_000
-  #   threshold = 0.4
-  #   minMatchCharLength = 0
-  #   keys = [ "title", "permalink", "summary", "content" ]
-
-
-# needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-  [markup.highlight]
-    style = 'dracula'
-    lineNos = false
-    noClasses = false
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
 
 [menu]
   [[menu.main]]
@@ -136,17 +56,162 @@ enableEmoji = true
   #   url = "/series/"
   #   weight = 10
 
-[minify]
-  disableXML = true
-  minifyOutput = false
-
-[taxonomies]
-  tag = "tags"
-  category = "categories"
-  series = "series"
-
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+[params]
+  math = true
+
+  env = "production" # to enable google analytics, opengraph, twitter-cards and schema.
+  description = '''xα's blog'''
+  author = [ "xα" ]
+
+  defaultTheme = "auto"
+  # disableThemeToggle = true
+  ShowShareButtons = true
+  # ShowReadingTime = true
+  # disableSpecial1stPost = true
+  displayFullLangName = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = true
+  TocSide = "right"
+
+  # comments = false
+  images = ["papermod-cover.png"]
+
+  [params.profileMode]
+    enabled = false
+    title = "xα, Augustus" # optional default will be site title
+    subtitle = '''游戏引擎研发，技术美术<br/>
+    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
+    '''
+    imageUrl = "/icons/xa_blog.png"
+    imageTitle = "xa"
+    imageWidth = 120
+    imageHeight = 120
+
+    [[params.profileMode.buttons]]
+      name = "Archives"
+      url = "archives"
+
+    [[params.profileMode.buttons]]
+      name = "Tags"
+      url = "tags"
+
+  [params.homeInfoParams]
+    # Title = "xα"
+    # Content = '''游戏引擎研发，技术美术<br/>
+    # 欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
+    # '''
+    Content = '''<link rel="preload stylesheet" as=style href=/css/main.min.css>
+    <div class="-mt-4 mb-20 flex items-start">
+    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
+    <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80" src="icons/xa_blog.png" alt="xa.png">
+    </div>
+    <div>
+    <h1 class="mt-1.5 mb-3 text-3xl font-bold">xα</h1>
+    <div class="break-words">
+    游戏引擎研发，技术美术
+    </div>
+    </div>
+    </div>
+    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
+    '''
+  [[params.socialIcons]]
+    name = "github-simple"
+    url = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
+
+  # [[params.socialIcons]]
+  #   name = "github"
+  #   url = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
+
+  # [[params.socialIcons]]
+  #   name = "cv"
+  #   url = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
+  
+  # [[params.socialIcons]]
+  #   name = "email"
+  #   url = "OldAugustus@outlook.com | absUrl"
+
+  [params.editPost]
+    URL = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io/content"
+    Text = "Suggest Changes" # edit text
+    appendFilePath = true # to append file path to Edit link
+
+  # [params.label]
+  #   text = "Home"
+  #   icon = "/icons/icon.png"
+  #   iconHeight = 35
+  
+  # [params.analytics]
+  #   [params.analytics.google]
+  #     SiteVerificationTag = "XYZabc"
+
+  [params.assets]
+  #   disableFingerprinting = true
+  #   disableHLJS = true
+    favicon = "/icons/favicon.ico"
+  #   favicon16x16 = "/icons/favicon.ico"
+  #   favicon32x32 = "/icons/favicon.ico"
+    apple_touch_icon = "/icons/apple_touch_icon.png"
+  #   safari_pinned_tab = "<link / abs url>"
+  
+  # [params.cover]
+  #   hidden = true # hide everywhere but not in structured data
+  #   hiddenInList = true # hide on list pages and home
+  #   hiddenInSingle = true # hide on single page
+
+  # [params.fuseOpts]
+  #   isCaseSensitive = false
+  #   shouldSort = true
+  #   location = 0
+  #   distance = 1_000
+  #   threshold = 0.4
+  #   minMatchCharLength = 0
+  #   keys = [ "title", "permalink", "summary", "content" ]
+
+
+# needed to  render raw HTML (e.g. <sub>, <sup>, <kbd>, <mark>)
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+      # anchorLineNos: true
+      # codeFences: true
+      # guessSyntax: true
+      # lineNos: true
+      # style: monokai
+
+[privacy]
+  [privacy.vimeo]
+    disabled = true
+    simple = true
+
+  [privacy.twitter]
+    disabled = true
+    enableDNT = true
+    simple = true
+
+  [privacy.instagram]
+    disabled = true
+    simple = true
+
+  [privacy.youtube]
+    disabled = true
+    privacyEnhanced = true
+
+[services]
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true
+
 
 [security]
   enableInlineShortcodes = false

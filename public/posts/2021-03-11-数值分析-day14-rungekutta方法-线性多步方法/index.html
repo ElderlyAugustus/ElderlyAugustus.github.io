@@ -13,7 +13,7 @@
 Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(2\) 项一致。为 \(1\) 阶方法。 改进Euler方法用 \(K_1,K_2\) 的线性组合作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(3\) 项一致。为 \(2\) 阶方法。 能否增加计算 \(f(x,y)\) 的次数来提高方法阶数？ Runge-Kutta方法 \[ \left\{\begin{array}{l} y_{n&#43;1}=y_n&#43;h(\lambda_1K_1&#43;\lambda_2K_2&#43;\dots&#43;\lambda_pK_p)\\ K_1=f(x_n,y_n)\\ K_2=f(x_n&#43;\alpha_2h,y_n&#43;h\beta_{21}K_1)\\ \dots\\ K_p=f(x_n&#43;\alpha_ph,y_n&#43;h\sum\limits_{i=1}^{p-1}\beta_{pi}K_i) \end{array}\right.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -29,7 +29,7 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
 Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(2\) 项一致。为 \(1\) 阶方法。 改进Euler方法用 \(K_1,K_2\) 的线性组合作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(3\) 项一致。为 \(2\) 阶方法。 能否增加计算 \(f(x,y)\) 的次数来提高方法阶数？ Runge-Kutta方法 \[ \left\{\begin{array}{l} y_{n&#43;1}=y_n&#43;h(\lambda_1K_1&#43;\lambda_2K_2&#43;\dots&#43;\lambda_pK_p)\\ K_1=f(x_n,y_n)\\ K_2=f(x_n&#43;\alpha_2h,y_n&#43;h\beta_{21}K_1)\\ \dots\\ K_p=f(x_n&#43;\alpha_ph,y_n&#43;h\sum\limits_{i=1}^{p-1}\beta_{pi}K_i) \end{array}\right." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-11T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-11T17:00:00&#43;08:00" />
@@ -86,9 +86,7 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -110,7 +108,6 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -279,7 +276,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-03-11</span></span><span class="meta-item">
+  <span>March 11, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
@@ -339,8 +336,8 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="runge-kutta方法">7.5 - 7.7 Runge-Kutta方法</h3>
-<h4 id="单步高阶方法构造思路">单步高阶方法构造思路</h4>
+  <div class="post-content"><h3 id="runge-kutta方法">7.5 - 7.7 Runge-Kutta方法<a hidden class="anchor" aria-hidden="true" href="#runge-kutta方法">¶</a></h3>
+<h4 id="单步高阶方法构造思路">单步高阶方法构造思路<a hidden class="anchor" aria-hidden="true" href="#单步高阶方法构造思路">¶</a></h4>
 <p>设 <span class="math inline">\(y(x)\)</span>
 是一阶常微分方程初值问题的精确解，Taylor展开得： <span
 class="math display">\[
@@ -384,7 +381,7 @@ class="math inline">\(f(\xi,y(\xi))\)</span> 。</p>
 <li>能否增加计算 <span class="math inline">\(f(x,y)\)</span>
 的次数来提高方法阶数？</li>
 </ul>
-<h4 id="runge-kutta方法-1">Runge-Kutta方法</h4>
+<h4 id="runge-kutta方法-1">Runge-Kutta方法<a hidden class="anchor" aria-hidden="true" href="#runge-kutta方法-1">¶</a></h4>
 <p><span class="math display">\[
 \left\{\begin{array}{l}
 y_{n+1}=y_n+h(\lambda_1K_1+\lambda_2K_2+\dots+\lambda_pK_p)\\
@@ -437,7 +434,7 @@ class="math inline">\(O(h^3)\)</span>
   \end{array}\right.
   \]</span></li>
 </ul>
-<h5 id="隐式runge-kutta方法">隐式Runge-Kutta方法</h5>
+<h5 id="隐式runge-kutta方法">隐式Runge-Kutta方法<a hidden class="anchor" aria-hidden="true" href="#隐式runge-kutta方法">¶</a></h5>
 <p>一般形式： <span class="math display">\[
 \left\{\begin{array}{l}
 \displaystyle y_{n+1}=y_n+h\sum_{r=1}^p\lambda_rK_r\\
@@ -448,7 +445,7 @@ r=1,2,\dots,p
 \]</span> 称为 <span class="math inline">\(\mathbf p\)</span>
 <strong>级隐式Runge-Kutta方法</strong>。（如梯形公式就是二级隐式R-K方法。）</p>
 <p>缺点是计算量较大，优点是数值稳定性好。</p>
-<h5 id="变步长runge-kutta方法">变步长Runge-Kutta方法</h5>
+<h5 id="变步长runge-kutta方法">变步长Runge-Kutta方法<a hidden class="anchor" aria-hidden="true" href="#变步长runge-kutta方法">¶</a></h5>
 <p>设从 <span class="math inline">\(x_n\)</span> 以步长 <span
 class="math inline">\(h\)</span> 计算 <span
 class="math inline">\(y(x_{n+1})\)</span> 的近似值为 <span
@@ -471,8 +468,8 @@ class="math inline">\(\displaystyle\left|y_{n+1}^{(\frac{h}{2})}-y_{n+1}^{(h)}\r
 时，可取 <span class="math inline">\(\displaystyle
 y_{n+1}^{(\frac{h}{2})}\approx y_{n+1}^{(h)}\)</span>
 ，否则将步长减半计算，直至满足精度要求。</p>
-<h3 id="单步方法的性质">7.7 - 7.11 单步方法的性质</h3>
-<h4 id="收敛性">收敛性</h4>
+<h3 id="单步方法的性质">7.7 - 7.11 单步方法的性质<a hidden class="anchor" aria-hidden="true" href="#单步方法的性质">¶</a></h3>
+<h4 id="收敛性">收敛性<a hidden class="anchor" aria-hidden="true" href="#收敛性">¶</a></h4>
 <p>求解初值问题的单步显式方法可统一写为如下形式： <span
 class="math display">\[
 y_{n+1}=y_n+h\Phi(x_n,y_n,h)
@@ -506,7 +503,7 @@ class="math inline">\(y_0=y(\alpha)=\alpha\)</span> 。
 class="math inline">\(|y(x_n)-y_n|\le Ch^p\)</span> 。</p>
 <p>易证，Euler方法、改进Euler方法均是收敛的。</p>
 <p>（注意，此处差分方法的收敛性与前面构造改进Euler方法时所用到的“校正步骤的收敛性不同。）</p>
-<h4 id="稳定性">稳定性</h4>
+<h4 id="稳定性">稳定性<a hidden class="anchor" aria-hidden="true" href="#稳定性">¶</a></h4>
 <blockquote>
 <p>收敛性反映截断误差，稳定性反映舍入误差。</p>
 </blockquote>
@@ -550,11 +547,11 @@ class="math inline">\((-2.51,0)\)</span> 。</li>
 class="math inline">\((-2.78,0)\)</span> 。</li>
 </ul>
 <p>综上，单步显式方法的稳定性与步长密切相关。步长过小时又会导致计算量过大。</p>
-<h3 id="线性多步方法">7.12 - 7.13 线性多步方法</h3>
+<h3 id="线性多步方法">7.12 - 7.13 线性多步方法<a hidden class="anchor" aria-hidden="true" href="#线性多步方法">¶</a></h3>
 <blockquote>
 <p>单步方法计算简便，但精度较低。精度较高的单步方法（如四阶R-K方法），计算量较大。</p>
 </blockquote>
-<h4 id="待定参数法构造线性多步方法">待定参数法构造线性多步方法</h4>
+<h4 id="待定参数法构造线性多步方法">待定参数法构造线性多步方法<a hidden class="anchor" aria-hidden="true" href="#待定参数法构造线性多步方法">¶</a></h4>
 <p><span class="math display">\[
 \displaystyle
 y_{n+1}=\sum_{i=0}^r\alpha_iy_{n-i}+h\sum_{i=-1}^r\beta_if_{n-1}
@@ -566,7 +563,7 @@ y_{n+1}=\sum_{i=0}^r\alpha_iy_{n-i}+h\sum_{i=-1}^r\beta_if_{n-1}
 class="math inline">\(y(x_{n+1})-y_{n+1}=O(h^{r+2})\)</span> 。（指在
 <span class="math inline">\(y(x_{n-i})=y_{n-i}\)</span>
 前提下的截断误差。）</p>
-<h4 id="数值积分构造线性多步方法">数值积分构造线性多步方法</h4>
+<h4 id="数值积分构造线性多步方法">数值积分构造线性多步方法<a hidden class="anchor" aria-hidden="true" href="#数值积分构造线性多步方法">¶</a></h4>
 <p>由 <span class="math display">\[
 \displaystyle y(x_{n+1})=y(x_n)+\int_{x_n}^{x_{n+1}}f(x,y(x))dx
 \]</span> 设 <span class="math inline">\(p_r(x)\)</span> 为函数 <span
@@ -579,7 +576,7 @@ class="math inline">\(R_n=\int_{x_n}^{x_{n+1}}(f(x,y(x))-p_r(x))dx\)</span>
 。由此可建立差分公式： <span class="math display">\[
 \displaystyle y_{n+1}=y_n+\int_{x_n}^{x_{n+1}}p_r(x)dx
 \]</span></p>
-<h5 id="adams显式公式">Adams显式公式</h5>
+<h5 id="adams显式公式">Adams显式公式<a hidden class="anchor" aria-hidden="true" href="#adams显式公式">¶</a></h5>
 <p>设精确解 <span class="math inline">\(y(x)\)</span> 在步长为 <span
 class="math inline">\(h\)</span> 的等距节点 <span
 class="math inline">\(x_{n-r},\dots,x_n\)</span> 上的近似值 <span
@@ -614,7 +611,7 @@ y_{n+1}=y_n+\frac{h}{12}(23f_n-16f_{n-1}+5f_{n-2})+\frac{3}{8}h^4y^{(4)}(x_n)\)<
 <li><span class="math inline">\(r=3,\quad\displaystyle
 y_{n+1}=y_n+\frac{h}{24}(55f_n-59f_{n-1}+37f_{n-2}-9f_{n-3})+\frac{251}{720}h^5y^{(5)}(x_n)\)</span></li>
 </ul>
-<h5 id="adams隐式公式">Adams隐式公式</h5>
+<h5 id="adams隐式公式">Adams隐式公式<a hidden class="anchor" aria-hidden="true" href="#adams隐式公式">¶</a></h5>
 <p>利用 <span class="math inline">\(r+1\)</span> 个数据 <span
 class="math inline">\((x_{n-r+1},f_{n-r+1}),\dots,(x_{n+1},f_{n+1})\)</span>
 ，则可到处数值稳定性较好的隐式公式，其一般形式为： <span
@@ -634,7 +631,7 @@ y_{n+1}=y_n+\frac{h}{12}(5f_{n+1}-8f_n-f_{n-1})-\frac{1}{24}h^4y^{(4)}(x_n)\)</s
 <li><span class="math inline">\(r=3,\quad\displaystyle
 y_{n+1}=y_n+\frac{h}{24}(9f_{n+1}+19f_n-5f_{n-1}+f_{n-2})-\frac{19}{720}h^5y^{(5)}(x_n)\)</span></li>
 </ul>
-<h5 id="adams预估-校正公式">Adams预估-校正公式</h5>
+<h5 id="adams预估-校正公式">Adams预估-校正公式<a hidden class="anchor" aria-hidden="true" href="#adams预估-校正公式">¶</a></h5>
 <p>由显式公式提供一个预估值，再用隐式公式校正一次得到数值解，称为预估-校正方法。
 一般预估公式和校正公式都采用同阶公式（ <span
 class="math inline">\(r\)</span> 相等）。</p>
@@ -643,6 +640,7 @@ class="math inline">\(r\)</span> 相等）。</p>
 \]</span>
 称为<strong>四阶Adams预估校正公式</strong>，实际计算中通常用四阶单步方法（如四阶R-K公式）为其提供起始值
 <span class="math inline">\(y_1,y_2,y_3\)</span> 。</p>
+
 
   </div>
 
@@ -709,7 +707,7 @@ class="math inline">\(r\)</span> 相等）。</p>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -755,7 +753,7 @@ class="math inline">\(r\)</span> 相等）。</p>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -877,22 +875,7 @@ class="math inline">\(r\)</span> 相等）。</p>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

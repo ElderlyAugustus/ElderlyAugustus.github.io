@@ -13,7 +13,7 @@
 最终解得： \[ \begin{array}{c}\lambda_im_{i-1}&#43;2m_i&#43;\mu_im_{i&#43;1}=g_i\\ \begin{pmatrix} 2 &amp;\mu_1 &amp; &amp; &amp; &amp; \\ \lambda_2 &amp;2 &amp;\mu_2 &amp; &amp; &amp; \\ &amp;\ddots &amp;\ddots &amp;\ddots &amp; &amp; \\ &amp; &amp;\ddots &amp;\ddots &amp;\ddots &amp; \\ &amp; &amp; &amp;\lambda_{n-2} &amp;2 &amp;\mu_{n-2} \\ &amp; &amp; &amp; &amp;\lambda_{n-1} &amp;2 \end{pmatrix} \begin{pmatrix} m_1 \\ m_2 \\ \vdots \\ \vdots \\ m_{n-2} \\ m_{n-1} \end{pmatrix}= \begin{pmatrix} g_1-\lambda_iy_0&#39; \\ g_2 \\ \vdots \\ \vdots \\ g_{n-2} \\ g_{n-1}-\mu_{n-1}y_n&#39; \end{pmatrix} \end{array} \] 利用大型稀疏矩阵线性方程数值解法，解出 \(m_i\) ，即解得 \(x\in[x_{i-1},x_i]\) 时，有：">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -29,7 +29,7 @@
 最终解得： \[ \begin{array}{c}\lambda_im_{i-1}&#43;2m_i&#43;\mu_im_{i&#43;1}=g_i\\ \begin{pmatrix} 2 &amp;\mu_1 &amp; &amp; &amp; &amp; \\ \lambda_2 &amp;2 &amp;\mu_2 &amp; &amp; &amp; \\ &amp;\ddots &amp;\ddots &amp;\ddots &amp; &amp; \\ &amp; &amp;\ddots &amp;\ddots &amp;\ddots &amp; \\ &amp; &amp; &amp;\lambda_{n-2} &amp;2 &amp;\mu_{n-2} \\ &amp; &amp; &amp; &amp;\lambda_{n-1} &amp;2 \end{pmatrix} \begin{pmatrix} m_1 \\ m_2 \\ \vdots \\ \vdots \\ m_{n-2} \\ m_{n-1} \end{pmatrix}= \begin{pmatrix} g_1-\lambda_iy_0&#39; \\ g_2 \\ \vdots \\ \vdots \\ g_{n-2} \\ g_{n-1}-\mu_{n-1}y_n&#39; \end{pmatrix} \end{array} \] 利用大型稀疏矩阵线性方程数值解法，解出 \(m_i\) ，即解得 \(x\in[x_{i-1},x_i]\) 时，有：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-03-07T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-03-07T15:00:00&#43;08:00" />
@@ -86,9 +86,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -110,7 +108,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -279,7 +276,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-03-07</span></span><span class="meta-item">
+  <span>March 7, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 
@@ -316,8 +313,8 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="续5.8---5.10-三次样条插值">续：5.8 - 5.10 三次样条插值</h3>
-<h4 id="三转角方法">三转角方法</h4>
+  <div class="post-content"><h3 id="续5.8---5.10-三次样条插值">续：5.8 - 5.10 三次样条插值<a hidden class="anchor" aria-hidden="true" href="#续5.8---5.10-三次样条插值">¶</a></h3>
+<h4 id="三转角方法">三转角方法<a hidden class="anchor" aria-hidden="true" href="#三转角方法">¶</a></h4>
 <p>考虑第一种一般边界条件： <span
 class="math inline">\(S&#39;(x_0)=f_0&#39;,\
 S&#39;(x_n)=f_n&#39;\)</span> ，即已知两端点一阶导数值。</p>
@@ -371,7 +368,7 @@ S(x)&amp;=\frac{
 (x-x_{i-1})(x-x_i)[(x-x_i)m_{i-1}+(x-x_{i-1})m_i] }{h_i^2}
 \end{aligned}\)</span></p>
 <p>其他边界条件也可用类似方法解得，计算方法较复杂。</p>
-<h4 id="三弯矩方法">三弯矩方法</h4>
+<h4 id="三弯矩方法">三弯矩方法<a hidden class="anchor" aria-hidden="true" href="#三弯矩方法">¶</a></h4>
 <blockquote>
 <p>二阶导数 <span class="math inline">\(S&#39;&#39;(x)=M_j\
 (j=0,1,\dots,n)\)</span> 在力学上解释为细梁在 <span
@@ -457,8 +454,8 @@ class="math inline">\(S&#39;(x_0)=S&#39;(x_n),\
 S&#39;&#39;(x_0)=S&#39;&#39;(x_n)\)</span> ，同样得到稀疏矩阵线性方程。
 采用稀疏矩阵线性方程解法即可。</p>
 <p><strong>综上</strong>，当边界条件为第一类（已知一阶导数值）时，适合采用三转角方法；当边界条件为第二类（已知二阶导数值）时适合采用三弯矩方法；对周期边界条件，两种方法计算量一致。</p>
-<h3 id="最小二乘法">最小二乘法</h3>
-<h4 id="数据拟合问题">数据拟合问题</h4>
+<h3 id="最小二乘法">最小二乘法<a hidden class="anchor" aria-hidden="true" href="#最小二乘法">¶</a></h3>
+<h4 id="数据拟合问题">数据拟合问题<a hidden class="anchor" aria-hidden="true" href="#数据拟合问题">¶</a></h4>
 <p>经由观察或测试得到 <span class="math inline">\(y(x)\)</span>
 的一组离散数据，在给定的函数类 <span class="math inline">\(\Phi\)</span>
 上根据这组离散数据做出逼近曲线，要求逼近曲线在 <span
@@ -534,7 +531,7 @@ class="math inline">\(\varphi_0,\varphi_1,\dots,\varphi_n\)</span>
 线性无关，则其为对称正定矩阵，可以通过迭代法求得唯一解 <span
 class="math inline">\(a_j^*\)</span> ，从而得到拟合函数 <span
 class="math inline">\(\varphi^*(x)\)</span> 。</p>
-<h4 id="取函数类">取函数类</h4>
+<h4 id="取函数类">取函数类<a hidden class="anchor" aria-hidden="true" href="#取函数类">¶</a></h4>
 <p>取函数类为幂函数系，则正则方程组为：<br />
 <span class="math display">\[
 \begin{pmatrix}
@@ -568,6 +565,7 @@ class="math inline">\(a_k^*=(f,\varphi_k)/(\varphi_k,\varphi_k),\
 k=0,1,\dots,n\)</span> 。</p>
 <h3
 id="代码本节计算主要过程为解线性方程组列出对应元计算式调用对应函数即可线性方程组解法在之前章节已给出不再重复">代码：本节计算主要过程为解线性方程组，列出对应元计算式，调用对应函数即可。线性方程组解法在之前章节已给出，不再重复。</h3>
+
 
   </div>
 
@@ -634,7 +632,7 @@ id="代码本节计算主要过程为解线性方程组列出对应元计算式�
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -680,7 +678,7 @@ id="代码本节计算主要过程为解线性方程组列出对应元计算式�
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -802,22 +800,7 @@ id="代码本节计算主要过程为解线性方程组列出对应元计算式�
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

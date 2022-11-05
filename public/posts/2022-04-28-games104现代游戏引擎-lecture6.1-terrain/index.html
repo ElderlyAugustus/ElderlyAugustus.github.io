@@ -14,7 +14,7 @@
 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -32,7 +32,7 @@
 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2021-04-28T15:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2021-04-28T15:00:00&#43;08:00" />
@@ -89,9 +89,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -113,7 +111,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -282,7 +279,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-04-28-GAMES104现代游戏引擎-Lecture6.1-Terrain Rendering</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2021-04-28</span></span><span class="meta-item">
+  <span>April 28, 2021</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -328,7 +325,7 @@ function toggleThemeListener() {
 Mother Nature</h2>
 <h3 id="lecture06-1-terrain-rendering-地形渲染">Lecture06-1 Terrain
 Rendering 地形渲染</h3>
-<h4 id="simple-idea---heightfield">Simple Idea - Heightfield</h4>
+<h4 id="simple-idea---heightfield">Simple Idea - Heightfield<a hidden class="anchor" aria-hidden="true" href="#simple-idea---heightfield">¶</a></h4>
 <p>Height
 Map<img src="/images/games104/L06_HeightMap.jpg" alt="L06_HeightMap" style="zoom:22.5%;" />
 Contour
@@ -351,8 +348,8 @@ Bound</strong>：简化后的误差小于阈值（一般为呈现在屏幕上一
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="tessellation">Tessellation</h4>
-<h5 id="triangle-based-subdivision">Triangle-Based Subdivision</h5>
+<h4 id="tessellation">Tessellation<a hidden class="anchor" aria-hidden="true" href="#tessellation">¶</a></h4>
+<h5 id="triangle-based-subdivision">Triangle-Based Subdivision<a hidden class="anchor" aria-hidden="true" href="#triangle-based-subdivision">¶</a></h5>
 <p><img src="/images/games104/L06_TriangleBasedSubdivision.jpg" alt="L06_TriangleBasedSubdivision" style="zoom: 33%;" /></p>
 <ul>
 <li>在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形
@@ -406,7 +403,7 @@ Subdivision 四叉树分割</h5>
 <li>特殊的游戏会用</li>
 </ul></li>
 </ul>
-<h5 id="gpu-based-tessellation">GPU-Based Tessellation</h5>
+<h5 id="gpu-based-tessellation">GPU-Based Tessellation<a hidden class="anchor" aria-hidden="true" href="#gpu-based-tessellation">¶</a></h5>
 <ul>
 <li><p>DX11开始：
 <img src="/images/games104/L06_GPUBasedTessllation.jpg" alt="L06_GPUBasedTessllation" style="zoom: 33%;" /></p>
@@ -438,8 +435,8 @@ point数据和Tessellation数量</li>
 <li>全动态地形——支持打洞</li>
 </ul></li>
 </ul>
-<h4 id="paint-terrain-materials">Paint Terrain Materials</h4>
-<h5 id="混合贴图">混合贴图</h5>
+<h4 id="paint-terrain-materials">Paint Terrain Materials<a hidden class="anchor" aria-hidden="true" href="#paint-terrain-materials">¶</a></h4>
+<h5 id="混合贴图">混合贴图<a hidden class="anchor" aria-hidden="true" href="#混合贴图">¶</a></h5>
 <ul>
 <li><p>问题：边缘过渡羽化
 <img src="/images/games104/L06_SimpleTextureSplatting.jpg" alt="L06_SimpleTextureSplatting" style="zoom: 67%;" /></p>
@@ -482,7 +479,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
 <li>DMA
 <img src="/images/games104/L06_DMA.jpg" alt="L06_DMA" style="zoom: 50%;" /></li>
 </ul>
-<h5 id="浮点数精度溢出">浮点数精度溢出</h5>
+<h5 id="浮点数精度溢出">浮点数精度溢出<a hidden class="anchor" aria-hidden="true" href="#浮点数精度溢出">¶</a></h5>
 <ul>
 <li><p>浮点数数值小时精度高、数值大时精度低</p></li>
 <li><p>摄影机离物体过远时，出现严重抖动与闪烁</p></li>
@@ -490,10 +487,10 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
 在MVP变换之前，将相机位置设为世界坐标系原点；重新计算MVP矩阵</p></li>
 <li><p>其他方法 eg. UE Sublevels，每个Sublevel重置坐标系</p></li>
 </ul>
-<h4 id="tree-rendering">Tree Rendering</h4>
+<h4 id="tree-rendering">Tree Rendering<a hidden class="anchor" aria-hidden="true" href="#tree-rendering">¶</a></h4>
 <h4 id="decorator-rendering-装饰物草灌木等">Decorator Rendering
 装饰物，草、灌木等</h4>
-<h4 id="road-and-decals-rendering">Road and Decals Rendering</h4>
+<h4 id="road-and-decals-rendering">Road and Decals Rendering<a hidden class="anchor" aria-hidden="true" href="#road-and-decals-rendering">¶</a></h4>
 <ul>
 <li>Road
 <ul>
@@ -504,6 +501,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
 <li>Decal 贴片，贴花</li>
 <li>全部直接Bake到Virtual Texture上</li>
 </ul>
+
 
   </div>
 
@@ -570,7 +568,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -616,7 +614,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -738,22 +736,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

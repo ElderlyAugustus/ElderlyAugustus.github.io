@@ -10,7 +10,7 @@
 <meta name="description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -20,7 +20,7 @@
 <meta property="og:description" content="Lecture11 Physics System - Applications Character Controller 一个反物理的系统：符合玩家感知 &#43; 实现反物理运动 没有Character Controller时，大量Hack Kinematic Actor 不受物理规律控制 Push其他Actor Shape （人类角色时） Capsule 主要使用，一般设计两层 内层：碰撞 外层：防止角色与物体（墙面）太近 高速移动时容易卡进墙体 相机穿透导致看到墙后物体 Box Convex Collide with environment Sweep Test 判断 Sliding：撞到墙上时左右滑动 Auto Stepping：台阶 每帧尝试抬升高度前进 Slope 斜坡 坡度大于多少时，冲上去会滑下来 改变Controller形状/体积 eg.蹲下站起的变化 限制在环境大小不够时不可站起（eg.在隧道中） 更新前重叠测试，阻止形状更新 Push Objects (Dynamic Actors) Controller站在运动平台上时 不作处理就会平台动、Controller在原地 Ray Cast检测所站物体上，绑定，运动时也相对于平台 进一步精细：平台运动过快时的趔趄等 Ragdoll 不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg. 在悬崖边，悬空挂在坡面上甚至插入地形 用Rigid Body将关键的Joint连结起来 考虑Constraints 将Ragdoll中较少Joints的运动映射到Skeleton Animation Retargeting 三种Joints Active Joints：与Ragdoll相同的Joints，直接使用Ragdoll数据 Leaf Joints：一般不动，例如手掌脚掌 Intermediate Joints：Active Joints之间的Joints，利用邻近Active Joints插值 死亡动画到Ragdoll的过渡 一个问题：游戏中动画与物理的边界在哪里？ Powered Ragdoll - Physics-Animation Blending 纯Ragdoll：效果不像人类 纯动画：循环播放，有模式感 两种混合 Cloth 传统：Bake动画，随着运动方向更换动画，移动端常用" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-06-04-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture11-physicssystemapplications/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-06-04T17:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-06-04T17:00:00&#43;08:00" />
@@ -77,9 +77,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -101,7 +99,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -270,7 +267,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-04-GAMES104现代游戏引擎-Lecture11-Physics System - Applications</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-06-04</span></span><span class="meta-item">
+  <span>June 4, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -313,7 +310,7 @@ function toggleThemeListener() {
 
   <div class="post-content"><h3 id="lecture11-physics-system---applications">Lecture11 Physics
 System - Applications</h3>
-<h4 id="character-controller">Character Controller</h4>
+<h4 id="character-controller">Character Controller<a hidden class="anchor" aria-hidden="true" href="#character-controller">¶</a></h4>
 <ul>
 <li>一个反物理的系统：符合玩家感知 + 实现反物理运动</li>
 <li>没有Character Controller时，大量Hack</li>
@@ -361,7 +358,7 @@ System - Applications</h3>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="ragdoll">Ragdoll</h4>
+<h4 id="ragdoll">Ragdoll<a hidden class="anchor" aria-hidden="true" href="#ragdoll">¶</a></h4>
 <ul>
 <li>不适用Ragdoll：播放死亡动画 =&gt; 死亡环境并不一定与动画一致 eg.
 在悬崖边，悬空挂在坡面上甚至插入地形</li>
@@ -394,7 +391,7 @@ Joints插值</li>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="cloth">Cloth</h4>
+<h4 id="cloth">Cloth<a hidden class="anchor" aria-hidden="true" href="#cloth">¶</a></h4>
 <ul>
 <li><p>传统：Bake动画，随着运动方向更换动画，移动端常用</p></li>
 <li><p>动力学骨骼模拟：精度较低</p></li>
@@ -473,7 +470,7 @@ Position</li>
 <li>Solver更稳定</li>
 <li>后面会再进一步解释</li>
 </ul>
-<h5 id="self-collision">Self Collision</h5>
+<h5 id="self-collision">Self Collision<a hidden class="anchor" aria-hidden="true" href="#self-collision">¶</a></h5>
 <p>包括布料与布料、布料与刚体的碰撞，精度较低时极易发生</p>
 <ul>
 <li>暴力方法：加厚布料（渲染时），发生自穿插时不会渲染出来</li>
@@ -481,7 +478,7 @@ Position</li>
 <li>Maximal velocity 这样每次穿插不会过深，可以在下次迭代时弹回</li>
 <li>增加一个负向力场，负向SDF实现</li>
 </ul>
-<h4 id="destruction">Destruction</h4>
+<h4 id="destruction">Destruction<a hidden class="anchor" aria-hidden="true" href="#destruction">¶</a></h4>
 <ul>
 <li><p>Chunk Hierarchy，组织未破碎物体的碎片</p></li>
 <li><p>Connectivity Graph，生成连接关系，每个Edge有Connectivity
@@ -521,7 +518,7 @@ D_d=\left\{\begin{aligned}
 </ul></li>
 <li><p>谨慎使用，增加了大量Mesh，对算力要求很高</p></li>
 </ul>
-<h4 id="vehicle">Vehicle</h4>
+<h4 id="vehicle">Vehicle<a hidden class="anchor" aria-hidden="true" href="#vehicle">¶</a></h4>
 <ul>
 <li><p>A rigidbody actor
 <img src="/images/games104/L11_RigidbodyVehicle.jpg" alt="L11_RigidbodyVehicle" style="zoom: 50%;" /></p></li>
@@ -582,7 +579,7 @@ M=M_1+M_2\quad \vec x_{cm}=\dfrac{M_1\vec x_1+M_2\vec x_2}{M}
 <li>球面 Spherecast 实现真实的接触</li>
 </ul></li>
 </ul>
-<h4 id="advanced-physics-pbd-xpbd">Advanced Physics : PBD / XPBD</h4>
+<h4 id="advanced-physics-pbd-xpbd">Advanced Physics : PBD / XPBD<a hidden class="anchor" aria-hidden="true" href="#advanced-physics-pbd-xpbd">¶</a></h4>
 <ul>
 <li>拉格朗日力学：用约束描述所有运动，把力学计算改变为求解约束问题</li>
 <li>eg. 匀速圆周运动
@@ -605,7 +602,7 @@ class="math inline">\(C_{\rm stretch}(\mathbf x_1, \mathbf
 x_2)=\|\mathbf x_1-\mathbf x_2\|-d\)</span>
 <img src="/images/games104/L11_StringConstraints2.png" alt="L11_StringConstraints2" style="zoom:15%;" /><img src="/images/games104/L11_StringConstraints1.png" alt="L11_StringConstraints1" style="zoom:15%;" /></li>
 </ul>
-<h5 id="pbd-position-based-dynamics">PBD, Position Based Dynamics</h5>
+<h5 id="pbd-position-based-dynamics">PBD, Position Based Dynamics<a hidden class="anchor" aria-hidden="true" href="#pbd-position-based-dynamics">¶</a></h5>
 <ul>
 <li>约束投影</li>
 <li>求解约束的方法：迭代法</li>
@@ -630,6 +627,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
 <p>将约束转换为服从性矩阵 Compliance Matrix</p></li>
 <li><p>Unreal Engine Chaos</p></li>
 </ul>
+
 
   </div>
 
@@ -696,7 +694,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -742,7 +740,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -864,22 +862,7 @@ C(\mathbf x)\quad \alpha:\text{stiffness}
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>

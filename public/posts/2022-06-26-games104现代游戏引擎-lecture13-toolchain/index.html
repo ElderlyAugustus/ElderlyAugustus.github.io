@@ -12,7 +12,7 @@
 存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -26,7 +26,7 @@
 存储数据 - Serialization 文件格式 最简单的数据格式：文本文件 易读易处理，但缺乏安全性 纯文本信息 eg. txt/obj/… -&gt; 结构化 eg. XML/… -&gt; 更简单的结构 eg. json/… eg." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-06-26-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture13-toolchain/" />
-    <meta property="og:image" content="https://elderlyaugustus.github.io/cover.png"/>
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
 <meta property="article:section" content="posts" />
   <meta property="article:published_time" content="2022-06-26T14:00:00&#43;08:00" />
   <meta property="article:modified_time" content="2022-06-26T14:00:00&#43;08:00" />
@@ -83,9 +83,7 @@
     }
   }
 }
-</script><link rel="preload stylesheet" as=style href=/css/main.min.css>
-
-
+</script>
 <script>
     MathJax = {
       tex: {
@@ -107,7 +105,6 @@
   </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
 
 
 <noscript>
@@ -276,7 +273,7 @@ function toggleThemeListener() {
     <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-06-26-GAMES104现代游戏引擎-Lecture13-Tool Chains</h1>
     <div class="post-meta"><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>2022-06-26</span></span><span class="meta-item">
+  <span>June 26, 2022</span></span><span class="meta-item">
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 
@@ -323,21 +320,21 @@ function toggleThemeListener() {
     </details>
 </div>
 
-  <div class="post-content"><h3 id="lecture13-tool-chains">Lecture13 Tool Chains</h3>
+  <div class="post-content"><h3 id="lecture13-tool-chains">Lecture13 Tool Chains<a hidden class="anchor" aria-hidden="true" href="#lecture13-tool-chains">¶</a></h3>
 <p><strong>游戏引擎工具链的地位</strong>：</p>
 <ul>
 <li>用户和引擎Runtime层的桥梁</li>
 <li>引擎和DCC软件的桥梁：Asset Conditioning Pipeline</li>
 <li>调和不同思维方式的平台：策划 / 美术 / 程序</li>
 </ul>
-<h4 id="gui">GUI</h4>
-<h5 id="immediate-mode">Immediate Mode</h5>
+<h4 id="gui">GUI<a hidden class="anchor" aria-hidden="true" href="#gui">¶</a></h4>
+<h5 id="immediate-mode">Immediate Mode<a hidden class="anchor" aria-hidden="true" href="#immediate-mode">¶</a></h5>
 <ul>
 <li>逐帧直接绘制，由引擎逻辑绘制，简单轻量直接</li>
 <li>扩展性有限，性能有限，将业务压力交给了引擎逻辑</li>
 <li>eg. Unity UGUI / Omniverse GUI / Piccolo GUI</li>
 </ul>
-<h5 id="retained-mode">Retained Mode</h5>
+<h5 id="retained-mode">Retained Mode<a hidden class="anchor" aria-hidden="true" href="#retained-mode">¶</a></h5>
 <ul>
 <li>将需要绘制的图形内容存储成Buffer，再交由GUI绘制</li>
 <li>将引擎逻辑和GUI工具隔离，扩展性强，性能表现好</li>
@@ -357,11 +354,11 @@ function toggleThemeListener() {
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="数据处理">数据处理</h4>
+<h4 id="数据处理">数据处理<a hidden class="anchor" aria-hidden="true" href="#数据处理">¶</a></h4>
 <h5 id="serialization-and-deserialization">Serialization and
 Deserialization</h5>
 <p>序列化与反序列化：文件、数据库、内存、网络之间的数据转换</p>
-<h5 id="存储数据---serialization">存储数据 - Serialization</h5>
+<h5 id="存储数据---serialization">存储数据 - Serialization<a hidden class="anchor" aria-hidden="true" href="#存储数据---serialization">¶</a></h5>
 <ul>
 <li><strong>文件格式</strong>
 <ul>
@@ -387,7 +384,7 @@ eg. json/…</li>
 </ul></li>
 </ul></li>
 </ul>
-<h5 id="加载数据---deserialization">加载数据 - Deserialization</h5>
+<h5 id="加载数据---deserialization">加载数据 - Deserialization<a hidden class="anchor" aria-hidden="true" href="#加载数据---deserialization">¶</a></h5>
 <ul>
 <li>Parse Asset File
 <img src="/images/games104/L13_ParseAssetFile.png" alt="L13_ParseAssetFile" style="zoom: 20%;" />
@@ -413,7 +410,7 @@ eg. json/…</li>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="如何增强工具链鲁棒性">如何增强工具链鲁棒性</h4>
+<h4 id="如何增强工具链鲁棒性">如何增强工具链鲁棒性<a hidden class="anchor" aria-hidden="true" href="#如何增强工具链鲁棒性">¶</a></h4>
 <ul>
 <li>Undo &amp; Redo
 <ul>
@@ -453,7 +450,7 @@ eg. json/…</li>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="如何形成工具链">如何形成工具链</h4>
+<h4 id="如何形成工具链">如何形成工具链<a hidden class="anchor" aria-hidden="true" href="#如何形成工具链">¶</a></h4>
 <ul>
 <li>Building Blocks —— 从不同数据中找出共性，原子化</li>
 <li>Schema —— 一种描述结构，描述Building Blocks的组合
@@ -501,11 +498,12 @@ you get “所见即所得”</h4>
 </ul></li>
 </ul></li>
 </ul>
-<h4 id="plugin">Plugin</h4>
+<h4 id="plugin">Plugin<a hidden class="anchor" aria-hidden="true" href="#plugin">¶</a></h4>
 <ul>
 <li>提供大量的API</li>
 <li>尽可能把各种功能API化，自己实现引擎工具链时也使用API实现</li>
 </ul>
+
 
   </div>
 
@@ -572,7 +570,7 @@ you get “所见即所得”</h4>
     }
 
     const disableSmoothScroll = '' == '1';
-    const enableInstantClick = '1' == '1';
+    const enableInstantClick = '' == '1';
     
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
       return;
@@ -618,7 +616,7 @@ you get “所见即所得”</h4>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+<script src="/js/medium-zoom.min.js" data-no-instant
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
@@ -740,22 +738,7 @@ you get “所见即所得”</h4>
     }
   })();
   </script>
-<script>
-  mediumZoom('.entry-cover img');
-  mediumZoom('.post-content img:not([no-zoom])');
-</script>
 
-<script src="/js/instantclick.min.js" data-no-instantintegrity=""
-></script>
-<script data-no-instant>
-  
-  
-  
-  
-  
-  
-  InstantClick.init();
-</script>
 </body>
 
 </html>
