@@ -15,7 +15,7 @@ Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR�
 \[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -569,7 +569,7 @@ trace（eg.8个，空隙可忽略）
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {

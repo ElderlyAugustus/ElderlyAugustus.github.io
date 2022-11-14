@@ -12,7 +12,7 @@
 硬件保守光栅化：对很小的三角形，保证其至少有一个voxel 八叉树存储 Shading with Cone Tracing in Voxel Tree 着色点根据BRDF发射Diffuse和Specular的Cone 根据Cone尺寸查询树结构获取光照 - 非常适合Hierarchy结构存储的光照数据 NVIDIA的工作，GPU表达非常复杂 Voxelization Based Global Illumination, VXGI 更关注相机视锥内的区域、更关注近处的区域 Clipmap，voxel版的Mipmap 利用Clipmaps存储voxel数据 重心区域使用更高分辨率voxel 更适合Cone Tracing 建构简单、读取简单、GPU Friendly… Voxel Update：空间网格位置固定，只需要更新相机周围的Voxel Voxel具有Opacity（透明度），表征Voxel内有多少Surface可以阻挡光线，需要计算三个方向 对屏幕空间每个像素做Cone Tracing（Diffuse、Rough Specular、Fine Specular） 问题： 错误的遮挡关系，简单使用Opacity来表示 Light Leaking：遮挡物薄于Voxel时 Screen Space Global Illumination, SSGI Reuse screen space data &lt;- Screen Space Reflection, SSR SSR：单根光线，构建反射 -&gt; 多方向多根光线，构建GI 对Depth Buffer做Raymarching，Hierarchical Tracing 参考SSR笔记 Reuse近邻像素 做Cone Tracing，相当于对Tracing到的屏幕范围的像素做一次Filtering 优势：快，质量高，没有遮挡问题 问题：缺少屏外信息，重用近邻像素带来的错误Visibility 独特优势： 易于处理非常近的接近阴影 准确的Hit点计算 对场景复杂度不敏感 可以处理动态物体 Part II Lumen Real-time Ray Tracing的问题：">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -708,7 +708,7 @@ Tracing的硬件开销不一样
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {

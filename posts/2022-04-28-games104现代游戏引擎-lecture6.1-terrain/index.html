@@ -14,7 +14,7 @@
 依据Distance to Camera和FoV做LoD Error Bound：简化后的误差小于阈值（一般为呈现在屏幕上一个像素大小） Tessellation Triangle-Based Subdivision 在等腰直角三角形的长边切割 -&gt; 得到两个新的等腰直角三角形 二叉树结构，因此又称Binary Triangle-Based Subdivision T-Junctions 解决方法：判断若邻边切分更密，则当前边也需同样进行切分 实际应用中不广泛 QuadTree-Based Subdivision 四叉树分割 优势 易于建构 易于管理几何分区数据，Objects Culling和Data Streaming 符合Texture存储规范 劣势 Mesh细分没有三角形细分灵活 叶子节点的网格层级锁定 符合直觉，应用主流 T-Junctions 与三角形分割类似的问题，细分层级边界处产生 解决方法：Stitching 吸附 吸附生成的三角形：退化三角形 Triangulated Irregular Network (TIN) 几何细节不丰富处，用较粗的三角形 优势 易于Runtime渲染 更少的三角形 劣势 需要预计算 不够通用 特殊的游戏会用 GPU-Based Tessellation DX11开始： Hull-Shader Stage：生成Subdivision用的Patch，告诉Control point数据和Tessellation数量 Tessellator Stage：做Tessellation Domain-Shader Stage：根据高度图移动顶点 Geometry Shader Stage：算Vertex Mesh Shader Pipeline (DX12) GPU-Based Tessellation -&gt; Runtime Tessellation -&gt; Real-Time Deformable Terrain 假定地面上每一个Texel是一个“弹簧”，逐Tick更新高度，并实时Tessellation">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-28-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.1-terrain/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -614,7 +614,7 @@ Texture Implementation, DirectStorage &amp; DMA</h5>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {

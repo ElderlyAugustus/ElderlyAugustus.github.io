@@ -16,7 +16,7 @@ Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\m
 考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -643,7 +643,7 @@ Tracing无异——仅假设被反射物（非反射材质）和次级光源为d
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
