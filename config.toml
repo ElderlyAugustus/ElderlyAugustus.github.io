@@ -151,7 +151,7 @@ pygmentsUseClasses = true
   #     SiteVerificationTag = "XYZabc"
 
   [params.assets]
-  #   disableFingerprinting = true
+    disableFingerprinting = true
   #   disableHLJS = true
     favicon = "/icons/favicon.ico"
   #   favicon16x16 = "/icons/favicon.ico"
