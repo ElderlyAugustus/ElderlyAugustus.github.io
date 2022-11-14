@@ -15,7 +15,7 @@
 存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -726,7 +726,7 @@ Face的相对位移，直接Apply到Target上 + 有语义动作 eg.
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {

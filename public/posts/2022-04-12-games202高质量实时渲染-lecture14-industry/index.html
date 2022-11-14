@@ -16,7 +16,7 @@ MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开
 提升分辨率 eg. DLSS DLSS 1.0 全靠猜，每个游戏/场景单独训练一个网络 DLSS 2.0 利用Temporal信息 应用类似TAA的思路 重用Samples 问题：Temporal failure时不能clamp——因为每一个像素需要一个明确的值 DL不输出图像，而是输出关于上一帧的Temporal信息如何利用 Deferred Shading 延迟渲染 提高Shading效率 传统管线 Triangles -&gt; Fragments -&gt; Depth Test -&gt; Shading -&gt; Pixel 每一个Fragment都需要做Shading 复杂度：\(O(\text{\#Fragment}*\text{\#Light})\) 关键想法：有很多Fragment不会被看到 -&gt; 只对被看到的Fragment做Shading 修改管线 光栅化两次场景 Pass 1 : 不做Shading，更新Depth Buffer Pass 2 : 对可见的Fragment做Shading 复杂度：\(O(\text{\#Vis.">
 <meta name="author" content="xα">
 <link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.ed620c0ad1ee1fb9cea04634268c4c2be7b2fc248db5548ec9026ef668d766ad.css" integrity="sha256-7WIMCtHuH7nOoEY0JoxMK&#43;ey/CSNtVSOyQJu9mjXZq0=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
 <link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
 <meta name="twitter:card" content="summary" />
@@ -573,7 +573,7 @@ global</strong></li>
 
 
 
-<script src="/js/medium-zoom.min.js" data-no-instant
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
 ></script>
 <script>
   document.querySelectorAll('pre > code').forEach((codeblock) => {
