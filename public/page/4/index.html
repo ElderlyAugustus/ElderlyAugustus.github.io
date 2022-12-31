@@ -231,6 +231,55 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
+Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
+Key idea :
+不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
+Theory :
+Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
+考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 11, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space" href="https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2021-03-10-数值分析-Day13-差分公式
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>7.1 - 7.4 差分公式 一阶常微分方程初值问题 一阶常微分方程初值问题的一般形式为：
+\[ \left\{\begin{array}{l}\displaystyle\frac{dy}{dx}=f(x,y),\quad a\le x\le b\\y(a)=\alpha\end{array}\right. \] 其中 \(f(x,y)\) 为已知函数， \(\alpha\) 为给定的值。
+在许多数学模型中，上述方程通常以 \(x\) 描述时间，而定解条件 \(y(a)=\alpha\) 则给出了函数 \(y(x)\) 在初始时刻的取值。因此称为初值问题。
+问题： &#43; 上述方程何时存在唯一解 &#43; 如何计算 \(y(x)\)
+Lipschitz条件： 若函数 \(f(x,y)\) 在区域 \(\{a\le x\le b,\ m&lt;y&lt;M\}\) 上连续，满足 \[ \forall y,\bar{y},\ |f(x,y)-f(x,\bar{y})|\le L|y-\bar{y}| \] 其中 \(L&gt;0\) 为Lipschitz常数（此处Lipschitz常数可以 \(\ge1\) ），则初值问题在初始时刻 \(a\) 的某个邻域上存在唯一解。 （不满足Lipschitz条件时，不一定存在唯一解。）
+构造一阶常微分方程初值问题数值解法 假设初值问题的解 \(y=y(x)\) 唯一存在且足够光滑。对求解区域 \([a,b]\) 做等距剖分 \(a=x_0&lt;x_1&lt;x_2&lt;\dots&lt;x_n&lt;\dots&lt;x_N=b\) 。称 \(h=(b-a)/N\) 为剖分步长， \(x_n=a&#43;nh,\ n=0,1,\dots,N\) 为剖分节点。数值解法即求精确解 \(y(x)\) 在剖分节点 \(x_n\) 上的值 \(y(x_n)\) 的近似值 \(y_n\) 。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 10, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-10-数值分析-Day13-差分公式" href="https://elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-03-09-数值分析-Day12-续数值积分-数值微分
     </h2>
   </header>
@@ -436,58 +485,6 @@ Gauss-Seidel迭代法是SOR迭代法的一个特殊形式（系数 \(\omega=1\) 
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-02-数值分析-Day05-SOR-迭代法收敛性" href="https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
-Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR：直接光照 &#43; 一次间接光照
-一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果 核心问题：
-要计算间接光照需要知道
-被直接光照照亮的表面有哪些？ / 哪些是次级光源？ 借助Shadow Map 每一个次级光源的“贡献”是多少？ 求和 每一个次级光源作为一个Area Light Reflective Shadow Maps (RSM) 获得光源的Shadow Map，存储光源“可见”的深度/世界坐标/法线/Flux等（即Reflective Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow Maps为512*512，则有512*512个点光源。 次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse） Recall 一个Patch（Reflective Shadow Maps的一个像素）的“贡献
-\[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 2, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI" href="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>3.1 - 6 迭代法 基本思想 对线性方程组 \(Ax=b\) ，当 \(A\) 为低阶稠密矩阵时，选主元Gauss消去/Doolittle分解均为有效方法。
-工程应用中 \(A\) 常为高阶稀疏矩阵，适用迭代法求解：利好计算机存储与性能。
-通法：
-将 \(Ax=b\) 改写为 \(x=B_0x&#43;f\) 任取初始值，如 \(x^{(0)}=(0,0,0)^T\) ，将其带入得到方程组解 \(x^{(1)}=B_0x^{(0)}&#43;f\) 依次得： \(x^{(2)}=B_0x^{(1)}&#43;f,\ x^{(2)}=B_0x^{(1)}&#43;f,\ \dots,\ x^{(k)}=B_0x^{(k-1)}&#43;f,\ \dots\) 即得向量序列 \(x^{(0)},x^{(1)},\dots,x^{(k)}\) ，迭代公式 \(x^{(k)}=B_0x^{(k-1)}&#43;f\) 迭代次数较高时，向量序列 \(x^{(k)}\) 有可能收敛至逼近精确解的值（不一定）。 根据 \(x=Bx&#43;f\) 变形方式的不同，存在多种迭代算法。
-定义1：
-对于给定方程组 \(x=Bx&#43;f\) ，用公式 \(x^{k&#43;1}=Bx^{(k)}&#43;f,\ (k=0,1,2,3,\dots)\) 逐步代入求近似解的方法称为迭代法（或称为一阶定常迭代法，这里 \(B\) 与 \(k\) 无关）。
-如果 \(\lim\limits_{k\to\infty}x^{(k)}=x^*\) ，即向量序列收敛至精确解序列，则称此迭代法收敛，否则称发散。
-由于需要研究 \(\{x^{(k)}\}\) 的收敛性，引进误差向量 \(\varepsilon^{(k&#43;1)}=x^{(k&#43;1)}-x^*\) 。易得到： \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\) ，递推得： \(\varepsilon^{(k)}=B\varepsilon^{(k-1)}=\dots=B^k\varepsilon^{(0)}\) 。
-Jacobi迭代 通法细节：
-将 \(A\) 分裂成 \(A=M-N\) ，其中 \(M\) 为可选择的非奇异矩阵，使 \(Mx=d\) 易解，一般选择为 \(A\) 的某种近似，称 \(M\) 为分裂矩阵。...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 1, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-03-01-数值分析-Day04-Jacobi-GaussSeidel" href="https://elderlyaugustus.github.io/posts/2021-03-01-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day04-jacobi-gaussseidel/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
