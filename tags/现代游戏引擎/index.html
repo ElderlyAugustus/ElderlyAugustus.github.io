@@ -222,6 +222,26 @@ function toggleThemeListener() {
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>2022-10-23-GAMES104现代游戏引擎-Lecture22-GPU Driven Geometry Pipeline - Nanite
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture22 GPU Driven Geometry Pipeline - Nanite Research Background 传统渲染管线 CPU发起Draw Call，GPU准备State、进入漫长的Pipeline CPU、GPU不同步 存在大量的算力浪费 现代游戏Draw Call越来越复杂，已经成为现代渲染管线瓶颈 “曙光”: Compute Shader：不再需要在CPU、GPU之间来回传递数据，直接在GPU中执行通用计算 Draw-Indirect Graphics API：一次Draw Call绘制多个Mesh GPU Driven Render Pipeline 将场景完整load到显存中，完全由GPU处理：DrawPrimitive -&gt; DrawScene @《刺客信条：大革命》
+Mesh Cluster Rendering 将Mesh分成同样三角形数量的Cluster，便于交给GPU做裁剪等计算 不可见的Cluster不渲染；Culling流程： 尽可能裁剪掉不可见的三角形 将可见的三角形组成同一个Buffer GPU Driven Pipeline CPU端： 根据材质不同组合Instance 根据相机距离LoD 打包交给GPU做后续处理 GPU Instance Culling Instance Culling 将（64个）Cluster组成一个Chunk，再次Culling，以加速 GPU Cluster Culling Chunk -&gt; Cluster -&gt; Triangle 一步步裁剪，将视锥外、背面的全部裁剪 Index Buffer Compaction 将可见三角形的依次写入备用Index Buffer 三角形顶点顺序不统一时，可能导致前后帧三角形顶点顺序不一致，由于Z-Buffer精度有限，导致Z-Fighting问题 =&gt; 硬件Multi-Indirect Draw Call或可解决此问题 对高精度的Mesh效率非常高 Codec Triangle Visibility in Cube : Backface Culling 每个Cluster存储每个三角形对两个方向的可见性 利用这一数据快速做Backface Culling Occlusion Culling for Camera and Shadow 利用前一帧Z-Buffer的方法： 取当前帧的一部分（如300个）近处大Mesh作为可能的Occluder渲染Z-Buffer 将上一帧的深度重投影到当前帧，用于补充当前帧Z-Buffer空缺处 保守估计Culling Instance -&gt; Chunk -&gt; Cluster -&gt; Triangle 问题：高速移动物体存在一定Artifact Two-Phase Occlusion Culling 快速绘制通过上一帧的Z-Buffer Test的Instance的当前帧Z-Buffer 再利用当前帧不完整的Z-Buffer，测试剩余所有Instance，选出可见者 更加准确 Fast Occlusion for Shadow Shadow中生成深度时对几何细节量敏感 对每个Cascade，将上一帧相机深度重投影至当前帧Shadow深度，并混合上一帧Shadow深度 只有摄影机可见区域内需要生成阴影：只对相机可见的Instance生成Shadow的Z-Buffer Visibility Buffer Forward Rendering：所有互相遮挡、透明的物体需要做重复计算 Deferred Shading：用G-Buffer存储可见Pixel的各种数据，只对G-Buffer做光照计算 G-Buffer的存储、IO开销大 复杂场景下，因为难以判断可见性，在生成G-Buffer时产生Over draw，多次绘制同一像素时开销大 Visibility Buffer： 第一遍渲染时，只在Buffer中存储： (Alpha masked bit, DrawID, PrimitiveID, MaterialID, …) 根据各种ID读取对应贴图，再做重心坐标插值着色 几乎没有Over Draw Cache Miss率低 Pipeline Visibility Buffer &#43; Deferred Shading 一般来说，草丛等复杂细节情况可直接用Visibility Buffer渲染，主角等主要内容Gather到G-Buffer再渲染 注意点：MIPMAP采样时的插值平滑问题 Virtual Geometry - Nanite Overview Virtual Texture Idea：将场景中所有贴图加载到内存中开销非常大，能否只加载可见部分且LoD后精度的贴图 所有材质加载到同一张“大贴图”中，并对整个贴图做MIPMAP 预烘焙这张“大贴图”，并做MIPMAP 根据View区域动态加载所需的部分 Idea of Nanite Virtual Geometry like Virtual Texture 挑战：几何数据是非Uniform的、互相之间可能没有关联性、Mesh数据难以Filter（SDF、Voxel、Point Cloud可以Filter） Voxel ?...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>October 23, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-10-23-GAMES104现代游戏引擎-Lecture22-GPU Driven Geometry Pipeline - Nanite" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture22-nanite/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen
     </h2>
   </header>
@@ -239,6 +259,37 @@ function toggleThemeListener() {
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
+Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
+需要考虑：
+Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
+Waypoint Network
+路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
+Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
+用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
+支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
+复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
+空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
+即在图上找到一个路径，尽可能找到最优（短）路径
+深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>October 22, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/"></a>
 </article>
 
 <article class="post-entry tag-entry"> 
@@ -394,56 +445,6 @@ Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction /
 </footer>
   <a class="entry-link" aria-label="post link to 2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced" href="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/"></a>
 </article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture08 Animation System - Basics 挑战：
-不能预设玩家的行为，考虑动画与Gameplay的互动，与环境的交互 实时，计算和存储开销 真实感（表情、Ragdoll、Motion Matching …） 2D Animation Sprite Animation 逐帧绘制，循环播放 Sprite-like animation technique in pseudo-3D game 《Doom》 绘制各个视角的sprite，做伪3D Sprite Animation in Modern Game Live2D 把角色/主体的每个元素作为独立图元 eg.眼睛、鼻子、嘴巴 仿射变换 图元的前后遮挡由深度决定 每一个图元有控制网格 Key frame 2D Skinned Animation 2D蒙皮动画 3D Animation DoF, Degrees of Freedom 自由度 6DoF &#43; Translation X Y Z &#43; Rotation Pan/Yaw Tilt/Pitch Roll Rigid Hierarchical Animation 基于刚体的层次结构动画 “皮影戏” 直接连接Mesh，会导致Mesh互相产生穿插 Per-vertex Animation 旗帜、布料、流体等（从物理烘焙而来的顶点动画实现） VAT, Virtual Animation Texture：用贴图存储顶点 Morph Target Animation 顶点动画的变种 顶点带有权重，邻近顶点相互影响 3D Skinned Animation 2D蒙皮动画 （见下章） Physics-based Animation Ragdoll 布料和流体 IK, Inverse kinematics 反向动力学 Animation 创作方式 Key frame 动作捕捉 Skinned Animation Implementation 怎样将Mesh运动起来 创建一个绑定姿态的Mesh 创建绑定骨骼Skeleton 刷定点权重（蒙皮） 骨骼动画 顶点按骨骼动画和蒙皮权重运动 Different Spaces...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>May 13, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics" href="https://elderlyaugustus.github.io/posts/2022-05-13-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture8-basicanimationsystem/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture07 Rendering Pipeline, Post-Process and Everything Ambient Occlusion 接触阴影，满足渲染方程，但在渲染过程中直接渲染很难做到，因为计算尺度小（称为中尺度）。
-AO：单目视觉中形成3D感的重要元素
-不考虑尺度差异，AO和BRDF中的Geometry项（Shadowing-Masking）非常相似。
-Precomputed AO 使用Ray Tracing预计算成AO贴图。最为传统，但目前在角色等高精度需求中仍应用广泛。
-效果好，计算复杂，且无法处理多物体之间的AO。
-SSAO, Screen Space AO @GAMES202 SSAO
-HBAO, Horizon-based Ambient Occlusion 在法线方向半球空间内积分 \[ A=1-\dfrac{1}{2\pi}\int_{\theta=-\pi}^\pi\int_{\alpha=t(\theta)}^h(\theta)W(\vec\omega)\cos\alpha\,\mathrm d\alpha\mathrm d\theta \] 利用深度图做Ray Marching GTAO, Ground Truth - based AO SSAO和HBAO假定了各方向射入的光贡献相同，因此物理上错误。(法线方向照射来的光贡献更多。)
-\[ \hat A(x)=\dfrac{1}{\pi}\int_0^\pi\int_{\theta_1(\phi)}^{\theta_2(\phi)}\cos(\theta-\gamma)^&#43;|\sin(\theta)|\,\mathrm d\theta\mathrm d\phi\\\gamma={\rm angle}(\vec n, \vec v) \]
-根据大量的AO数据，拟合了一个三阶多项式，实现了有颜色的AO
-Ray-Tracing AO @GAMES202 RTRT
-Fog Depth Fog 随着深度透明度下降
-Linear fog: factor = (end-z) / (end - start) Exp fog: factor = exp(- density * z) Exp Squared fog: factor = exp(- (density * z) ^ 2) Height Fog 设定某一高度阈值，阈值以下恒定Fog强度，阈值以上指数递减...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>May 3, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything" href="https://elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="next" href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/page/2/">Next Page »</a>
@@ -452,7 +453,7 @@ Linear fog: factor = (end-z) / (end - start) Exp fog: factor = exp(- density * z
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2023 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

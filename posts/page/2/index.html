@@ -237,6 +237,51 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-05-25-GAMES104现代游戏引擎-Lecture10-Physics System - Basic Concepts
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture10 Physics System - Basic Concepts 物理的作用： &#43; 物理直觉 &#43; 动态环境，《彩六》破坏环境 &#43; 环境交互，VR等《Alyx》 &#43; 艺术效果，粒子、流体、布料
+Physics Actors and Shapes Actor Static Actor 静态固定的，不受物理影响 Dynamic Actor 按照动力学原理运动的，受力/动量/冲量驱动 Trigger 根据碰撞触发Message从而产生Event Kinematic 反物理的自发运动（游戏设计师设计的运动） &gt; Kinematic与受物理约束的Actor碰撞时，可能会产生“飞掉” Shape : 复杂形状物理计算过于复杂 Sphere Capsule 胶囊体 Box Convex Mesh 凸多面体 Trangle Mesh （一般只用于静态） Height Field ！尽量使用简单的Shape（从前到后越来越复杂）
+Shape Properties Mass / Density 质量 / 密度 Center of Mass 质心 Friction / Restitution 摩擦力 / 弹力 (and more …) Forces Force eg....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>May 25, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-05-25-GAMES104现代游戏引擎-Lecture10-Physics System - Basic Concepts" href="https://elderlyaugustus.github.io/posts/2022-05-25-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture10-physicssystemconcepts/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture09 Animation System - Advanced Animation Blending LERP LERP / NLERP / SLERP 两个动画clip之间的LERP 权重 eg. 走路与跑步动画，依据运动速度切换 \[ {\rm weight_1=\dfrac{speed_{current}-speed_2}{speed_1-speed_2}}\\ {\rm weight_2=\dfrac{speed_{current}-speed_1}{speed_2-speed_1}}\\ \]
+对齐时间线 eg.走路和跑步的步频不同，怎样对齐混合的帧 每一段动画为一步，对每一段动画时间线做归一化 Blend Space eg. 左右前后走/跑
+1D Blend Space： eg. 左走、正走、右走三个动画，根据左右方向的速度插值（可以有分布不均匀的多个动画）
+2D Blend Space： eg. 左右前后全部加入2D空间，由动画师指定动画位置 双线性插值 Delaunay Triangulation 常用 根据设置的动画点，生成三角形划分 在空间内一点，由周围三角形插值 插值利用重心坐标 Skeleton Masked Blending 针对只应用于半身或身体局部的动画，实现多种动画的混合 eg.各种姿态下的鼓掌
+绘制一个Mask，只应用于部分Joints Additive Blending eg. 向着摄影机点头
+存储动画的变化量，在基础动画上叠加一层动画 需要非常谨慎，易出现两个动画叠加后产生不自然的运动结果 Animation State Machine 状态机 两种核心元素 Node Clip Blend Space 脚本串接的单套动画系统 Translation 激活条件 Cross Fade Smooth transition 慢慢过渡，插值（各种插值曲线） Frozen transition 先停住动画A，再播放动画B 多层状态机 Animation Blend Tree 多层状态机在复杂动画中非常复杂 用树结构表示动画之间的Blend方式（LERP/Additive），类似表达式树 两种节点 Terminal Node 执行节点 (叶节点) Clip Blend Space ASM Non-terminal Node （非叶节点） LERP Blend Node Additive Blend Node Layered ASM to Blend Tree Blend Tree Control Parameters Variable 暴露变量，根据变量切换运动状态 eg....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>May 19, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-05-19-GAMES104现代游戏引擎-Lecture9-Animation System - Advanced" href="https://elderlyaugustus.github.io/posts/2022-05-19-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture9-advancedanimationsystem/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2022-05-13-GAMES104现代游戏引擎-Lecture8-Animation System - Basics
     </h2>
   </header>
@@ -460,65 +505,6 @@ Penalty 碰撞检测：通过点与面的距离 \(\phi(x)\) 判断 碰撞响应�
 </footer>
   <a class="entry-link" aria-label="post link to 2021-11-18-影片技术分析Pre-基于物理的动画-发展历史与基本概念" href="https://elderlyaugustus.github.io/posts/2021-11-18-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2%E4%B8%8E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture07 Rendering Pipeline, Post-Process and Everything Ambient Occlusion 接触阴影，满足渲染方程，但在渲染过程中直接渲染很难做到，因为计算尺度小（称为中尺度）。
-AO：单目视觉中形成3D感的重要元素
-不考虑尺度差异，AO和BRDF中的Geometry项（Shadowing-Masking）非常相似。
-Precomputed AO 使用Ray Tracing预计算成AO贴图。最为传统，但目前在角色等高精度需求中仍应用广泛。
-效果好，计算复杂，且无法处理多物体之间的AO。
-SSAO, Screen Space AO @GAMES202 SSAO
-HBAO, Horizon-based Ambient Occlusion 在法线方向半球空间内积分 \[ A=1-\dfrac{1}{2\pi}\int_{\theta=-\pi}^\pi\int_{\alpha=t(\theta)}^h(\theta)W(\vec\omega)\cos\alpha\,\mathrm d\alpha\mathrm d\theta \] 利用深度图做Ray Marching GTAO, Ground Truth - based AO SSAO和HBAO假定了各方向射入的光贡献相同，因此物理上错误。(法线方向照射来的光贡献更多。)
-\[ \hat A(x)=\dfrac{1}{\pi}\int_0^\pi\int_{\theta_1(\phi)}^{\theta_2(\phi)}\cos(\theta-\gamma)^&#43;|\sin(\theta)|\,\mathrm d\theta\mathrm d\phi\\\gamma={\rm angle}(\vec n, \vec v) \]
-根据大量的AO数据，拟合了一个三阶多项式，实现了有颜色的AO
-Ray-Tracing AO @GAMES202 RTRT
-Fog Depth Fog 随着深度透明度下降
-Linear fog: factor = (end-z) / (end - start) Exp fog: factor = exp(- density * z) Exp Squared fog: factor = exp(- (density * z) ^ 2) Height Fog 设定某一高度阈值，阈值以下恒定Fog强度，阈值以上指数递减...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>May 3, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-05-03-GAMES104现代游戏引擎-Lecture7-Rendering Pipeline, Post-Process and Everything" href="https://elderlyaugustus.github.io/posts/2022-05-03-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture7-postprocessingandothers/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture06-2 Sky and Atmosphere Atmosphere 大气 Analytic Atmosphere Appearance Modeling 不必按照物理模拟，根据观察找模型拟合
-两个参数
-观察向量与垂直向上向量的夹角 \(\theta\) 观察向量与太阳方向的夹角 \(\gamma\) \[ \mathbb{F}(\theta,\gamma)=(1&#43;Ae^{\frac{B}{\cos\theta&#43;0.01}})\cdot(C&#43;De^{E\gamma}&#43;F\cos^2\gamma&#43;G\cdot\chi(H,\gamma)&#43;I\cdot\cos^{\frac{1}{2}}\theta)\\ L_\lambda = \mathbb{F}(\theta,\gamma)\cdot L_{M\lambda} \]
-优势：简单快捷，直接代入计算即可
-劣势：只能在地表观察，无法完成空中观察视角；参数固定，无法完成各种天气
-Participating Media 物理属性 大气中：空气、气溶胶，形成各种折射和反射
-光在Participating Media中：
-Absorption 吸收 \[ \dfrac{\mathrm dL(\mathrm x,\omega)}{\mathrm d\mathrm x}=-\sigma_\alpha\cdot L(\mathrm x,\omega)\\ \sigma_\alpha:\text{Absorption Coeffcient} \]
-Out-scattering 对外散射 \[ -\sigma_sL(\mathrm x,\omega)\\ \sigma_s:\text{Scattering Coeffcient} \]
-Emission 自发光（火焰、辉光等） \[ \sigma_\alpha L_e(\mathrm x,\omega) \]
-In-Scattering 对内散射 接收周围分子的Out-Scattering \[ \sigma_s\int_{S^2}f_p(\mathrm x,\omega,\omega&#39;)L(\mathrm x,\omega&#39;)\,\mathrm d\omega&#39;\\ f_p(\mathrm x,\omega,\omega&#39;):\text{Phase Function} \]...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>April 30, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-04-30-GAMES104现代游戏引擎-Lecture6.2-Sky and Atmosphere" href="https://elderlyaugustus.github.io/posts/2022-04-30-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture6.2-atmospherecloud/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://elderlyaugustus.github.io/posts/">« Prev Page</a>
@@ -528,7 +514,7 @@ In-Scattering 对内散射 接收周围分子的Out-Scattering \[ \sigma_s\int_{
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2023 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

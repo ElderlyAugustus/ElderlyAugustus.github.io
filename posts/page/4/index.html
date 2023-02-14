@@ -237,6 +237,49 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture 10-11 Physically-Based Material Content
+Real-Time Physically-Based Materials Microfacet BRDF Disney principled BRDF Shading with microfacet BRDFs under polygonal lighting Linearly Transformed Cosines (LTC) Concept
+Physically-Based Rendering (PBR) Everything in rendering should be physically based Materials, lighting, camera, light transport, etc. Not just materials, but usually referred to as materials PBR materials in RTR The RTR community is much behind the offline community “PB” in RTR is usually not actually physically based PBR materials in RTR...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>April 2, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-02-GAMES202高质量实时渲染-Lecture10-11-Physically-Based Material" href="https://elderlyaugustus.github.io/posts/2022-04-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture10-11-pbm/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>7.5 - 7.7 Runge-Kutta方法 单步高阶方法构造思路 设 \(y(x)\) 是一阶常微分方程初值问题的精确解，Taylor展开得： \[ \begin{aligned} \displaystyle y(x_{n&#43;1})&amp;=y(x_n)&#43;y&#39;(x_n)h&#43;\frac{y&#39;&#39;(x_n)}{2!}h^2&#43;\dots&#43;\frac{y^{(p)}(x_n)}{p!}h^p&#43;\frac{y^{({p&#43;1})}(x_n)}{(p&#43;1)!}h^{p&#43;1}\\ &amp;=y(x_n)&#43;hf(x_n,y(x_n))&#43;\frac{h^2}{2!}f^{(1)}(x_n,y(x_n))&#43;\dots&#43;\frac{h^p}{p!}f^{(p-1)}(x_n,y(x_n))&#43;O(h^{p&#43;1})\end{aligned} \] 因此可建立节点处近似值 \(y_n\) 满足的差分公式： \[ \left\{\begin{array}{l}\displaystyle y_{n&#43;1}=y_n&#43;hf(x_n,y_n)&#43;\frac{h^2}{2!}f^{(1)}(x_n,y_n)&#43;\dots&#43;\frac{h^p}{p!}f^{(p-1)}(x_n,y_n)\\y_0=\alpha,\quad n=0,1,\dots,N-1\end{array}\right. \] 称之为 \(\mathbf p\) 阶Taylor展开方法。 其中： \(\begin{array}{l}\displaystyle f^{(1)}(x,y)=\frac{\partial f(x,y)}{\partial x}&#43;\frac{\partial f(x,y)}{\partial y}f(x,y)\\\displaystyle f^{(2)}(x,y)=\frac{\partial^2f}{\partial x^2}&#43;2\frac{\partial^2f}{\partial x\partial y}f&#43;\frac{\partial^2 f}{\partial y^2}f^2&#43;\frac{\partial f}{\partial x}\frac{\partial f}{\partial y}&#43;\left(\frac{\partial f}{\partial y}\right)^2f\\\dots\end{array}\)
+计算过于复杂，很少直接使用
+减少Taylor展开次数得： \[ y(x_{n&#43;1})=y(x_n)&#43;hy&#39;(\xi)=y(x_n)&#43;hf(\xi,y(\xi)),\quad x_n\le\xi\le x_{n&#43;1} \] 构造差分方法即利用适当的函数值来近似计算 \(f(\xi,y(\xi))\) 。
+Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(2\) 项一致。为 \(1\) 阶方法。 改进Euler方法用 \(K_1,K_2\) 的线性组合作为其近似，其 \(y_{n&#43;1}\) 表达式与精确解的Taylor展式前 \(3\) 项一致。为 \(2\) 阶方法。 能否增加计算 \(f(x,y)\) 的次数来提高方法阶数？ Runge-Kutta方法 \[ \left\{\begin{array}{l} y_{n&#43;1}=y_n&#43;h(\lambda_1K_1&#43;\lambda_2K_2&#43;\dots&#43;\lambda_pK_p)\\ K_1=f(x_n,y_n)\\ K_2=f(x_n&#43;\alpha_2h,y_n&#43;h\beta_{21}K_1)\\ \dots\\ K_p=f(x_n&#43;\alpha_ph,y_n&#43;h\sum\limits_{i=1}^{p-1}\beta_{pi}K_i) \end{array}\right....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 11, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space
     </h2>
   </header>
@@ -439,59 +482,6 @@ Newton下山法 调整 \(x_0\) 的选取来使得Newton迭代法满足收敛条�
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-04-数值分析-Day07-Newton迭代法" href="https://elderlyaugustus.github.io/posts/2021-03-04-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day07-newton%E8%BF%AD%E4%BB%A3%E6%B3%95/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>4.1-3 非线性方程简介及二分法：略 4.4 - 10 简单迭代法的构造与收敛性 构造简单迭代法 \[ \begin{array}{c}\begin{aligned} f(x)=0\quad&amp;\Leftrightarrow\quad x=\varphi(x)\\ f(x)的根\quad&amp;\Leftrightarrow\quad\varphi(x)的不动点 \end{aligned}\end{array} \]
-其中 \(x_{k&#43;1}=\varphi(x_k),\quad (k=0,1,2,\dots)\) 称为迭代格式， \(\varphi(x)\) 称为迭代函数。
-简单迭代法的收敛条件 几何解释：求方程 \(x=\varphi(x)\) 的根，就是求直线 \(y=x\) 和曲线 \(y=\varphi(x)\) 的交点的横坐标。（图略。）
-如果 \(x_{k&#43;1}=\varphi(x_k)\) 收敛，则迭代函数 \(y=\varphi(x)\) 的曲线走势平坦，即 \(\left|\varphi&#39;(x)\right|&lt;1\) ；
-如果 \(x_{k&#43;1}=\varphi(x_k)\) 发散，则迭代函数 \(y=\varphi(x)\) 的曲线走势陡峭，即 \(\left|\varphi&#39;(x)\right|\ge1\) ；
-迭代法收敛的判定定理：设函数 \(\varphi(x)\) 满足条件： \[ \begin{array}{l}(1)\quad \forall x\in[a,b],\ a\le\varphi(x)\le b;\\ (2)\quad \exists0\le L&lt;1,\ \begin{array}{l}\forall x,y\in[a,b],\ |\varphi(x)-\varphi(y)|\le L|x-y|\\或\ |\varphi&#39;(x)\le L&lt;1|\end{array}\end{array} \]
-则 \(\forall x_0\in[a,b]\) ，由 \(x_{k&#43;1}=\varphi(x_K)\) 得到的序列 \(\{x_k\}_{k=0}^\infty\) 收敛于 \(\varphi(x)\) 在 \([a,b]\) 上的唯一不动点。并且由误差估计式： \(\begin{array}{l}\displaystyle\left|x^*-x_k\right|\le\frac{1}{1-L}\left|x_k-x_{k-1}\right|\\\displaystyle\left|x^*-x_k\right|\le\frac{L^k}{1-L}\left|x_1-x_0\right|\end{array}\) 。由第一式分析误差；由第二式得到结论 \(L\) 越小，收敛越快 。...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 3, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-03-03-数值分析-Day06-非线性方程的迭代解法及收敛性" href="https://elderlyaugustus.github.io/posts/2021-03-03-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day06-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%9A%84%E8%BF%AD%E4%BB%A3%E8%A7%A3%E6%B3%95%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-03-02-数值分析-Day05-SOR-迭代法收敛性
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>续：3.1 - 6 迭代法 逐次超松弛迭代法（SOR迭代法） 选取分裂矩阵 \(M\) 为带参数的下三角阵： \(M=\displaystyle\frac{1}{\omega}(D-\omega L),\ B=I-M^{-1}A,\ f=M^{-1}b\) ，其中 \(w&gt;0\) 为可选择的松弛因子。
-构造迭代法，迭代矩阵为： \(L_\omega=I-\omega(D-\omega L)^{-1}A=(D-\omega L)^{-1}((1-\omega)D&#43;\omega U)\) 。
-则解 \(Ax=b\) 的SOR方法即为： \(\begin{array}{l}\left\{\begin{array}{l}x^{(0)}\\x^{(k&#43;1)}=L_\omega x^{(k)}&#43;f\quad(k=0,1,\dots)\end{array}\right.\\其中\begin{array}{l}L_\omega=(D-\omega L)^{-1}((1-\omega)D&#43;\omega U),\\f=\omega(D-\omega L)^{-1}b\end{array}\end{array}\) 。
-推导得： \(\begin{array}{l}(D-\omega L)x^{(k&#43;1)}=((1-\omega)D&#43;\omega U)x^{(k)}&#43;\omega b\\或Dx^{(k&#43;1)}=Dx^{(k&#43;1)}&#43;\omega(b&#43;Lx^{(k&#43;1)}&#43;Ux^{(k)}-Dx^{(k)})\end{array}\) 。
-分量计算公式为： \(\displaystyle x_i^{(k&#43;1)}=x_1^{(k)}&#43;\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k&#43;1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\) 。
-可令 \(\Delta x_i=\omega(b_i-\sum_{j=1}^{i-1}a_{ij}x_j^{(k&#43;1)}-\sum_{j=i}^{n}a_{ij}x_j^{(k)})/a_{ii}\) ，则 \(x_i^{(k&#43;1)}=x_i^{(k)}&#43;\Delta x_i\) 。
-Gauss-Seidel迭代法是SOR迭代法的一个特殊形式（系数 \(\omega=1\) ）。
-当 \(\omega&lt;1\) 时，称为超松弛法；当 \(\omega&gt;1\) 时，称为低松弛法。
-计算机中，常用 \(\max\limits_{1\le i\le n}|\Delta x_i|=\max\limits_{1\le i\le n}\left|x_i^{(k&#43;1)}-x_i^{(k)}\right|&lt;\varepsilon\) 或者 \(\left\|r^{(k)}\right\|=\left\|b-Ax^{(k)}\right\|\) 作为迭代终止条件。
-迭代法的收敛性 设 \(Ax=b\) ，其中 \(A\in R^{n\times n}\) 为非奇异矩阵，记 \(x^*\) 为原方程组精确解，且设有等价的方程组： \(Ax=b\Leftrightarrow x=Bx&#43;f\) ，则 \(x^*=Bx^*&#43;f\) 。设有一阶定常迭代法 \(x^{(k&#43;1)}=Bx^{(k)}\) 。引进误差向量 \(\varepsilon^{(k)}=x^{(k)}\) ，得到误差向量递推公式 \(\varepsilon^{(k&#43;1)}=B\varepsilon^{(k)}\ \Rightarrow\ \varepsilon^{(k)}=B^k\varepsilon^{(0)}\) 。则研究问题从 \(\varepsilon^{(k)}\to0\) 转换为 \(B^k\to0\) 。...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 2, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-03-02-数值分析-Day05-SOR-迭代法收敛性" href="https://elderlyaugustus.github.io/posts/2021-03-02-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day05-sor-%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%94%B6%E6%95%9B%E6%80%A7/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://elderlyaugustus.github.io/posts/page/3/">« Prev Page</a>
@@ -501,7 +491,7 @@ Gauss-Seidel迭代法是SOR迭代法的一个特殊形式（系数 \(\omega=1\) 
     </main>
     
 <footer class="footer">
-  <span>&copy; 2022 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2023 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
