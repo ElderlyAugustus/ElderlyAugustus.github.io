@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence | xα&#39;s blog</title>
+<meta name="keywords" content="现代游戏引擎">
+<meta name="description" content="PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
+Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
+需要考虑：
+Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
+Waypoint Network
+路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
+Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
+用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
+支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
+复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
+空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
+即在图上找到一个路径，尽可能找到最优（短）路径
+深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径">
+<meta name="author" content="xα">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence | xα&#39;s blog" />
+<meta name="twitter:description" content="PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
+Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
+需要考虑：
+Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
+Waypoint Network
+路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
+Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
+用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
+支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
+复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
+空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
+即在图上找到一个路径，尽可能找到最优（短）路径
+深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径" />
+<meta property="og:title" content="2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence | xα&#39;s blog" />
+<meta property="og:description" content="PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
+Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
+需要考虑：
+Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
+Waypoint Network
+路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
+Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
+用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
+支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
+复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
+空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
+即在图上找到一个路径，尽可能找到最优（短）路径
+深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
+<meta property="article:section" content="posts" />
+  <meta property="article:published_time" content="2022-10-22T21:00:00&#43;08:00" />
+  <meta property="article:modified_time" content="2022-10-22T21:00:00&#43;08:00" />
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://elderlyaugustus.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence",
+      "item": "https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence | xα's blog",
+  "name": "2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence",
+  "description": "PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记\nLecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area\n需要考虑：\nPhysical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同\nWaypoint Network\n路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid\nSquare / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh\n用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：\n支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：\n复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree\n空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构\n即在图上找到一个路径，尽可能找到最优（短）路径\n深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径",
+  "keywords": [
+    "现代游戏引擎"
+  ],
+  "wordCount" : "337",
+  "inLanguage": "en",
+  "datePublished": "2022-10-22T21:00:00+08:00",
+  "dateModified": "2022-10-22T21:00:00+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "xα"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "xα's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://elderlyaugustus.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class=" type-posts kind-page layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://elderlyaugustus.github.io/about/" title="About"
+                >About
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main post">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://elderlyaugustus.github.io/posts/">Posts</a></div><h1 class="post-title">2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence</h1>
+    <div class="post-meta"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>October 22, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+
+      
+      
+    </div>
+  </header> <div class="toc side right">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#navigation" aria-label="Navigation">Navigation</a><ul>
+                        
+                <li>
+                    <a href="#map-representation-%e5%9c%b0%e5%9b%be%e8%a1%a8%e8%be%be" aria-label="Map Representation 地图表达">Map Representation 地图表达</a></li>
+                <li>
+                    <a href="#path-finding-%e5%af%bb%e6%89%be%e8%b7%af%e5%be%84" aria-label="Path Finding 寻找路径">Path Finding 寻找路径</a></li>
+                <li>
+                    <a href="#path-smoothing-%e8%b7%af%e5%be%84%e5%b9%b3%e6%bb%91" aria-label="Path Smoothing 路径平滑">Path Smoothing 路径平滑</a></li>
+                <li>
+                    <a href="#navmesh-generation" aria-label="NavMesh Generation">NavMesh Generation</a></li>
+                <li>
+                    <a href="#advanced-features" aria-label="Advanced Features">Advanced Features</a></li></ul>
+                </li>
+                <li>
+                    <a href="#steering-%e8%bd%ac%e5%90%91%e7%b3%bb%e7%bb%9f" aria-label="Steering 转向系统">Steering 转向系统</a></li>
+                <li>
+                    <a href="#crowd-simulation-%e7%be%a4%e9%9b%86%e6%a8%a1%e6%8b%9f" aria-label="Crowd Simulation 群集模拟">Crowd Simulation 群集模拟</a><ul>
+                        
+                <li>
+                    <a href="#velocity-based-models" aria-label="Velocity-based Models">Velocity-based Models</a></li></ul>
+                </li>
+                <li>
+                    <a href="#sensing-or-perception" aria-label="Sensing or Perception">Sensing or Perception</a><ul>
+                        
+                <li>
+                    <a href="#finite-state-machine" aria-label="Finite State Machine">Finite State Machine</a></li>
+                <li>
+                    <a href="#behavior-tree" aria-label="Behavior Tree">Behavior Tree</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><blockquote>
+<p>PS:
+Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记</p>
+</blockquote>
+<h3
+id="lecture16-gameplay-systems---basic-artificial-intelligence">Lecture16
+Gameplay Systems - Basic Artificial Intelligence</h3>
+<h4 id="navigation">Navigation<a hidden class="anchor" aria-hidden="true" href="#navigation">¶</a></h4>
+<p>三个步骤：
+<img src="/images/games104/L16_NavigationSteps.png" alt="L16_NavigationSteps" style="zoom: 25%;" /></p>
+<h5 id="map-representation-地图表达">Map Representation 地图表达<a hidden class="anchor" aria-hidden="true" href="#map-representation-地图表达">¶</a></h5>
+<ul>
+<li><p>Walkable Area</p>
+<ul>
+<li><p>需要考虑：</p>
+<ul>
+<li>Physical Collision</li>
+<li>Climbing Slope/Height</li>
+<li>Jumping Distance</li>
+<li>…</li>
+</ul>
+<p>难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI
+Agents和Player的可行区域相同</p></li>
+<li><p>Waypoint Network</p>
+<ul>
+<li>路网，类似地铁线路图
+<img src="/images/games104/L16_WaypointNetwork.png" alt="L16_WaypointNetwork" style="zoom: 25%;" /></li>
+<li>寻找最近的路点</li>
+<li>易于实现，快速寻路不够灵活，路网需要手工标注</li>
+</ul></li>
+<li><p>Grid</p>
+<ul>
+<li>Square / Triangle / Hexagon 其中Square相对易于存储</li>
+<li><img src="/images/games104/L16_GridPathFinding.gif" alt="L16_GridPathFinding" style="zoom: 33%;" /></li>
+<li>易于实现、均匀数据结构、动态可更新</li>
+<li>精确性依赖分辨率</li>
+<li>密集网格降低寻路性能</li>
+<li>内存消耗大</li>
+<li>难以处理3D地图（桥梁、隧道等）</li>
+</ul></li>
+<li><p>Navigation Mesh</p>
+<ul>
+<li><p>用简化的凸多边形表示场景
+<img src="/images/games104/L16_NavMesh.jpg" alt="L16_NavMesh" style="zoom:33%;" /></p>
+<blockquote>
+<p>若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域
+<img src="/images/games104/L16_NavMeshConvex.png" alt="L16_NavMeshConvex" style="zoom:25%;" /></p>
+</blockquote></li>
+<li><p>优势：</p>
+<ul>
+<li>支持3D可行区域</li>
+<li>精确</li>
+<li>快速寻路</li>
+<li>灵活选择起始地、目的地</li>
+<li>动态</li>
+</ul></li>
+<li><p>缺陷：</p>
+<ul>
+<li>复杂的生成算法</li>
+<li>不支持3D空间，例如空中飞行</li>
+</ul></li>
+</ul></li>
+<li><p>Sparse Voxel Octree</p>
+<ul>
+<li>空间八叉树</li>
+<li>存储量大</li>
+<li>寻路复杂</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="path-finding-寻找路径">Path Finding 寻找路径<a hidden class="anchor" aria-hidden="true" href="#path-finding-寻找路径">¶</a></h5>
+<ul>
+<li><p>所有表达，都可归为图结构</p></li>
+<li><p>即在图上找到一个路径，尽可能找到最优（短）路径</p></li>
+<li><p>深度优先搜索 / 广度优先搜索
+消耗比较高，广度优先适合找到最短路径</p></li>
+<li><p>Dijkstra Algorithm</p>
+<pre class="pseudocode"><code>for each vertex v:
+  dist[v] = ∞
+  prev[v] = none
+dist[source] = 0
+set all vertices to unexplored
+while destination not explored:
+  v = least - valued unexplored vertex
+  set v to explored
+  for each edge(v, w):
+      if dist[v] +len(v, w) &lt; dist[w]:
+          dist[w] = dist[v] + len(v, w)
+          prev[w] = v</code></pre></li>
+<li><p>A Star （A*） 一种启发式算法，不用精确的最短路径</p>
+<ul>
+<li>启发函数：预估当前点到终点的距离 <span
+class="math inline">\(h(n)\)</span>
+<ul>
+<li>例如：欧拉距离 / 曼哈顿距离</li>
+<li><span class="math inline">\(h(n)\)</span> 的精确性影响性能表现</li>
+</ul></li>
+<li>则每一个当前点消耗为 <span class="math inline">\(f(n)= g(n) +
+h(n)\)</span></li>
+<li>优先搜索 <span class="math inline">\(f(n)\)</span> 最小的情况</li>
+<li>走到终点就停止，不追求完全最短</li>
+</ul></li>
+</ul>
+<h5 id="path-smoothing-路径平滑">Path Smoothing 路径平滑<a hidden class="anchor" aria-hidden="true" href="#path-smoothing-路径平滑">¶</a></h5>
+<ul>
+<li>Funnel Algorithm
+<ul>
+<li>“走路时看前面”</li>
+<li>当前点和所在三角形两端点组成一个扇形（漏斗，Funnel），下一个目标点是否在扇形中，来决定行走路线</li>
+<li>寻找扇形两端点比较复杂</li>
+</ul></li>
+</ul>
+<h5 id="navmesh-generation">NavMesh Generation<a hidden class="anchor" aria-hidden="true" href="#navmesh-generation">¶</a></h5>
+<ul>
+<li>先将整个场景体素化</li>
+<li>Region Segmentation
+<ul>
+<li>寻找Edge Voxel，生成Distance
+Field，找到区块的中心区域（离Edge最远的）</li>
+<li>”洪水“算法，类似Voroni算法，找到空间划分</li>
+<li>处理Overlap问题</li>
+</ul></li>
+<li>生成分割区域，凸多边形</li>
+<li>可以为不同的凸多边形打上不同的标记 Polygon Flag
+<ul>
+<li>AI寻路逻辑</li>
+<li>AI移动速度</li>
+<li>…</li>
+</ul></li>
+</ul>
+<h5 id="advanced-features">Advanced Features<a hidden class="anchor" aria-hidden="true" href="#advanced-features">¶</a></h5>
+<ul>
+<li>基于Tile的分区域NavMesh，易于更新</li>
+<li>Off-Mesh Link建立不同Mesh之间的连接，手动，实现攀爬等动作</li>
+</ul>
+<h4 id="steering-转向系统">Steering 转向系统<a hidden class="anchor" aria-hidden="true" href="#steering-转向系统">¶</a></h4>
+<p>寻路中，车辆无法严格执行路径（受到物理限制），需要转向系统</p>
+<ul>
+<li>Seek / Flee 追着目标点
+<ul>
+<li>Pursue 追踪</li>
+<li>Path Following</li>
+<li>Wander</li>
+<li>Flow Field Following 方向场</li>
+</ul></li>
+<li>Velocity Match
+<ul>
+<li>目标点速度，反向算每步加速度</li>
+</ul></li>
+<li>Align 保证朝向一致
+<ul>
+<li>目标点角速度，反向算每步角加速度</li>
+</ul></li>
+</ul>
+<h4 id="crowd-simulation-群集模拟">Crowd Simulation 群集模拟<a hidden class="anchor" aria-hidden="true" href="#crowd-simulation-群集模拟">¶</a></h4>
+<p>参考《基于物理的动画-粒子系统》</p>
+<ul>
+<li>“Boids”</li>
+<li>三种力
+<ul>
+<li>Separation</li>
+<li>Cohesion</li>
+<li>Alignment</li>
+</ul></li>
+<li>行人，沿着一定的Line运动</li>
+<li>避障、避免碰撞</li>
+<li>对每个个体做寻路消耗非常大 —— Distance Field</li>
+</ul>
+<h5 id="velocity-based-models">Velocity-based Models<a hidden class="anchor" aria-hidden="true" href="#velocity-based-models">¶</a></h5>
+<ul>
+<li>核心想法：个体相遇时，产生速度的障碍，调整速度</li>
+<li><strong>Reciprocal Velocity Obstacle</strong></li>
+<li>两个以上个体相遇时产生冲突，如何优化？ <strong>Optimal Reciprocal
+Collision Avoidance</strong></li>
+<li>结果最优，但开销大，根据需求自主选择（基于力的方式效果较差但开销小）</li>
+</ul>
+<h4 id="sensing-or-perception">Sensing or Perception<a hidden class="anchor" aria-hidden="true" href="#sensing-or-perception">¶</a></h4>
+<ul>
+<li>AI所获得的信息
+<ul>
+<li>内部：位置、HP、子弹、Buff等</li>
+<li>外部：
+<ul>
+<li>静态空间信息
+<ul>
+<li>Navigation Data</li>
+<li>Tactical Map 战术地图（更具有战术价值的位置）</li>
+<li>Smart Object eg.可打破的墙等</li>
+<li>Cover Point 掩体点</li>
+<li>…</li>
+</ul></li>
+<li>动态空间信息
+<ul>
+<li>Influence Map 战场态势感知的热力图，避开危险系数高的区域</li>
+<li>Navigation Data上更新的标记</li>
+<li>Sight Area 视野区域</li>
+<li>…</li>
+</ul></li>
+<li>Game Object</li>
+</ul></li>
+</ul></li>
+<li>Sensing Simulation 模仿人类的感知
+<ul>
+<li>考虑开销</li>
+<li>共享Influence Map等方式</li>
+</ul></li>
+<li>引擎侧提供充足的接口和自定义性</li>
+</ul>
+<h4 id="classic-decision-making-algorithms">Classic Decision Making
+Algorithms</h4>
+<ul>
+<li><strong>Finite State Machine</strong></li>
+<li><strong>Behavior Tree</strong></li>
+<li>Hierarchical Tasks Network</li>
+<li>Goal Oriented Action Planning</li>
+<li>Monte Carlo Tree Search</li>
+<li>Deep Learning</li>
+</ul>
+<h5 id="finite-state-machine">Finite State Machine<a hidden class="anchor" aria-hidden="true" href="#finite-state-machine">¶</a></h5>
+<p><img src="/images/games104/L16_FiniteStateMachine.png" alt="L16_FiniteStateMachine" style="zoom:20%;" /></p>
+<ul>
+<li>State</li>
+<li>Transition</li>
+<li>Condition</li>
+<li>问题：
+<ul>
+<li>复杂情形下State过于多，网络过于复杂</li>
+<li>解决方法：Hierarchical Finite State Machine
+<img src="/images/games104/L16_HierarchicalFiniteStateMachine.png" alt="L16_HierarchicalFiniteStateMachine" style="zoom:15%;" />
+子状态之间切换变得复杂</li>
+</ul></li>
+</ul>
+<h5 id="behavior-tree">Behavior Tree<a hidden class="anchor" aria-hidden="true" href="#behavior-tree">¶</a></h5>
+<ul>
+<li>状态机是对AI逻辑的抽象，并不符合人的知觉系统</li>
+<li>将AI的行为Pattern从状态机的“飞线”转换为更符合人的<strong>决策树</strong>结构</li>
+<li>Execution Node 执行节点（叶子节点）：
+<ul>
+<li>Condition Node 条件节点</li>
+<li>Action Node 动作节点 三种状态：
+<ul>
+<li>Success</li>
+<li>Failure</li>
+<li>Running</li>
+</ul></li>
+</ul></li>
+<li>Control Node
+<ul>
+<li>Sequence 依次执行</li>
+<li>Selector
+按优先级选择执行：A不行执行B，B不行执行C，有一个可执行就继续执行下去
+<img src="/images/games104/L16_BTSelector.png" alt="L16_BTSelector" style="zoom:20%;" /></li>
+<li>Parallel 并行执行</li>
+<li>Decorator 修饰器，例如增加延时等</li>
+</ul></li>
+<li>如何Tick行为树？
+<ul>
+<li>每一次从根节点开始Tick，防止动作保持在某一叶子节点</li>
+<li>行为树同时在Running的节点不一定只有一个</li>
+</ul></li>
+<li>Blackboard 记录环境变量，环境信息，与Gameplay交换信息的介质</li>
+<li>缺点：Tick的消耗较大</li>
+</ul>
+<h4 id="upcoming-ai-planning-and-goals">Upcoming: AI Planning and
+Goals</h4>
+<p>上述提到的AI方法，均为条件-执行逻辑，AI是没有计划和目的的，期待下一课…</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+<nav class="paginav">
+  <a class="prev" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/">
+    <span class="title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="user-select: text;"><line x1="19" y1="12" x2="5" y2="12" style="user-select: text;"></line><polyline points="12 19 5 12 12 5" style="user-select: text;"></polyline></svg>&nbsp;Prev Page</span>
+    <br>
+    <span>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen</span>
+  </a>
+  <a class="next" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/">
+    <span class="title">Next Page&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right" style="user-select: text;"><line x1="5" y1="12" x2="19" y2="12" style="user-select: text;"></line><polyline points="12 5 19 12 12 19" style="user-select: text;"></polyline></svg>
+    </span>
+    <br>
+    <span>2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2023 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+></script>
+<script>
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = 'copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent);
+        copyingDone();
+        return;
+      }
+
+      const range = document.createRange();
+      range.selectNodeContents(codeblock);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      try {
+        document.execCommand('copy');
+        copyingDone();
+      } catch (e) { };
+      selection.removeRange(range);
+    });
+
+    if (container.classList.contains("highlight")) {
+      container.appendChild(copybutton);
+    } else if (container.parentNode.firstChild == container) {
+      
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+      
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+    } else {
+      
+      codeblock.parentNode.appendChild(copybutton);
+    }
+  });
+</script>
+
+
+
+
+<script>
+  
+  
+  (function() {
+    const enableTocScroll = '1' == '1'
+    if (!enableTocScroll) {
+      return
+    }
+    if (!document.querySelector('.toc')) {
+      console.log('no toc found, ignore toc scroll')
+      return
+    }
+    
+
+    
+    const scrollListeners = window.scrollListeners
+    const headings = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id]');
+    const activeClass = 'active';
+
+    
+    let activeHeading = headings[0];
+    getLinkByHeading(activeHeading).classList.add(activeClass);
+
+    const onScroll = () => {
+      const passedHeadings = [];
+      for (const h of headings) {
+        
+        if (getOffsetTop(h) < 5) {
+          passedHeadings.push(h)
+        } else {
+          break;
+        }
+      }
+      if (passedHeadings.length > 0) {
+        newActiveHeading = passedHeadings[passedHeadings.length - 1];
+      } else {
+        newActiveHeading = headings[0];
+      }
+      if (activeHeading != newActiveHeading) {
+        getLinkByHeading(activeHeading).classList.remove(activeClass);
+        activeHeading = newActiveHeading;
+        getLinkByHeading(activeHeading).classList.add(activeClass);
+      }
+    }
+
+    let timer = null;
+    const scrollListener = () => {
+      if (timer !== null) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(onScroll, 50)
+    }
+    window.addEventListener('scroll', scrollListener, false);
+    scrollListeners.push(scrollListener)
+
+    function getLinkByHeading(heading) {
+      const id = encodeURI(heading.getAttribute('id')).toLowerCase();
+      return document.querySelector(`.toc ul li a[href="#${id}"]`);
+    }
+
+    function getOffsetTop(heading) {
+      if (!heading.getClientRects().length) {
+        return 0;
+      }
+      let rect = heading.getBoundingClientRect();
+      return rect.top
+    }
+  })();
+  </script>
+
+</body>
+
+</html>

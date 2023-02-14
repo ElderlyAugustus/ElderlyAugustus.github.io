@@ -6,7 +6,337 @@
     <description>Recent content in 笔记 on xα&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Oct 2022 09:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Oct 2022 21:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/series/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2022-10-23-GAMES104现代游戏引擎-Lecture22-GPU Driven Geometry Pipeline - Nanite</title>
+      <link>https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture22-nanite/</link>
+      <pubDate>Sun, 23 Oct 2022 21:00:00 +0800</pubDate>
+      
+      <guid>https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture22-nanite/</guid>
+      <description>Lecture22 GPU Driven Geometry Pipeline - Nanite Research Background 传统渲染管线 CPU发起Draw Call，GPU准备State、进入漫长的Pipeline CPU、GPU不同步 存在大量的算力浪费 现代游戏Draw Call越来越复杂，已经成为现代渲染管线瓶颈 “曙光”: Compute Shader：不再需要在CPU、GPU之间来回传递数据，直接在GPU中执行通用计算 Draw-Indirect Graphics API：一次Draw Call绘制多个Mesh GPU Driven Render Pipeline 将场景完整load到显存中，完全由GPU处理：DrawPrimitive -&amp;gt; DrawScene @《刺客信条：大革命》
+Mesh Cluster Rendering 将Mesh分成同样三角形数量的Cluster，便于交给GPU做裁剪等计算 不可见的Cluster不渲染；Culling流程： 尽可能裁剪掉不可见的三角形 将可见的三角形组成同一个Buffer GPU Driven Pipeline CPU端： 根据材质不同组合Instance 根据相机距离LoD 打包交给GPU做后续处理 GPU Instance Culling Instance Culling 将（64个）Cluster组成一个Chunk，再次Culling，以加速 GPU Cluster Culling Chunk -&amp;gt; Cluster -&amp;gt; Triangle 一步步裁剪，将视锥外、背面的全部裁剪 Index Buffer Compaction 将可见三角形的依次写入备用Index Buffer 三角形顶点顺序不统一时，可能导致前后帧三角形顶点顺序不一致，由于Z-Buffer精度有限，导致Z-Fighting问题 =&amp;gt; 硬件Multi-Indirect Draw Call或可解决此问题 对高精度的Mesh效率非常高 Codec Triangle Visibility in Cube : Backface Culling 每个Cluster存储每个三角形对两个方向的可见性 利用这一数据快速做Backface Culling Occlusion Culling for Camera and Shadow 利用前一帧Z-Buffer的方法： 取当前帧的一部分（如300个）近处大Mesh作为可能的Occluder渲染Z-Buffer 将上一帧的深度重投影到当前帧，用于补充当前帧Z-Buffer空缺处 保守估计Culling Instance -&amp;gt; Chunk -&amp;gt; Cluster -&amp;gt; Triangle 问题：高速移动物体存在一定Artifact Two-Phase Occlusion Culling 快速绘制通过上一帧的Z-Buffer Test的Instance的当前帧Z-Buffer 再利用当前帧不完整的Z-Buffer，测试剩余所有Instance，选出可见者 更加准确 Fast Occlusion for Shadow Shadow中生成深度时对几何细节量敏感 对每个Cascade，将上一帧相机深度重投影至当前帧Shadow深度，并混合上一帧Shadow深度 只有摄影机可见区域内需要生成阴影：只对相机可见的Instance生成Shadow的Z-Buffer Visibility Buffer Forward Rendering：所有互相遮挡、透明的物体需要做重复计算 Deferred Shading：用G-Buffer存储可见Pixel的各种数据，只对G-Buffer做光照计算 G-Buffer的存储、IO开销大 复杂场景下，因为难以判断可见性，在生成G-Buffer时产生Over draw，多次绘制同一像素时开销大 Visibility Buffer： 第一遍渲染时，只在Buffer中存储： (Alpha masked bit, DrawID, PrimitiveID, MaterialID, …) 根据各种ID读取对应贴图，再做重心坐标插值着色 几乎没有Over Draw Cache Miss率低 Pipeline Visibility Buffer + Deferred Shading 一般来说，草丛等复杂细节情况可直接用Visibility Buffer渲染，主角等主要内容Gather到G-Buffer再渲染 注意点：MIPMAP采样时的插值平滑问题 Virtual Geometry - Nanite Overview Virtual Texture Idea：将场景中所有贴图加载到内存中开销非常大，能否只加载可见部分且LoD后精度的贴图 所有材质加载到同一张“大贴图”中，并对整个贴图做MIPMAP 预烘焙这张“大贴图”，并做MIPMAP 根据View区域动态加载所需的部分 Idea of Nanite Virtual Geometry like Virtual Texture 挑战：几何数据是非Uniform的、互相之间可能没有关联性、Mesh数据难以Filter（SDF、Voxel、Point Cloud可以Filter） Voxel ?</description>
+      <content:encoded><![CDATA[<h2 id="lecture22-gpu-driven-geometry-pipeline---nanite">Lecture22 GPU
+Driven Geometry Pipeline - Nanite</h2>
+<h3 id="research-background">Research Background</h3>
+<h4 id="传统渲染管线">传统渲染管线</h4>
+<h4
+id="section"><img src="/images/games104/L22_TraditionalRenderPipeline.png" alt="L22_TraditionalRenderPipeline" style="zoom: 25%;" /></h4>
+<ul>
+<li>CPU发起Draw Call，GPU准备State、进入漫长的Pipeline
+<img src="/images/games104/L22_CPUDrivenRenderPipeline.jpg" alt="L22_CPUDrivenRenderPipeline" style="zoom: 50%;" />
+<ul>
+<li>CPU、GPU不同步</li>
+<li>存在大量的算力浪费</li>
+</ul></li>
+<li>现代游戏Draw Call越来越复杂，已经成为现代渲染管线瓶颈</li>
+<li>“曙光”:
+<ul>
+<li>Compute
+Shader：不再需要在CPU、GPU之间来回传递数据，直接在GPU中执行通用计算
+<img src="/images/games104/L22_ComputeShader.jpg" alt="L22_ComputeShader" style="zoom: 33%;" /></li>
+<li>Draw-Indirect Graphics API：一次Draw Call绘制多个Mesh
+<img src="/images/games104/L22_DrawIndirect.jpg" alt="L22_DrawIndirect" style="zoom: 50%;" /></li>
+</ul></li>
+</ul>
+<h4 id="gpu-driven-render-pipeline">GPU Driven Render Pipeline</h4>
+<p>将场景完整load到显存中，完全由GPU处理：DrawPrimitive -&gt; DrawScene
+<img src="/images/games104/L22_GPUDrivenRenderPipeline.jpg" alt="L22_GPUDrivenRenderPipeline" style="zoom: 50%;" /></p>
+<p>@《刺客信条：大革命》</p>
+<h5 id="mesh-cluster-rendering">Mesh Cluster Rendering</h5>
+<ul>
+<li>将Mesh分成同样三角形数量的Cluster，便于交给GPU做裁剪等计算</li>
+<li>不可见的Cluster不渲染；Culling流程：
+<img src="/images/games104/L22_ClusterCulling.jpg" alt="L22_ClusterCulling" style="zoom: 33%;" />
+<ul>
+<li>尽可能裁剪掉不可见的三角形</li>
+<li>将可见的三角形组成同一个Buffer</li>
+</ul></li>
+</ul>
+<h5 id="gpu-driven-pipeline">GPU Driven Pipeline</h5>
+<ul>
+<li>CPU端：
+<ul>
+<li>根据材质不同组合Instance</li>
+<li>根据相机距离LoD</li>
+<li>打包交给GPU做后续处理</li>
+</ul></li>
+<li>GPU Instance Culling
+<ul>
+<li>Instance Culling</li>
+<li>将（64个）Cluster组成一个Chunk，再次Culling，以加速</li>
+</ul></li>
+<li>GPU Cluster Culling
+<ul>
+<li>Chunk -&gt; Cluster -&gt; Triangle
+一步步裁剪，将视锥外、背面的全部裁剪</li>
+</ul></li>
+<li>Index Buffer Compaction 将可见三角形的依次写入备用Index Buffer
+<ul>
+<li>三角形顶点顺序不统一时，可能导致前后帧三角形顶点顺序不一致，由于Z-Buffer精度有限，导致Z-Fighting问题
+=&gt; 硬件Multi-Indirect Draw Call或可解决此问题</li>
+<li>对高精度的Mesh效率非常高</li>
+</ul></li>
+<li>Codec Triangle Visibility in Cube : Backface Culling
+<ul>
+<li>每个Cluster存储每个三角形对两个方向的可见性</li>
+<li>利用这一数据快速做Backface Culling</li>
+</ul></li>
+</ul>
+<h5 id="occlusion-culling-for-camera-and-shadow">Occlusion Culling for
+Camera and Shadow</h5>
+<ul>
+<li>利用前一帧Z-Buffer的方法：
+<ul>
+<li>取当前帧的一部分（如300个）近处大Mesh作为可能的Occluder渲染Z-Buffer</li>
+<li>将上一帧的深度重投影到当前帧，用于补充当前帧Z-Buffer空缺处</li>
+<li>保守估计Culling Instance -&gt; Chunk -&gt; Cluster -&gt;
+Triangle</li>
+<li>问题：高速移动物体存在一定Artifact</li>
+</ul></li>
+<li><strong>Two-Phase Occlusion Culling</strong>
+<ul>
+<li>快速绘制通过上一帧的Z-Buffer Test的Instance的当前帧Z-Buffer</li>
+<li>再利用当前帧不完整的Z-Buffer，测试剩余所有Instance，选出可见者
+<img src="/images/games104/L22_TwoPhaseOcclusionCulling.jpg" alt="L22_TwoPhaseOcclusionCulling" style="zoom: 50%;" /></li>
+<li>更加准确</li>
+</ul></li>
+<li><strong>Fast Occlusion for Shadow</strong>
+<ul>
+<li>Shadow中生成深度时对几何细节量敏感</li>
+<li>对每个Cascade，将上一帧相机深度重投影至当前帧Shadow深度，并混合上一帧Shadow深度</li>
+<li>只有摄影机可见区域内需要生成阴影：只对相机可见的Instance生成Shadow的Z-Buffer
+<img src="/images/games104/L22_ShadowOcclusion.jpg" alt="L22_ShadowOcclusion" style="zoom: 33%;" /></li>
+</ul></li>
+</ul>
+<h4 id="visibility-buffer">Visibility Buffer</h4>
+<ul>
+<li>Forward Rendering：所有互相遮挡、透明的物体需要做重复计算</li>
+<li>Deferred
+Shading：用G-Buffer存储可见Pixel的各种数据，只对G-Buffer做光照计算
+<img src="/images/games104/L22_DeferredShading.jpg" alt="L22_DeferredShading" style="zoom: 25%;" />
+<ul>
+<li>G-Buffer的存储、IO开销大</li>
+<li>复杂场景下，因为难以判断可见性，在生成G-Buffer时产生Over
+draw，多次绘制同一像素时开销大</li>
+</ul></li>
+<li><strong>Visibility Buffer</strong>：
+<ul>
+<li>第一遍渲染时，只在Buffer中存储： (Alpha masked bit, DrawID,
+PrimitiveID, MaterialID, …)</li>
+<li>根据各种ID读取对应贴图，再做重心坐标插值着色
+<ul>
+<li>几乎没有Over Draw</li>
+<li>Cache Miss率低</li>
+</ul></li>
+<li>Pipeline
+<img src="/images/games104/L22_VisibilityBuffer.jpg" alt="L22_VisibilityBuffer" style="zoom: 25%;" /></li>
+</ul></li>
+<li>Visibility Buffer + Deferred Shading
+<img src="/images/games104/L22_VisibilityBufferDeferredShading.jpg" alt="L22_VisibilityBufferDeferredShading" style="zoom: 50%;" />
+<ul>
+<li>一般来说，草丛等复杂细节情况可直接用Visibility
+Buffer渲染，主角等主要内容Gather到G-Buffer再渲染</li>
+<li>注意点：MIPMAP采样时的插值平滑问题</li>
+</ul></li>
+</ul>
+<h3 id="virtual-geometry---nanite">Virtual Geometry - Nanite</h3>
+<h4 id="overview">Overview</h4>
+<h5 id="virtual-texture">Virtual Texture</h5>
+<ul>
+<li>Idea：将场景中所有贴图加载到内存中开销非常大，能否只加载可见部分且LoD后精度的贴图</li>
+<li>所有材质加载到同一张“大贴图”中，并对整个贴图做MIPMAP</li>
+<li>预烘焙这张“大贴图”，并做MIPMAP</li>
+<li>根据View区域动态加载所需的部分</li>
+</ul>
+<h5 id="idea-of-nanite">Idea of Nanite</h5>
+<ul>
+<li><strong>Virtual Geometry</strong> like <strong>Virtual
+Texture</strong></li>
+<li>挑战：几何数据是非Uniform的、互相之间可能没有关联性、Mesh数据难以Filter（SDF、Voxel、Point
+Cloud可以Filter）</li>
+<li>Voxel ?
+<ul>
+<li>数据量非常大</li>
+<li>属性Leaking</li>
+<li>非常不适合目前的美术工作流</li>
+</ul></li>
+<li>Subdivision Surface ?
+<ul>
+<li>需要使用四边形面</li>
+<li>Subdivision很难做Downsampling</li>
+</ul></li>
+<li>Maps-based Method ? 高度图、置换等
+<ul>
+<li>很难做非常细的几何细节</li>
+<li>NVIDIA正在从硬件上做这方面的更多工作，或许还有发展的可能</li>
+</ul></li>
+<li>Point Cloud ?
+<ul>
+<li>效果不好</li>
+<li>Over Draw</li>
+<li>材质如何绑定</li>
+</ul></li>
+<li>Triangle !
+<ul>
+<li>绘制三角形数量恰多于屏幕像素数量 1 more triangle per pixel</li>
+</ul></li>
+</ul>
+<h4 id="geometry-representation">Geometry Representation</h4>
+<h5 id="cluster-based-lod">Cluster-based LoD</h5>
+<ul>
+<li>Clusters, 128 Triangles per cluster
+<img src="/images/games104/L22_NaniteClusters.png" alt="L22_NaniteClusters" style="zoom: 25%;" /></li>
+<li>View Dependent LoD
+<img src="/images/games104/L22_NaniteLoD.png" alt="L22_NaniteLoD" style="zoom:25%;" />
+用远少于LoD0的Triangle数实现1 more triangle per pixel的精度</li>
+<li>Naive Solution
+<ul>
+<li>Cluster两两合并，减少一半三角形，得到简单的Cluster Hierarchy</li>
+<li>根据View得到对Cluster的Cut Line，选择对应精度的Cluster</li>
+<li>Like <strong>Virtual Texturing</strong>，流式加载数据</li>
+<li>问题：不同Cluster之间的Juction问题
+<ul>
+<li>锁住Cluster的边：边缘处的Triangle密度过高
+<ul>
+<li>面片简化利用率不高</li>
+<li>密度不均匀，产生画面Artifact（缝合线感）</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Nanite Solution
+<ul>
+<li>Cluster Group
+<ul>
+<li>将一定数量的Cluster组成一个Group</li>
+<li>每个Group选择同样的LoD级别</li>
+</ul></li>
+<li>在Group内做简化，锁住Group的边</li>
+<li>简化后重新生成Cluster
+<img src="/images/games104/L22_NaniteClusterGroup.png" alt="L22_NaniteClusterGroup" style="zoom: 33%;" /></li>
+<li>每一级LoD，选择不同的Group边锁住
+<img src="/images/games104/L22_NaniteAlternateGroupBoundaries.jpg" alt="L22_NaniteAlternateGroupBoundaries" style="zoom: 50%;" />
+类似图片降采样时的Jiltering</li>
+<li>构建DAG（有向无环图）
+<img src="/images/games104/L22_NaniteDAG.png" alt="L22_NaniteDAG" style="zoom:33%;" /></li>
+<li>细节：QEM，保证Error计算的精确性，且Error单向向上传递</li>
+<li><img src="/images/games104/L22_NaniteLoDPipeline.png" alt="L22_NaniteLoDPipeline" style="zoom: 25%;" />
+##### Runtime LoD</li>
+</ul></li>
+<li>直接在DAG中选择？但直接在DAG中遍历非常复杂</li>
+<li>同属于一个Group的Cluster用同样的LoD等级</li>
+<li>并行地做View Dependent Cut
+<img src="/images/games104/L22_ViewDependentCut.png" alt="L22_ViewDependentCut" style="zoom:25%;" />
+<ul>
+<li>规则：
+<ul>
+<li>Parent View Error &gt;= Child View Error</li>
+</ul></li>
+<li>LoD Cull 判定条件
+<ul>
+<li>Render : ParentErr &gt; threshold &amp;&amp; ClusterErr &lt;=
+threshold</li>
+<li>Cull : ParentErr &lt;= threshold || Cluster &gt; threshold</li>
+<li>若Parent已经足够精确，则无需再Check Child
+<ul>
+<li>ParentErr &lt;= threshold</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>每一个Cluster Group的每一次LoD
+Selection是独立的，不会上一级没通过再看下一级</li>
+</ul>
+<h5 id="bvh-acceleration-for-lod-selection">BVH Acceleration for LoD
+Selection</h5>
+<ul>
+<li>想法核心：把LoD0、LoD1、…每一层LoD独立组成一个BVH，最后再将所有BVH组成一个大的树
+<img src="/images/games104/L22_LoDBVH.png" alt="L22_LoDBVH" style="zoom: 33%;" /></li>
+<li>方便地取BVH的Bounding，做相机剔除后再Check，节省了非常多计算量</li>
+</ul>
+<h5 id="hierarchical-culling">Hierarchical Culling</h5>
+<p>加速的Trick
+<img src="/images/games104/L22_HierarchicalCulling.jpg" alt="L22_HierarchicalCulling" style="zoom: 50%;" /></p>
+<h4 id="rendering">Rendering</h4>
+<h5 id="software-and-hardware-rasterization">Software and Hardware
+Rasterization</h5>
+<ul>
+<li>硬件光栅化：光栅化单元是2*2的Quad（为了算ddx和ddy），用4*4的Tile遍历加速，剔除不参与渲染的Tile</li>
+<li>Triangle小到1个pixel的大小时 —— 上述优化均失效</li>
+<li><strong>软件光栅化</strong>：
+<ul>
+<li>Compute Shader直接接管小三角形的光栅化</li>
+<li>若三角形小于1pixel，则直接给pixel着色</li>
+<li>直接通过三角形的UV算ddx、ddy，不用Tile计算</li>
+<li>若三角形边长小于18pixel，则使用软件光栅化（Scanline），反之回到硬件光栅化</li>
+<li><strong>深度测试</strong>：存储64bit的atomic数据 —— 32bit Depth +
+25bit Visible Cluster Index + 7bit Triangle Index （<strong>Visibility
+Buffer</strong>）</li>
+</ul></li>
+<li>硬件光栅化</li>
+<li><strong>Imposter</strong>：对足够远、足够小的Instance，生成12*12个方向的的12*12大小的各种贴图（Aldobe、Normal、…）</li>
+<li>Overdraw：
+<ul>
+<li>没有逐像素剔除</li>
+<li>没有硬件HiZ像素剔除</li>
+<li>软件HZB来自上一帧</li>
+<li>大Cluster、重叠Cluser、聚合、快速移动等带来的Overdraw</li>
+<li>…</li>
+</ul></li>
+<li>期待硬件支持更完善，不要用软件Trick完成这些ideas</li>
+</ul>
+<h5 id="deferred-materials">Deferred Materials</h5>
+<ul>
+<li>早期：
+<ul>
+<li>将每个Material ID转换为一个Depth值，记录为一张Depth Buffer</li>
+<li>扫描整张Buffer，判断Depth与Material
+ID相等时，用对应Material绘制</li>
+<li>消耗较大</li>
+</ul></li>
+<li>Tiled Based的思想
+<ul>
+<li>将全屏幕分为多个Tile，标记每个材质是否在Tile中出现</li>
+<li>在逐材质扫描整张Buffer时，可以直接跳过没有该材质的Tile</li>
+</ul></li>
+</ul>
+<h4 id="shadow">Shadow</h4>
+<ul>
+<li>Shadow Casting的精度要求很高</li>
+<li>Ray Trace？ Nanite几何表达无法兼容</li>
+<li><strong>Cascaded Shadow Map</strong> 具体略 本质：View-dependent
+Sampling</li>
+<li><strong>Sample Distribution Shadow Maps</strong> 相当于将Cascaded
+Shadow Maps中重复的、视锥外的像素去除的Shadow Maps</li>
+<li>Shadow Map的本质：根据相机视空间的精度，采样光空间</li>
+</ul>
+<h5 id="virtual-shadow-map---a-cached-shadow-system">Virtual Shadow Map
+- A Cached Shadow System</h5>
+<ul>
+<li>核心思想：将Shadow
+Map切成足够小的块，确保每一小块与视空间的采样率高度一直，且只更新产生光照变化的块</li>
+<li>实际：给每个光源一张16k的VSM（点光源为6个方向的6张），仅可见像素会被Cache</li>
+<li>相机运动、光照几何变化时，更新部分Tile即可</li>
+</ul>
+<h4 id="streaming-and-compression">Streaming and Compression</h4>
+<h5 id="streaming">Streaming</h5>
+<ul>
+<li>流送的核心：只Load需要的数据到内存中</li>
+<li>构建成逐个Page，动态加载</li>
+</ul>
+<h5 id="compression">Compression</h5>
+<ul>
+<li>内存数据：Quantization
+<ul>
+<li>浮点变定点等</li>
+</ul></li>
+<li>硬盘数据
+<ul>
+<li>LZ Compression</li>
+<li>显存加载自动解压缩</li>
+</ul></li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen</title>
       <link>https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/</link>
@@ -294,6 +624,294 @@ Tracing的硬件开销不一样
 <li>Fallback过程
 <img src="/images/games104/L21_LumenOverall2.png" alt="L21_LumenOverall2" style="zoom: 50%;" /></li>
 </ul>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence</title>
+      <link>https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/</link>
+      <pubDate>Sat, 22 Oct 2022 21:00:00 +0800</pubDate>
+      
+      <guid>https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/</guid>
+      <description>PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
+Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
+需要考虑：
+Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
+Waypoint Network
+路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
+Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
+用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
+支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
+复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
+空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
+即在图上找到一个路径，尽可能找到最优（短）路径
+深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>PS:
+Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记</p>
+</blockquote>
+<h3
+id="lecture16-gameplay-systems---basic-artificial-intelligence">Lecture16
+Gameplay Systems - Basic Artificial Intelligence</h3>
+<h4 id="navigation">Navigation</h4>
+<p>三个步骤：
+<img src="/images/games104/L16_NavigationSteps.png" alt="L16_NavigationSteps" style="zoom: 25%;" /></p>
+<h5 id="map-representation-地图表达">Map Representation 地图表达</h5>
+<ul>
+<li><p>Walkable Area</p>
+<ul>
+<li><p>需要考虑：</p>
+<ul>
+<li>Physical Collision</li>
+<li>Climbing Slope/Height</li>
+<li>Jumping Distance</li>
+<li>…</li>
+</ul>
+<p>难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI
+Agents和Player的可行区域相同</p></li>
+<li><p>Waypoint Network</p>
+<ul>
+<li>路网，类似地铁线路图
+<img src="/images/games104/L16_WaypointNetwork.png" alt="L16_WaypointNetwork" style="zoom: 25%;" /></li>
+<li>寻找最近的路点</li>
+<li>易于实现，快速寻路不够灵活，路网需要手工标注</li>
+</ul></li>
+<li><p>Grid</p>
+<ul>
+<li>Square / Triangle / Hexagon 其中Square相对易于存储</li>
+<li><img src="/images/games104/L16_GridPathFinding.gif" alt="L16_GridPathFinding" style="zoom: 33%;" /></li>
+<li>易于实现、均匀数据结构、动态可更新</li>
+<li>精确性依赖分辨率</li>
+<li>密集网格降低寻路性能</li>
+<li>内存消耗大</li>
+<li>难以处理3D地图（桥梁、隧道等）</li>
+</ul></li>
+<li><p>Navigation Mesh</p>
+<ul>
+<li><p>用简化的凸多边形表示场景
+<img src="/images/games104/L16_NavMesh.jpg" alt="L16_NavMesh" style="zoom:33%;" /></p>
+<blockquote>
+<p>若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域
+<img src="/images/games104/L16_NavMeshConvex.png" alt="L16_NavMeshConvex" style="zoom:25%;" /></p>
+</blockquote></li>
+<li><p>优势：</p>
+<ul>
+<li>支持3D可行区域</li>
+<li>精确</li>
+<li>快速寻路</li>
+<li>灵活选择起始地、目的地</li>
+<li>动态</li>
+</ul></li>
+<li><p>缺陷：</p>
+<ul>
+<li>复杂的生成算法</li>
+<li>不支持3D空间，例如空中飞行</li>
+</ul></li>
+</ul></li>
+<li><p>Sparse Voxel Octree</p>
+<ul>
+<li>空间八叉树</li>
+<li>存储量大</li>
+<li>寻路复杂</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="path-finding-寻找路径">Path Finding 寻找路径</h5>
+<ul>
+<li><p>所有表达，都可归为图结构</p></li>
+<li><p>即在图上找到一个路径，尽可能找到最优（短）路径</p></li>
+<li><p>深度优先搜索 / 广度优先搜索
+消耗比较高，广度优先适合找到最短路径</p></li>
+<li><p>Dijkstra Algorithm</p>
+<pre class="pseudocode"><code>for each vertex v:
+  dist[v] = ∞
+  prev[v] = none
+dist[source] = 0
+set all vertices to unexplored
+while destination not explored:
+  v = least - valued unexplored vertex
+  set v to explored
+  for each edge(v, w):
+      if dist[v] +len(v, w) &lt; dist[w]:
+          dist[w] = dist[v] + len(v, w)
+          prev[w] = v</code></pre></li>
+<li><p>A Star （A*） 一种启发式算法，不用精确的最短路径</p>
+<ul>
+<li>启发函数：预估当前点到终点的距离 <span
+class="math inline">\(h(n)\)</span>
+<ul>
+<li>例如：欧拉距离 / 曼哈顿距离</li>
+<li><span class="math inline">\(h(n)\)</span> 的精确性影响性能表现</li>
+</ul></li>
+<li>则每一个当前点消耗为 <span class="math inline">\(f(n)= g(n) +
+h(n)\)</span></li>
+<li>优先搜索 <span class="math inline">\(f(n)\)</span> 最小的情况</li>
+<li>走到终点就停止，不追求完全最短</li>
+</ul></li>
+</ul>
+<h5 id="path-smoothing-路径平滑">Path Smoothing 路径平滑</h5>
+<ul>
+<li>Funnel Algorithm
+<ul>
+<li>“走路时看前面”</li>
+<li>当前点和所在三角形两端点组成一个扇形（漏斗，Funnel），下一个目标点是否在扇形中，来决定行走路线</li>
+<li>寻找扇形两端点比较复杂</li>
+</ul></li>
+</ul>
+<h5 id="navmesh-generation">NavMesh Generation</h5>
+<ul>
+<li>先将整个场景体素化</li>
+<li>Region Segmentation
+<ul>
+<li>寻找Edge Voxel，生成Distance
+Field，找到区块的中心区域（离Edge最远的）</li>
+<li>”洪水“算法，类似Voroni算法，找到空间划分</li>
+<li>处理Overlap问题</li>
+</ul></li>
+<li>生成分割区域，凸多边形</li>
+<li>可以为不同的凸多边形打上不同的标记 Polygon Flag
+<ul>
+<li>AI寻路逻辑</li>
+<li>AI移动速度</li>
+<li>…</li>
+</ul></li>
+</ul>
+<h5 id="advanced-features">Advanced Features</h5>
+<ul>
+<li>基于Tile的分区域NavMesh，易于更新</li>
+<li>Off-Mesh Link建立不同Mesh之间的连接，手动，实现攀爬等动作</li>
+</ul>
+<h4 id="steering-转向系统">Steering 转向系统</h4>
+<p>寻路中，车辆无法严格执行路径（受到物理限制），需要转向系统</p>
+<ul>
+<li>Seek / Flee 追着目标点
+<ul>
+<li>Pursue 追踪</li>
+<li>Path Following</li>
+<li>Wander</li>
+<li>Flow Field Following 方向场</li>
+</ul></li>
+<li>Velocity Match
+<ul>
+<li>目标点速度，反向算每步加速度</li>
+</ul></li>
+<li>Align 保证朝向一致
+<ul>
+<li>目标点角速度，反向算每步角加速度</li>
+</ul></li>
+</ul>
+<h4 id="crowd-simulation-群集模拟">Crowd Simulation 群集模拟</h4>
+<p>参考《基于物理的动画-粒子系统》</p>
+<ul>
+<li>“Boids”</li>
+<li>三种力
+<ul>
+<li>Separation</li>
+<li>Cohesion</li>
+<li>Alignment</li>
+</ul></li>
+<li>行人，沿着一定的Line运动</li>
+<li>避障、避免碰撞</li>
+<li>对每个个体做寻路消耗非常大 —— Distance Field</li>
+</ul>
+<h5 id="velocity-based-models">Velocity-based Models</h5>
+<ul>
+<li>核心想法：个体相遇时，产生速度的障碍，调整速度</li>
+<li><strong>Reciprocal Velocity Obstacle</strong></li>
+<li>两个以上个体相遇时产生冲突，如何优化？ <strong>Optimal Reciprocal
+Collision Avoidance</strong></li>
+<li>结果最优，但开销大，根据需求自主选择（基于力的方式效果较差但开销小）</li>
+</ul>
+<h4 id="sensing-or-perception">Sensing or Perception</h4>
+<ul>
+<li>AI所获得的信息
+<ul>
+<li>内部：位置、HP、子弹、Buff等</li>
+<li>外部：
+<ul>
+<li>静态空间信息
+<ul>
+<li>Navigation Data</li>
+<li>Tactical Map 战术地图（更具有战术价值的位置）</li>
+<li>Smart Object eg.可打破的墙等</li>
+<li>Cover Point 掩体点</li>
+<li>…</li>
+</ul></li>
+<li>动态空间信息
+<ul>
+<li>Influence Map 战场态势感知的热力图，避开危险系数高的区域</li>
+<li>Navigation Data上更新的标记</li>
+<li>Sight Area 视野区域</li>
+<li>…</li>
+</ul></li>
+<li>Game Object</li>
+</ul></li>
+</ul></li>
+<li>Sensing Simulation 模仿人类的感知
+<ul>
+<li>考虑开销</li>
+<li>共享Influence Map等方式</li>
+</ul></li>
+<li>引擎侧提供充足的接口和自定义性</li>
+</ul>
+<h4 id="classic-decision-making-algorithms">Classic Decision Making
+Algorithms</h4>
+<ul>
+<li><strong>Finite State Machine</strong></li>
+<li><strong>Behavior Tree</strong></li>
+<li>Hierarchical Tasks Network</li>
+<li>Goal Oriented Action Planning</li>
+<li>Monte Carlo Tree Search</li>
+<li>Deep Learning</li>
+</ul>
+<h5 id="finite-state-machine">Finite State Machine</h5>
+<p><img src="/images/games104/L16_FiniteStateMachine.png" alt="L16_FiniteStateMachine" style="zoom:20%;" /></p>
+<ul>
+<li>State</li>
+<li>Transition</li>
+<li>Condition</li>
+<li>问题：
+<ul>
+<li>复杂情形下State过于多，网络过于复杂</li>
+<li>解决方法：Hierarchical Finite State Machine
+<img src="/images/games104/L16_HierarchicalFiniteStateMachine.png" alt="L16_HierarchicalFiniteStateMachine" style="zoom:15%;" />
+子状态之间切换变得复杂</li>
+</ul></li>
+</ul>
+<h5 id="behavior-tree">Behavior Tree</h5>
+<ul>
+<li>状态机是对AI逻辑的抽象，并不符合人的知觉系统</li>
+<li>将AI的行为Pattern从状态机的“飞线”转换为更符合人的<strong>决策树</strong>结构</li>
+<li>Execution Node 执行节点（叶子节点）：
+<ul>
+<li>Condition Node 条件节点</li>
+<li>Action Node 动作节点 三种状态：
+<ul>
+<li>Success</li>
+<li>Failure</li>
+<li>Running</li>
+</ul></li>
+</ul></li>
+<li>Control Node
+<ul>
+<li>Sequence 依次执行</li>
+<li>Selector
+按优先级选择执行：A不行执行B，B不行执行C，有一个可执行就继续执行下去
+<img src="/images/games104/L16_BTSelector.png" alt="L16_BTSelector" style="zoom:20%;" /></li>
+<li>Parallel 并行执行</li>
+<li>Decorator 修饰器，例如增加延时等</li>
+</ul></li>
+<li>如何Tick行为树？
+<ul>
+<li>每一次从根节点开始Tick，防止动作保持在某一叶子节点</li>
+<li>行为树同时在Running的节点不一定只有一个</li>
+</ul></li>
+<li>Blackboard 记录环境变量，环境信息，与Gameplay交换信息的介质</li>
+<li>缺点：Tick的消耗较大</li>
+</ul>
+<h4 id="upcoming-ai-planning-and-goals">Upcoming: AI Planning and
+Goals</h4>
+<p>上述提到的AI方法，均为条件-执行逻辑，AI是没有计划和目的的，期待下一课…</p>
 ]]></content:encoded>
     </item>
     
