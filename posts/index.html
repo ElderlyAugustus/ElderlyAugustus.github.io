@@ -247,8 +247,8 @@ function toggleThemeListener() {
 一个基于Unreal Engine的解决方案Idea UE中假定高斯模糊为景深效果的实现方式（实际略有差异），高斯模糊存在以下叠加关系 \(\sigma_1^2&#43;\sigma_2^2=\sigma_3^2\) 时， \(\sigma_1\) 与 \(\sigma_2\) 的两次高斯模糊叠加后效果与一次 \(\sigma_3\) 的高斯模糊一致； 而UE景深后处理的 \(\sigma\) 与 \(CoC\) （弥散圆）相关（线性关系），那同样认为真实摄影机的景深结果与 \(CoC\) 相关，则有 \(R_{CoC_1}^2&#43;R_{CoC_2}^2=R_{CoC_3}^2\) ， \(CoC_3\) 带来的景深效果是最终目标， \(CoC_2\) 是真实摄影机到异形屏对应像素之间的距离计算得到，由此可以算出渲染应得的 \(CoC_1\) 。
 怎么获得真实摄影机到异形屏对应像素之间的距离：等效虚拟摄影机视线到虚拟LED Wall上交点的距离 —— 给CineCameraActor绑一个SceneCapture2D直接抓ZBuffer。
 预告一下今年的目标更新，在翻译最近两年关于光谱渲染的两篇Siggraph Course Notes：
-Spectral imaging in production | ACM SIGGRAPH 2021 Courses
-Practical aspects of spectral data in digital content production | ACM SIGGRAPH 2022 Courses
+Spectral imaging in production | SIGGRAPH 2021 Courses
+Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
 目前一天翻不到半页的龟速，主线工作太多。等有一些进度了就放一部分上来。</p>
     
   </section>
