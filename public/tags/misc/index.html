@@ -230,7 +230,7 @@ function toggleThemeListener() {
       <p>虚拟制作（Virtual Production）中的景深问题思考 从发现这一问题就在思考如何从源头上的solution。之前和@houjue讨论得到过基本的思路和方法，但一直没有工程实践上的想法。今天旁观一场研讨会再次听到这一问题，突然有了想法，看了UE这部分的实现差不多确定是可以work的。但想安度最后的大学时光，便懒得做了，浅记在这里未来闲了再说吧。
 什么问题 简而言之就是LED墙内视锥的虚拟摄影机和真实摄影机的两次景深处理叠加，带来的背景景深错误。具体阐述可见大三时水的《基于LED背景墙的电影虚拟化制作实践探索与未来展望》这篇，不在博客里详述了。
 一个基于Unreal Engine的解决方案Idea UE中假定高斯模糊为景深效果的实现方式（实际略有差异），高斯模糊存在以下叠加关系 \(\sigma_1^2&#43;\sigma_2^2=\sigma_3^2\) 时， \(\sigma_1\) 与 \(\sigma_2\) 的两次高斯模糊叠加后效果与一次 \(\sigma_3\) 的高斯模糊一致； 而UE景深后处理的 \(\sigma\) 与 \(CoC\) （弥散圆）相关（线性关系），那同样认为真实摄影机的景深结果与 \(CoC\) 相关，则有 \(R_{CoC_1}^2&#43;R_{CoC_2}^2=R_{CoC_3}^2\) ， \(CoC_3\) 带来的景深效果是最终目标， \(CoC_2\) 是真实摄影机到异形屏对应像素之间的距离计算得到，由此可以算出渲染应得的 \(CoC_1\) 。
-怎么获得真实摄影机到异形屏对应像素之间的距离：等效虚拟摄影机视线到虚拟LED Wall上交点的距离 —— 给CineCameraActor绑一个SceneCapture2D直接抓ZBuffer。
+怎么获得真实摄影机到异形屏对应像素之间的距离：等效虚拟摄影机视线到虚拟LED Wall上交点的距离 —— 给CineCameraActor绑一个SceneCapture2D直接抓取ZBuffer。
 预告一下今年的目标更新，在翻译最近两年关于光谱渲染的两篇Siggraph Course Notes：
 Spectral imaging in production | SIGGRAPH 2021 Courses
 Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
