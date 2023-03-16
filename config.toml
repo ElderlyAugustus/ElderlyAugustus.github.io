@@ -29,22 +29,22 @@ pygmentsUseClasses = true
     identifier = "about"
     name = "About"
     url = "/about/"
-    weight = 10
+    weight = 3
   [[menu.main]]
     identifier = "search"
     name = "Search"
     url = "/search/"
-    weight = 10
+    weight = 4
   [[menu.main]]
     identifier = "tags"
     name = "Tags"
     url = "/tags/"
-    weight = 10
+    weight = 2
   [[menu.main]]
     identifier = "archive"
     name = "Archives"
     url = "/archives/"
-    weight = 10
+    weight = 1
   # [[menu.main]]
   #   identifier = "categories"
   #   name = "Categories"
