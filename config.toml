@@ -27,7 +27,7 @@ pygmentsUseClasses = true
 [menu]
   [[menu.main]]
     identifier = "about"
-    name = "About"
+    name = "Me & Friends"
     url = "/about/"
     weight = 3
   [[menu.main]]
