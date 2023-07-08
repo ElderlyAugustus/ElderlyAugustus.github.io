@@ -10,4 +10,4 @@
 
 [KSkun，游戏客户端开发](https://ksmeow.moe/)
 
-[Jason，SUDAer](http://blog.f-jason.site/)
+[Jason，NJU Graphics研究生](http://blog.f-jason.site/)
