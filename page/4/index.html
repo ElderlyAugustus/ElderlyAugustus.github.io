@@ -231,6 +231,30 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture 12-13 Real-Time Ray-Tracing RTX : 10G rays per second == 1 sample per pixel
+1 SPP path tracing == 1 rasterization (primary) &#43; 1 ray (primary visibility) &#43; 1 ray (primary bounce) &#43; 1 ray (primary vis.) &#43;
+1 SPP is Extremely Noisy
+Key Tech : Denosing
+Goals : &#43; Quality (no overblur, no artifacts, keep all details) &#43; Speed (&lt; 2ms to denoise per frame)
+==&gt; Temporal !...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>April 12, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-12-GAMES202高质量实时渲染-Lecture12-13-Real Time Ray Tracing" href="https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture12-13-rtrt/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow
     </h2>
   </header>
@@ -452,30 +476,6 @@ PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-06-数值分析-Day09-分段插值-三次样条函数" href="https://elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>5.1 - 5.3 插值的引入与Lagrange插值 插值的定义 设函数 \(y=f(x)\) 在区间 \([a,b]\) 上连续，给定 \(n&#43;1\) 个点： \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b\) 。
-已知 \(f(x_k)=y_k(k=0,1,\dots,n)\) ，在函数类 \(P\) 中寻找一函数 \(\varphi(x)\) 作为 \(f(x)\) 的近似表达式，使满足：
-$(x_k)=f(x_k)=y_k, k=0,1,2,,n $ 。则称 \(y=f(x)\) 为被插值函数，称 \(\varphi(x)\) 为插值函数。称 \(x_0,x_1,\dots,x_n\) 为插值节点； \(\varphi(x_k)=f(x_k)=y_k,\ k=0,1,2,\dots,n\) 为插值条件，寻求插值函数的方法称为插值方法。
-在构造插值函数时，函数类 \(P\) 的不同选取，对应不同的插值方法，这里主要讨论函数类为代数多项式的插值方法，即多项式插值。若用 \(P_n\) 表示所有次数不超过 \(n\) 的多项式函数类，则若 \(p_n(x)\in P_n\) ，则 有\(p_n(x)=a_0&#43;a_1x&#43;\dots&#43;a_nx^n\) ，由 \(n&#43;1\) 个系数唯一确定。若 \(p_n(x)\) 满足插值条件，即 \(\left\{\begin{array}{l}a_0&#43;a_1x_1&#43;\dots&#43;a_nx_1^n\\a_0&#43;a_1x_2&#43;\dots&#43;a_nx_2^n\\\dots\\a_0&#43;a_1x_n&#43;\dots&#43;a_nx_n^n\end{array}\right.\) 。令 \(\{a_0,a_1,\dots,a_n\}\) 为元，则该方程系数行列式为 \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}\) ，由范德蒙行列式得: \(\begin{vmatrix}1&amp;x_0&amp;\cdots&amp;x_0^n\\1&amp;x_1&amp;\cdots&amp;x_1^n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\1&amp;x_n&amp;\cdots&amp;x_n^n\end{vmatrix}=\begin{vmatrix}1&amp;1&amp;\cdots&amp;1\\x_0&amp;x_1&amp;\cdots&amp;x_n\\\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\x_0^n&amp;x_2^n&amp;\cdots&amp;x_n^n\end{vmatrix}=\prod\limits_{0\le&lt;j\le n}(x_j-x_i)\neq0\) ，因此该方程有解。
-由此得定理：满足上述条件的插值问题， \(p_n(x)\) 存在且唯一。
-Lagrange插值 线性插值 最简单的插值问题：已知两点 \((x_0,y_0)\ (x_1,y_1)\) 。通过此两点的插值多项式是一条直线，即两点式： \(\displaystyle L_1(x)=\frac{x-x_1}{x_0-x_1}y_0&#43;\frac{x-x_0}{x_1-x_0}y_1\) 。称 \(L_1(x)\) 为线性插值函数。...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 5, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-03-05-数值分析-Day08-Lagrange插值-Newton插值" href="https://elderlyaugustus.github.io/posts/2021-03-05-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day08-lagrange%E6%8F%92%E5%80%BC-newton%E6%8F%92%E5%80%BC/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

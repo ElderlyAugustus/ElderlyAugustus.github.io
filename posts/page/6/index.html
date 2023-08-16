@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Posts | xα&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Posts - xα&#39;s blog">
+<meta name="author" content="xα">
+<link rel="canonical" href="https://elderlyaugustus.github.io/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.css" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://elderlyaugustus.github.io/icons/favicon.ico">
+<link rel="apple-touch-icon" href="https://elderlyaugustus.github.io/icons/apple-touch-icon.png">
+<link rel="alternate" type="application/rss+xml" href="https://elderlyaugustus.github.io/posts/index.xml">
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Posts | xα&#39;s blog" />
+<meta name="twitter:description" content="xα&#39;s blog" />
+<meta property="og:title" content="Posts | xα&#39;s blog" />
+<meta property="og:description" content="xα&#39;s blog" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://elderlyaugustus.github.io/posts/" />
+    <meta property="og:image" content="https://elderlyaugustus.github.io/papermod-cover.png"/>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://elderlyaugustus.github.io/posts/"
+    }
+  ]
+}
+</script>
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function(x){
+          x.parentElement.classList += 'has-jax'})
+      });
+  
+  </script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary-bg: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list-page {
+                background: var(--theme);
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list-page:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+</head>
+
+<body class="list-page type-posts kind-section layout-" id="top"><script data-no-instant>
+function switchTheme(theme) {
+  switch (theme) {
+    case 'light':
+      document.body.classList.remove('dark');
+      break;
+    case 'dark':
+      document.body.classList.add('dark');
+      break;
+    
+    default:
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+      }
+  }
+}
+
+function isDarkTheme() {
+  return document.body.className.includes("dark");
+}
+
+function getPrefTheme() {
+  return localStorage.getItem("pref-theme");
+}
+
+function setPrefTheme(theme) {
+  switchTheme(theme)
+  localStorage.setItem("pref-theme", theme);
+}
+
+const toggleThemeCallbacks = {}
+toggleThemeCallbacks['main'] = (isDark) => {
+  
+  if (isDark) {
+    setPrefTheme('light');
+  } else {
+    setPrefTheme('dark');
+  }
+}
+
+
+
+
+window.addEventListener('toggle-theme', function() {
+  
+  const isDark = isDarkTheme()
+  for (const key in toggleThemeCallbacks) {
+    toggleThemeCallbacks[key](isDark)
+  }
+});
+
+
+function toggleThemeListener() {
+  
+  window.dispatchEvent(new CustomEvent('toggle-theme'));
+}
+
+</script>
+<script>
+  
+  (function() {
+    const defaultTheme = 'auto';
+    const prefTheme = getPrefTheme();
+    const theme = prefTheme ? prefTheme : defaultTheme;
+
+    switchTheme(theme);
+  })();
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://elderlyaugustus.github.io/" accesskey="h" title="xα&#39;s blog (Alt + H)">xα&#39;s blog</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
+                >Archives
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/tags/" title="Tags"
+                >Tags
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/about/" title="Me &amp; Friends"
+                >Me &amp; Friends
+                </a>
+            </li>
+            <li>
+                <a href="https://elderlyaugustus.github.io/search/" title="Search (Alt &#43; /)"data-no-instant accesskey=/
+                >Search
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://elderlyaugustus.github.io/">Home</a></div>
+  <h1>
+    Posts</h1><div class="inline-links">
+  
+  
+  <span><a href="https://elderlyaugustus.github.io/posts/index.xml" target="_blank">RSS</a></span></div>
+</header>
+
+
+
+
+
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>My 2019 [补档]
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>上半年，一直在写800字的“议论文”，下半年则没怎么提起过笔。高考这一年，还是值得写两个字的。
+记得初一时还对曹说过，想记日记一直到高三，现在想来真是可笑。这份“年记”，肯定是会记成流水账的，也不是写给别人看的。
+2019年的前一天，18年12月31日，是我这辈子第一回到北京。晚上安顿了住处，还到电影学院转了一圈，当时的感触只有：“五分钟转完的小地方。”元旦在中传考试，父亲第一回进大学参观，告诉我：“你看这学校，比昨天那个电影学校大多了，你考这多好。”我笑了笑，像做初中题似的做完了初试。依稀记得，收卷后坐我后排的两个女生还在聊这张卷子上的数学有多难。在北京，看了天安门，可能是北京天气最好的一天。十一个小时的T31，凌晨赶回南师附中继续复习。
+艺考，对我来说是从前从来也没想过的升学途径。不过现在想想，我小学三年级的转学，小升初，初升高都远出乎意料之外，不然我现在可能真跟小学的同学在哪个工地上搬真的砖块吧。想来也是我的求学生涯过于lucky了吧。
+18年3月，陶开始建议我尝试影视技术专业。此前跟他在校社协干了两年的文宣工作，确实也在视频技术这块有些许积累。一直以来玩计算机，虽也没玩出什么名堂来，但本想走的还是微电子或者计算机科学的路子，唐突间的提议，倒也不是一时间能接受的。只是一时间对电影有了更多的关注吧。最终还是在自己的高考报名表上填了“理兼艺”。
+我的情况确实容不得考学的失误，没有复读的条件，也没有多余的出路，真真切切的“考不上回家种大田”。就像家长一直挺介意我没有按部就班去县中苦读三年而是跑到城里去读南师附中一样。所以，也算是多个路子多种可能吧，毕竟在江苏高考，什么样的岔子都不是没可能的。老师家长也只是有质疑，介于我并没有说因此在学习的安排上有任何变化，便也并不多说。
+扯了一大节前情提要，年初的几趟校考着实是艺考能让我缺掉的仅有的几堂课——毕竟都是吃老本而已。甚至说，我最后来的电影学院的两次考试，都卡在周末的节点上，完完全全没有影响到校内的课程。北电摄影系的初试，也因为跟四校联考的冲突而直接放弃了。
+艺考结束的最大感触就是，所有我考了的专业，涉及文化课和思维的部分，都太过简单，专业的知识也只能依赖此前摸爬滚打积累的一点点零散经验。这让我对艺考选拔还是充满了不信任。于是又加快了备考的步伐——按今年年初那个极不稳定的水平，到头来要是连一个985211都考不上也不是没有可能的。
+当然，在南师附中的高三生活还是很充实的。算算差不多做套卷子，差不多了还是会玩会电脑，出门转悠转悠。晚上在宿舍抱着kindle读到深夜，思索着大千世界。甚至说周末在新街口电影院见到穿着高三校服的南师附中学生，也是常有的事。个人觉得，这也正是我们对做题并没有那么抵触和恐惧的原因吧。
+四月份，最先出分的是传媒大学，摄制第七，数媒影像通过。很多同学恭喜我有学上了，那天玩得很嗨。当天晚上，差点没有睡着，一直在考虑自己的位置和这两张证对自己的意义。同一间寝室另一个一直有认真学编导类的好友，吴，拿了两张并不出彩的证。我俩也算是南师附中这一届考了影视类艺术院校的唯二两人了吧。按附中惯例，互相吹捧了一番。之后两周，一边开始期待另一所更为关注的院校，电影学院，出分，一边也确实有些许懈怠了。
+4月15日的早上，我逃了一次课间操，守在电脑面前，和远在北京的陶一块查分。他在校内帮我查，QQ里他发来那张合格证的图和几句口头禅时，我还是不得不说地很是有些激动，着实没能想到一个半吊子的文化考生，能拿影技第一的证。那一天，突然开始使用微信，加了很多很多人，直聊到深夜，最后说晚安的，是现在大三的师哥陈。唐汉卿也是从那时开始才联系上我和吴的，他是影技第二，吴拿了编导的证。
+冷静下来后，仔细衡量了再冲一冲计算机专业好的学校，拿电影学院或者传媒大学保底的想法，觉得不大现实也没有太多意义。在与家里交流后，除了一年一万的学费着实有一些高，倒也没有更多异议了。嚣张一点说，一步一步的路，还算是自己踏出来的吧。
+既然确定要来电影学院了，加之江苏高考对艺术类录取的特殊性，我开始不在教室上物理课和化学课，也不再做相关的练习。每天都在语数外的固定练习和“快乐”生活中来回切换。最后的两个月，我过得简直要比小学生更舒坦。当然，我的同学们也都在乐观和时而闲憩的状态中度过了最后的日子。
+成人礼上，没有关于高考的任何话题，母亲坐在旁边，听着邢玮依旧原始有力而温和冷静的演讲，觉得成人其实也没有那么可怕。可能是因为我从小起就常独自一人吧。就像毕业典礼一样，庄重，轻松，快乐。毕业之后的班级酒会是我第一回和那么多人一块喝酒，只是啤的，我们和邢老师来回了许多回合。也算是为电影学院的酒文化做了一点点预警。
+要说整个高三的最大收获就是，在免去了学校很多繁重的事务之后，读了比高一高二多很多的书。也赖于高三攒钱买的kindle吧。关于读书，高一高二的语文课不按着高考套路上，每学期有必读书目，考试的一半都是有关那段时间那本书的。那时读了《约翰·克里斯朵夫》这样的很多书，至今仍想重读。高二高三两年，学校语文组面向全校办了每月一场阅读讲座，我不是每本都读过，但几乎没有缺过一场。插一句大学这半年最大的遗憾就是，依然一直在囤书，但没什么时间看了。
+高考那三天对我来说已经没有太多深刻的印象了，只记得母亲特地停了一阵子缝纫机前工作，跑来好几趟南京市区送点水果什么的。语数外三门考完后，我就像平时模考一样，觉得自己的考试已经全部结束了。物理考试，30分钟，从后往前写，写完倒头就睡。化学则花了40分钟。考场上有个女生也是在物理化学考试时各睡了一觉，只是她一道题也没有写，想来也是个艺术生吧。后来查分时，说一点也不紧张倒也不现实。只是物理和化学的AB&#43;着实惊到我了，是没想到这么水完的卷子能拿不错的分数。语文数学没达到理想的分数也意料之中了，一向势弱的英语考得还可以，最后分数加上小高考的加分倒也不难看。问题还是出在这个“不难看”上。算来算去，我那个糟糕的分数还是应该够得上一所计算机学科评估为A的985地方院校。所以，各方势力还是有让我继续原来的方向的声音，也有让选身为211的中传的意见。还是那句话，学是自己考的，最后出于各种各样的坚持吧，到了电影学院影视技术系。
+现在觉得，选择北京电影学院影视技术系，是我高中生涯做的最正确的决定之一——这里，着实有我想学的东西。
+在聊下半年的学业之前，说说我们五个人的南京小团队吧。之前陶一级就跨高中式的有一个视频媒体类的团队，Hori，当年陶招兵买马时就把我拉进了群。唐在北电出分之后，很快地找起了南京拿到电影学院证的同学，最终在所谓的传统“老四所”里凑齐了五个人。我和吴，金陵中学的唐和宋，南京一中的沈，宋拿了编导和动漫策划的证，沈子航是影技第十七，同时是摄影学院第一。我们就开始有一块学习一起接点商活的想法，高考前一起出去吃饭看电影活动了好几次。暑假拍摄南京一中毕业短片时算是把想法落了个地，起了一个挺尴尬的Team名，就不记上来了。唐和沈买了BMPCC4K，我组了一台还算强劲的台式机，也算是成了型。但暑假着实怠惰，也没什么经验，因此也没接到几个活。但我们这五个人的小团队算是一直有在活动吧。暑假雷打不动的就是在群里掷骰子了，聚了几次之后，我因住得远（在郊区），也渐渐减少了频率，吴则是徐州人，视频语音的联系更多一些。突然有一天，不知怎么聊来的，吴发现了沈和宋在一起了，也算是我们几个人里边的一桩好事吧，不过后来两人有些纠纷又合好是开学之后的事了，现在依旧祝福他们能走得长久。唐也和本来拉来团队当“秘书”“文差”的小姑娘谈了一阵子恋爱。暑假我们五人就在既没有学到什么东西，却也在异常愉快的日子里混了过去。
+说是愉快，其实这个暑假还是有些枯燥无聊的。高考出分后，就开始联系未来的同学。但直很长一段时间，只找齐了四位同学。一直一直到暑假结束时，还在进行这项工作。暑假还去了一趟杭州。最初知道图形学这个概念时，了解到浙大是中国计算机图形学最好的地方，也有过考取的幻想，只是能力有限不大可能了。是陪出国的同学钱一块去的，他录取了加州大学尔湾分校，是高一高二的两年室友，高三脱产后开始接触了视频拍摄的领域。他在杭州开始试着用a6400拍摄vlog，这方面我稍有经验一些吧。吃好喝好，算是杭州行最多的概括了，是这辈子离开南京市去的第三个地方，前两个是小时候拜访远亲的安徽，和今年年初去考试的北京。之后的暑假就一直在无聊的娱乐和懒惰中度过。没有学东西也没有学东西的动力。
+开学那几天，我们宿舍很快就熟络起来了，电影学院按专业排名分宿舍，所以四个人的相似处还是有的。因为分到了四人间，参观了师哥们新搬的701，热情高涨地布置了“智能宿舍”。就是买了很多米家的东西，最后都让小爱同学来控制寝室电器了。为了军训还是做了很多准备，军训的日子很苦，但我和唐在三连混了病号座，就那么水过了十几天。
+开学之后，先是师哥师姐集体请了一顿饭，由于之前有几个师哥挺熟，饭局上就开始向他们学习HDR的知识了，白龙老师那时发我的文档至今还没能读完。班里又找不同的借口组织了挺多次团建，甚至让我们自己戏称“团建本”。也算是十三个人的小班混得足够熟了吧。某次团建上，还因为大家起哄让室友马卓琪内部脱单了，想来很有意思。我们班有个微博超话，叫“影视杂技2077”，记录了不少影技冷笑话。
+后来渐渐地就engaged in学习和工作了，每天晚上到北邮跑四公里也没能坚持下去了。要说这学期学到了些什么，那可真的太多了，可某种意义上又没能达到学期初定的计划。是有打算同步自学计算机专业的东西的，可是C&#43;&#43;到现在也才开始了一点点。主要是课业和各种活之外，同时在学的东西实在是太多太多了。给我最大的感触就是英语和数学实在是太重要了，永远都在遇到英语和数学的障碍，永远都在补数学基础。
+三维，色彩科学，编码，C&#43;&#43;，OpenGL，数学，物理等等等等通通都在同步地学，一方面觉得自己这样不行，太过于乱了，一方面有忍不住地往更宽的边界探索。和军训认识的好友李明峰交流时，聊到我有对接触到的事物査根究底的冲动，可越往下挖就越是新坑，后来心态逐渐放宽了，可还是会对感兴趣的话题试图钻研几分，就导致我同时在探索的东西实在是太过繁多又难以自制。
+要说这学期学的最远的还是色彩科学。有次蹭数媒技班的高数课时，突然了解到数学老师顾老师在系里就是研究色彩科学的，之后就逐渐有了专业上的交流。也在担任系里特种影像论坛主视觉设计时，结识了硕士研究生鲁梦河师哥。就在那天，我翘了一节外出禁毒博物馆的思修课，跟着顾老师，朱老师和师哥一块去了cinity实验室，是我在我自己摸索色彩科学初有见效之后，那一天学到了这学期最多的东西。虽然老师们研究的cinity的标准，但其中涉及的色彩科学的各种概念大大丰富了我的认知和见解。之后又买了不少有关的书，看了很多文档，寒假还被顾老师布置了“作业”，让帮翻译两篇DCI的标准。想来也是一样好事，英语这一关，是不得不攻克的。
+说到cinity，十月份我在朝阳大悦城刷了两遍cinity版本的《双子杀手》，很震撼，很喜欢。第一回是0点场的首映，和大二的师哥们一起去的，看完后，一起大呼nb一起去吃海底捞聊技术细节聊未来影像，好不快活。第二轮则是班里的团建，少了一两人，但也很是激动。对于这样的高技术规格影像，也有了一些自己的见解。后来发过一句话，好像是“现在是‘强烈的视觉冲击和感官刺激’，我们探讨起其必要性，未来应该是‘之前我们是怎样忍受那样的画面的’，就不会再有异议了。”
+再回忆这学期的活动就是isfvf了，是进学校之前就被师哥陈品森内定了摄制组，也没有做很多工作，倒是一直在解决班里其他同学在其他组工作中遇到的某些问题。长城那天的拍摄，有点累，和几个老外试着聊了两句，摸了松下的s1。最后肝片子的那一夜，是较早的体会到了电影学院的不眠风格。
+谈起不眠，因为各种学业作业商单学生组，各种各样的ddl，凌晨两三点上床睡觉已经不被我们称之为“熬夜”了。可尽管如此，这一学期还是没有完成预计的学习内容，也没有赚到足够的钱。
+12月初买的mbp还借了家长几千块钱，好在几天前还上了。高中离开高淳，开始吃南师附中的贫困助学粮。来北京之前，家长动用了存着定期多年的“上大学用的”钱，我只要了每个月一千五的生活费，此外的所有额外支出，都坚持由我自己承担。所以借这笔买电脑的钱时，很是羞愧，于是在十月份的一笔单子尾款鸽了两个月后终于拿到手时，赶紧还清了。既然都离开家了，就不该再啃食他们了。选择电影学院影视技术系而没有去读一个本科要通过洗碗刷筷而不是专业知识挣钱的计算机专业，也有这方面的考量吧。
+至于跟学生组，这学期之后，我大抵是不会再跟现场了。执行的都是预先设计的流程，解决的也是熟悉的问题，片场总有让我昏昏欲睡的特质。试着带书去片场也不能让我专注于学习新的东西。我是非常非常抵触机械的劳动的，如果没有源源不断的新东西涌进我的大脑，榨取我的脑汁，我反而会无比劳累，没有精神。还有摄系美院的几个同学来拉我和李一起从事cg创作，我们对跟组有着同样的想法。
+最近常与高中好友冯聊天，他是高中时我社团的副社长，代码能力比我要强很多，最后高考不理想，在苏大被调剂到了一个不喜欢的专业，这半年都在为了转专业作努力。他说，很羡慕我这么早就能all in自己的专业的感觉。想了想，着实幸运，但很多杂七杂八的课程，和“想学的课其实自己早有了解过”的态度，还是让自己觉得其实也没有那么all in，反而课外的时间比方说深夜，才是比较能体现自己的学习状态的。和他聊到了我在学期最后两周的经典电影赏析论文中开辟新领域来了解的事情，试图找了很多相关的论文，还专程跑了一趟三维六度公司了解胶片修复流程和一些有关问题。他则为了转专业而要写一个Python的项目，我推荐了之前物理课上我在研究的opencv图像处理有关的东西，也是期待他能够到自己真正应该在的地方吧。谈到人生的一些别的方面，我们俩共同的感觉就是，现在这个节点，还是应该让学习占据最多的时间。
+19年的最后一堂课是孙老师的数字摄影的摄影分享，要找一个或几个摄影师或者画家做presentation。那天轮到的都自己班的同学，为了不错过，上午从冷到让我都发抖的房山抓紧赶回学校。我是课上最后一个讲的，说“也没什么压轴的宝贝给大家看”。讲了画家，“最早的平面设计师”穆夏。我说，穆夏不是浪漫的少女的清新的，他是民族的历史的人性的。我展示了穆夏最后的画作系列《斯拉夫史诗》，也是想表达一下自己对宏大，对伟大的盲目追求和纯粹崇敬吧。看那些画，当时就想到“无穷的远方，无数的人们，都与我有关”，我了解的着实还太少，今天人类社会好多可怕或讶人的事和现象，着实值得令人深思。但我也着实想要去看清它并继续热爱它。
+本来还想做一个有关NASA摄影集的presentation，来传达几分自己对远方对深邃浪漫的热衷。就想到下半年看的电影中，最令我喜爱的，还是《Ad Astra》。那天在英皇看了自己第一场激光IMAX，那种纯粹的孤独浪漫属实深深吸引到我了。那天回学校的地铁上，我和李乐游，唐汉卿，李明峰初步提到了人生追求的话题，就觉得人各有异，但还是“可可爱爱”。“人类的悲欢各不相同，我只觉得他们吵闹”，可“吵闹”才构成了我们纷繁的世界和社会。我还是很崇敬那种为了事业鞠躬尽瘁、死生度外的人生理想的，很希望做一个能为了某些东西保持单纯保持快乐的终生学习者，但还是要看自己的能力而定了。
+最后，聊聊我可爱的室友们吧！唐常因“嘤嘤叫”被我批判一番，给人的感觉也是一个懒洋洋的，又追求高质量生活的有几分功利的样子，对一些事物常常有夸大其词的习惯。但从我不长的了解来看，他的本质还是乐观积极，有执着有学习热情的大男孩，家庭条件好和金中也很自由的学风造就了他大大咧咧，大方又坚持着自己的态度的风格。马是一个坚持要走“创作路线”的宅男，他会在在寝室脱着裤子剪片，会为了拍照做奇怪的姿势，会在看恐怖片时偏过头去露出微微一个眼角去瞥，会和李撒娇求欢…也是一个很有趣的同学。李是我很尊敬的室友，有些方面他可以作为典范而存在，不藏不匿，自然开朗。最令我佩服的还是他的学习态度，他是真的可以全神贯注去学习的人，立志在cg行业做一些贡献，这学期他在软件和基础理论的学习上都远比我认真勤恳，也颇见成效，真的是我要学习的人物。我们寝室还是非常非常欢乐，同时也很具有学习、工作氛围的，其他同学初来我们寝室参观时，都会有几分震惊吧。更令人欣慰的一点是，大家都或多或少有几分洁癖，比起日常来我们寝室串宿的电影学系李同学的203寝室来说，207的环境着实不止好了一点点。19影技班每一个同学都可以借用白龙的形容词来说，“可可爱爱”。这半年的小记里就不多“回忆录”了。
+再回想过去的那些室友那些同学，每个人都在今年为自己的方向前进了，也算是一个旁观者同时是朋友的欣慰了吧。
+2019对我来说，真的还算得上是非常非常重要又奇幻的一年。算是补叙，再吹一下自己的神奇经历，小学三年级被校长建议转到了镇里中心小学继续念书，初中又阴差阳错通过考试免了费用在区里的民办初中读书，中考时第二次考全校前三，没去一模拿到第一定下的县中压线到了南师附中。所以，从南师附中到北京电影学院这一年，着实更显奇妙。从南京郊区农村走到现在，这一生遇到很多好人，就像这一年的lucky experience那样，充满惊喜和幸运。很感谢2019，也感谢无数的人们和自己。
+现在的我其实是在偷懒，复习数学考试的档歇，码这么又臭又长的一段裹脚布。不需要考虑“阅卷老师”的写东西的感觉真爽，算是留给多少年后的自己，一点“今生今世的证据”吧。</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>January 1, 2020</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%B9%B4%E8%AE%B0/">年记</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to My 2019 [补档]" href="https://elderlyaugustus.github.io/posts/2020-01-01-my2019/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://elderlyaugustus.github.io/posts/page/5/">« Prev Page</a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+  <span>&copy; 2023 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
+  </span>
+  <span style="display: inline-block; margin-left: 1em;">
+    Powered by
+    <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+    <a href="https://github.com/reorx/hugo-PaperModX/" rel="noopener" target="_blank">PaperModX</a>
+  </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+    <path d="M12 6H0l6-6z" />
+  </svg>
+</a>
+
+<script>
+  (function() {
+     
+    const disableThemeToggle = '' == '1';
+    if (disableThemeToggle) {
+      return;
+    }
+
+    let button = document.getElementById("theme-toggle")
+    
+    button.removeEventListener('click', toggleThemeListener)
+    
+    button.addEventListener('click', toggleThemeListener)
+  })();
+</script>
+
+<script>
+  (function () {
+    let menu = document.getElementById('menu')
+    if (menu) {
+      menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+      menu.onscroll = function () {
+        localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+      }
+    }
+
+    const disableSmoothScroll = '' == '1';
+    const enableInstantClick = '' == '1';
+    
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || disableSmoothScroll || enableInstantClick) {
+      return;
+    }
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+        var id = this.getAttribute("href").substr(1);
+        document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+          behavior: "smooth"
+        });
+        if (id === "top") {
+          history.replaceState(null, null, " ");
+        } else {
+          history.pushState(null, null, `#${id}`);
+        }
+      });
+    });
+  })();
+</script>
+<script>
+  var mybutton = document.getElementById("top-link");
+  window.onscroll = function () {
+    if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+      mybutton.style.visibility = "visible";
+      mybutton.style.opacity = "1";
+    } else {
+      mybutton.style.visibility = "hidden";
+      mybutton.style.opacity = "0";
+    }
+  };
+</script>
+<script>
+  if (window.scrollListeners) {
+    
+    for (const listener of scrollListeners) {
+      window.removeEventListener('scroll', listener)
+    }
+  }
+  window.scrollListeners = []
+</script>
+
+
+
+<script src="/js/medium-zoom.min.js" data-no-instantintegrity=""
+></script>
+</body>
+
+</html>
