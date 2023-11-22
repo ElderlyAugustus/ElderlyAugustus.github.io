@@ -902,7 +902,7 @@ z}\right)^2\\
 - 距离函数，我们称之为<strong>光滑核函数</strong>。</p>
 <center>
 <img src="/images/filmtechanalysis-PBA/不光滑核函数.png" alt="不光滑核函数" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/光滑核函数.png" alt="光滑核函数" style="zoom:40%;" />
-<center/>
+</center>
 <p><img src="/images/filmtechanalysis-PBA/光滑核函数3D.png" alt="光滑核函数3D" style="zoom:10%;" /></p>
 <p>设第 <span class="math inline">\(i\)</span> 个粒子的坐标是 <span
 class="math inline">\(\mathbf x_i\)</span> ，对空间中任一点 <span
@@ -1030,7 +1030,7 @@ Pattern”。</li>
 </ul>
 <center>
 <img src="/images/filmtechanalysis-PBA/均匀网格-中心.png" alt="均匀网格-中心" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/均匀网格-周围.png" alt="均匀网格-周围" style="zoom:20%;" />
-<center/>
+</center>
 <h4 id="grid">Grid</h4>
 <p>在这个基础上，我们的下一个问题是，我在空间中任意取一点并不在网格存储点位置的点，怎样去求其状态——这里我们使用的就是简单的双线性插值。就像下图，用它周围的四个点的状态计算、用面积作为权重。</p>
 <p><img src="/images/filmtechanalysis-PBA/双线性插值.png" alt="双线性插值" style="zoom:25%;" /></p>
@@ -1182,10 +1182,10 @@ class="math inline">\(3\times 3\)</span>
 <p>当然这个方法还涉及到怎样来计算这个Affine矩阵的问题，数学推导非常复杂就不给大家讲解了。代码实现却非常简单：用一个张量积来计算这个Affine矩阵即可。也不演示了。效果上带来的区别非常明显：流体可以正常的旋转、拉伸、剪切运动了。</p>
 <center>
 <img src="/images/filmtechanalysis-PBA/APIC_math_P2G.jpg" alt="APIC_math_P2G" style="zoom:22.5%;" /><img src="/images/filmtechanalysis-PBA/APIC_math_G2P.jpg" alt="APIC_math_G2P" style="zoom:22.5%;" />
-<center/>
+</center>
 <p><img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom: 25%;" /></p>
 <img src="/images/filmtechanalysis-PBA/APIC_code.png" alt="APIC_code" style="zoom:20%;" />
-<center/>
+</center>
 <p>而<strong>PolyPIC</strong>[6]则是进一步拓展了粒子的自由度——达到与网格一样的级别，当然复杂度也进一步提升了。</p>
 <figure>
 <img src="/images/filmtechanalysis-PBA/PolyPIC.jpg" alt="PolyPIC" />
@@ -1207,7 +1207,7 @@ class="math display">\[
 <p>但是<strong>FLIP</strong>方法中，由于加速度的因素“成分”和原速度“成分”不一致，最终得到的结果会有很大的噪声——大家可以看到：毛毛刺刺的。到这里呢，我们刚好可以做一个多种常用模拟水的流体方法的对比（欧拉、PIC、APIC、FLIP）：</p>
 <center>
 <img src="/images/filmtechanalysis-PBA/Demo_Eulerian.gif" alt="Demo_Eulerian" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_PIC.gif" alt="Demo_PIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_APIC.gif" alt="Demo_APIC" style="zoom:25%;" /><img src="/images/filmtechanalysis-PBA/Demo_FLIP.gif" alt="Demo_FLIP" style="zoom:25%;" />
-<center/>
+</center>
 <p>那么怎么办呢：非常简单，我们把PIC方法和我们的FLIP做一个Blend，而且这个比例呢只需要混一点点PIC，可以通过这个网站例子来玩一下<a
 href="http://yuanming-hu.github.io/fluid/">GPU-based Fluid Simulation
 (yuanming-hu.github.io)</a>： <span class="math display">\[
@@ -1287,16 +1287,16 @@ x_p^{n+1}=x_p^n+\Delta t \mathbf v_p^{n+1}\)</span></li>
 Least Squares MPM) 移动最小二乘物质点法</strong>。</p>
 <center>
 <img src="/images/filmtechanalysis-PBA/APIC_pipeline.png" alt="APIC_pipeline" style="zoom:20%;" /><img src="/images/filmtechanalysis-PBA/MPM_pipeline.png" alt="MPM_pipeline" style="zoom: 20%;" />
-<center/>
+</center>
 <p>从代码上呈现，就是在前面<strong>APIC</strong>的代码上，除了Affine分量，还增加一个Stress分量，在更新速度和Affine分量时，利用该Stress分量参与计算，并且需要加上体积的更新。因此实现上相比较经典的<strong>MPM</strong>方法简单了非常多，也是目前比较流行的一个方法。</p>
 <p>这里MPM的数学原理相对复杂了非常多，就不再给大家推导了。</p>
 <p>MPM方法非常适合多种材质固体、流体的耦合模拟，处理自碰撞、大形变等等，因此也逐渐在影视工业中投入使用。其中最著名的一个应用案例，就是《冰雪奇缘》中的雪的交互。大家可以欣赏一下影片。当然，发明<strong>MLS-MPM</strong>的胡渊明博士还有非常火的一篇知乎分享，叫做《99行代码实现〈冰雪奇缘〉》，其实就是<strong>MLS-MPM</strong>的一个Taichi实现。</p>
 <center>
 <img src="/images/filmtechanalysis-PBA/mls-mpm88-lowres.gif" alt="mls-mpm88-lowres" style="zoom:40%;" /><img src="/images/filmtechanalysis-PBA/mls-mpm88-highres.gif" alt="mls-mpm88-highres" style="zoom:40%;" />
-<center/>
+</center>
 <center>
 <img src="/images/filmtechanalysis-PBA/MPMDemo_water_wheel.gif" alt="MPMDemo_water_wheel" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_paddles.gif" alt="MPMDemo_sand_paddles" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_banana.gif" alt="MPMDemo_banana" style="zoom: 50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_robot_forward.gif" alt="MPMDemo_robot_forward" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_bunny.gif" alt="MPMDemo_bunny" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand_stir.gif" alt="MPMDemo_sand_stir" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_sand-sweep.gif" alt="MPMDemo_sand-sweep" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_debris_flow.gif" alt="MPMDemo_debris_flow" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_armodillo.gif" alt="MPMDemo_armodillo" style="zoom:50%;" /><img src="/images/filmtechanalysis-PBA/MPMDemo_cheese.gif" alt="MPMDemo_cheese" style="zoom:50%;" />
-<center/>
+</center>
 <h3 id="案例分析与欣赏">案例分析与欣赏</h3>
 <p>最后还是为大家准备了一些影片中的流体案例。包括《夏日友情天》《寻龙传说》《蜘蛛侠：英雄归来》《沙丘》等。</p>
 <p><strong>参考文献</strong> [1] Particle-Based Fluid Simulation for
