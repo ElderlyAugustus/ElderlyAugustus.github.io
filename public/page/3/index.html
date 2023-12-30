@@ -231,6 +231,36 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2021-12-05-影片技术分析Pre-基于物理的动画-流体系统
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>流体系统 最后，在相对简单的前两个部分介绍后，我们还是不得不面对一个需要更多数学的系统，流体。
+流体与流体力学 首先第一个问题是什么是流体。流体的定义是在承受剪应力（物体在外力作用时，内部任一截面上会出现的相互作用力，“内力”）时将会发生连续变形的连续介质，包括气体和液体。
+所有液体 所有气体 具备流动特征的固体：如沙丘 流体主要具备以下性质：
+流动性（fluidity）：流体间的分子作用力较小，难以保持一定的形状，在受到外界的作用力或能量不平衡时，流体会发生流动。
+变形性（deformability）：在受到剪切力持续作用时，与固体的微小变形或有限变形不同，流体产生程度很大的、甚至作用时间无限长的变形。
+粘性（viscosity）：相邻两层流体之间发生相对运动时，在两层流体的接触面会产生对于变形的抗力，与固体的摩擦力不同，这种抗力不与流体的变形大小有关，而与流体的变形速度正相关，这种抵抗变形的特性称为粘性。
+正相关的形式：
+线性相关 - 牛顿流体 \(\tau=\mu\dfrac{du}{dy}\) 非线性相关 - 非牛顿流体 \(\tau=\mu(T,p)\left(\dfrac{du}{dy}\right)^2\) 可压缩性（compressibility）/不可压缩性（incompressibility）：在一定的温度下，单位压强增量引起的体积变化率定义为流体的压缩性系数(coefficients of compressibility)，其值越大，流体越容易压缩，反之，不容易压缩。
+在影视制作的物理模拟中，一般模拟的是不可压缩流体。
+Navier-Stokes 方程 一般形式 \[ 动量方程\quad\displaystyle\underbrace{\frac{\mathrm D\mathbf u}{\mathrm Dt}}_{\frac{\partial\mathbf u}{\partial t}&#43;\mathbf u\cdot\nabla\mathbf u}=\frac{1}{\rho}\nabla\cdot\underbrace\sigma_{应力加速度张量}&#43;\mathbf g\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+不可压缩流体 Navier-Stokes 方程 \[ 动量方程\quad\displaystyle\overbrace{\underbrace{\frac{\partial\mathbf u}{\partial t}}_{非稳态加速度}&#43;\underbrace{\mathbf u\cdot\nabla\mathbf u}_{对流加速度}}^{惯性加速度\frac{\mathrm D\mathbf u}{\mathrm Dt}}&#43;\underbrace{\frac{1}{\rho}\nabla p}_{压强梯度}=\underbrace{\mathbf g}_{外力加速度}&#43;\underbrace{\nu\nabla\cdot\nabla\mathbf u}_{粘滞力加速度(经常忽略)}\\ 质量方程\quad\nabla\cdot\mathbf u=0 \]
+补充数学： \[ 哈密顿算子\quad\nabla=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)\quad\\ {\bf散度}\ \nabla\cdot \vec F\quad{\bf旋度}\ \nabla\times \vec F\ \\ 拉普拉斯算子\quad\Delta=\nabla\cdot\nabla=\nabla^2=\left(\dfrac{\partial}{\partial x},\ \dfrac{\partial}{\partial y},\ \dfrac{\partial}{\partial z}\right)^2\\ {\bf梯度}的{\bf散度}\ \Delta\vec F \]...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>December 5, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-12-05-影片技术分析Pre-基于物理的动画-流体系统" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E6%B5%81%E4%BD%93%E7%B3%BB%E7%BB%9F/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-11-23-影片技术分析Pre-基于物理的动画-粒子系统与基于粒子的模型
     </h2>
   </header>
@@ -489,31 +519,6 @@ glossy BRDF : BRDF覆盖很小 diffuse BRDF : BRDF覆盖大，但是平滑 因�
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light" href="https://elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture 14 Practical Industrial Solutions Temporal Anti-Aliasing, TAA Recall: why aliasing
-光栅化的采样数不够 终极解决方案：加样本（MSAA） TAA：应用Temporal信息，与RTRT的降噪思路一致
-每四帧复用：
-（如果不是4个固定位置而是是随机生成，引入了其他高频信息，效果并不好）
-Notes on AA
-MSAA vs SSAA SSAA：按几倍分辨率渲染场景，再下变换，效果好开销大 MSAA：对SSAA的效率改进 对一个像素内的一个Primitive，只采样一次（取中心或其他代表点） 空间上的Sample Reuse：样本分布上的Trick 基于图像的反走样方法 SMAA, Enhanced Subpixel Morphological AA FXAA -&gt; MLAA(Morphological AA) -&gt; SMAA G-Buffer一定不能反走样！（信息会出错） Temporal Super Resolution Super resolution == Super sampling
-提升分辨率 eg. DLSS DLSS 1.0 全靠猜，每个游戏/场景单独训练一个网络 DLSS 2.0 利用Temporal信息 应用类似TAA的思路 重用Samples 问题：Temporal failure时不能clamp——因为每一个像素需要一个明确的值 DL不输出图像，而是输出关于上一帧的Temporal信息如何利用 Deferred Shading 延迟渲染 提高Shading效率 传统管线 Triangles -&gt; Fragments -&gt; Depth Test -&gt; Shading -&gt; Pixel 每一个Fragment都需要做Shading 复杂度：\(O(\text{\#Fragment}*\text{\#Light})\) 关键想法：有很多Fragment不会被看到 -&gt; 只对被看到的Fragment做Shading 修改管线 光栅化两次场景 Pass 1 : 不做Shading，更新Depth Buffer Pass 2 : 对可见的Fragment做Shading 复杂度：\(O(\text{\#Vis....</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>April 14, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions" href="https://elderlyaugustus.github.io/posts/2022-04-12-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture14-industry/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

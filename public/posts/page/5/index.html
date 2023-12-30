@@ -237,6 +237,31 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2021-03-06-数值分析-Day09-分段插值-三次样条函数
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>5.6 - 5.7 分段插值 Runge现象：在一组等间插值点上使用具有高次多项式的多项式插值时出现的区间边缘处的振荡问题。
+分段Lagrange插值 分段线性插值 通过相邻两个插值点作线性插值。已知节点 \(a=x_0&lt;x_1&lt;\dots&lt;x_n=b\) ，记 \(h_k=x_{k&#43;1}-x_k,\ h=\max\limits_{0\le k\le n-1}h_k\) ，记分段插值函数为 \(I_h(x)\) ，为 \(n-1\) 段折线。
+余项估计有 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;(x)|}{8}h^2\) ，说明分段线性插值函数具有一致收敛性。
+分段二次插值 相邻三个插值点作二次插值。
+课程中以线性插值中两邻点中间值，作为补充条件，即取 \(x_{i-0.5}=(x_i&#43;x_{i-1})/2\) 作为每组中的第三个插值点，使得两点间距为 \(h_k/2\) 。按照这种方式得到余项估计 \(|f(x)-I_h(x)|\le \displaystyle\frac{\max\limits_{a\le x\le b}|f&#39;&#39;&#39;(x)|}{72\sqrt{3}}h^3\) 。
+PS：个人认为应直接取连续三个插值点，即 \(\{x_0,x_1,x_2\}\ \{x_2,x_3,x_4\}\ \{x_4,x_5,x_6\}\ \dots\) 作为插值点进行二次插值。
+分段Lagrange插值的问题：区间内出现不可导点 分段Hermite插值 设节点 \(a\le x_0&lt;x_1&lt;\dots&lt;x_n\le b,\ h_i=x_i-x_{i-1}\ (i=1,2,\dots,n)\) ，给出插值条件： \(y_k=f(x_k),\ y&#39;_k=f&#39;(x_k),\ (k=0,1,\dots,n)\) 。则每区间 \([x_{i-1},x_i]\) 具有四个插值条件。构造三次多项式 \(H_3^{(i)}(x)\) ： \[ \begin{array}{c}H_3^{(i)}(x)=\varphi_{i-1}(x)y_{i-1}&#43;\varphi_i(x)y_i&#43;\psi_{i-1}(x)y&#39;_{i-1}&#43;\psi_i(x)y&#39;_i\\ \left\{\begin{aligned} &amp;\varphi_{i-1}(x_{i-1})=1 &amp;&amp;\varphi_{i-1}(x_i)=0 &amp;&amp;\varphi&#39;_{i-1}(x_{i-1})=0 &amp;&amp;\varphi&#39;_{i-1}(x_i)=0\\ &amp;\varphi_i(x_{i-1})=0 &amp;&amp;\varphi_i(x_i)=1 &amp;&amp;\varphi&#39;_i(x_{i-1})=0 &amp;&amp;\varphi&#39;_i(x_i)=0\\ &amp;\psi_{i-1}(x_{i-1})=0 &amp;&amp;\psi_{i-1}(x_i)=0 &amp;&amp;\psi&#39;_{i-1}(x_{i-1})=1 &amp;&amp;\psi&#39;_{i-1}(x_i)=0\\ &amp;\psi_i(x_{i-1})=0 &amp;&amp;\psi_i(x_i)=0 &amp;&amp;\psi&#39;_i(x_{i-1})=0 &amp;&amp;\psi&#39;_i(x_i)=1\\ \end{aligned}\right....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 6, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-06-数值分析-Day09-分段插值-三次样条函数" href="https://elderlyaugustus.github.io/posts/2021-03-06-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day09-%E5%88%86%E6%AE%B5%E6%8F%92%E5%80%BC-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E5%87%BD%E6%95%B0/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-03-05-数值分析-Day08-Lagrange插值-Newton插值
     </h2>
   </header>
@@ -461,32 +486,6 @@ Cauchy-Schwarz不等式 \(|(x,y)|\le \|x\|_2\cdot\|y\|_2\) 当且仅当 \(x\) �
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-02-26-数值分析-Day01-顺序Gauss消元" href="https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>之前的笔记链接
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>信号与系统 上 中 下 傅予力
-2020寒假
-https://mp.weixin.qq.com/s/_wx_PICiVGz896kyh6MTkg
-https://mp.weixin.qq.com/s/_JEL55Nfo6As3uA1RhkNyw
-https://mp.weixin.qq.com/s/9G3H0eNAEDn54BRH67fvrA
-GAMES101现代计算机图形学入门 闫令琪
-2020上半年-疫情在家
-https://mp.weixin.qq.com/s/bJn56NO8bL9y6BI3T1SHAw</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>February 25, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/misc/">Misc</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 之前的笔记链接" href="https://elderlyaugustus.github.io/posts/2021-02-25-%E4%B9%8B%E5%89%8D%E7%9A%84%E7%AC%94%E8%AE%B0%E9%93%BE%E6%8E%A5/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
