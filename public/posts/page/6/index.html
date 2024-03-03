@@ -237,6 +237,53 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2021-02-27-数值分析-Day02-三角分解
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵
+若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\) ，记： \(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\ -l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31} &amp;&amp;&amp;&amp; 1 \end{pmatrix}\)
+则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>February 27, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-27-数值分析-Day02-三角分解" href="https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2021-02-26-数值分析-Day01-顺序Gauss消元
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>1.1 - 1.2 数值分析的算法要求 结构简单，易于计算机实现 理论上保证方法的收敛性和数值稳定性 计算效率高：速度快，内存开销小 经过数值实验验证 误差的来源和分类 模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免 观测误差：观测实验得到的参数带来的误差 截断误差：近似方法产生的误差 舍入误差：计算机有限位计算产生的误差 （后两者为本课程主要研究对象）
+绝对误差和相对误差
+设 \(x\) 是精确值 \(x^{*}\) 的一个近似值，则 \(e=x^{*}-x\) 为近似值 \(x\) 的绝对误差，简称误差。
+若 \(\varepsilon\) 满足 \(|e|\le\varepsilon\) ，则称 \(\varepsilon\) 为 \(x\) 的绝对误差限，简称误差限，有量纲。则满足 \(x-\varepsilon \le x^{*} \le x&#43;\varepsilon\) ，简写为 \(x^{*} = x\pm\varepsilon\) 。
+\(e_{r} = \displaystyle\frac{e}{x^{*}} = \frac{x^{*}-x}{x^{*}}\) 称相对误差。
+\(\varepsilon_{r} = \displaystyle\frac{\varepsilon}{|x|}\) 称相对误差限， \(|e_{r}| \le \varepsilon_{r}\) ，无量纲。
+（其中误差与相对误差用于理论分析，误差限与相对误差限用于实际应用。）
+1.3 有效数字 定义1：设数 \(x\) 是数 \(x^{*}\) 的近似值，如果 \(x\) 的绝对误差限是它的某一数位的半个单位，并且从 \(x\) 左起第一个非零数到该数位共有 \(n\) 位，则称这 \(n\) 个数字为 \(x\) 的有效数字，也称用 \(x\) 近似 \(x*\) 时具有 \(n\) 位有效数字。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>February 26, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-26-数值分析-Day01-顺序Gauss消元" href="https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>之前的笔记链接
     </h2>
   </header>

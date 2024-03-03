@@ -222,6 +222,30 @@ function toggleThemeListener() {
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture 7-8 Real-time Global Illumination （3D GI） Introduction GI is complex
+Ray tracing … Hack方法：Blinn-Phong——统一大小的Ambient项 in RTR：直接光照 &#43; 一次间接光照
+一次间接光照：Q点接收到直接光照后，作为次级光源照射P点的结果 核心问题：
+要计算间接光照需要知道
+被直接光照照亮的表面有哪些？ / 哪些是次级光源？ 借助Shadow Map 每一个次级光源的“贡献”是多少？ 求和 每一个次级光源作为一个Area Light Reflective Shadow Maps (RSM) 获得光源的Shadow Map，存储光源“可见”的深度/世界坐标/法线/Flux等（即Reflective Shadow Maps），视作多个多个点次级光源，eg. Reflective Shadow Maps为512*512，则有512*512个点光源。 次级光源的反射方向未知——假定次级光源物体材质均为Diffuse。（不假设接收物为Diffuse） Recall 一个Patch（Reflective Shadow Maps的一个像素）的“贡献
+\[ \begin{array}{l}\begin{aligned}L_o(\mathrm p,\omega_0)&amp;=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)V(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d \omega_i\\ &amp;=\int_{A_\mathrm{patch}}L_i(\mathrm q\rightarrow \mathrm p)V(\mathrm p,\omega_i)f_r(\mathrm p,\mathrm q\rightarrow \mathrm p,\omega_0)\dfrac{\cos\theta_p\cos\theta_q}{\|q-p\|^2}\,\mathrm d A \end{aligned}\\\\ f_r=\dfrac{\rho}{\pi}\\ L_i=f_r\cdot\dfrac{\Phi}{\mathrm d A}\quad(\Phi\ \text{is the incident flux / energy}) \end{array} \] 故对每个Reflective Shadow Maps的像素只需存储其 \(\Phi\) ， \(\mathrm d A\) 在积分中被约掉； 由于计算复杂、忽略次级光源的Visibility项。 则有：（原论文中为 \(P\rightarrow Q\) ，故论文中原式为下式中 \(q\) 换成 \(p\) ） \[ E_q(x,n)=\Phi_q\dfrac{\max\{0,\langle n_q|x-x_q\rangle \}\max\{0,\langle n|x_q-x\rangle \}}{\|x-x_q\|^4} \]...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 2, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-03-02-GAMES202高质量实时渲染-Lecture7-8-3DGI" href="https://elderlyaugustus.github.io/posts/2022-03-02-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture7-8-3dgi/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>2021-03-01-数值分析-Day04-Jacobi-GaussSeidel
     </h2>
   </header>
