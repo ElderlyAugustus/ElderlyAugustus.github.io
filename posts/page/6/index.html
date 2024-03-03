@@ -237,6 +237,32 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2021-02-28-数值分析-Day03-范数-迭代改善算法
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>2.9-11 范数 为研究线性方程组近似解的误差估计和迭代法的收敛性，对 \(R……n\) （ \(n\) 维向量空间）中的向量（ \(R^{n\times n}\) 中的矩阵）的“大小”引进度量——向量（或矩阵）的范数。
+向量的范数 定义1：设 \(x=(x_1,x_2,\dots,x_n)^T,y=(y_1,y_2,\dots,y_n)^T\in R^n (or\ C^n)\)
+将实数 \((x,y)=y^Tx=\sum_{i=1}^{n}x_i\overline{y_i}\)（或复数 \((x,y)=y^Hx=\sum_{i=1}^{n}x_iy_i\) ）称为向量x,y的数量积（内积）。
+将非负实数 \(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}x_i^2)^{1\over2}\) 或 \(\|x\|_2=(x,x)^{1\over2}=(\sum_{i=1}^{n}|x_i|^2)^{1\over2}\) 称为向量 \(x\) 的欧式范数。
+引理：向量的内积运算支持交换律、分配律、与实数乘时的结合律。
+Cauchy-Schwarz不等式 \(|(x,y)|\le \|x\|_2\cdot\|y\|_2\) 当且仅当 \(x\) 与 \(y\) 线性相关时取等。
+三角不等式 \(\|x&#43;y\|_2\le\|x\|_2&#43;\|y\|_2\)
+定义2-向量的范数：若向量 \(x\in R^n\) （或 \(C^n\) ）的某个实值函数 \(N(x)=\|x\|\) ，满足条件： \[ \begin{aligned} &amp; (1)\ \|x\|\ge 0\ (\|x\|=0当且仅当x=0)\quad\textbf{正定条件}\\ &amp; (2)\ \|\alpha x\|=|\alpha|\|x\|,\ \forall\alpha\in R(或\alpha\in C)\quad\textbf{齐次性}\\ &amp; (3)\ \|x&#43;y\|_2\le\|x\|_2&#43;\|y\|_2\quad\textbf{三角不等式}\\ &amp; (3\to 4)\ \|x-y\|_2\ge\|x\|_2-\|y\|_2 \end{aligned} \] 则称 \(N(x)\) 是 \(R^n\) （或 \(C^n\) ）上的一个向量范数（或模）...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>February 28, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-02-28-数值分析-Day03-范数-迭代改善算法" href="https://elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-02-27-数值分析-Day02-三角分解
     </h2>
   </header>
