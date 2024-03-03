@@ -379,6 +379,44 @@ Goals : &#43; Quality (no overblur, no artifacts, keep all details) &#43; Speed 
 
 <article class="post-entry tag-entry"> 
   <header class="entry-header">
+    <h2>2022-04-10-UE5.0时给系里写的Lumen和Nanite的一些介绍性文字
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>开头说明一下，这是UE5.0正式版发布时给系里和某些合作单位供稿的一些介绍性文字，比较简单的整理，非最终发布版（考虑到影视业读者还在这基础上进一步删减了），补充发布到自己个站算是留痕吧
+虚幻引擎5.0新功能为电影虚拟化制作助力 2021年5月26日，Epic Games推出虚幻引擎5.0 Early Access抢先体验版本，吸引了各行业的大量关注，其推出的Lumen、Nanite等新功能带来了更佳的实时渲染质量和更高的创作效率。直至2022年4月5日，Epic Games正式发布虚幻引擎5.0版本，长达近一年的预览期内，包括影视创作行业在内的各领域创作者、研究者进行了大量的探索和尝试。随着正式版本发布、新功能不断完善、更多的官方解析释出和源代码的发布，我们也对虚幻引擎5.0的许多新功能有了更加深入清晰的认识。
+电影虚拟化制作作为基于实时渲染引擎的新型电影制作方案，随着虚幻引擎的完善与发展，及其对电影虚拟化制作相关功能的补充，近年来许多具体的解决方案通过虚幻引擎来实现。因此，虚幻引擎更新至5.0也引发了影视制作行业的重点关注。本文即关于虚幻引擎5.0中为电影虚拟化制作带来新动力的新功能，做一定的简单分析。
+新功能概览 虚幻引擎中的电影虚拟化制作模块In-Camera VFX自虚幻引擎4.25开始发展，直至4.27有一个比较全面的更新，达到了基本完善的程度。而虚幻引擎5.0的早期开发是与4.27版本同步进行的，因此在5.0的早期预览版本中仍然使用的是4.26的In-Camera VFX系统。更新5.0正式版后，In-Camera VFX系统也承接了4.27版本中的形态，以更成熟的结构呈现。
+在虚幻引擎5.0中，电影虚拟化制作相关功能获得了nDisplay虚拟纹理、nDisplay内视锥过扫描、相机镜头校准、DMX等插件、关卡快照、Switchboard、Sequencer、USD流程等诸多功能的支持和改进。
+但由于In-Camera VFX系统在5.0中的开发刚刚开始，有不少5.0版本的新功能尚未能在In-Camera VFX和其依赖的nDisplay系统中获得支持，比如Lumen的渲染管线。不过进一步的支持应该也只是一个时间问题。相信在这些新功能的加持下，In-Camera VFX系统的电影虚拟化制作能力将达到一个新高度。
+可以预见Lumen、Nanite为主导的渲染新功能将为电影虚拟化制作带来更高的背景影像质量和更高的场景资产制作效率，
+Lumen Lumen是虚幻引擎5.0给出的“新一代”动态全局光照解决方案，其代码存放在Engine/Source/Runtime/Renderer/Private/Lumen中。
+Lumen的整体思路是以SDF(Signed Distance Field) Trace为主的混合Tracing框架，同时用重新设计的Surface Cache场景表达，Radiance Cache作为最终的渲染结果收集。
+混合的Tracing方案 在Lumen中，也可以先尝试调用基于硬件的RTX Trace，但主要还是软件的混合Tracing方案。其中包括Screen Space Trace、Mesh SDF Trace、Voxel Trace(Global SDF Trace)，按这一顺序依次Trace，前者失败则交给后者计算，成功则返回。
+Screen Space Trace 首先是屏幕空间的Trace方法，它来自于虚幻引擎4.25就加入的SSGI(Screen Space Global Illumination)方案。这一方法能够很好地处理近似场景表达中丢失的细节。它利用HZB(Hierarchical Z-Buffer)优化遍历，可以改善线性遍历时的漏光问题，针对HZB带来的高开销问题，则限制其Trace步长在50步以内，否则交给下一种Trace方法。
+世界空间的SDF Trace 屏幕空间方法失败之后，来到世界空间的Trace方法，也是Lumen的Trace管线中最为主要的Trace方法：SDF Trace。
+对于近处的场景（例如1.8m内），Lumen采用Mesh SDF存储。对每一个Mesh存储一份SDF，实现相对低效但具有较好效果的SDF Trace。
+在Mesh SDF中，为了解决物体厚度小于SDF存储的体素大小时判断失败的问题，Lumen对每一个物体扩展0.5倍的体素大小，这样保证了每一种厚度的物体都能够被Trace到，Trace到物体计算Radiance时再做相应的偏移梯度计算就能够得到相对准确的结果。
+而远景则将每一个物体的Mesh SDF合并为全局的Global SDF，并生成层级结构Clipmaps。这样降低了远景场景的Trace精度，但大大提高了效率。
+Global SDF的显存占用较大，更新开销正比于场景中的运动物体数量。这里采用了稀疏的存储方式，跳过大量的负值、零值SDF区域，减少了16倍的存储量，同时带来的多一次查询的问题则生成一层MIP2的贴图来改善：先查询MIP2，在接近物体表面时再查询全精度的Clipmap，这样对场景的更新也带来了遍历。
+最后，对于每一步的Trace结构，还需要做一次压缩，以减小占用、提升缓存一致性。
+这样，SDF Trace将Tracing、远景场景、远景场景复杂解耦，带来了较高的效率。但同时也具有体积存储大、缺乏微小细节、无法参数化表面数据等问题。
+Surface Cache 在Surface Cache中，预先进行了一次分离的材质计算和光照计算的pass，在Tracing计算时，直接在Hit位置对Surface Cache作一次查询即可获得相对好的结果，提高Tracing效率。
+Mesh Card SDF Trace无法用传统的三角形表达插值着色，因此Lumen使用Mesh Card的方式参数化存储场景表达。Mesh Card是渲染之前离线提前生成的有向矩形块，覆盖在模型表面——因此当模型较为模块化时效果较好。...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>April 10, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/misc/">Misc</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-10-UE5.0时给系里写的Lumen和Nanite的一些介绍性文字" href="https://elderlyaugustus.github.io/posts/2022-04-10-ue5.0%E6%97%B6%E7%BB%99%E7%B3%BB%E9%87%8C%E5%86%99%E7%9A%84lumen%E5%92%8Cnanite%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BB%8B%E7%BB%8D%E6%80%A7%E6%96%87%E5%AD%97/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
     <h2>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow
     </h2>
   </header>
@@ -445,31 +483,6 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry tag-entry"> 
-  <header class="entry-header">
-    <h2>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
-Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
-Key idea :
-不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
-Theory :
-Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
-考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 11, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space" href="https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

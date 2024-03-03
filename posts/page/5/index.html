@@ -237,6 +237,57 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2021-03-08-数值分析-Day11-插值型数值积分
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>6.1 - 6.11 数值积分 牛顿-莱布尼茨公式： \(\displaystyle\int_a^bf(x)dx=F(b)-F(a)\)
+问题：很多函数找不到原函数；很多函数只知道离散的点值而无表达式。
+【例】弧长积分： \(L=\displaystyle\int_a^b\sqrt{1&#43;(f&#39;(x))^2}dx\)
+由定积分的定义 \(\displaystyle I=\int_a^bf(x)dx=F(b)-F(a)=\lim_{\Delta x\to0}\sum_{i=0}^nf(x_i)\Delta x_i\) ，可以想到利用被积函数在区间 \([a,b]\) 上一些离散节点 \(x_k\) 处的函数值 \(f(x_k)\) 的线性组合来得到近似积分值： \(\displaystyle I=\sum_{k=0}^nA_kf(x_k)\) 。则得求积公式的一般形式： \(\displaystyle\int_a^bf(x)dx\approx\sum_{k=0}^nA_kf(x_k)\) ，其中 \(\{x_k\}\) 为求积点， \(A_k\) 为求积系数。或表示为 \(\displaystyle\int_a^bf(x)dx=\sum_{k=0}^nA_kf(x_k)&#43;R[f]\) ，其中 \(R[f]\) 为求积公式的误差或余项。
+积分中值定理：在 \([a,b]\) 内存在一点 \(\xi\) ，有 \(\displaystyle\int_a^bf(x)dx=(b-a)f(\xi)\) 。
+问题： \(\xi\) 未知
+取特殊点为 \(\xi\) 求近似解：
+左矩形求积公式： \(\displaystyle\int_a^bf(x)dx\approx f(a)(b-a),\quad R[f]=\frac{(b-a)^2}{2}f&#39;(\xi)\ (\xi\in(a,b))\)
+右矩形求积公式： \(\displaystyle\int_a^bf(x)dx\approx f(b)(b-a),\quad R[f]=-\frac{(b-a)^2}{2}f&#39;(\eta)\ (\eta\in(a,b))\)
+中矩形求积公式： \(\displaystyle\int_a^bf(x)dx\approx f(\frac{a&#43;b}{2})(b-a),\quad R[f]=-\frac{(b-a)^3}{24}f&#39;&#39;(\eta)\ (\eta\in(a,b))\)
+代数精度 若求积公式 \(\displaystyle\int_a^bf(x)dx\approx\sum_{k=0}^nA_kf(x_k)\) 对 \(f(x)=x^j\ (j=0,1,\dots,m)\) 都精确成立，但对 \(f(x)=x^{m&#43;1}\) 不精确成立。即： \(\left\{\begin{array}{l}\displaystyle\int_a^bx^jdx=\sum_{k=0}^nA_kx_k^j\quad j=0,1,\dots,m\\\displaystyle\int_a^bx^{m&#43;1}dx\approx\sum_{k=0}^nA_kx_k^{m&#43;1}\end{array}\right....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 8, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-08-数值分析-Day11-插值型数值积分" href="https://elderlyaugustus.github.io/posts/2021-03-08-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day11-%E6%8F%92%E5%80%BC%E5%9E%8B%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>续：5.8 - 5.10 三次样条插值 三转角方法 考虑第一种一般边界条件： \(S&#39;(x_0)=f_0&#39;,\ S&#39;(x_n)=f_n&#39;\) ，即已知两端点一阶导数值。
+令 \(m_i=S&#39;(x_i),\ i=0,1,\dots,n\) ，利用三次Hermite插值，得到 \(S(x)=\displaystyle \sum_{j=0}^n[y_j\alpha_j(x)&#43;m_j\beta_j(x)]\) ，其中 \(\alpha_j(x),\ \beta_j(x)\) 为分段三次Hermite插值的基函数。再由边界条件得 \(S&#39;(x_0)=f_0&#39;,\ S&#39;(x_n)=f_n&#39;\) 即可解出 \(m_i\) 在各插值点的取值。记
+\(\displaystyle \lambda_i=\frac{h_{i&#43;1}}{h_i&#43;h_{i&#43;1}},\ \mu_i=1-\lambda_i=\frac{h_i}{h_i&#43;h_{i&#43;1}},\ g_i=3(\lambda_if[x_{i-1},x_i]&#43;\mu_if[x_i,x_{i&#43;1}])\) ，
+最终解得： \[ \begin{array}{c}\lambda_im_{i-1}&#43;2m_i&#43;\mu_im_{i&#43;1}=g_i\\ \begin{pmatrix} 2 &amp;\mu_1 &amp; &amp; &amp; &amp; \\ \lambda_2 &amp;2 &amp;\mu_2 &amp; &amp; &amp; \\ &amp;\ddots &amp;\ddots &amp;\ddots &amp; &amp; \\ &amp; &amp;\ddots &amp;\ddots &amp;\ddots &amp; \\ &amp; &amp; &amp;\lambda_{n-2} &amp;2 &amp;\mu_{n-2} \\ &amp; &amp; &amp; &amp;\lambda_{n-1} &amp;2 \end{pmatrix} \begin{pmatrix} m_1 \\ m_2 \\ \vdots \\ \vdots \\ m_{n-2} \\ m_{n-1} \end{pmatrix}= \begin{pmatrix} g_1-\lambda_iy_0&#39; \\ g_2 \\ \vdots \\ \vdots \\ g_{n-2} \\ g_{n-1}-\mu_{n-1}y_n&#39; \end{pmatrix} \end{array} \] 利用大型稀疏矩阵线性方程数值解法，解出 \(m_i\) ，即解得 \(x\in[x_{i-1},x_i]\) 时，有：...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>March 7, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2021-03-07-数值分析-Day10-三次样条插值-最小二乘拟合" href="https://elderlyaugustus.github.io/posts/2021-03-07-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day10-%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%8B%9F%E5%90%88/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2021-03-06-数值分析-Day09-分段插值-三次样条函数
     </h2>
   </header>
@@ -439,53 +490,6 @@ Cauchy-Schwarz不等式 \(|(x,y)|\le \|x\|_2\cdot\|y\|_2\) 当且仅当 \(x\) �
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-02-28-数值分析-Day03-范数-迭代改善算法" href="https://elderlyaugustus.github.io/posts/2021-02-28-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day03-%E8%8C%83%E6%95%B0-%E8%BF%AD%E4%BB%A3%E6%94%B9%E5%96%84%E7%AE%97%E6%B3%95/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-02-27-数值分析-Day02-三角分解
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>续 2.1 - 2.4 矩阵三角分解法 初等行变换 \(\Leftrightarrow\) 矩阵左乘初等矩阵 消元 \(\Leftrightarrow\) 矩阵左乘 \((n-1)\) 个初等矩阵
-若 \(a_{11}^{(1)}\neq0\) ，令 \(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\ i=2,3,\dots,n\) ，记： \(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\ -l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31} &amp;&amp;&amp;&amp; 1 \end{pmatrix}\)
-则有 \(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix} a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)} \end{pmatrix}\)...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>February 27, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-02-27-数值分析-Day02-三角分解" href="https://elderlyaugustus.github.io/posts/2021-02-27-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day02-%E4%B8%89%E8%A7%92%E5%88%86%E8%A7%A3/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-02-26-数值分析-Day01-顺序Gauss消元
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>1.1 - 1.2 数值分析的算法要求 结构简单，易于计算机实现 理论上保证方法的收敛性和数值稳定性 计算效率高：速度快，内存开销小 经过数值实验验证 误差的来源和分类 模型误差：将实际问题抽象为数学模型过程中产生的误差，不可避免 观测误差：观测实验得到的参数带来的误差 截断误差：近似方法产生的误差 舍入误差：计算机有限位计算产生的误差 （后两者为本课程主要研究对象）
-绝对误差和相对误差
-设 \(x\) 是精确值 \(x^{*}\) 的一个近似值，则 \(e=x^{*}-x\) 为近似值 \(x\) 的绝对误差，简称误差。
-若 \(\varepsilon\) 满足 \(|e|\le\varepsilon\) ，则称 \(\varepsilon\) 为 \(x\) 的绝对误差限，简称误差限，有量纲。则满足 \(x-\varepsilon \le x^{*} \le x&#43;\varepsilon\) ，简写为 \(x^{*} = x\pm\varepsilon\) 。
-\(e_{r} = \displaystyle\frac{e}{x^{*}} = \frac{x^{*}-x}{x^{*}}\) 称相对误差。
-\(\varepsilon_{r} = \displaystyle\frac{\varepsilon}{|x|}\) 称相对误差限， \(|e_{r}| \le \varepsilon_{r}\) ，无量纲。
-（其中误差与相对误差用于理论分析，误差限与相对误差限用于实际应用。）
-1.3 有效数字 定义1：设数 \(x\) 是数 \(x^{*}\) 的近似值，如果 \(x\) 的绝对误差限是它的某一数位的半个单位，并且从 \(x\) 左起第一个非零数到该数位共有 \(n\) 位，则称这 \(n\) 个数字为 \(x\) 的有效数字，也称用 \(x\) 近似 \(x*\) 时具有 \(n\) 位有效数字。...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>February 26, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-02-26-数值分析-Day01-顺序Gauss消元" href="https://elderlyaugustus.github.io/posts/2021-02-26-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day01-%E9%A1%BA%E5%BA%8Fgauss%E6%B6%88%E5%85%83/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

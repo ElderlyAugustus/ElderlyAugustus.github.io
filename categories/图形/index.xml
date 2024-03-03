@@ -6240,6 +6240,199 @@ Tracing结果降噪，神经网络方法。</p>
     </item>
     
     <item>
+      <title>2022-04-10-UE5.0时给系里写的Lumen和Nanite的一些介绍性文字</title>
+      <link>https://elderlyaugustus.github.io/posts/2022-04-10-ue5.0%E6%97%B6%E7%BB%99%E7%B3%BB%E9%87%8C%E5%86%99%E7%9A%84lumen%E5%92%8Cnanite%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BB%8B%E7%BB%8D%E6%80%A7%E6%96%87%E5%AD%97/</link>
+      <pubDate>Sat, 10 Apr 2021 10:00:00 +0800</pubDate>
+      
+      <guid>https://elderlyaugustus.github.io/posts/2022-04-10-ue5.0%E6%97%B6%E7%BB%99%E7%B3%BB%E9%87%8C%E5%86%99%E7%9A%84lumen%E5%92%8Cnanite%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BB%8B%E7%BB%8D%E6%80%A7%E6%96%87%E5%AD%97/</guid>
+      <description>开头说明一下，这是UE5.0正式版发布时给系里和某些合作单位供稿的一些介绍性文字，比较简单的整理，非最终发布版（考虑到影视业读者还在这基础上进一步删减了），补充发布到自己个站算是留痕吧
+虚幻引擎5.0新功能为电影虚拟化制作助力 2021年5月26日，Epic Games推出虚幻引擎5.0 Early Access抢先体验版本，吸引了各行业的大量关注，其推出的Lumen、Nanite等新功能带来了更佳的实时渲染质量和更高的创作效率。直至2022年4月5日，Epic Games正式发布虚幻引擎5.0版本，长达近一年的预览期内，包括影视创作行业在内的各领域创作者、研究者进行了大量的探索和尝试。随着正式版本发布、新功能不断完善、更多的官方解析释出和源代码的发布，我们也对虚幻引擎5.0的许多新功能有了更加深入清晰的认识。
+电影虚拟化制作作为基于实时渲染引擎的新型电影制作方案，随着虚幻引擎的完善与发展，及其对电影虚拟化制作相关功能的补充，近年来许多具体的解决方案通过虚幻引擎来实现。因此，虚幻引擎更新至5.0也引发了影视制作行业的重点关注。本文即关于虚幻引擎5.0中为电影虚拟化制作带来新动力的新功能，做一定的简单分析。
+新功能概览 虚幻引擎中的电影虚拟化制作模块In-Camera VFX自虚幻引擎4.25开始发展，直至4.27有一个比较全面的更新，达到了基本完善的程度。而虚幻引擎5.0的早期开发是与4.27版本同步进行的，因此在5.0的早期预览版本中仍然使用的是4.26的In-Camera VFX系统。更新5.0正式版后，In-Camera VFX系统也承接了4.27版本中的形态，以更成熟的结构呈现。
+在虚幻引擎5.0中，电影虚拟化制作相关功能获得了nDisplay虚拟纹理、nDisplay内视锥过扫描、相机镜头校准、DMX等插件、关卡快照、Switchboard、Sequencer、USD流程等诸多功能的支持和改进。
+但由于In-Camera VFX系统在5.0中的开发刚刚开始，有不少5.0版本的新功能尚未能在In-Camera VFX和其依赖的nDisplay系统中获得支持，比如Lumen的渲染管线。不过进一步的支持应该也只是一个时间问题。相信在这些新功能的加持下，In-Camera VFX系统的电影虚拟化制作能力将达到一个新高度。
+可以预见Lumen、Nanite为主导的渲染新功能将为电影虚拟化制作带来更高的背景影像质量和更高的场景资产制作效率，
+Lumen Lumen是虚幻引擎5.0给出的“新一代”动态全局光照解决方案，其代码存放在Engine/Source/Runtime/Renderer/Private/Lumen中。
+Lumen的整体思路是以SDF(Signed Distance Field) Trace为主的混合Tracing框架，同时用重新设计的Surface Cache场景表达，Radiance Cache作为最终的渲染结果收集。
+混合的Tracing方案 在Lumen中，也可以先尝试调用基于硬件的RTX Trace，但主要还是软件的混合Tracing方案。其中包括Screen Space Trace、Mesh SDF Trace、Voxel Trace(Global SDF Trace)，按这一顺序依次Trace，前者失败则交给后者计算，成功则返回。
+Screen Space Trace 首先是屏幕空间的Trace方法，它来自于虚幻引擎4.25就加入的SSGI(Screen Space Global Illumination)方案。这一方法能够很好地处理近似场景表达中丢失的细节。它利用HZB(Hierarchical Z-Buffer)优化遍历，可以改善线性遍历时的漏光问题，针对HZB带来的高开销问题，则限制其Trace步长在50步以内，否则交给下一种Trace方法。
+世界空间的SDF Trace 屏幕空间方法失败之后，来到世界空间的Trace方法，也是Lumen的Trace管线中最为主要的Trace方法：SDF Trace。
+对于近处的场景（例如1.8m内），Lumen采用Mesh SDF存储。对每一个Mesh存储一份SDF，实现相对低效但具有较好效果的SDF Trace。
+在Mesh SDF中，为了解决物体厚度小于SDF存储的体素大小时判断失败的问题，Lumen对每一个物体扩展0.5倍的体素大小，这样保证了每一种厚度的物体都能够被Trace到，Trace到物体计算Radiance时再做相应的偏移梯度计算就能够得到相对准确的结果。
+而远景则将每一个物体的Mesh SDF合并为全局的Global SDF，并生成层级结构Clipmaps。这样降低了远景场景的Trace精度，但大大提高了效率。
+Global SDF的显存占用较大，更新开销正比于场景中的运动物体数量。这里采用了稀疏的存储方式，跳过大量的负值、零值SDF区域，减少了16倍的存储量，同时带来的多一次查询的问题则生成一层MIP2的贴图来改善：先查询MIP2，在接近物体表面时再查询全精度的Clipmap，这样对场景的更新也带来了遍历。
+最后，对于每一步的Trace结构，还需要做一次压缩，以减小占用、提升缓存一致性。
+这样，SDF Trace将Tracing、远景场景、远景场景复杂解耦，带来了较高的效率。但同时也具有体积存储大、缺乏微小细节、无法参数化表面数据等问题。
+Surface Cache 在Surface Cache中，预先进行了一次分离的材质计算和光照计算的pass，在Tracing计算时，直接在Hit位置对Surface Cache作一次查询即可获得相对好的结果，提高Tracing效率。
+Mesh Card SDF Trace无法用传统的三角形表达插值着色，因此Lumen使用Mesh Card的方式参数化存储场景表达。Mesh Card是渲染之前离线提前生成的有向矩形块，覆盖在模型表面——因此当模型较为模块化时效果较好。</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>开头说明一下，这是UE5.0正式版发布时给系里和某些合作单位供稿的一些介绍性文字，比较简单的整理，非最终发布版（考虑到影视业读者还在这基础上进一步删减了），补充发布到自己个站算是留痕吧</p>
+</blockquote>
+<h1
+id="虚幻引擎5.0新功能为电影虚拟化制作助力">虚幻引擎5.0新功能为电影虚拟化制作助力</h1>
+<p>2021年5月26日，Epic Games推出虚幻引擎5.0 Early
+Access抢先体验版本，吸引了各行业的大量关注，其推出的Lumen、Nanite等新功能带来了更佳的实时渲染质量和更高的创作效率。直至2022年4月5日，Epic
+Games正式发布虚幻引擎5.0版本，长达近一年的预览期内，包括影视创作行业在内的各领域创作者、研究者进行了大量的探索和尝试。随着正式版本发布、新功能不断完善、更多的官方解析释出和源代码的发布，我们也对虚幻引擎5.0的许多新功能有了更加深入清晰的认识。</p>
+<p>电影虚拟化制作作为基于实时渲染引擎的新型电影制作方案，随着虚幻引擎的完善与发展，及其对电影虚拟化制作相关功能的补充，近年来许多具体的解决方案通过虚幻引擎来实现。因此，虚幻引擎更新至5.0也引发了影视制作行业的重点关注。本文即关于虚幻引擎5.0中为电影虚拟化制作带来新动力的新功能，做一定的简单分析。</p>
+<h2 id="新功能概览">新功能概览</h2>
+<p>虚幻引擎中的电影虚拟化制作模块In-Camera
+VFX自虚幻引擎4.25开始发展，直至4.27有一个比较全面的更新，达到了基本完善的程度。而虚幻引擎5.0的早期开发是与4.27版本同步进行的，因此在5.0的早期预览版本中仍然使用的是4.26的In-Camera
+VFX系统。更新5.0正式版后，In-Camera
+VFX系统也承接了4.27版本中的形态，以更成熟的结构呈现。</p>
+<p>在虚幻引擎5.0中，电影虚拟化制作相关功能获得了nDisplay虚拟纹理、nDisplay内视锥过扫描、相机镜头校准、DMX等插件、关卡快照、Switchboard、Sequencer、USD流程等诸多功能的支持和改进。</p>
+<p>但由于In-Camera
+VFX系统在5.0中的开发刚刚开始，有不少5.0版本的新功能尚未能在In-Camera
+VFX和其依赖的nDisplay系统中获得支持，比如Lumen的渲染管线。不过进一步的支持应该也只是一个时间问题。相信在这些新功能的加持下，In-Camera
+VFX系统的电影虚拟化制作能力将达到一个新高度。</p>
+<p>可以预见Lumen、Nanite为主导的渲染新功能将为电影虚拟化制作带来更高的背景影像质量和更高的场景资产制作效率，</p>
+<h3 id="lumen">Lumen</h3>
+<p>Lumen是虚幻引擎5.0给出的“新一代”动态全局光照解决方案，其代码存放在<code>Engine/Source/Runtime/Renderer/Private/Lumen</code>中。</p>
+<p>Lumen的整体思路是以SDF(Signed Distance Field)
+Trace为主的混合Tracing框架，同时用重新设计的Surface
+Cache场景表达，Radiance Cache作为最终的渲染结果收集。</p>
+<h4 id="混合的tracing方案">混合的Tracing方案</h4>
+<p>在Lumen中，也可以先尝试调用基于硬件的RTX
+Trace，但主要还是软件的混合Tracing方案。其中包括Screen Space Trace、Mesh
+SDF Trace、Voxel Trace(Global SDF
+Trace)，按这一顺序依次Trace，前者失败则交给后者计算，成功则返回。</p>
+<h5 id="screen-space-trace">Screen Space Trace</h5>
+<p>首先是屏幕空间的Trace方法，它来自于虚幻引擎4.25就加入的SSGI(Screen
+Space Global
+Illumination)方案。这一方法能够很好地处理近似场景表达中丢失的细节。它利用HZB(Hierarchical
+Z-Buffer)优化遍历，可以改善线性遍历时的漏光问题，针对HZB带来的高开销问题，则限制其Trace步长在50步以内，否则交给下一种Trace方法。</p>
+<center>
+<img src="/images/misc/ue5.0/screen-traces-enabled.webp" alt="screen-traces-enabled" style="zoom: 18%;" /><img src="/images/misc/ue5.0/screen-traces-disabled.webp" alt="screen-traces-disabled" style="zoom: 18%;" />
+<center/>
+<h5 id="世界空间的sdf-trace">世界空间的SDF Trace</h5>
+<p>屏幕空间方法失败之后，来到世界空间的Trace方法，也是Lumen的Trace管线中最为主要的Trace方法：SDF
+Trace。</p>
+<p>对于近处的场景（例如1.8m内），Lumen采用Mesh
+SDF存储。对每一个Mesh存储一份SDF，实现相对低效但具有较好效果的SDF
+Trace。</p>
+<p><img src="/images/misc/ue5.0/vis-mesh-distance-fields.webp" alt="vis-mesh-distance-fields" style="zoom: 30%;" /></p>
+<p>在Mesh
+SDF中，为了解决物体厚度小于SDF存储的体素大小时判断失败的问题，Lumen对每一个物体扩展0.5倍的体素大小，这样保证了每一种厚度的物体都能够被Trace到，Trace到物体计算Radiance时再做相应的偏移梯度计算就能够得到相对准确的结果。</p>
+<p><img src="/images/misc/ue5.0/mdfresolution-chandelier.png" alt="mdfresolution-chandelier" style="zoom:30%;" /></p>
+<p>而远景则将每一个物体的Mesh SDF合并为全局的Global
+SDF，并生成层级结构Clipmaps。这样降低了远景场景的Trace精度，但大大提高了效率。</p>
+<p><img src="/images/misc/ue5.0/vis-global-distance-field.webp" alt="vis-global-distance-field" style="zoom:30%;" /></p>
+<p>Global
+SDF的显存占用较大，更新开销正比于场景中的运动物体数量。这里采用了稀疏的存储方式，跳过大量的负值、零值SDF区域，减少了16倍的存储量，同时带来的多一次查询的问题则生成一层MIP2的贴图来改善：先查询MIP2，在接近物体表面时再查询全精度的Clipmap，这样对场景的更新也带来了遍历。</p>
+<p>最后，对于每一步的Trace结构，还需要做一次压缩，以减小占用、提升缓存一致性。</p>
+<p>这样，SDF
+Trace将Tracing、远景场景、远景场景复杂解耦，带来了较高的效率。但同时也具有体积存储大、缺乏微小细节、无法参数化表面数据等问题。</p>
+<h4 id="surface-cache">Surface Cache</h4>
+<p>在Surface
+Cache中，预先进行了一次分离的材质计算和光照计算的pass，在Tracing计算时，直接在Hit位置对Surface
+Cache作一次查询即可获得相对好的结果，提高Tracing效率。</p>
+<p><img src="/images/misc/ue5.0/lumen-surface-cache-visualization.png" alt="lumen-surface-cache-visualization" style="zoom:30%;" /></p>
+<h5 id="mesh-card">Mesh Card</h5>
+<p>SDF Trace无法用传统的三角形表达插值着色，因此Lumen使用Mesh
+Card的方式参数化存储场景表达。Mesh
+Card是渲染之前离线提前生成的有向矩形块，覆盖在模型表面——因此当模型较为模块化时效果较好。</p>
+<p>在运行时，基于Mesh
+Card对场景做光栅化生成各种所需的G-Buffer，合并到Surface
+Cache贴图中，此处的光栅化在Nanite
+Mesh上计算效率极高。Trace时根据Cone开角选择对应的Card的MIPMAP，最后根据法线和深度加权并修正结果。</p>
+<p>在直接光照中，可以选择其中的部分卡片单独更新光照，并利用Global
+SDF做离屏部分的阴影Trace，可以实现非常好的动态光照效果。间接光照依然通过每帧选择部分Card，由Card的Texel发出Global
+SDF Trace来计算，并与前帧数据合并得到较好的间接光照效果。</p>
+<p><img src="/images/misc/ue5.0/mesh-card-placement-visualization-alt.webp" alt="mesh-card-placement-visualization-alt" style="zoom:30%;" /></p>
+<h5 id="voxel-lighting-cache">Voxel Lighting Cache</h5>
+<p>对于Global SDF Trace，只有空间位置而没有Mesh
+Card信息时，Lumen的做法是利用Mesh Card生成一个体素化的场景，从而做Voxel
+Trace。每一帧的体素化都需要重新生成，动态地获取体素精度。对每一个Tracing的结果，再分散到周围的Voxel中，以完成最后的Radiance收集。</p>
+<h4 id="radiance-cache">Radiance Cache</h4>
+<p>而Radiance
+Cache则在屏幕空间做了降采样，用更低的分辨率存储更多方向的Tracing结果，减少了降噪的压力，同时支持跨帧的缓存以减少重复计算。</p>
+<h5 id="屏幕空间的radiance-cache">屏幕空间的Radiance Cache</h5>
+<p>在屏幕空间，例如以16个像素为一个Probe、每个Probe做8*8半球均匀方向分布的Trace，则减少了3/4的计算量，最后在全分辨率上计算BRDF着色。在室内环境能够得到很好的结果。</p>
+<p>在实际应用中，还会根据深度平面自适应的Probe细化方式。最后以Probe到像素平面的距离为权重计算。同时利用前帧的重投影，可以根据前一帧较亮的部分、BRDF的值大小做重要性采样（若失败则转用世界空间的Radiance
+Cache）。最后在Probe上做空间滤波，以深度判定滤波权重。</p>
+<h5 id="世界空间的radiance-cache">世界空间的Radiance Cache</h5>
+<p>在世界空间则用更低的分辨率，64*64为一个Probe放置在屏幕空间的Probe周围，来补充屏幕空间Radiance
+Cache针对远处小体积高亮物体表现不佳的问题。</p>
+<p>世界空间的Radiance
+Cache可以有效复用长距离的Trace，提高一致性，从而带来了更高的方向精度，也可以跨帧缓存远距离的Tracing结果。</p>
+<p><img src="/images/misc/ue5.0/lumen-far-field.webp" alt="lumen-far-field" style="zoom:100%;" /></p>
+<p>世界空间的Radiance
+Cache依然用稀疏的体素结构存储。还可以依据屏幕空间累计的结果，做BRDF的重要性采样。</p>
+<p>世界空间的Radiance
+Cache也用于引导屏幕空间的重要性采样，并用在头发、半透等前向渲染材质，多次反弹等特殊情景的渲染中。</p>
+<h5 id="最终">最终</h5>
+<p>最后回到屏幕空间全分辨率处理。把屏幕空间的Probe Radiance
+Cache转换成三阶球面谐波函数来提高插值质量。用全分辨率的BentNormal获得接触阴影。</p>
+<p><img src="/images/misc/ue5.0/lumen-overview-viewmode.png" alt="lumen-overview-viewmode" style="zoom:100%;" /></p>
+<p>相比较基于NVIDIA
+RTX显卡的RTXGI，Lumen是一个不依赖硬件加速支持、平台统一的全局光照解决方案，由于实时光线追踪在部分场景下降噪困难的局限性，Lumen在大世界的显存占用、室内照明的稳定性上具有很大优势。</p>
+<p>Lumen带来了大场景下的优秀的动态全局光照表现，针对间接光阴影、室内漏光、室内高质量间接光、镜面反射、多次反弹的漫反射等实时渲染难题都做了相应的优化，使得实时渲染的质量达到的新的台阶。</p>
+<p>因此，Lumen的追求也正符合影视创作对质量的追求，使得实时渲染的影视制作方法得到了更多的应用可能。当然在基于LED背景墙的电影虚拟化制作方式中，作为核心的nDisplay多屏渲染方式暂时还不支持Lumen的渲染管线，但相信不久的将来，会带来广泛的应用。</p>
+<h3 id="nanite">Nanite</h3>
+<p>Nanite是虚幻引擎5.0的新的几何体表示方式，目的是为了渲染更多的模型和模型细节，其代码存放在<code>Engine\Source\Runtime\Renderer\Private\Nanite</code>中。</p>
+<p>借助Nanite，虚幻引擎5.0可以直接处理高精度扫描、雕刻创作等各种高精度的模型，而不再像过去的实时渲染引擎一样需要手工的LoD(Level
+of Detail)处理，并且可以达到像素级别的模型渲染精度。</p>
+<p><img src="/images/misc/ue5.0/nanite-in-unreal-engine.webp" alt="nanite-in-unreal-engine" style="zoom: 100%;" /></p>
+<p>Nanite的核心理念是在自动的LoD减面时，不损失模型的拓扑精度，且在LoD切换时能够避免跳变。</p>
+<h4 id="cluster生成">Cluster生成</h4>
+<p>Nanite是基于Cluster的几何表示方案，将模型上的一定数量的面标记为一个Cluster，在GPU处理每一个Cluster时就可以访问等量的内存，带来了更高的效率。</p>
+<p>Nanite的Cluster生成利用METIS库的Graph
+Partition算法，在最高精度的原始模型（LoD0）上进行处理，并将Cluster组成面积均匀和边界最少的Group。而LoD时则锁定Group的边界，在每一个Group内重新生成Cluster，并将减面误差额外存储。最后对所有LoD层的Cluster分别生成BVH(Bounding
+Volume Hierarchy)。</p>
+<p><img src="/images/misc/ue5.0/level-viewport-show-nanite-visualizations-overview.webp" alt="level-viewport-show-nanite-visualizations-overview" style="zoom:30%;" /></p>
+<h4 id="裁剪和lod选择">裁剪和LoD选择</h4>
+<p>在渲染时，利用前一帧的HZB做裁剪，依次做模型和Cluster的剔除，然后光栅化得到当前帧的HZB再对场景做一次当前帧的裁剪，得到更加精准的裁剪结果。</p>
+<p>利用GPU并行和Cluster的类BVH加速结构，可以很快地精确地对细节程度匹配的LoD做剔除和选择。用额外存储的误差进行判断，可以保证被选中的Cluster
+Group误差最小，而Group与Group之间边界保持锁定，因此可以保证模型的连接。</p>
+<center>
+<img src="/images/misc/ue5.0/fallback-mesh-comparison-high-detail-nanite-mesh.webp" alt="fallback-mesh-comparison-high-detail-nanite-mesh" style="zoom:21%;" /><img src="/images/misc/ue5.0/fallback-mesh-comparison-high-detail-nanite-mesh.webp" alt="fallback-mesh-comparison-high-detail-nanite-mesh" style="zoom:21%;" />
+<center/>
+<h4 id="光栅化与材质">光栅化与材质</h4>
+<p>传统的光栅化管线对Nanite这样的小于单个像素的三角形并不友好，因此在Nanite重新设计了软件光栅化管线，根据Cluster的粒度来决定使用自定义软件光栅还是硬件光栅。最后输出实例ID、三角形ID、深度定义的Visibility
+Buffer。</p>
+<p>利用Visibility
+Buffer，可以很好地解耦材质的复杂度。在每个Cluster上，可以支持存储32位的材质信息，每个模型最多可以支持64种材质。最后基于Tile，每种材质做一次Draw进行渲染。</p>
+<h4 id="串流和压缩">串流和压缩</h4>
+<p>此外，由于Nanite庞大的数据结构，在串流和压缩上也做了相应的优化。</p>
+<p>在GPU端存储裁剪的层级结构，而串流采用类似Virtual
+Texture的处理逻辑，根据渲染的需要，以Cluster
+Group为粒度传输相应的几何数据。</p>
+<p>利用通用的硬件压缩，根据数据的特征调整后的压缩方法，也实现了非常好的压缩效果。</p>
+<p>基于Nanite，还可以实现虚拟阴影贴图等新特性。虽然目前支持的材质和几何类型并不完全，关于前向渲染和光线追踪等渲染方式的尚不支持，但Nanite已经为实时渲染带来了非常高的几何细节，也带来了更高的创作效率。</p>
+<center>
+<img src="/images/misc/ue5.0/nanite-facetfaces-gameview.png" alt="nanite-facetfaces-gameview" style="zoom:33%;" /><img src="/images/misc/ue5.0/nanite-facetfaces-trianglevis.png" alt="nanite-facetfaces-trianglevis" style="zoom:33%;" />
+<center/>
+<p>此外，虚幻引擎5.0在大世界构成上的世界分区系统、角色动画创作上更友好的工具、更多材质效果支持的路径追踪器以及更丰富的Chaos系统等等主要针对游戏、离线动画创作的新功能，也可以在一定程度上助力电影虚拟化制作，带来各种各样的可能性。</p>
+<h2 id="如何助力电影虚拟化制作">如何助力电影虚拟化制作</h2>
+<p>实时渲染引擎是电影虚拟化制作技术发展的基石之一，Lumen和Nanite为代表的虚幻引擎5.0重点新功能对于电影虚拟化制作的意义巨大，主要可以从效果和效率两方面来考虑。</p>
+<h4 id="效果">效果</h4>
+<p>电影虚拟化制作的最终服务目标是电影，影院的观影环境决定了电影质量的要求是要比小屏幕影像高得多的。而实时渲染的结果却从客观条件上就受限于“实时”的条件，很难达到离线渲染的精度。因此，目前电影虚拟化制作的应用也大多集中在广告、剧集领域，其渲染效果距离电影尚存在一定差距。</p>
+<p>虚幻引擎5.0的渲染方面新功能，无疑将实时渲染的画面质量提高了一个台阶，一些条件下甚至可以一定程度地接近离线渲染效果。例如Lumen带来的动态全局光照、Nanite带来的像素级几何细节，都为实时渲染在影视制作中的应用提供了巨大的助力，使得电影虚拟化制作的影像效果得到了很大提升。</p>
+<h4 id="效率">效率</h4>
+<p>目前，电影虚拟化制作的创作瓶颈主要在于，它将传统影视制作的流程顺序改变之后，数字资产的制作主要在拍摄之前完成、美术置景也大量通过数字方式完成，且需要以实时渲染的方式来实现。这对传统影视制作领域的美术创作者、视效创作者来说是相对陌生的，各制作机构的制作流程管线也尚在探索与搭建中。因此电影虚拟化制作场景制作尚不能达到传统影视制作的效率。</p>
+<p>在实时渲染引擎中的美术创作则更贴合游戏美术制作的思路，需要更多地考虑性能开销、资产优化等问题。而虚幻引擎5.0的许多编辑器更多则带来了更自动化的优化方式和可视化方案。例如Nanite可以完全解放传统美术生产管线中的手工LoD环节，Lumen的各种可视化功能也有助于美术工作者更方便地看到资产的各种信息从而加以优化。</p>
+<p>实时渲染引擎加持的影视制作是近年来影视行业非常关注的新技术，电影虚拟化制作作为其中的主流应用方案，也得到了广泛的研究与应用。虚幻引擎5.0的发布展现了CG创作呈现工具的发展趋势与新型技术方案，为电影虚拟化制作也带来了更多的动力，相信更多的创作工具、制作技术也会受之启发或借助其力量诞生、发展。</p>
+<p><strong>图片来源</strong></p>
+<p>[1] Epic Games. Lumen Technical Details.
+https://docs.unrealengine.com/5.0/en-US/lumen-technical-details-in-unreal-engine/
+[2] Epic Games. Nanite Virtualized Geometry.
+https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/</p>
+<p><strong>参考文献</strong></p>
+<p>[1] Epic Games. Unreal Engine 5.0 Release Notes.
+https://docs.unrealengine.com/5.0/en-US/unreal-engine-5-0-release-notes/
+[2] Epic Games. Lumen Technical Details.
+https://docs.unrealengine.com/5.0/en-US/lumen-technical-details-in-unreal-engine/
+[3] 王祢. [UOD2021]虚幻引擎5渲染特性解析 Lumen | Epic Games 王祢.
+https://www.bilibili.com/video/BV1fu411272a [4] Unreal Engine. Lumen |
+Inside Unreal. https://www.youtube.com/channel/UCBobmJyzsJ6Ll7UbfhI4iwQ
+[5] Epic Games. Nanite Virtualized Geometry.
+https://docs.unrealengine.com/5.0/en-US/nanite-virtualized-geometry-in-unreal-engine/
+[6] 王祢. [UnrealCircle]Nanite技术简介 | Epic Games China 王祢.
+https://www.bilibili.com/video/BV1MP4y1a7Hh [7] Unreal Engine. Nanite |
+Inside Unreal. https://www.youtube.com/watch?v=TMorJX3Nj6U</p>
+]]></content:encoded>
+    </item>
+    
+    <item>
       <title>2021-04-05-GAMES202高质量实时渲染-Lecture3-4-Soft Shadow</title>
       <link>https://elderlyaugustus.github.io/posts/2021-04-05-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture3-4-softshadow/</link>
       <pubDate>Mon, 05 Apr 2021 16:00:00 +0800</pubDate>
