@@ -231,6 +231,30 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture 5-6 Environment Lighting Recap
+环境光贴图 球面贴图 Spherical Map / 立方体贴图 Cube Map Shading from Environment Lighting / Image-Based Lighting (IBL) 解渲染方程（不考虑阴影） \[ L_o(\mathrm p,\omega_o)=\int_{\Omega^&#43;}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\xcancel{V(\mathrm p,\omega_i)}\,\mathrm d\omega_i \]
+蒙特卡洛积分——数值解、大量采样，非常慢 PS: 一旦涉及采样，就很难实时，近年开始有一些进展 观察：
+glossy BRDF : BRDF覆盖很小 diffuse BRDF : BRDF覆盖大，但是平滑 因此考虑近似方法 \[ \int_\Omega f(x)g(x)\,\mathrm dx\approx\dfrac{\int_{\Omega_G}f(x)\,\mathrm dx}{\int_{\Omega_G}\,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm dx \] （该式在 \(g(x)\) 范围小/结果平滑时较为准确）
+则有 \[ L_o(\mathrm p,\omega_o)\approx\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm d\omega_i}\int_{\Omega^&#43;}f_r(\mathrm p,\omega_i,\omega_o)\cos\theta_i\,\mathrm d\omega_i \]
+\(\dfrac{\int_{\Omega_{f_r}}L_i(\mathrm p,\omega_i)\,\mathrm d\omega_i}{\int_{\Omega_{f_r}}\,\mathrm d\omega_i}\) 表示对环境光贴图做模糊化处理，即滤波...</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>April 16, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-16-GAMES202高质量实时渲染-Lecture5-6-Environment Light" href="https://elderlyaugustus.github.io/posts/2022-04-16-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture5-6-environmentlight/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2022-04-14-GAMES202高质量实时渲染-Lecture14-Practical Industrial Solutions
     </h2>
   </header>
@@ -457,36 +481,6 @@ Lipschitz条件： 若函数 \(f(x,y)\) 在区域 \(\{a\le x\le b,\ m&lt;y&lt;M\
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-10-数值分析-Day13-差分公式" href="https://elderlyaugustus.github.io/posts/2021-03-10-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day13-%E5%B7%AE%E5%88%86%E5%85%AC%E5%BC%8F/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-03-09-数值分析-Day12-续数值积分-数值微分
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>续：6.1 - 6.11 数值积分 复化求积公式 Newton-Cotes求积公式的精度随着求积节点数的增加而增加，但求积节点数 \(\ge8\) 时，Newton-Cotes公式数值不稳定。实际应用中，将积分区间分成若干个小区间分别求积分再求和，即复化求积公式的基本思想。
-在区间 \([a,b]\) 上，取等距节点 \(x_k=a&#43;kh,\ k=0,1,\dots,n\) ，
-由定积分的区间可加性得 \(\displaystyle\int_a^bf(x)dx=\sum_{k=1}^n\int_{x_{k-1}}^{x_k}f(x)dx\) 。
-若在每个小区间 \(x_{k-1},x_k\) 用梯形公式，则有复化梯形公式 \(T_n\) ：
-\[ \displaystyle I=\int_a^bf(x)dx\approx T_n=\frac{h}{2}\sum_{k=1}^n\left[f(x_{k-1})&#43;f(x_k)\right]=\frac{h}{2}\left[2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
-复化梯形公式的的误差为：
-\[ \begin{array}{l}\displaystyle I-T_n=-\frac{h^3}{12}[f&#39;&#39;(\xi_1)&#43;\dots&#43;f&#39;&#39;(\xi_n)]=-\frac{h^2(b-a)}{12}f&#39;&#39;(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-T_n\right|\le\frac{(b-a)^3}{12n^2}\max_{a\le x\le b}|f&#39;&#39;(x)|\end{array} \]
-可知复化梯形公式收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-T_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt{\frac{(b-a)^3\max_{a\le x\le b}|f&#39;&#39;(x)|}{12\varepsilon}}\) 。 同理，复化Simpson公式 \(S_n\) ：
-\[ \displaystyle I=\int_a^bf(x)dx\approx S_n=\frac{h}{6}\left[4\sum_{k=1}^nf(x_{k-\frac{1}{2}})&#43;2\sum_{k=1}^{n-1}f(x_k)&#43;f(a)&#43;f(b)\right] \]
-复化Simpson公式的误差为：
-\[ \begin{array}{l}\displaystyle I-S_n=-\frac{h^4(b-a)}{2880}f^{4}(\eta),\quad\eta\in(a,b)\\\displaystyle \left|I-S_n\right|\le\frac{(b-a)^5}{2880n^4}\max_{a\le x\le b}|f^{(4)}(x)|\end{array} \]
-可知收敛，且要使得误差 \(\le\varepsilon\) ，只要 \(\left|I-S_n\right|\le\varepsilon\) 或 \(\displaystyle n&gt;\sqrt[4]{\frac{(b-a)^5\max_{a\le x\le b}|f^{(4)}(x)|}{2880\varepsilon}}\) 。 同理，复化Cotes公式 \(C_n\) ：...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 9, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/">数值分析</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-03-09-数值分析-Day12-续数值积分-数值微分" href="https://elderlyaugustus.github.io/posts/2021-03-09-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day12-%E7%BB%AD%E6%95%B0%E5%80%BC%E7%A7%AF%E5%88%86-%E6%95%B0%E5%80%BC%E5%BE%AE%E5%88%86/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

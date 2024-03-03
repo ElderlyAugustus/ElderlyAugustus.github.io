@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>光谱渲染 on xα&#39;s blog</title>
+    <link>https://elderlyaugustus.github.io/series/%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93/</link>
+    <description>Recent content in 光谱渲染 on xα&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Mar 2024 17:00:00 +0800</lastBuildDate><atom:link href="https://elderlyaugustus.github.io/series/%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>光谱渲染-一些初步资料整理</title>
+      <link>https://elderlyaugustus.github.io/posts/2024-03-03-%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93-%E4%B8%80%E4%BA%9B%E5%88%9D%E6%AD%A5%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/</link>
+      <pubDate>Sat, 23 Mar 2024 17:00:00 +0800</pubDate>
+      
+      <guid>https://elderlyaugustus.github.io/posts/2024-03-03-%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93-%E4%B8%80%E4%BA%9B%E5%88%9D%E6%AD%A5%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/</guid>
+      <description>【光谱渲染】会是一个新的系列，根据自己业余和朋友一起做的一些讨论、尝试、探索不定期更新
+关于光谱渲染的一些资料整理 从更早对渲染和色彩科学都做过一段时间科研开始，到去年的毕业论文开发和写作、再到工作后的一些业余的思考和与朋友们的讨论，对光谱渲染越来越感兴趣——可以说是渲染+色彩科学这两个我短暂的科研生涯里最重要的两个词，产生有机结合的最终形态，也是解决现在CG创作中许多色彩、光学问题的一个“终极答案”。
+因此，在工作中做更加要求性能、美学平衡的工程问题的同时，在业余的时间更愿意将时间投入到这样的一些相对“远未来”的工业界应用可能性的尝试与探索中（尽管工作之余的绝大部分时间其实还是用来休息的）。这一“学术兴趣”与仍在学术界的不少朋友都有不谋而合，或是更倾向影视工业界的研究，或是在图形学术界的新尝试……
+去年还因此开坑信誓旦旦试图为中文世界翻译那两篇最重要的光谱渲染Talk。不过经过毕业年+初入工作的一些心态和认知变化，深觉语言其实并不是学术idea转化为生产力可能性的阻碍。因此决定，还是以文献的整理为主，加以个人的一些主观分析来作为光谱渲染研究的一些阶段性分享吧。
+（还有一些正在投入开发尝试的idea期待未来能放上来吧（继续挖坑
+Siggraph talk 综述 Spectral imaging in production | SIGGRAPH 2021 Courses
+Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
+仍然是这两篇Talk首当其冲，非常完整全面地综述了光谱渲染的必要性、基本原理和工业界实践经验。
+实现参考 学术界 Radiometry, Spectra, and Color (pbr-book.org)
+PBRT4加入了非常完整、标准的光谱渲染器实现，可以说是学术研究用渲染中最完善的之一，也在相应的PBRBookV4中有足够详实的实现说明，不可多得。可以说如果要在离线域做光谱渲染相关的尝试，完全可以在PBRT4上做修改来实现了。
+The ART Homepage @ CGG (cuni.cz)
+捷克Charles大学CGG实验室的光谱渲染研究用渲染器，该实验室产出了多篇关于光谱渲染中荧光这一核心优势表现相关的Paper（Journals &amp;amp; Conferences | Computer Graphics Group (cuni.cz)）。
+工业界 Manuka | Wētā FX (wetafx.co.nz)
+Spectral Rendering in Manuka (dreggn.org)
+Weta Digital的Manuka，几乎可以说当前工业界在使用的唯一完善的光谱渲染方案，有非常多有价值的工程参考。
+更早的Maxwell则没有得到过工业界的大规模使用。
+其他 Simon’s Tech Blog: Spectral Path Tracer (simonstechblog.</description>
+      <content:encoded><![CDATA[<blockquote>
+<p>【光谱渲染】会是一个新的系列，根据自己业余和朋友一起做的一些讨论、尝试、探索不定期更新</p>
+</blockquote>
+<h1 id="关于光谱渲染的一些资料整理">关于光谱渲染的一些资料整理</h1>
+<p>从更早对渲染和色彩科学都做过一段时间科研开始，到去年的毕业论文开发和写作、再到工作后的一些业余的思考和与朋友们的讨论，对光谱渲染越来越感兴趣——可以说是渲染+色彩科学这两个我短暂的科研生涯里最重要的两个词，产生有机结合的最终形态，也是解决现在CG创作中许多色彩、光学问题的一个“终极答案”。</p>
+<p>因此，在工作中做更加要求性能、美学平衡的工程问题的同时，在业余的时间更愿意将时间投入到这样的一些相对“远未来”的工业界应用可能性的尝试与探索中（尽管工作之余的绝大部分时间其实还是用来休息的）。这一“学术兴趣”与仍在学术界的不少朋友都有不谋而合，或是更倾向影视工业界的研究，或是在图形学术界的新尝试……</p>
+<p>去年还因此开坑信誓旦旦<a
+href="https://elderlyaugustus.github.io/posts/2023-02-25-虚拟制作中的景深问题思考/">试图为中文世界翻译那两篇最重要的光谱渲染Talk</a>。不过经过毕业年+初入工作的一些心态和认知变化，深觉语言其实并不是学术idea转化为生产力可能性的阻碍。因此决定，还是以文献的整理为主，加以个人的一些主观分析来作为光谱渲染研究的一些阶段性分享吧。</p>
+<blockquote>
+<p>（还有一些正在投入开发尝试的idea期待未来能放上来吧（继续挖坑</p>
+</blockquote>
+<h2 id="siggraph-talk-综述">Siggraph talk 综述</h2>
+<p><a href="https://dl.acm.org/doi/pdf/10.1145/3450508.3464582">Spectral
+imaging in production | SIGGRAPH 2021 Courses</a></p>
+<p><a
+href="https://dl.acm.org/doi/pdf/10.1145/3532720.3535632">Practical
+aspects of spectral data in digital content production | SIGGRAPH 2022
+Courses</a></p>
+<p>仍然是这两篇Talk首当其冲，非常完整全面地综述了光谱渲染的必要性、基本原理和工业界实践经验。</p>
+<h2 id="实现参考">实现参考</h2>
+<h3 id="学术界">学术界</h3>
+<p><a
+href="https://www.pbr-book.org/4ed/Radiometry,_Spectra,_and_Color">Radiometry,
+Spectra, and Color (pbr-book.org)</a></p>
+<p>PBRT4加入了非常完整、标准的光谱渲染器实现，可以说是学术研究用渲染中最完善的之一，也在相应的PBRBookV4中有足够详实的实现说明，不可多得。可以说如果要在离线域做光谱渲染相关的尝试，完全可以在PBRT4上做修改来实现了。</p>
+<p><a href="https://cgg.mff.cuni.cz/ART/">The ART Homepage @ CGG
+(cuni.cz)</a></p>
+<p>捷克Charles大学CGG实验室的光谱渲染研究用渲染器，该实验室产出了多篇关于光谱渲染中荧光这一核心优势表现相关的Paper（<a
+href="https://cgg.mff.cuni.cz/publication-type/journals-and-conferences/">Journals
+&amp; Conferences | Computer Graphics Group (cuni.cz)</a>）。</p>
+<h3 id="工业界">工业界</h3>
+<p><a
+href="https://www.wetafx.co.nz/research-and-tech/technology/manuka/">Manuka
+| Wētā FX (wetafx.co.nz)</a></p>
+<p><a
+href="https://jo.dreggn.org/path-tracing-in-production/2017/talk-jo/">Spectral
+Rendering in Manuka (dreggn.org)</a></p>
+<p>Weta
+Digital的Manuka，几乎可以说当前工业界在使用的唯一完善的光谱渲染方案，有非常多有价值的工程参考。</p>
+<p>更早的Maxwell则没有得到过工业界的大规模使用。</p>
+<h3 id="其他">其他</h3>
+<p><a
+href="https://simonstechblog.blogspot.com/2020/07/spectral-path-tracer.html">Simon’s
+Tech Blog: Spectral Path Tracer (simonstechblog.blogspot.com)</a></p>
+<p>本人最早了解学习一个完整的光谱渲染器实现方式读到的一篇个人博客，非常简洁的一个光谱渲染实现介绍。</p>
+<h2 id="research">Research</h2>
+<p>个人认为，光谱渲染更接近物理的优势自不必说，但其核心的问题在于效率问题，因此学术界解决的绝大部分问题本质上我也认为是不同层面的效率问题，我将其做了一些简单的分类：</p>
+<ul>
+<li>采集光谱数据的效率
+<ul>
+<li>材质侧，基本只能通过RGB上转Spectral来实现有规模地采集</li>
+</ul></li>
+<li>计算过程中的效率，当前的光谱渲染计算基本是通过更大规模的蒙特卡罗采样实现，因此计算规模过大
+<ul>
+<li>采样上的优化，光谱侧的重要性采样等</li>
+<li>仅针对特殊材质做光谱渲染，做材质侧的选取优化</li>
+<li>光谱渲染算法本身的近似优化（个人最近比较关注的）</li>
+</ul></li>
+</ul>
+<h3 id="关于rgb上转spectral的工作">关于RGB上转Spectral的工作</h3>
+<p><a
+href="https://graphics.geometrian.com/research/spectral-primaries.html">Spectral
+Primaries (geometrian.com)</a></p>
+<p><a
+href="https://dl.acm.org/doi/abs/10.1145/3588432.3591565">Metameric:
+Spectral Uplifting via Controllable Color Constraints | ACM SIGGRAPH
+2023 Conference Proceedings</a></p>
+<h3 id="光谱渲染效率上的工作">光谱渲染效率上的工作</h3>
+<p>（待补充）</p>
+<h3 id="关于其他light-transportation探索的一点看法">关于其他Light
+Transportation探索的一点看法</h3>
+<p>近年来诸如波动光学渲染方程等更“物理”的光传输模拟也在陆续出现，而光谱渲染也被认为是同种“更进一步”模拟光传输的方式。但个人认为它们对光模拟的本质是不一样的，前者更侧重的是单波长光、和多种单波长光之间的物理现象，而光谱渲染则是现实中混合光本身的分布、混合光由物理量被转换为感知量（进入人眼）后的多种问题的综合。可以说前者会颠覆现在使用的Rendering
+Equation，而后者则可以几乎无缝地适配于任一种Rendering
+Equation，而且是工业界已经有许多case发现了光谱渲染的刚需的，要离当前的生产近得多。</p>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
