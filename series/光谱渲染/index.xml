@@ -104,7 +104,8 @@ Representation for Fluorescent Spectral Data</a> 用GMM压缩“fluorescent
 event”（荧光现象，作者定义为光传输过程中会发生光谱shifting的现象）中的二维光谱查找表，主要体现在内存的优化上。</p>
 <p><a
 href="https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14716">Efficient
-Storage and Importance Sampling for Fluorescent Reflectance</a></p>
+Storage and Importance Sampling for Fluorescent Reflectance</a>
+上一篇的上刊版本，图更丰富。</p>
 <h4 id="计算效率上">计算效率上</h4>
 <h3 id="关于其他light-transportation探索的一点看法">关于其他Light
 Transportation探索的一点看法</h3>
