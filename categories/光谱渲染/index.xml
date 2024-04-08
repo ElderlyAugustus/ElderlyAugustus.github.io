@@ -82,7 +82,7 @@ Tech Blog: Spectral Path Tracer (simonstechblog.blogspot.com)</a></p>
 <ul>
 <li>材质侧，基本只能通过RGB上转Spectral来实现有规模地采集</li>
 </ul></li>
-<li>计算过程中的效率，当前的光谱渲染计算基本是通过更大规模的蒙特卡罗采样实现，因此计算规模过大
+<li>计算过程中的效率，当前的光谱渲染计算基本是通过更大规模的蒙特卡罗采样实现，因此计算规模过大，内存、算力都非常吃紧
 <ul>
 <li>采样上的优化，光谱侧的重要性采样等</li>
 <li>仅针对特殊材质做光谱渲染，做材质侧的选取优化</li>
@@ -98,7 +98,14 @@ href="https://dl.acm.org/doi/abs/10.1145/3588432.3591565">Metameric:
 Spectral Uplifting via Controllable Color Constraints | ACM SIGGRAPH
 2023 Conference Proceedings</a></p>
 <h3 id="光谱渲染效率上的工作">光谱渲染效率上的工作</h3>
-<p>（待补充）</p>
+<h4 id="内存上">内存上</h4>
+<p><a href="https://diglib.eg.org/handle/10.2312/sr20211305">A Compact
+Representation for Fluorescent Spectral Data</a> 用GMM压缩“fluorescent
+event”（荧光现象，作者定义为光传输过程中会发生光谱shifting的现象）中的二维光谱查找表，主要体现在内存的优化上。</p>
+<p><a
+href="https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14716">Efficient
+Storage and Importance Sampling for Fluorescent Reflectance</a></p>
+<h4 id="计算效率上">计算效率上</h4>
 <h3 id="关于其他light-transportation探索的一点看法">关于其他Light
 Transportation探索的一点看法</h3>
 <p>近年来诸如波动光学渲染方程等更“物理”的光传输模拟也在陆续出现，而光谱渲染也被认为是同种“更进一步”模拟光传输的方式。但个人认为它们对光模拟的本质是不一样的，前者更侧重的是单波长光、和多种单波长光之间的物理现象，而光谱渲染则是现实中混合光本身的分布、混合光由物理量被转换为感知量（进入人眼）后的多种问题的综合。可以说前者会颠覆现在使用的Rendering
