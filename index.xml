@@ -21,15 +21,13 @@
 Siggraph talk 综述 Spectral imaging in production | SIGGRAPH 2021 Courses
 Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
 仍然是这两篇Talk首当其冲，非常完整全面地综述了光谱渲染的必要性、基本原理和工业界实践经验。
+Practical Aspects of Spectral Data in Digital Content Production - SIGGRAPH 2022 - YouTube
+对应的视频版，配上原PPT更详细一些。
 实现参考 学术界 Radiometry, Spectra, and Color (pbr-book.org)
 PBRT4加入了非常完整、标准的光谱渲染器实现，可以说是学术研究用渲染中最完善的之一，也在相应的PBRBookV4中有足够详实的实现说明，不可多得。可以说如果要在离线域做光谱渲染相关的尝试，完全可以在PBRT4上做修改来实现了。
 The ART Homepage @ CGG (cuni.cz)
 捷克Charles大学CGG实验室的光谱渲染研究用渲染器，该实验室产出了多篇关于光谱渲染中荧光这一核心优势表现相关的Paper（Journals &amp;amp; Conferences | Computer Graphics Group (cuni.cz)）。
-工业界 Manuka | Wētā FX (wetafx.co.nz)
-Spectral Rendering in Manuka (dreggn.org)
-Weta Digital的Manuka，几乎可以说当前工业界在使用的唯一完善的光谱渲染方案，有非常多有价值的工程参考。
-更早的Maxwell则没有得到过工业界的大规模使用。
-其他 Simon’s Tech Blog: Spectral Path Tracer (simonstechblog.</description>
+工业界 Manuka | Wētā FX (wetafx.</description>
       <content:encoded><![CDATA[<blockquote>
 <p>【光谱渲染】会是一个新的系列，根据自己业余和朋友一起做的一些讨论、尝试、探索不定期更新</p>
 </blockquote>
@@ -49,6 +47,10 @@ href="https://dl.acm.org/doi/pdf/10.1145/3532720.3535632">Practical
 aspects of spectral data in digital content production | SIGGRAPH 2022
 Courses</a></p>
 <p>仍然是这两篇Talk首当其冲，非常完整全面地综述了光谱渲染的必要性、基本原理和工业界实践经验。</p>
+<p><a href="https://www.youtube.com/watch?v=JtSJr-je8qY">Practical
+Aspects of Spectral Data in Digital Content Production - SIGGRAPH 2022 -
+YouTube</a></p>
+<p>对应的视频版，配上原PPT更详细一些。</p>
 <h2 id="实现参考">实现参考</h2>
 <h3 id="学术界">学术界</h3>
 <p><a
@@ -98,7 +100,6 @@ href="https://dl.acm.org/doi/abs/10.1145/3588432.3591565">Metameric:
 Spectral Uplifting via Controllable Color Constraints | ACM SIGGRAPH
 2023 Conference Proceedings</a></p>
 <h3 id="光谱渲染效率上的工作">光谱渲染效率上的工作</h3>
-<h4 id="内存上">内存上</h4>
 <p><a href="https://diglib.eg.org/handle/10.2312/sr20211305">A Compact
 Representation for Fluorescent Spectral Data</a> 用GMM压缩“fluorescent
 event”（荧光现象，作者定义为光传输过程中会发生光谱shifting的现象）中的二维光谱查找表，主要体现在内存的优化上。</p>
@@ -106,7 +107,18 @@ event”（荧光现象，作者定义为光传输过程中会发生光谱shifti
 href="https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.14716">Efficient
 Storage and Importance Sampling for Fluorescent Reflectance</a>
 上一篇的上刊版本，图更丰富。</p>
-<h4 id="计算效率上">计算效率上</h4>
+<p><a href="https://www.nature.com/articles/s41377-022-00743-6">Spectral
+imaging with deep learning | Light: Science &amp; Applications
+(nature.com)</a></p>
+<p>光学领域的光谱工作，很值得参考。用NN压缩光谱数据。并提供了光谱数据集的一个偏综述的整理对比：</p>
+<ul>
+<li><a
+href="https://www.nature.com/articles/s41377-022-00743-6/tables/3">Table
+3 Spectral dataset parameters (nature.com)</a></li>
+<li><a
+href="https://www.nature.com/articles/s41377-022-00743-6/tables/4">Table
+4 Description of spectral datasets (nature.com)</a></li>
+</ul>
 <h3 id="关于其他light-transportation探索的一点看法">关于其他Light
 Transportation探索的一点看法</h3>
 <p>近年来诸如波动光学渲染方程等更“物理”的光传输模拟也在陆续出现，而光谱渲染也被认为是同种“更进一步”模拟光传输的方式。但个人认为它们对光模拟的本质是不一样的，前者更侧重的是单波长光、和多种单波长光之间的物理现象，而光谱渲染则是现实中混合光本身的分布、混合光由物理量被转换为感知量（进入人眼）后的多种问题的综合。可以说前者会颠覆现在使用的Rendering
