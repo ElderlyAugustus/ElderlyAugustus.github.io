@@ -35,7 +35,7 @@
   "description": "xα\u0026#39;s blog",
   "thumbnailUrl": "https://elderlyaugustus.github.io/favicon.ico",
   "sameAs": [
-      "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
+      "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io", "OldAugustus@outlook.com | absUrl"
   ]
 }
 </script>
@@ -199,8 +199,8 @@ function toggleThemeListener() {
         </div>
         <ul id="menu">
             <li>
-                <a href="https://elderlyaugustus.github.io/archives/" title="Archives"
-                >Archives
+                <a href="https://elderlyaugustus.github.io/posts/" title="Posts"
+                >Posts
                 </a>
             </li>
             <li>
@@ -221,340 +221,37 @@ function toggleThemeListener() {
         </ul>
     </nav>
 </header>
-<main class="main"> 
-  
-
-
-
-
-
-<article class="first-entry home-info">
-  <header class="entry-header">
-    <h1></h1>
-  </header>
-  <section class="entry-content"><link rel="preload stylesheet" as=style href=/css/main.min.css>
-    <div class="-mt-4 mb-20 flex items-start">
-    <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
-    <img class="my-0 h-14 w-14 rounded-full !bg-black/5 hover:animate-spin dark:!bg-black/80" src="icons/xa_blog.png" alt="xa.png">
-    </div>
-    <div>
-    <h1 class="mt-1.5 mb-3 text-3xl font-bold">xα</h1>
-    <div class="break-words">
-    游戏引擎研发，技术美术
-    </div>
-    </div>
-    </div>
-    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
-</section>
-  <footer class="entry-footer"><div class="social-icons">
+<main class="main"><div class="profile">
+    <div class="profile_inner">
+        <img src="https://elderlyaugustus.github.io/icons/xa_blog.png" alt="xa"
+            height="120" width="120" />
+        <h1>xα, Augustus</h1>
+        <span>Technical Artist / Graphics Programmer / R&amp;D for Film Production</span><div class="social-icons">
     <a href="https://github.com/ElderlyAugustus/ElderlyAugustus.github.io" target="_blank" rel="noopener noreferrer me" title="Github-Simple">
         <svg role="img" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
 
     </a>
+    <a href="OldAugustus@outlook.com%20%7c%20absUrl" target="_blank" rel="noopener noreferrer me" title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+
+    </a>
 </div>
-</footer>
-</article>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2024-03-03-光谱渲染-一些初步资料整理
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>【光谱渲染】会是一个新的系列，根据自己业余和朋友一起做的一些讨论、尝试、探索不定期更新
-关于光谱渲染的一些资料整理 从更早对渲染和色彩科学都做过一段时间科研开始，到去年的毕业论文开发和写作、再到工作后的一些业余的思考和与朋友们的讨论，对光谱渲染越来越感兴趣——可以说是渲染&#43;色彩科学这两个我短暂的科研生涯里最重要的两个词，产生有机结合的最终形态，也是解决现在CG创作中许多色彩、光学问题的一个“终极答案”。
-因此，在工作中做更加要求性能、美学平衡的工程问题的同时，在业余的时间更愿意将时间投入到这样的一些相对“远未来”的工业界应用可能性的尝试与探索中（尽管工作之余的绝大部分时间其实还是用来休息的）。这一“学术兴趣”与仍在学术界的不少朋友都有不谋而合，或是更倾向影视工业界的研究，或是在图形学术界的新尝试……
-去年还因此开坑信誓旦旦试图为中文世界翻译那两篇最重要的光谱渲染Talk。不过经过毕业年&#43;初入工作的一些心态和认知变化，深觉语言其实并不是学术idea转化为生产力可能性的阻碍。因此决定，还是以文献的整理为主，加以个人的一些主观分析来作为光谱渲染研究的一些阶段性分享吧。
-（还有一些正在投入开发尝试的idea期待未来能放上来吧（继续挖坑
-Siggraph talk 综述 Spectral imaging in production | SIGGRAPH 2021 Courses
-Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
-仍然是这两篇Talk首当其冲，非常完整全面地综述了光谱渲染的必要性、基本原理和工业界实践经验。
-Practical Aspects of Spectral Data in Digital Content Production - SIGGRAPH 2022 - YouTube
-对应的视频版，配上原PPT更详细一些。
-实现参考 学术界 Radiometry, Spectra, and Color (pbr-book.org)
-PBRT4加入了非常完整、标准的光谱渲染器实现，可以说是学术研究用渲染中最完善的之一，也在相应的PBRBookV4中有足够详实的实现说明，不可多得。可以说如果要在离线域做光谱渲染相关的尝试，完全可以在PBRT4上做修改来实现了。
-The ART Homepage @ CGG (cuni.cz)
-捷克Charles大学CGG实验室的光谱渲染研究用渲染器，该实验室产出了多篇关于光谱渲染中荧光这一核心优势表现相关的Paper（Journals &amp; Conferences | Computer Graphics Group (cuni.cz)）。
-工业界 Manuka | Wētā FX (wetafx....</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 3, 2024</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93/">光谱渲染</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2024-03-03-光谱渲染-一些初步资料整理" href="https://elderlyaugustus.github.io/posts/2024-03-03-%E5%85%89%E8%B0%B1%E6%B8%B2%E6%9F%93-%E4%B8%80%E4%BA%9B%E5%88%9D%E6%AD%A5%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/"></a>
-</article>
+        <div class="buttons">
+            <a class="button" href="posts" rel="noopener" title="Posts">
+                <span class="button-inner">Posts</span>
+            </a>
+            <a class="button" href="about" rel="noopener" title="About">
+                <span class="button-inner">About</span>
+            </a>
+        </div>
+    </div>
+</div>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>My 2023
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>My 2023 转眼又上完了一个月的班，眨眼一看已经2024了。
-今年是一个很重要的分水岭，上半年稍显从容，在一点点即将面临社会的忐忑中，浪费完了可能是最后一段能浪费的时光，告别了短暂、遗憾又充满了欢乐记忆的电影学院；然后便在最好的地方上了半年的班，但现在想来像是半个钟头一般，上班的日子总是流走得悄无声息。
-浪费与告别没什么好记，“赖”在实验室准备上班的知识、毕业论文做了点自认为有些许价值的东西、参与了一趟远游告别了真诚热烈的影技19本…不如把毕业论文的致谢摘录于此吧，也是对学生生涯的一记小结了。
-致谢语 “一个人的命运啊，当然要靠自我奋斗，但也要考虑到历史的行程。”正如四年前意外来到这里，我再一次选择了新的机遇与挑战。我的学生生涯，要先结束了。
-这四年，是在阴翳中找寻亮光的四年。在三年疫情和世界局势的日渐不期中，仍能找到自己的一隅之地并上下求索是何其幸运。因而在为自己十余年的求学与区区二十二载的人生点下逗号的此刻，还是不能免俗地向一切幸运逐一致以谢意。
-自然还是要先感谢自己，感谢自己无论环境如何变化，仍能保有好奇心和求知欲，仍能对探索未知充满热忱。尽管常有怠惰，也常常胡思乱想，但总有这份冲动能推着自己能向前走几步。
-也感谢自己终能在选择的时刻遵从内心，在踌躇、彷徨的十字路口抓住了自己真正的心之所向，坚定不移地走上各种各样的岔路口。
-感谢我的家人，在并不宽裕的家庭条件下支持我一路走来，愿意在我迷茫、疑惑时倾听，并努力理解并始终支持着我的所有选择与决定。
-感谢从小到大，路上的所有朋友。他们中，有的陪伴着一起度过了美好的学生生涯；有的一起探讨知识与学问，一起贪婪地汲取各种领域的新知；有的在工作中协力相助，一同思考，一同前行；有的在我人生路上提供了新可能、带领我走上了前所未想的路……
-感谢在我生命中留下浓重一笔的每一所学校、每一位老师。十余年的求学生涯里，有人从小激发了我对思考和逻辑的兴趣、又有人引我走入了思辨和质疑的大堂、还有地方用环境和风范为我树立了做人、做事、做学问的标尺。
-其中这四年，感谢影视技术系，当初选择这里，是因为热爱，如今选择离开，更因为热爱。因而我从未后悔来到这里，这四年是我在专业学习上、视野和见识上成长最快的四年。
-感谢影视技术系所有指导过我的老师。我的论文指导老师顾晓娟老师，从大一就带我开始对科研的探索，点亮了我对技术背后的科学的第一束色彩；而在这篇论文中，也包容我将四年来学过的不同领域知识融合到一起，实现成一个或许能有些许贡献的工作。在大二三两年的科研项目中指导我的陈军老师和赵建军老师，引领我在行业前沿技术的研发中找到方向和价值。还有教过我每一门课、在影视技术系各项科研项目、院系活动中指导过我的每一位老师。
-要突出感谢的是愿意把自己课程上传到网络平台的、来自天涯海角的老师们，尤其是GAMES平台及其一系列图形学课程的老师与团队。素未认识的闫令琪等老师，想必已经并将继续出现在全国多少毕业生的致谢中，也是我堪堪能在图形技术圣殿门边踌躇的点灯人。
-感谢影视行业、游戏行业的各位前辈、同侪——也始终会是我的老师，感谢他们给我实习、交流、尝试的机会，带领我真正走向实践，走入到我最初心最热爱的内容生产事业中去。
-感谢那些好电影，好游戏，感谢他们的创作者。不避讳地说，从2018年的《头号玩家》我才第一次走进电影院开始，便不可收拾地爱上视觉与听觉的沉浸体验，这四年里尽管风云变化，影厅里放着的影片依然耀眼夺目，荧光中的游戏也依然牵人魂魄。
-因而真诚地感谢全人类，感谢我们每一个人。数万年来，我们在各种各样的人祸天灾间上下求索，在一次又一次的历史循环中找寻突破，人性卑劣和光辉使我们成为人类，也使我们拥有勇气，拥有一个又一个前所未见的新领域，拥有这样一个世界，使我们看清它，热爱它。真诚期望能为人类命运共同体更美好的明天添几缕光彩。
-最后的最后，感谢未来，未来代表着希望，代表着无知，不论怎样走向，未来还会有我、有家人、有朋友、有老师，有知识、追求和全人类的创造。无论日子是否会昏暗，仍然热爱每一天的阳光，“向前，向前，永远不要停”。
-虽然去年已经有过实习，上半年也闲暇中开始接触了一些工作会用的工具（Actually上半年才开始接触的Unity），算是对新行业的工作有了几分了解，但2023年6月19日，才能算是我真正到一个线下的办公场所开始坐班的、新鲜又茫然的第一天。
-当不知道要做什么时，人便处于一种高度紧张又精神涣散的状态中，只有一项项具体的需求来到你面前，进入到写代码、查BUG的状态中，焦虑便自然无影踪了，剩下的只有写好下一行代码。我的工作状态便从头几天的无措，逐渐稳定了下来。再后来疲劳却尚不算狼狈的MP（MP做完的那天，正好是22岁，于是发了上一则Blog插了一个小桩）、回到项目组后越来越从容地地解决着一个又一个的需求的日子，便过得越来越快…
-逐渐开始发现了工作与学生时代的不同，还是会有一个问题要彻底解决了才肯停止的冲动，但逐渐接受了一个事情需要分解成很长的时间去做、接受了一个事情的中间要有打断。当学生时，遇到一个问题、或是想做一个东西的时候，总是想一口气吃完，甚至导致了长段时间的没日没夜、或是很少的休息，乃至吃饭睡觉时被问题萦绕。而工作，不再像学生可以一个人就是一支铁军，需要合作、需要等待、需要给自己固定的放空时间。从去年实习，到今年的工作，甚至常常发现，绞尽脑汁解决不了的问题，给自己一个晚上、一个午休甚至只是一段步行的Break down，回头来看，就在五分钟内迎刃而解了。
-学生时代，总希望只用做一些“Fancy”的事情，一切的略显“Dirty”或是在大众眼中没有那么“有价值”的事情都不想做，大家都想去解决电影、游戏项目中的明星问题。但一个真正完整项目的工程体里一定是错综复杂的，此时会发现过去自己以为的那些“Fancy”本质上也是各种“Dirty”的组合、或是“Dirty”亦是“Fancy”的叠加。真正重要的是去做，看着它在最终的成果里悄无声息又耀眼夺目地运作着，才是工作中难得的成就感的来源。
-这半年，主要还是在工作上找到了适合自己的平衡态，开始能够不紧不慢地应对一些挑战，也越来越从工作的角度上喜欢上这家公司这个岗位。但也自知是还有很多难题没有到过自己面前，高耸的天花板有同侪顶起；真诚地希望明年能挑起一些今年挑不起的担子，能够更加从容地应对更有挑战的前方；同时在“工作外”也能有新的发现和探索。
-而工作外的时间，更希望能探索些自己了。读书的时候，是没有“工作外”的，每天都在找座山爬一爬，每天都会滋生一些莫名的焦虑。因而工作之余，不用每天都给自己找座山爬爬的日子，就希望能还给自己，继续做一些可能没有那么有“现实价值”的课题，去发现新的视野，去发现一些新的快乐…
-2023元旦的微博 当然2023仍然是大家口中“未来十年最好的一年”。无论2024走向何方，该去热爱2024的阳光了，“向前，向前，永远不要停”。
-关于Blog的更新，其实上半年开了个蛮好的翻译坑，但因为懒惰或是下半年的忙碌，便鸽了。是否还会继续，期待未来【一些可能没有那么有“现实价值”的课题】的进展吧。</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>January 1, 2024</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%B9%B4%E8%AE%B0/">年记</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to My 2023" href="https://elderlyaugustus.github.io/posts/2024-01-01-my2023/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>22岁，不是学生
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>22岁，不再是学生。
-22岁，不再有&#43;1s。
-22岁，Across the xa-Verse。</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>August 17, 2023</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%B9%B4%E8%AE%B0/">年记</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 22岁，不是学生" href="https://elderlyaugustus.github.io/posts/2023-08-17-22%E5%B2%81%E4%B8%8D%E6%98%AF%E5%AD%A6%E7%94%9F/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2023-02-25-虚拟制作（Virtual Production）中的景深问题思考
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>虚拟制作（Virtual Production）中的景深问题思考 从发现这一问题就在思考如何从源头上的solution。之前和@houjue讨论得到过基本的思路和方法，但一直没有工程实践上的想法。今天旁观一场研讨会再次听到这一问题，突然有了想法，看了UE这部分的实现差不多确定是可以work的。但想安度最后的大学时光，便懒得做了，浅记在这里未来闲了再说吧。
-什么问题 简而言之就是LED墙内视锥的虚拟摄影机和真实摄影机的两次景深处理叠加，带来的背景景深错误。具体阐述可见大三时水的《基于LED背景墙的电影虚拟化制作实践探索与未来展望》这篇，不在博客里详述了。
-一个基于Unreal的解决方案Idea UE中假定高斯模糊为景深效果的实现方式（实际略有差异），高斯模糊存在以下叠加关系 \(\sigma_1^2&#43;\sigma_2^2=\sigma_3^2\) 时， \(\sigma_1\) 与 \(\sigma_2\) 的两次高斯模糊叠加后效果与一次 \(\sigma_3\) 的高斯模糊一致； 而UE景深后处理的 \(\sigma\) 与 \(CoC\) （弥散圆）相关（线性关系），那同样认为真实摄影机的景深结果与 \(CoC\) 相关，则有 \(R_{CoC_1}^2&#43;R_{CoC_2}^2=R_{CoC_3}^2\) ， \(CoC_3\) 带来的景深效果是最终目标， \(CoC_2\) 是真实摄影机到异形屏对应像素之间的距离计算得到，由此可以算出渲染应得的 \(CoC_1\) 。
-怎么获得真实摄影机到异形屏对应像素之间的距离：等效虚拟摄影机视线到虚拟LED Wall上交点的距离 —— 给CineCameraActor绑一个SceneCapture2D直接抓取ZBuffer。
-预告一下今年的目标更新，在翻译最近两年关于光谱渲染的两篇Siggraph Course Notes：
-Spectral imaging in production | SIGGRAPH 2021 Courses
-Practical aspects of spectral data in digital content production | SIGGRAPH 2022 Courses
-目前一天翻不到半页的龟速，主线工作太多。等有一些进度了就放一部分上来。</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>February 25, 2023</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/misc/">Misc</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2023-02-25-虚拟制作（Virtual Production）中的景深问题思考" href="https://elderlyaugustus.github.io/posts/2023-02-25-%E8%99%9A%E6%8B%9F%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84%E6%99%AF%E6%B7%B1%E9%97%AE%E9%A2%98%E6%80%9D%E8%80%83/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>My 2022
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>上一回写“年记”是My 2019了，今年发生的事太多，早就准备写一写，几次提笔，都没能写竟，想想算了还是留到年终来写这篇My 2022吧。
-今年元旦，我发了一条微博：
-21年两个主要的工作： 上半年一直搞着，但逐渐发现能搞得越来越少的Virtual Production； 下半年就着Presentation的课程，继续前一年没太搞明白的Simulation。
-一些杂七杂八的工作： 影院课及课程方案重编工作中，复习/新学了一些东西，Presentation部分新学了一点流媒体的知识； 科工委的技术展示片，早早开始筹备，制作却日常拖到了最后，明天要开始拍摄的部分； 零散地做了一些片子的后期/远程支持，以及极少量的现场工作，也算有一些二维影像的内容产出； 寒暑期照常补充了一些基础科学知识，后来也是不出所料派上了用场； 其他一些更零碎的就不提了。
-从19年进入实验室以来，持续了一年多的“精力‘Wireless’”，终于在一个暑假没回家之后，逐渐被大三上课内外的任务压得喘不过气来。
-今年只希望能得空做一些想做的工作罢，21年没学完的那些课等等。
-今年最想做的，是抛开实验室繁重的日常工作，真的有时间磨练磨练自己解决实际工程问题的能力。
-过完春节，三月，接到了这一学期又要从线上开始的通知，大家都没有两年前那样惊讶了，也预料到了开学的概率同样渺茫。在一边准备着本来这学期要拍的最后一次大作业的同时，我开始寻找学校外面的实践机会。
-跟着朋友们的步伐，我开始投出了我的第一批实习简历。仍然是抱着想要做电影的想法，先是盯上了几家有名视效、动画公司的RnD、TD岗，很快感受到了学校在业界的光环加成，聊家常一般的面试、快速的Offer沟通。然而，也很快地告诉了我影视行业这两年到底有多艰难的真相——我真的很难接受实习薪资甚至很难cover一个月北京房租和生活费的现实。留着最后一丝的希望，我只留下了一封没有定薪的、方向是刚做过的Simulation的动画公司RnD Offer，想着下半年如果能开学，住在学校宿舍兴许能去看看，虽然后面的计划很快被再一次打乱了。
-而三年里多少次念叨过的游戏行业，随后陆陆续续开始推进了流程。由于对游戏制作不算熟悉，尚不清楚自己到底适合什么样的岗位，投递策略是把自己技术栈能沾边的岗都投了个遍，从图程、引擎到技术美术、甚至技术策划等等，堪称“百花齐放”——几乎每家公司投递的都是不一样的岗位。不过很幸运的是，一面就收获了一家大厂的引擎预研课题岗，也最终几乎没有犹豫就选择了这一挑战最大的实习Offer。
-因为忐忑自己是否能够胜任实习的工作，4-5月我几乎把所有课余时间都投入到了进一步深入学习渲染、做更多的开发练习，并提前了解预研课题相关的知识上。也正在这期间上海封控，全国各地疫情散发，终于收到公司通知今年全体暑期实习生转为线上。在确认这一学期不会回学校，也取消了短片大作业后，我将自己的实习期提前了一个月，便开始了挣扎与快乐并存的实习两月。
-不得不承认，最初拿到没有文档、没有教学的开源引擎作为我的第一步算法验证工具的时候，我就害怕了。虽然从中学就开始写程序，但完全没有在这么大型的代码中穿梭工作的经验。第一天死读源码，头昏脑胀，我甚至和mentor提出了放弃，直接跳到第二步里我熟悉的Unreal去。mentor没有完全否定，只是鼓励我再试试，用过往经验告诉我，前两周一般都是这个状态。第二天，我重新从最基础的案例读起，在发现了各种函数与图形API之间的对应关系之后，我便豁然开朗了——很快，一天内就在案例的基础上搭建起验证的框架来。我建立起信心来，也开始沉迷上这种“初极狭，才通人。复行数十步，豁然开朗”的感觉，这在随后的两个月里不断地重演。
-犹记得和朋友聊到这种“真的在学习”的满足感，顿时会心。实习第三周，我第一次开始考虑要不要继续留下读书的问题，是不是工作会带给我更多的成长和满足呢？
-7月初的插曲是保研面试。因为只给保研本专业的限制，看着好朋友参与了十几个夏令营的眼睛只能干着眼发馋。在自己系的夏令营，没有新鲜、没有波折地完美作答，看起来顺理成章地取得第一，只等着那个似乎理所应当的三年绩点排名一。答着那些熟悉无比的题目，答着未来三年我会继续做什么，我意识到未来三年会做的这些事，跟前三年的实验室生活别无他样，也并不能做出我真正想做的东西。
-于是我跟着同事们一起卷入了秋招的大潮，看着今年的秋招大崩溃袭来，游戏行业的收缩，不仅呈现在“寒气”的蔓延上，也扎扎实实地呈现在每一家公司的Head Count上。好在我还算是幸运的，开始秋招时还可以抱着有学上的底气。这一次，我没有再犹豫自己应该选择什么岗位，因为实习的经历，我几乎没有犹豫地在每家游戏公司的秋招中投递了游戏引擎、图形渲染的岗位，并很顺利地通过了许多公司的筛选。
-实习结束后的那一个多月，几乎每一天，我三点醒来，在床上焦虑到九十点起床、一遍遍地翻邮箱，下午、晚上或是一场两场笔面试，或是杳无音信地焦虑一整天。仅有的慰藉是不像实习期间每天匆匆糊弄一两顿，可以有时间做点好吃的、买点好吃的。
-因为专业的艺术背景，也因为自己真正深入引擎开发不过寥寥半年，走到最后还是走到了技术美术道路上来了。其中也包括国内最喜欢的游戏“梦厂”，流转到技术美术流程时，便面临保研结果确认的最后期限了。很感谢帮我反复催促的HR同学，整个秋招里我的流程从来没有如此迅速过：几乎是追赶着笔试和面试，竟真的赶在两周内完成了所有的环节。
-这一次，我没有再错过机会。拿到意向书当晚，我做了最后的短暂思考，立刻联系了负责推免工作的老师。他告诉我，刚刚开完会，刚刚系内公示了我的名额。道歉、再次确认，在公示栏张贴之前，将最终的保研名额改为了我的室友。终于，像载着重石的气球脱开了束缚，我睡了个好觉。
-第二天，我向这三年里每一位指点过、照顾过我，对我抱有深远期望的老师——也几乎是北京电影学院影视技术系的全体教师了，一一抱歉、道别，一一接受了他们的祝福。我说，“要去迎接新的机遇与挑战了”。
-至于在另一家公司的实习，按mentor说往年应是轻松转正，今年却连续遭遇了：流程拖延、引擎招聘计划取消转岗至客户端、TA组邀请转岗至TA等等漫长的变化……跟着实习群里的大家一起焦虑了整整三个多月，直到一切尘埃落定之后的十二月初，才给到了两次转岗后转正的Offer Call。真的很感谢mentor和转岗的mentor的帮助，但真的晚了。
-做出决定的背后，是纠结了整个实习期和秋招期的折磨。最终在拿到意向书也是保研确认的前一周，我得到了答案——要从我的大学说起。
-高中上得像大学，大学上得像研究生。是一句玩笑，也算得是我这些年的至少半幅写照。
-刚来到电影学院的那个学，主旋律是和其他大多数同学一样，投入到剧组中、投入到活动中——有些，是新鲜的没体验过的、也有的则是高中的“大学生活”里已经驾轻就熟的，也是来到这里过得最像“本科生”的一个学期。但也正在这一学期，我发现了自己的积累对于实际的生产应用而言不过是冰山之一角，由于对各种技术的好奇，我频繁地抱怨时间不够用，这也要学那也要学。
-随后便是不幸却又幸运的半年——疫情使得大学的第二个学期不得不在家在线上度过。之所以说幸运，是我终于获得了大量的自主学习时间，互联网上也出现了大量高质量的分享课程。于是，我继续着前一学期学不完的那些东西，补着各种数理基础，也开始了早就说过想学的图形学的学习。
-这里要特别感谢GAMES，图形学与混合现实研讨会。在疫情的开始，我大学的第二学期开始陪伴至今，我从各门优质的课程中不断地探索图形学的魅力，也正是我早早参与科研、随后又在今年参与工作的重要力量之源。
-在这一学期对知识的贪婪汲取之后，我早早来到大二的校园，恰好赶上了系里实验室恢复运作却缺乏人手的时候，也发现了自己学的东西可以“派上用场”的机会。我很快融入了实验室，并又恰好赶上了实验室追逐热点的一个新科研项目——虚拟制作。作为前期参与预研的学生，我迅速成为了这个项目的三位早期核心成员之一，另两位都是与我同年入学的研究生。这正式开启了我大学的“研究生”生涯。
-于是，大学的第二年、第三年，我都过上了日常驻扎在实验室、摄影棚，与导师和研究生同学们一起工作，时而需要“溜出来”上本科生课的“Doctor”（绰号）。在实验室度过了一个又一个周末、假日，甚至那年的一整个暑假。
-在实验室待了快两年时，我已经是实验室还算比较重要的成员。在我主要参与的那个项目里，不像是项目早期三个人的野蛮探索，逐渐形成了快十人的团队，我也从所有方向都需要了解、负责变成了专注于渲染等细分方向，并且开始做论文、文档性的总结工作。而同时，系里的其他科研项目、创作项目也陆续开始缺乏人手，我开始并行参与多个项目。记得最深刻的一天，我一天内需要解决六个不同项目的不同需求，最终还是找帮手一起才能解决。在此之外，我还同步兼顾着大三繁重的课业……
-我几乎是经历了一个完整的研究生周期——积累理论基础、进入实验室开始科研项目、逐渐找到核心负责的方向、以文字形式呈现一定的成果。还围观并从旁“指指点点”了一年又一年的研究生开题、答辩……我也可以毫不谦虚地说，我在实验室两年的贡献，完全不比工作最辛苦的研究生少。
-也许就是阅历尚浅韧性不足吧，正如开头那篇微博所说的，我开始有些不像原先那样眼神里都充满了干劲，写论文、做内容都不再像之前面对未知的开发、探索那样有干劲，尤其是几乎每天都在写文字的那些日子，这让我逐渐厌倦。
-我开始回想这些年里不断说服自己留下读书的各种说法，几乎每一个，都被打破或是冲断了：
-我一直认为需要不断地换到更好的环境才可以给自己带来足够多的成长机会，当我意识到我这三年可以将西土城校区C楼和G楼地下二层的一切了如指掌的时候，我最初开始期待的研究生生涯是搬迁怀柔校区后从头建立“新一代影视制作中心”的三年。随后，便告诉我影视技术系的搬迁还遥遥无期，甚至就连现在的实验室，也被赶到了隔壁一个没有窗户的封闭仓库。 我又觉得我的科研项目还有许多可以攻克的难题，还有许多有意思的方向，值得我继续与其作战的三年。但就像我元旦的那条微博说的，越来越发觉我们这个行业里，几人的科研团队的力量难以解决这么庞大、复杂的工业问题，越来越发现我们真的只能等待工具的更新迭代，来测试来使用。 最后，我以为一段不需要在课业、科研任务上花费过多精力和时间的时间能带给自己足够多的自主探索时间。我可以在这三年里深入研究一个实时渲染引擎的内在，尝试一个又一个渲染、模拟上的Idea，实现一个个有趣的Feature，甚至，可以像一些优秀的前辈那样自己编写自己的引擎。这是我最后一次能够说服自己继续读三年的理由——就是今年的实习、工程练习告诉我，这条路的成长，有更快的实现方式。作为一个实习期间一下班就完全放松的懒人，在学校的孤军奋战理想显得可笑又荒唐。 既然所有的说法都没再能说服自己留下，接下来的一周我便用尽了全力去面试，获得了那个在现时的我看来闪闪发光的机会。
-人一旦完成了选择，就能找到无数的理由鼓励自己，选择是正确的——不再赘列一个个的理由，在最终做出选择的那一刻，我告诉自己：“这条路，又是充满坎坷曲折，但有着更多机会更多可能性的一条路”。
-这让我回想起在淋浴间冲着水决定选择南师附中的那个晚上、逃操查成绩并决定选择电影学院的那个课间，选择后的这些年来，我真的看到了各种新的可能，也真的走上了其中的几条有趣的新路线。
-因而，我又一次选择了继续相信。
-休息了一段时间，又去很近的苏州短游了两天后。我于十月份隔离两周回到学校，因为学校的“常态化防控”，因为他家期待已久的影片未能上映，我没有再去那家动画公司做Simulation的实习。我想趁着上班前，重新作为大学生度过最后的光阴。
-同样因为“常态化防控”，及经费问题，今年的实验室也不再有那么多的科研工作，这三个月过上了学累了玩、玩累了吃，随时到DI Room看电影的“温柔乡”生活。
-唯一的小工作是重新部署了个人网站，换到了这里。因此三年前的那篇My 2019和今天这篇，都重新发在这里了。
-在被“新十条”前最后的封控被赶出实验室后，和几个好朋友，去了环球影城，又去了汕头、广州旅行了十天。
-洗净了今年的劳累，全国封控也解除了，真的要重新出发了。
-不知如何收尾：2023，希望电影好起来，希望游戏好起来，希望世界好起来；希望能在进入行业后做出好的内容，变得更强大。</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>January 1, 2023</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%B9%B4%E8%AE%B0/">年记</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to My 2022" href="https://elderlyaugustus.github.io/posts/2023-01-01-my2022/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>迁移说明
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>2022年10月31日，从Hexo迁移至Hugo
-欢迎访问我的个人主页，主页内容主要为学习笔记，目前主要包含
-计算机图形学
-数理基础
-影视技术分享</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 31, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/misc/">Misc</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 迁移说明" href="https://elderlyaugustus.github.io/posts/2022-10-31-%E8%BF%81%E7%A7%BB%E8%AF%B4%E6%98%8E/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-10-23-GAMES104现代游戏引擎-Lecture22-GPU Driven Geometry Pipeline - Nanite
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture22 GPU Driven Geometry Pipeline - Nanite Research Background 传统渲染管线 CPU发起Draw Call，GPU准备State、进入漫长的Pipeline CPU、GPU不同步 存在大量的算力浪费 现代游戏Draw Call越来越复杂，已经成为现代渲染管线瓶颈 “曙光”: Compute Shader：不再需要在CPU、GPU之间来回传递数据，直接在GPU中执行通用计算 Draw-Indirect Graphics API：一次Draw Call绘制多个Mesh GPU Driven Render Pipeline 将场景完整load到显存中，完全由GPU处理：DrawPrimitive -&gt; DrawScene @《刺客信条：大革命》
-Mesh Cluster Rendering 将Mesh分成同样三角形数量的Cluster，便于交给GPU做裁剪等计算 不可见的Cluster不渲染；Culling流程： 尽可能裁剪掉不可见的三角形 将可见的三角形组成同一个Buffer GPU Driven Pipeline CPU端： 根据材质不同组合Instance 根据相机距离LoD 打包交给GPU做后续处理 GPU Instance Culling Instance Culling 将（64个）Cluster组成一个Chunk，再次Culling，以加速 GPU Cluster Culling Chunk -&gt; Cluster -&gt; Triangle 一步步裁剪，将视锥外、背面的全部裁剪 Index Buffer Compaction 将可见三角形的依次写入备用Index Buffer 三角形顶点顺序不统一时，可能导致前后帧三角形顶点顺序不一致，由于Z-Buffer精度有限，导致Z-Fighting问题 =&gt; 硬件Multi-Indirect Draw Call或可解决此问题 对高精度的Mesh效率非常高 Codec Triangle Visibility in Cube : Backface Culling 每个Cluster存储每个三角形对两个方向的可见性 利用这一数据快速做Backface Culling Occlusion Culling for Camera and Shadow 利用前一帧Z-Buffer的方法： 取当前帧的一部分（如300个）近处大Mesh作为可能的Occluder渲染Z-Buffer 将上一帧的深度重投影到当前帧，用于补充当前帧Z-Buffer空缺处 保守估计Culling Instance -&gt; Chunk -&gt; Cluster -&gt; Triangle 问题：高速移动物体存在一定Artifact Two-Phase Occlusion Culling 快速绘制通过上一帧的Z-Buffer Test的Instance的当前帧Z-Buffer 再利用当前帧不完整的Z-Buffer，测试剩余所有Instance，选出可见者 更加准确 Fast Occlusion for Shadow Shadow中生成深度时对几何细节量敏感 对每个Cascade，将上一帧相机深度重投影至当前帧Shadow深度，并混合上一帧Shadow深度 只有摄影机可见区域内需要生成阴影：只对相机可见的Instance生成Shadow的Z-Buffer Visibility Buffer Forward Rendering：所有互相遮挡、透明的物体需要做重复计算 Deferred Shading：用G-Buffer存储可见Pixel的各种数据，只对G-Buffer做光照计算 G-Buffer的存储、IO开销大 复杂场景下，因为难以判断可见性，在生成G-Buffer时产生Over draw，多次绘制同一像素时开销大 Visibility Buffer： 第一遍渲染时，只在Buffer中存储： (Alpha masked bit, DrawID, PrimitiveID, MaterialID, …) 根据各种ID读取对应贴图，再做重心坐标插值着色 几乎没有Over Draw Cache Miss率低 Pipeline Visibility Buffer &#43; Deferred Shading 一般来说，草丛等复杂细节情况可直接用Visibility Buffer渲染，主角等主要内容Gather到G-Buffer再渲染 注意点：MIPMAP采样时的插值平滑问题 Virtual Geometry - Nanite Overview Virtual Texture Idea：将场景中所有贴图加载到内存中开销非常大，能否只加载可见部分且LoD后精度的贴图 所有材质加载到同一张“大贴图”中，并对整个贴图做MIPMAP 预烘焙这张“大贴图”，并做MIPMAP 根据View区域动态加载所需的部分 Idea of Nanite Virtual Geometry like Virtual Texture 挑战：几何数据是非Uniform的、互相之间可能没有关联性、Mesh数据难以Filter（SDF、Voxel、Point Cloud可以Filter） Voxel ?...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 23, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-10-23-GAMES104现代游戏引擎-Lecture22-GPU Driven Geometry Pipeline - Nanite" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture22-nanite/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture21 Dynamic Global Illumination and Lumen Part I Dynamic Global Illumination Global Illumination - 略 Reflective Shadow Maps, RSM - 略 低分辨率间接光照加速：
-计算低分辨率间接光照 对全分辨率图像的每个像素 获得周围四个低分辨率采样 通过法线和世界坐标位置判断，采样间差异过大时剔除 双线性插值 以全分辨率重新计算剔除的像素 Light Propagation Volumes, LPV - 略 Sparse Voxel Octree for Real-time Global Illumination, SVOGI 如何组织voxel的分布？
-硬件保守光栅化：对很小的三角形，保证其至少有一个voxel 八叉树存储 Shading with Cone Tracing in Voxel Tree 着色点根据BRDF发射Diffuse和Specular的Cone 根据Cone尺寸查询树结构获取光照 - 非常适合Hierarchy结构存储的光照数据 NVIDIA的工作，GPU表达非常复杂 Voxelization Based Global Illumination, VXGI 更关注相机视锥内的区域、更关注近处的区域 Clipmap，voxel版的Mipmap 利用Clipmaps存储voxel数据 重心区域使用更高分辨率voxel 更适合Cone Tracing 建构简单、读取简单、GPU Friendly… Voxel Update：空间网格位置固定，只需要更新相机周围的Voxel Voxel具有Opacity（透明度），表征Voxel内有多少Surface可以阻挡光线，需要计算三个方向 对屏幕空间每个像素做Cone Tracing（Diffuse、Rough Specular、Fine Specular） 问题： 错误的遮挡关系，简单使用Opacity来表示 Light Leaking：遮挡物薄于Voxel时 Screen Space Global Illumination, SSGI Reuse screen space data &lt;- Screen Space Reflection, SSR SSR：单根光线，构建反射 -&gt; 多方向多根光线，构建GI 对Depth Buffer做Raymarching，Hierarchical Tracing 参考SSR笔记 Reuse近邻像素 做Cone Tracing，相当于对Tracing到的屏幕范围的像素做一次Filtering 优势：快，质量高，没有遮挡问题 问题：缺少屏外信息，重用近邻像素带来的错误Visibility 独特优势： 易于处理非常近的接近阴影 准确的Hit点计算 对场景复杂度不敏感 可以处理动态物体 Part II Lumen Real-time Ray Tracing的问题：...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 23, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-10-23-GAMES104现代游戏引擎-Lecture21-Dynamic Global Illumination and Lumen" href="https://elderlyaugustus.github.io/posts/2022-10-23-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture21-lumen/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>PS: Lecture17-20主要涉及[机器学习]、[网络架构]、[面向数据编程]，与本人图形方向相离较多，故仅浏览学习，暂无笔记
-Lecture16 Gameplay Systems - Basic Artificial Intelligence Navigation 三个步骤： Map Representation 地图表达 Walkable Area
-需要考虑：
-Physical Collision Climbing Slope/Height Jumping Distance … 难以完全模拟人的可行路线，需要一定的限制，类似“空气墙”； AI Agents和Player的可行区域相同
-Waypoint Network
-路网，类似地铁线路图 寻找最近的路点 易于实现，快速寻路不够灵活，路网需要手工标注 Grid
-Square / Triangle / Hexagon 其中Square相对易于存储 易于实现、均匀数据结构、动态可更新 精确性依赖分辨率 密集网格降低寻路性能 内存消耗大 难以处理3D地图（桥梁、隧道等） Navigation Mesh
-用简化的凸多边形表示场景 若出现凹多边形，寻路时可能跨越凹边出现在Mesh外区域 优势：
-支持3D可行区域 精确 快速寻路 灵活选择起始地、目的地 动态 缺陷：
-复杂的生成算法 不支持3D空间，例如空中飞行 Sparse Voxel Octree
-空间八叉树 存储量大 寻路复杂 Path Finding 寻找路径 所有表达，都可归为图结构
-即在图上找到一个路径，尽可能找到最优（短）路径
-深度优先搜索 / 广度优先搜索 消耗比较高，广度优先适合找到最短路径...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 22, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-10-22-GAMES104现代游戏引擎-Lecture16-Gameplay Systems - Basic Artificial Intelligence" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture16-gameplaybasicartificialintelligence/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture15 Gameplay Complexity and Building Blocks Overview Gameplay的挑战 多个系统之间的合作 同一个游戏中Gameplay的多样性 快速迭代 Event Mechanism Hard Code写在函数中：无数的if/else、非常难以修改 Event/Message Mechanism：GO之间的“通讯协议” Publish-subscribe Pattern 发行-订阅设计模式 Event Definition 信息的定义 方法1：Event作为类设计 -&gt; 不适合交给设计师修改 方法2：允许定义任意的Event 再通过代码渲染系统编译，但每次修改都需要重新编译过于麻烦 在引擎核心代码之外定义 dll注入 用脚本层语言实现 Callback Registration 响应注册 注册和调用不在同一处 –&gt; 对象的生命周期和回调函数安全性问题 Strong Reference 强引用：引用关系绑定 Weak Reference 弱引用：引用关系弱，可手动进行逻辑判断，使用较多 Event Dispatching 信息分发 遍历每个GO，逐个分发调用函数 —— 效率过低 Immediate：发送消息立即调用函数 会打断前一任务，等待Callback执行后再继续 单次打断引发连锁Callback，易导致Callstack非常深，难以Debug 难以并行 Event Queue 把Event存储至队列，依次执行 Event Queue的序列化和反序列化 实现：利用反射，获取每个对象的描述结构 存储结构：Ring Buffer 不用重复申请新内存 Batching，将多个独立系统分开处理 问题： 无法保证多个系统间的执行顺序 =&gt; 保留一定的Immediate处理能力 同时具备Pre、Post、Immediate处理方式 有系统延迟，削弱动作游戏打击感 =&gt; 经常Hardcode绕过Delay Script System Game Logic 直接在游戏引擎代码内，使用编译语言编写 （C/C&#43;&#43;） 每次修改Gameplay，需要重新编译游戏引擎 极难支持热更新 对设计师极不友好 脚本语言 Script System 支持快速迭代 易于学习、编写 支持热更新 沙盒运行，稳定、更少Crash 如何运行 基于虚拟机 Script Text -&gt; [Compiler] -&gt; Bytecode [Virtual Machine] 速度略慢 如何管理GO 强调效率：引擎内核管理，脚本触发引擎执行 编写难度大 执行过程非常复杂 直接交给脚本系统管理 脚本如何处理GO的生命周期：GC, Garbage Collection 优势：不需要手动管理对象生命周期，自动处理 问题：每次需要扫描内存，处理效率低 对于玩法相对简单的单机游戏，大多交给引擎管理； MMORPG等玩法非常复杂的游戏，大多脚本系统管理 架构 引擎调用脚本 eg....</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>October 22, 2022</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="https://elderlyaugustus.github.io/page/2/">Next Page »</a>
-  </nav>
-</footer>
     </main>
     
 <footer class="footer">

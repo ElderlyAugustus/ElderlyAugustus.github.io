@@ -1,19 +1,21 @@
-# 肖翱
+# xa
 
-打工中...
+I am currently a Technical Artist (Comprehensive orientation) in a famous Chinese technology company, working for an amazing GAAS-game.
 
-游戏引擎研发，技术美术
+Previously, I worked as Game Engine / Graphics Programmer for a Survival FPS Game, developing large world rendering technology.
 
-北京电影学院影视技术系，电影虚拟化制作实验室
+I graduated from Department of Film and Television Technology, Beijing Film Academy, and I was a researcher in Lab of Film Virtual Production.
 
-业余：<font color=#8770cc>电影和摄影回归为爱好之后又显得眉清目秀了！</font>
+I am enjoying researching and developing new technology for creating wonderful entertainment content, including films and games.
+
+<font color=#8770cc>Film and photography became my hobbies again after graduation and became more friendly!</font>
 
 ------
 
-### 朋友们（玩博客的朋友很少啦）
+### Friends Lines (a little, who use blogs)
 
-[KSkun，客户端老哥](https://ksmeow.moe/)
+[KSkun, Gameplay Programmer](https://ksmeow.moe/)
 
-[Jason，图形学读研中的好兄弟](http://blog.f-jason.site/)
+[Jason, Graphics researcher](http://blog.f-jason.site/)
 
-[White Tail，也在干TA的影技好师弟](https://whitetail-o.github.io/)
+[White Tail，Technical Artist](https://whitetail-o.github.io/)

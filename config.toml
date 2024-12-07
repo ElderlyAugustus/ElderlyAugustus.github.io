@@ -41,9 +41,9 @@ pygmentsUseClasses = true
     url = "/tags/"
     weight = 2
   [[menu.main]]
-    identifier = "archive"
-    name = "Archives"
-    url = "/archives/"
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
     weight = 1
   # [[menu.main]]
   #   identifier = "categories"
@@ -83,29 +83,23 @@ pygmentsUseClasses = true
   images = ["papermod-cover.png"]
 
   [params.profileMode]
-    enabled = false
+    enabled = true
     title = "xα, Augustus" # optional default will be site title
-    subtitle = '''游戏引擎研发，技术美术<br/>
-    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
-    '''
+    subtitle = '''Technical Artist / Graphics Programmer / R&D for Film Production'''
     imageUrl = "/icons/xa_blog.png"
     imageTitle = "xa"
     imageWidth = 120
     imageHeight = 120
 
     [[params.profileMode.buttons]]
-      name = "Archives"
-      url = "archives"
+      name = "Posts"
+      url = "posts"
 
     [[params.profileMode.buttons]]
-      name = "Tags"
-      url = "tags"
+      name = "About"
+      url = "about"
 
   [params.homeInfoParams]
-    # Title = "xα"
-    # Content = '''游戏引擎研发，技术美术<br/>
-    # 欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
-    # '''
     Content = '''<link rel="preload stylesheet" as=style href=/css/main.min.css>
     <div class="-mt-4 mb-20 flex items-start">
     <div class="mr-5 shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-xl dark:bg-white/80">
@@ -114,11 +108,15 @@ pygmentsUseClasses = true
     <div>
     <h1 class="mt-1.5 mb-3 text-3xl font-bold">xα</h1>
     <div class="break-words">
-    游戏引擎研发，技术美术
+    Technical Artist / Graphics Programmer / R&D for Film Production
     </div>
     </div>
     </div>
-    欢迎访问我的个人主页，将来一定会有更多知识分享的！（画饼
+    I am currently a Technical Artist (Comprehensive orientation) in a famous Chinese technology company, <br/>working for an amazing GAAS-game.<br/><br/>
+    Previously, I worked as Game Engine / Graphics Programmer for a Survival FPS Game, <br/>developing large world rendering technology.<br/><br/>
+    I graduated from Department of Film and Television Technology, Beijing Film Academy, <br/>and I was a researcher in Lab of Film Virtual Production.<br/><br/>
+    I am enjoying researching and developing new technology for creating wonderful entertainment content, <br/>including films and games.<br/><br/>
+    <font color=#8770cc>Film and photography became my hobbies again after graduation and became more friendly!</font><br/><br/>
     '''
   [[params.socialIcons]]
     name = "github-simple"
@@ -132,9 +130,9 @@ pygmentsUseClasses = true
   #   name = "cv"
   #   url = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io"
   
-  # [[params.socialIcons]]
-  #   name = "email"
-  #   url = "OldAugustus@outlook.com | absUrl"
+  [[params.socialIcons]]
+    name = "email"
+    url = "OldAugustus@outlook.com | absUrl"
 
   [params.editPost]
     URL = "https://github.com/ElderlyAugustus/ElderlyAugustus.github.io/content"
