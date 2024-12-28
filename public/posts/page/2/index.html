@@ -237,6 +237,25 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture15 Gameplay Complexity and Building Blocks Overview Gameplay的挑战 多个系统之间的合作 同一个游戏中Gameplay的多样性 快速迭代 Event Mechanism Hard Code写在函数中：无数的if/else、非常难以修改 Event/Message Mechanism：GO之间的“通讯协议” Publish-subscribe Pattern 发行-订阅设计模式 Event Definition 信息的定义 方法1：Event作为类设计 -&gt; 不适合交给设计师修改 方法2：允许定义任意的Event 再通过代码渲染系统编译，但每次修改都需要重新编译过于麻烦 在引擎核心代码之外定义 dll注入 用脚本层语言实现 Callback Registration 响应注册 注册和调用不在同一处 –&gt; 对象的生命周期和回调函数安全性问题 Strong Reference 强引用：引用关系绑定 Weak Reference 弱引用：引用关系弱，可手动进行逻辑判断，使用较多 Event Dispatching 信息分发 遍历每个GO，逐个分发调用函数 —— 效率过低 Immediate：发送消息立即调用函数 会打断前一任务，等待Callback执行后再继续 单次打断引发连锁Callback，易导致Callstack非常深，难以Debug 难以并行 Event Queue 把Event存储至队列，依次执行 Event Queue的序列化和反序列化 实现：利用反射，获取每个对象的描述结构 存储结构：Ring Buffer 不用重复申请新内存 Batching，将多个独立系统分开处理 问题： 无法保证多个系统间的执行顺序 =&gt; 保留一定的Immediate处理能力 同时具备Pre、Post、Immediate处理方式 有系统延迟，削弱动作游戏打击感 =&gt; 经常Hardcode绕过Delay Script System Game Logic 直接在游戏引擎代码内，使用编译语言编写 （C/C&#43;&#43;） 每次修改Gameplay，需要重新编译游戏引擎 极难支持热更新 对设计师极不友好 脚本语言 Script System 支持快速迭代 易于学习、编写 支持热更新 沙盒运行，稳定、更少Crash 如何运行 基于虚拟机 Script Text -&gt; [Compiler] -&gt; Bytecode [Virtual Machine] 速度略慢 如何管理GO 强调效率：引擎内核管理，脚本触发引擎执行 编写难度大 执行过程非常复杂 直接交给脚本系统管理 脚本如何处理GO的生命周期：GC, Garbage Collection 优势：不需要手动管理对象生命周期，自动处理 问题：每次需要扫描内存，处理效率低 对于玩法相对简单的单机游戏，大多交给引擎管理； MMORPG等玩法非常复杂的游戏，大多脚本系统管理 架构 引擎调用脚本 eg....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>October 22, 2022</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-10-22-GAMES104现代游戏引擎-Lecture15-Gameplay Complexity and Building Blocks" href="https://elderlyaugustus.github.io/posts/2022-10-22-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture15-gameplaycomplexityandbuildingblocks/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2022-07-03-GAMES104现代游戏引擎-Lecture14-Tool Chains Applications &amp; Advanced Topic
     </h2>
   </header>
@@ -444,33 +463,6 @@ FX部门流程 首先，导演提出视效需求给视效总监，由视效总�
   <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
 </footer>
   <a class="entry-link" aria-label="post link to 2021-12-25-影片技术分析Pre-基于物理的动画-影视制作中的FX流程-byLLY" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%BD%B1%E8%A7%86%E5%88%B6%E4%BD%9C%E4%B8%AD%E7%9A%84fx%E6%B5%81%E7%A8%8B-bylly/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>注：本篇由同组同学LLY编写，本人代完成格式化
-刚体 在物理学里，刚体是一种形变为0，或者形变可以忽略的固体。理想刚体在运动中和受到力的作用后，形状和大小不变，而且内部各点的相对位置不变。这种物体不可能实际存在，但固体通常可以假定为刚体。所以我们使用刚体来对固体进行模拟。在模拟时，我们通常使用Mesh来表示一个刚体。
-刚体属性与表达 为了表示一个刚体，我们首先需要知道刚体的质心。在这里因为篇幅限制，我们不讨论质心是如何求得的，把质心当作已知量就可以了。质心有三维坐标 \(\mathbf x\) 和速度 \(\mathbf v\) 。其次，刚体还需要定向。选择一个相对刚体固定，原点在刚体质心的坐标系，称为局部坐标系。刚体及模拟的其他对象被放置在世界坐标系中。
-质心 为了指定刚体在世界坐标系中的放置方式，我们指定其位置 \(\mathbf x\) 和 方向 \(R\) 。局部坐标为 \(\mathbf p_0\) 的点，世界坐标系下的坐标为：\(\mathbf p = \mathbf x &#43; R \mathbf p_0\)
-物体坐标系和世界坐标系 我们想知道这个点在世界坐标系中如何随时间变化，所以对时间进行求导，得出： $ = &#43; R &#43; p_0 $
-因为在局部坐标系中 $ $ = 0 , 所以得出： $ = v &#43; p_0 $
-所以我们只需要求出每个时间的 \(\mathbf v\) 和 $ $ 就可以描述刚体随时间的运动状态了。
-为了确定方向的变化率，需要引入角速度的概念。角速度通常表示为三维矢量。方向代表旋转轴，大小代表旋转的快慢，通常以弧度/秒为计量单位。
-角速度 我们知道 \(R\) 的列是刚体坐标系的坐标轴的方向向量在世界坐标系下的坐标，因此， $ $ 由这些方向向量的导数组成： \[ \displaystyle\dot{R} = [\dot{\hat{u_x}}\quad\dot{\hat{u_y}}\quad\dot{\hat{u_z}} ] \] 于是 \(\dot{R}\) 就被简化成为求旋转矢量的导数的问题。旋转中心位置是 \(\mathbf x\) ，旋转点位置是 \(\mathbf p\) ，旋转中心到位置 \(\mathbf p\) 的向量为 \(r\) 。我们的目的是测定 \(r\) 的变化率。由于 \(\mathbf p\) 以角速度 \(\omega\) 旋转，所以其瞬时速度与 \(r\) 和 \(\omega\) 垂直。瞬时速度方向由 \(\omega\times r\) 表示，大小与向量积大小一致。于是我们可以得到： $ = r$...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>December 5, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB/">基于物理的动画</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2021-12-05-影片技术分析Pre-基于物理的动画-刚体系统-byLLY" href="https://elderlyaugustus.github.io/posts/2021-12-05-%E5%BD%B1%E7%89%87%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90pre-%E5%9F%BA%E4%BA%8E%E7%89%A9%E7%90%86%E7%9A%84%E5%8A%A8%E7%94%BB-%E5%88%9A%E4%BD%93%E7%B3%BB%E7%BB%9F-bylly/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">
