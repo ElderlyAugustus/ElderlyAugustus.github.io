@@ -316,20 +316,27 @@ class="math inline">\((n-1)\)</span> 个初等矩阵</p>
 <p>若 <span class="math inline">\(a_{11}^{(1)}\neq0\)</span> ，令 <span
 class="math inline">\(l_{i1} = a_{i1}^{(1)}\div a_{11}^{11},\
 i=2,3,\dots,n\)</span> ，记： <span
-class="math inline">\(L_{1}=\begin{pmatrix} 1 \\ -l_{21} &amp; 1 \\
--l_{31} &amp;&amp; 1 \\ \vdots &amp;&amp;&amp; \ddots \\ -l_{31}
-&amp;&amp;&amp;&amp; 1 \end{pmatrix}\)</span></p>
+class="math inline">\(L_{1}=\begin{pmatrix}
+1 \\
+-l_{21} &amp; 1 \\
+-l_{31} &amp;&amp; 1 \\
+\vdots &amp;&amp;&amp; \ddots \\
+-l_{31} &amp;&amp;&amp;&amp; 1
+\end{pmatrix}\)</span></p>
 <p>则有 <span class="math inline">\(A^{(2)}=L_{1}A^{(1)}=\begin{pmatrix}
-a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ 0 &amp;
-a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ \vdots &amp; \vdots
-&amp; \ddots &amp; \vdots \\ 0 &amp; a_{n2}^{(2)} &amp; \cdots &amp;
-a_{nn}^{(2)} \end{pmatrix}\)</span></p>
+a_11^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\
+0 &amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; a_{n2}^{(2)} &amp; \cdots &amp; a_{nn}^{(2)}
+\end{pmatrix}\)</span></p>
 <p>同理进行第二步消元 <span class="math inline">\(A^{(3)}=L_{2}A^{(2)},\
 \dots\)</span> 第 <span class="math inline">\((n-1)\)</span> 步得到：
 <span class="math inline">\(A^{(n)}=L_{n-1}A^{(n-1)}=\begin{pmatrix}
-a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp;
-a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp;
-\vdots \\ &amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span></p>
+a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\
+&amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\
+&amp;&amp; \ddots &amp; \vdots \\
+&amp;&amp;&amp; a_{nn}^{(n)}
+\end{pmatrix}\)</span></p>
 <p>其中： <span
 class="math inline">\(L_{n-1}=\begin{pmatrix}1\\&amp;1\\&amp;&amp;\ddots\\&amp;&amp;&amp;1\\&amp;&amp;&amp;-l_{n,n-1}&amp;1\end{pmatrix}\)</span></p>
 <p>也就是： <span
@@ -349,10 +356,12 @@ class="math inline">\(LU\)</span> 三角分解。</p>
 L_{n-1}^{-1}, U=A^{(n)}\)</span> <span
 class="math inline">\(L=\begin{pmatrix}1\\l_{21}&amp;1\\l_{31}&amp;l_{32}&amp;1\\\vdots&amp;\vdots&amp;\vdots&amp;\ddots\\l_{n1}&amp;l_{n2}&amp;l_{n3}&amp;\cdots&amp;1\end{pmatrix}\)</span>
 即一个单位下三角矩阵</p>
-<p><span class="math inline">\(U=\begin{pmatrix} a_{11}^{(1)} &amp;
-a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\ &amp; a_{22}^{(2)} &amp;
-\cdots &amp; a_{2n}^{(2)} \\ &amp;&amp; \ddots &amp; \vdots \\
-&amp;&amp;&amp; a_{nn}^{(n)} \end{pmatrix}\)</span> 为一个上三角矩阵</p>
+<p><span class="math inline">\(U=\begin{pmatrix}
+a_{11}^{(1)} &amp; a_{12}^{(1)} &amp; \cdots &amp; a_{1n}^{(1)} \\
+&amp; a_{22}^{(2)} &amp; \cdots &amp; a_{2n}^{(2)} \\
+&amp;&amp; \ddots &amp; \vdots \\
+&amp;&amp;&amp; a_{nn}^{(n)}
+\end{pmatrix}\)</span> 为一个上三角矩阵</p>
 <h3 id="直接三角分解法">2.5 - 2.6 直接三角分解法<a hidden class="anchor" aria-hidden="true" href="#直接三角分解法">¶</a></h3>
 <p><strong>定理1</strong>：设 <span class="math inline">\(n\)</span>
 阶方阵 <span class="math inline">\(A\)</span>
@@ -463,8 +472,9 @@ class="math inline">\(A=\begin{pmatrix}\alpha_1\\\gamma_2&amp;\alpha_2\\&amp;\dd
 \begin{pmatrix}1&amp;\beta_1\\&amp;1&amp;\beta_2\\&amp;&amp;\ddots&amp;\ddots\\&amp;&amp;&amp;1&amp;\beta_{n-1}\\&amp;&amp;&amp;&amp;1\end{pmatrix}\)</span><br />
 <span class="math inline">\(\left\{\begin{array}{l}\alpha_1=a_1,\
 \beta_1=c_1\div\alpha_1,\ \gamma_i=d_i,\ i=1,2,3,\dots,n\\
-\alpha_i=a_i-d_i\beta_{i-1},\ i=2,3,\dots,n\\ \beta_i=c_i\div\alpha_i,\
-i=2,3,\dots,n-1 \end{array}\right.\)</span></p>
+\alpha_i=a_i-d_i\beta_{i-1},\ i=2,3,\dots,n\\
+\beta_i=c_i\div\alpha_i,\ i=2,3,\dots,n-1
+\end{array}\right.\)</span></p>
 <h3 id="代码lu分解法doolittle">代码：LU分解法（Doolittle）<a hidden class="anchor" aria-hidden="true" href="#代码lu分解法doolittle">¶</a></h3>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//</span></span>
@@ -490,7 +500,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> x <span class="op">=</span> solve<span class="op">(</span>A_<span class="op">,</span> <span class="va">b_</span><span class="op">);</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> x<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> solve<span class="op">(</span>vector<span class="op">&lt;</span>vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;&gt;</span> A_<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">double</span><span class="op">&gt;</span> <span class="va">b_</span><span class="op">)</span> <span class="op">{</span></span>
@@ -540,10 +550,10 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> printA<span class="op">()</span> <span class="op">{</span></span>
 <span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>j<span class="op">)</span></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">&#39; &#39;</span><span class="op">;</span></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>            <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">&#39; &#39;</span><span class="op">;</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
 <span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout<span class="op"> &lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
 <span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 
 
@@ -570,7 +580,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#c
     </main>
     
 <footer class="footer">
-  <span>&copy; 2024 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2026 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">

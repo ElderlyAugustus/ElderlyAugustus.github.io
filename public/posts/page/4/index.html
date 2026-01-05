@@ -237,6 +237,31 @@ function toggleThemeListener() {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2>2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine
+    </h2>
+  </header>
+  <section class="entry-content">
+    
+      <p>Lecture04 Rendering in Game Engine 挑战
+场景极其复杂 实时，帧率稳定 大纲
+基础 硬件架构 渲染数据结构 可见性 材质、Shader、光照 PBR Shader Permutation 光照 点/方向光照 IBL / Simple GI 特殊的渲染 地形 天空 / 雾 后处理 Pipeline 前向渲染 Forward、延迟渲染 Deferred、Forward Plus Ring buffer and V-Sync Tiled-based Rendering @GAMES101
+Vertex Data -&gt; Triangle Data -&gt; Material Parameters -&gt; Textures
+投影 -&gt; 光栅化
+eg. Computation - Texture Sampling
+Step 1 : 使用相邻两层MIPMAP Step 2 : 在两层MIPMAP之间双线性插值 Step 3 : 结果像素之间的线性插值 GPU SIMD and SIMT SIMD : Single Instruction Multiple Data eg....</p>
+    
+  </section>
+  <footer class="entry-footer"><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
+  <span>April 17, 2021</span></span><span class="meta-item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
+  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E/">现代游戏引擎</a></span></span>
+</footer>
+  <a class="entry-link" aria-label="post link to 2022-04-17-GAMES104现代游戏引擎-Lecture4-Rendering in Game Engine" href="https://elderlyaugustus.github.io/posts/2022-04-17-games104%E7%8E%B0%E4%BB%A3%E6%B8%B8%E6%88%8F%E5%BC%95%E6%93%8E-lecture4-rendering/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2>2022-04-17-GAMES104现代游戏引擎-Lecture2-3-游戏引擎架构
     </h2>
   </header>
@@ -474,31 +499,6 @@ Euler方法用 \(K_1\) 作为其近似，其 \(y_{n&#43;1}\) 表达式与精确�
 </footer>
   <a class="entry-link" aria-label="post link to 2021-03-11-数值分析-Day14-RungeKutta方法-线性多步方法" href="https://elderlyaugustus.github.io/posts/2021-03-11-%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90-day14-rungekutta%E6%96%B9%E6%B3%95-%E7%BA%BF%E6%80%A7%E5%A4%9A%E6%AD%A5%E6%96%B9%E6%B3%95/"></a>
 </article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space
-    </h2>
-  </header>
-  <section class="entry-content">
-    
-      <p>Lecture 8-9 Real-time Global Illumination （Screen Space） Screen Space : 利用相机视角渲染出来的屏幕中的所有信息 可以认为是对渲染结果的Post Processing
-Screen Space Ambient Occlusion (SSAO) AO 环境光遮蔽 : 通过Contact Shadow使物体间相对位置明显SSAO : 对全局光照的近似的屏幕空间方法
-Key idea :
-不知道间接光照 假定间接光照值是常数（对所有着色点、从所有方向） like Blinn-Phong 考虑不同着色点对各方向的Visibility（不同于Blinn-Phong的地方） 离线渲染中的AO——“天光”：等同于一个完全均匀的光照
-Theory :
-Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i \]
-考虑对Rendering Equation的近似（“The RTR Approximation / Equation”） \[ \int_\Omega f(x)g(x)\,\mathrm d x\approx\dfrac{\int_{\Omega_G} f(x)\,\mathrm d x}{\int_{\Omega_G} \,\mathrm d x}\cdot\int_\Omega g(x)\,\mathrm d x \] 将Visibility项拆出，得： \[ \begin{aligned} L_o^{\rm indir}(\mathrm p,\omega_0)\approx&amp;\dfrac{\int_{\Omega_&#43;} V(\mathrm p,\omega_i)\cos\theta_i\,\mathrm d\omega_i}{\int_{\Omega_&#43;}\cos\theta_i\,\mathrm d\omega_i}\cdot\\ \approx&amp;\int_{\Omega_&#43;}L_i^{\rm indir}(\mathrm p,\omega_i)f_r(\mathrm p,\omega_i,\omega_0)\cos\theta_i\,\mathrm d\omega_i\\ =&amp;k_A\cdot \underbrace{L_i^{\rm indir}(p)\rho}_{\rm constant\ for\ AO} \end{aligned} \]...</p>
-    
-  </section>
-  <footer class="entry-footer"><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select: text;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select: text;"></rect><line x1="16" y1="2" x2="16" y2="6" style="user-select: text;"></line><line x1="8" y1="2" x2="8" y2="6" style="user-select: text;"></line><line x1="3" y1="10" x2="21" y2="10" style="user-select: text;"></line></svg>
-  <span>March 11, 2021</span></span><span class="meta-item">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon" style="user-select: text;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" style="user-select: text;"></path><line x1="7" y1="7" x2="7" y2="7" style="user-select: text;"></line></svg>
-  <span class="post-tags"><a href="https://elderlyaugustus.github.io/tags/%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/">高质量实时渲染</a></span></span>
-</footer>
-  <a class="entry-link" aria-label="post link to 2022-03-11-GAMES202高质量实时渲染-Lecture8-9-GI in Screen Space" href="https://elderlyaugustus.github.io/posts/2022-03-11-games202%E9%AB%98%E8%B4%A8%E9%87%8F%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93-lecture8-9-giinss/"></a>
-</article>
 <footer class="page-footer">
   <nav class="pagination">
     <a class="prev" href="https://elderlyaugustus.github.io/posts/page/3/">« Prev Page</a>
@@ -508,7 +508,7 @@ Rendering Equation \[ L_o(\mathrm p,\omega_0)=\int_{\Omega_\mathrm{patch}}L_i(\m
     </main>
     
 <footer class="footer">
-  <span>&copy; 2024 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
+  <span>&copy; 2026 <a href="https://elderlyaugustus.github.io/">xα&#39;s blog</a></span><span style="display: inline-block; margin-left: 1em;">
     <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a>
   </span>
   <span style="display: inline-block; margin-left: 1em;">
